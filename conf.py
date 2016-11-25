@@ -262,7 +262,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'ApuntesdeLenguajesdeMarcas.tex', 'Apuntes de Lenguajes de Marcas Documentation',
+    (master_doc, 'Servicios_y_procesos.tex', 'Apuntes de Servicios y Procesos',
      'Oscar Gomez', 'manual'),
 ]
 

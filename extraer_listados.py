@@ -66,8 +66,6 @@ e6.extraer_clase()
 e6.extraer_clase_con_nombre("CalculadorAreas")
 e6.extraer_metodo("main")
 
-
-sys.exit(0)		
 		
 e1=Extraccion(clase_cualificada="com.utilidades.UtilidadesFicheros",
 							dir_proyecto="Utilidades")

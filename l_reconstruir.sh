@@ -1,9 +1,9 @@
 #!/bin/bash
 ./extraer_listados.py
 ./indentar.py
-make singlehtml
+make html
 make latex
-cd _build/latex ; pdflatex ServiciosProcesos.tex ; pdflatex ServiciosProcesos.tex
+cd _build/latex ; pdflatex Servicios_y_procesos.tex ; pdflatex Servicios_y_procesos.tex
 cd ..
 cd ..
 ./copiar.py
