@@ -51,7 +51,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Apuntes de Lenguajes de Marcas'
+project = 'Apuntes de Programación de Servicios y procesos'
 copyright = '2016, Oscar Gomez'
 author = 'Oscar Gomez'
 
