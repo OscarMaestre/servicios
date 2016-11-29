@@ -3,8 +3,8 @@ call make html
 copiar.py
 call make latex
 cd _build\latex
-call pdflatex ServiciosProcesos.tex
-call pdflatex ServiciosProcesos.tex
+call pdflatex Servicios_y_procesos.tex
+call pdflatex Servicios_y_procesos.tex
 cd ..
 cd ..
 call git commit -a --allow-empty-message -m ''

@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
@@ -26,11 +26,14 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="top" title="None" href="index.html#document-index" />
    
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -358,17 +361,71 @@
 <ul class="simple">
 <li>Obtener un objeto <code class="docutils literal"><span class="pre">BufferedReader</span></code> a partir de un nombre de fichero de tipo <code class="docutils literal"><span class="pre">String</span></code>. Llamaremos a este método <code class="docutils literal"><span class="pre">getBufferedReader</span></code> y lo utilizaremos para poder manejar un fichero mediante una clase de muy alto nivel que nos facilita la lectura de ficheros. En el listado adjunto se puede consultar dicho método.</li>
 </ul>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">BufferedReader</span> <span class="nf">getBufferedReader</span><span class="o">(</span>
+    <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span>
+<span class="n">FileNotFoundException</span> <span class="o">{</span>
+    <span class="n">FileReader</span> <span class="n">lector</span><span class="o">;</span>
+    <span class="n">lector</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+    <span class="n">BufferedReader</span> <span class="n">bufferedReader</span><span class="o">;</span>
+    <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="n">lector</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">bufferedReader</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 <ul class="simple">
 <li>De la misma forma crearemos un método <code class="docutils literal"><span class="pre">getPrintWriter</span></code> que nos devuelva un objeto de la clase <code class="docutils literal"><span class="pre">PrintWriter</span></code> para poder realizar fácilmente operaciones de escritura en ficheros. En el listado adjunto se muestra el código.</li>
 </ul>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">PrintWriter</span> <span class="nf">getPrintWriter</span><span class="o">(</span>
+    <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="n">PrintWriter</span> <span class="n">printWriter</span><span class="o">;</span>
+    <span class="n">FileWriter</span> <span class="n">fileWriter</span><span class="o">;</span>
+    <span class="n">fileWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+    <span class="n">printWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span><span class="n">fileWriter</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">printWriter</span><span class="o">;</span>
+<span class="c1">//Fin de getPrintWriter</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 <ul class="simple">
 <li>Aunque nos estamos anticipando, puede ser útil tener un método que dado un nombre de fichero nos devuelva un <code class="docutils literal"><span class="pre">ArrayList&lt;String&gt;</span></code> con todas las líneas que hay en el fichero. <strong>En este ejercicio no lo usaremos</strong>. Este método podría implementarse así:</li>
 </ul>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getLineasFichero</span><span class="o">(</span>
+    <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+    <span class="n">BufferedReader</span> <span class="n">bfr</span> <span class="o">=</span> <span class="n">getBufferedReader</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+    <span class="c1">//Leemos líneas del fichero...</span>
+    <span class="n">String</span> <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">linea</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//Y las añadimos al array</span>
+        <span class="n">lineas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">linea</span><span class="o">);</span>
+        <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="c1">//Fin del bucle que lee líneas</span>
+    <span class="k">return</span> <span class="n">lineas</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="procesado-de-ficheros">
 <h4>Procesado de ficheros<a class="headerlink" href="#procesado-de-ficheros" title="Enlazar permanentemente con este título">¶</a></h4>
 <p>Necesitaremos una clase <code class="docutils literal"><span class="pre">ProcesadorFichero</span></code> que nos permita procesar los ficheros de la forma pedida. Antes de crear un programa multiproceso empezaremos por crear una clase simple que nos resuelva este problema.</p>
 <p>Dicha clase tendrá un método <code class="docutils literal"><span class="pre">hacerRecuento</span></code> que resuelva el problema de contar el número de apariciones en un fichero dejando el total de apariciones en un fichero de salida distintos. En el código adjunto podemos ver como podría implementarse dicho método.</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getLineasFichero</span><span class="o">(</span>
+    <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+    <span class="n">BufferedReader</span> <span class="n">bfr</span> <span class="o">=</span> <span class="n">getBufferedReader</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+    <span class="c1">//Leemos líneas del fichero...</span>
+    <span class="n">String</span> <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">linea</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//Y las añadimos al array</span>
+        <span class="n">lineas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">linea</span><span class="o">);</span>
+        <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="c1">//Fin del bucle que lee líneas</span>
+    <span class="k">return</span> <span class="n">lineas</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 <p>La clase <code class="docutils literal"><span class="pre">ProcesadorFichero</span></code> será lanzada desde otra clase que llamaremos <code class="docutils literal"><span class="pre">Lanzador</span></code>. Nuestra <code class="docutils literal"><span class="pre">ProcesadorFichero</span></code> recogerá en su método <code class="docutils literal"><span class="pre">main</span></code> los siguientes parámetros:</p>
 <ol class="arabic simple">
 <li>El nombre del fichero a procesar. Lo llamaremos <code class="docutils literal"><span class="pre">nombreFicheroEntrada</span></code> y estará en la posición 0 de los argumentos.</li>
@@ -376,6 +433,23 @@
 <li>El nombre del fichero donde se dejarán los resultados. Lo llamaremos <code class="docutils literal"><span class="pre">nombreFicheroResultado</span></code> y estará en la posición 1 de los argumentos.</li>
 </ol>
 <p>El código del main se muestra a continuación.</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm">	 * Dado un fichero pasado como argumento, contará cuantas</span>
+<span class="cm">	 * apariciones hay de una cierta vocal (pasada como argumento)</span>
+<span class="cm">	 * y dejará la cantidad en otro fichero (también pasado como</span>
+<span class="cm">	 * argumento)</span>
+<span class="cm">	 * @throws IOException</span>
+<span class="cm">	 * @throws FileNotFoundException  */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
+<span class="n">FileNotFoundException</span><span class="o">,</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">nombreFicheroEntrada</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+    <span class="n">String</span> <span class="n">letra</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
+    <span class="n">String</span> <span class="n">nombreFicheroResultado</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
+    <span class="n">hacerRecuento</span><span class="o">(</span><span class="n">nombreFicheroEntrada</span><span class="o">,</span> <span class="n">letra</span><span class="o">,</span> <span class="n">nombreFicheroResultado</span><span class="o">);</span>
+<span class="c1">//Fin del main</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="lanzamiento-de-los-procesos">
@@ -389,6 +463,38 @@
 <li>Los procesos se ejecutarán y después recogeremos los resultados de los ficheros.</li>
 </ol>
 <p>En el código siguiente puede verse el método <code class="docutils literal"><span class="pre">main</span></code> de esta clase <code class="docutils literal"><span class="pre">Lanzador</span></code>. La recogida de resultados se deja como ejercicio:</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
+<span class="n">IOException</span><span class="o">,</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">ficheroEntrada</span><span class="o">;</span>
+    <span class="n">ficheroEntrada</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+    <span class="n">String</span> <span class="n">classpathUtilidades</span><span class="o">;</span>
+    <span class="n">classpathUtilidades</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
+    <span class="n">String</span> <span class="n">classpathProcesadorFichero</span><span class="o">;</span>
+    <span class="n">classpathProcesadorFichero</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
+    <span class="n">String</span><span class="o">[]</span> <span class="n">vocales</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&quot;A&quot;</span><span class="o">,</span> <span class="s">&quot;E&quot;</span><span class="o">,</span> <span class="s">&quot;I&quot;</span><span class="o">,</span> <span class="s">&quot;O&quot;</span><span class="o">,</span> <span class="s">&quot;U&quot;</span> <span class="o">};</span>
+    <span class="n">String</span> <span class="n">classPath</span><span class="o">;</span>
+    <span class="n">classPath</span> <span class="o">=</span> <span class="n">classpathProcesadorFichero</span> <span class="o">+</span> <span class="s">&quot;:&quot;</span> <span class="o">+</span> <span class="n">classpathUtilidades</span><span class="o">;</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Usando classpath:&quot;</span> <span class="o">+</span> <span class="n">classPath</span><span class="o">);</span>
+    <span class="cm">/* Se lanzan los procesos*/</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vocales</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">fichErrores</span> <span class="o">=</span> <span class="s">&quot;Errores_&quot;</span> <span class="o">+</span> <span class="n">vocales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span>
+                             <span class="s">&quot;.txt&quot;</span><span class="o">;</span>
+        <span class="n">ProcessBuilder</span> <span class="n">pb</span><span class="o">;</span>
+        <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">(</span><span class="s">&quot;java&quot;</span><span class="o">,</span> <span class="s">&quot;-cp&quot;</span><span class="o">,</span> <span class="n">classPath</span><span class="o">,</span>
+                                <span class="s">&quot;com.ies.ProcesadorFichero&quot;</span><span class="o">,</span> <span class="n">ficheroEntrada</span><span class="o">,</span>
+                                <span class="n">vocales</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">vocales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="s">&quot;.txt&quot;</span><span class="o">);</span>
+        <span class="c1">//Si hay algún error, almacenarlo en un fichero</span>
+        <span class="n">pb</span><span class="o">.</span><span class="na">redirectError</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">fichErrores</span><span class="o">));</span>
+        <span class="n">pb</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="c1">//Fin del for</span>
+    <span class="o">}</span>
+    <span class="cm">/* Esperamos un poco*/</span>
+    <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">3000</span><span class="o">);</span>
+    <span class="cm">/* La recogida de resultados se deja como</span>
+<span class="cm">    		 * ejercicio al lector. ;) */</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="ejercicio-propuesto-i">
 <h3>Ejercicio propuesto (I)<a class="headerlink" href="#ejercicio-propuesto-i" title="Enlazar permanentemente con este título">¶</a></h3>
@@ -406,9 +512,104 @@
 <p>Este ejercicio es bastante parecido al anterior, con la salvedad de que ahora necesitaremos sumar cantidades en lugar de buscar elementos. Por lo demás,  también generaremos un fichero de resultados por cada fichero de datos y los llamaremos igual pero añadiendo la extensión &#8221;.res&#8221;. Es decir, la suma de las cantidades de <code class="docutils literal"><span class="pre">informatica.txt</span></code> se dejará en <code class="docutils literal"><span class="pre">informatica.txt.res</span></code>.</p>
 <p>Una vez generados todos los fichero <code class="docutils literal"><span class="pre">Resultado</span></code> tendremos que sumar todas las cantidades de estos ficheros. Su estructura es muy simple, todos contienen una única línea con una cantidad. Dado que esta operación de sumar cantidades almacenadas en distintos ficheros es una operación muy habitual, añadiremos un método a <code class="docutils literal"><span class="pre">UtilidadesFicheros</span></code> que se encargue de hacer esta operación. Obsérvese que usaremos tipos de datos <code class="docutils literal"><span class="pre">long</span></code> y no <code class="docutils literal"><span class="pre">int</span></code> dado que no sabemos como de grandes serán las cantidades a procesar.</p>
 <p>A continuación se muestra el código de este método.</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="c1">//Fin de getLineasFichero</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getSuma</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span>
+                           <span class="n">listaNombresFichero</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">long</span> <span class="n">suma</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span><span class="o">;</span>
+    <span class="n">String</span> <span class="n">lineaCantidad</span><span class="o">;</span>
+    <span class="kt">long</span> <span class="n">cantidad</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">nombreFichero</span> <span class="o">:</span> <span class="n">listaNombresFichero</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="c1">//Recuperamos todas las lineas</span>
+            <span class="n">lineas</span> <span class="o">=</span> <span class="n">getLineasFichero</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+            <span class="c1">//Pero solo nos interesa la primera</span>
+            <span class="n">lineaCantidad</span> <span class="o">=</span> <span class="n">lineas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+            <span class="c1">//Convertimos la linea a número</span>
+            <span class="n">cantidad</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">lineaCantidad</span><span class="o">);</span>
+            <span class="c1">//Y se incrementa la suma total</span>
+            <span class="n">suma</span> <span class="o">=</span> <span class="n">suma</span> <span class="o">+</span> <span class="n">cantidad</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Fallo al procesar el fichero &quot;</span>
+                               <span class="o">+</span> <span class="n">nombreFichero</span><span class="o">);</span>
+            <span class="c1">//Fin del catch</span>
+        <span class="o">}</span>
+        <span class="c1">//Fin del for que recorre los nombres de fichero</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">suma</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 <p>Una vez creado este método que usaremos al final, pasemos a crear una clase <code class="docutils literal"><span class="pre">ProcesadorContabilidad</span></code> que leerá un fichero, sumará las cantidades y las dejará en el fichero de resultados. Esta clase solo tendrá un método <code class="docutils literal"><span class="pre">main</span></code> que realizará esta tarea.</p>
 <p>Como nuestro programa está formado por varias clases que están dispersas por distintos directorios, nuestro <code class="docutils literal"><span class="pre">main</span></code> tomará el <code class="docutils literal"><span class="pre">CLASSPATH</span></code> de los argumentos.</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
+<span class="n">IOException</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">nombreFichero</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+    <span class="n">String</span> <span class="n">nombreFicheroResultado</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
+    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">cantidades</span><span class="o">;</span>
+    <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="c1">//Extraemos las cantidades</span>
+        <span class="n">cantidades</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getLineasFichero</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+        <span class="c1">//Y las sumamos una por una</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">lineaCantidad</span> <span class="o">:</span> <span class="n">cantidades</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">long</span> <span class="n">cantidad</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">lineaCantidad</span><span class="o">);</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">cantidad</span><span class="o">;</span>
+            <span class="c1">//Fin del for que recorre las cantidades</span>
+        <span class="o">}</span>
+        <span class="c1">//Almacenamos el total en un fichero</span>
+        <span class="n">PrintWriter</span> <span class="n">pw</span><span class="o">;</span>
+        <span class="n">pw</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getPrintWriter</span><span class="o">(</span><span class="n">nombreFicheroResultado</span><span class="o">);</span>
+        <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">total</span><span class="o">);</span>
+        <span class="n">pw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span><span class="c1">//Fin del try</span>
+    <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;No se pudo procesar el fichero &quot;</span>
+        <span class="o">+</span> <span class="n">nombreFichero</span><span class="o">);</span>
+        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="c1">//Fin del main</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 <p>Por último, solo queda crear la clase <code class="docutils literal"><span class="pre">Lanzador</span></code> que recogerá los nombres de fichero que hay que sumar y lanzará un proceso de la clase <code class="docutils literal"><span class="pre">ProcesadorContabilidad</span></code> para cada uno de ellos. Por último, sumará todos los resultados y los dejará en un fichero que llamaremos (por ejemplo) <code class="docutils literal"><span class="pre">Resultado_global.txt</span></code></p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
+<span class="n">IOException</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">classpath</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+    <span class="n">String</span><span class="o">[]</span> <span class="n">ficheros</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&quot;informatica.txt&quot;</span><span class="o">,</span> <span class="s">&quot;gerencia.txt&quot;</span><span class="o">,</span> <span class="s">&quot;contabilidad.txt&quot;</span><span class="o">,</span> <span class="s">&quot;comercio.txt&quot;</span><span class="o">,</span> <span class="s">&quot;rrhh.txt&quot;</span> <span class="o">};</span>
+    <span class="c1">//Los nombres de los ficheros de resultados</span>
+    <span class="c1">//se generarán y luego se almacenarán aquí</span>
+    <span class="n">String</span><span class="o">[]</span> <span class="n">ficherosResultado</span><span class="o">;</span>
+    <span class="n">ficherosResultado</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">ficheros</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+    <span class="cm">/* Lanzamos los procesos*/</span>
+    <span class="n">ProcessBuilder</span><span class="o">[]</span> <span class="n">constructores</span><span class="o">;</span>
+    <span class="n">constructores</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">[</span><span class="n">ficheros</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ficheros</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">fichResultado</span><span class="o">,</span> <span class="n">fichErrores</span><span class="o">;</span>
+        <span class="n">fichResultado</span> <span class="o">=</span> <span class="n">ficheros</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">SUFIJO_RESULTADO</span><span class="o">;</span>
+        <span class="n">fichErrores</span> <span class="o">=</span> <span class="n">ficheros</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">SUFIJO_ERRORES</span><span class="o">;</span>
+        <span class="n">ficherosResultado</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">fichResultado</span><span class="o">;</span>
+        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">();</span>
+        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">command</span><span class="o">(</span><span class="s">&quot;java&quot;</span><span class="o">,</span> <span class="s">&quot;-cp&quot;</span><span class="o">,</span> <span class="n">classpath</span><span class="o">,</span>
+                                 <span class="s">&quot;com.ies.ProcesadorContabilidad&quot;</span><span class="o">,</span> <span class="n">ficheros</span><span class="o">[</span><span class="n">i</span><span class="o">],</span>
+                                 <span class="n">fichResultado</span><span class="o">);</span>
+        <span class="c1">//El fichero de errores se generará, aunque</span>
+        <span class="c1">//puede que vacío</span>
+        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">redirectError</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span>
+                                           <span class="n">fichErrores</span><span class="o">));</span>
+        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+        <span class="c1">//Fin del for que recorre los ficheros</span>
+    <span class="o">}</span>
+    <span class="c1">//Calculamos las sumas de cantidades</span>
+    <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getSuma</span><span class="o">(</span><span class="n">ficherosResultado</span><span class="o">);</span>
+    <span class="c1">//Y las almacenamos</span>
+    <span class="n">PrintWriter</span> <span class="n">pw</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getPrintWriter</span><span class="o">(</span><span class="n">RESULTADOS_GLOBALES</span><span class="o">);</span>
+    <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">total</span><span class="o">);</span>
+    <span class="n">pw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+<span class="c1">//Fin del main</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="gestion-de-procesos">
@@ -421,7 +622,7 @@
 <div class="section" id="comandos-para-la-gestion-de-procesos-en-sistemas-libres-y-propietarios">
 <h3>Comandos para la gestión de procesos en sistemas libres y propietarios.<a class="headerlink" href="#comandos-para-la-gestion-de-procesos-en-sistemas-libres-y-propietarios" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>En sistemas Windows, no existen apenas comandos para gestionar procesos. Puede obligarse al sistema operativo a arrancar la aplicación asociada a un archivo con el comando <code class="docutils literal"><span class="pre">START</span></code>. Es decir, si se ejecuta lo siguiente:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>START documento.pdf
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">START</span> <span class="n">documento</span><span class="o">.</span><span class="n">pdf</span>
 </pre></div>
 </div>
 <p>se abrirá el visor de archivos PDF el cual cargará automáticamente el fichero <code class="docutils literal"><span class="pre">documento.pdf</span></code></p>
@@ -1062,6 +1263,17 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="problema-simulador-de-casino">
+<h3>Problema: simulador de casino<a class="headerlink" href="#problema-simulador-de-casino" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Se desea simular los posibles beneficios de diversas estrategias de juego en un casino. La ruleta francesa es un juego en el que hay una ruleta con 37 números (del 0 al 36). Cada 3000 milisegundos el croupier saca un número al azar y los diversos hilos apuestan para ver si ganan. Todos los hilos empiezan con 1.000 euros y la banca (que controla la ruleta) con 50.000. Cuando los jugadores pierden dinero, la banca incrementa su saldo.</p>
+<ul class="simple">
+<li>Se puede jugar a un número concreto. Habrá 4 hilos que eligen números al azar del 1 al 36 (no el 0) y restarán 10 euros de su saldo para apostar a ese ese número. Si sale su número su saldo se incrementa en 360 euros (36 veces lo apostado).</li>
+<li>Se puede jugar a par/impar. Habrá 4 hilos que eligen al azar si apuestan a que saldrá un número par o un número impar. Siempre restan 10 euros para apostar y si ganan incrementan su saldo en 20 euros.</li>
+<li>Se puede jugar a la &#8220;martingala&#8221;. Habrá 4 hilos que eligen números al azar. Elegirán un número y empezarán restando 10 euros de su saldo para apostar a ese número. Si ganan incrementan su saldo en 360 euros. Si pierden jugarán el doble de su apuesta anterior (es decir, 20, luego 40, luego 80, y así sucesivamente)</li>
+<li>La banca acepta todas las apuestas pero nunca paga más dinero del que tiene.</li>
+<li>Si sale el 0, todo el mundo pierde y la banca se queda con todo el dinero.</li>
+</ul>
 </div>
 <div class="section" id="id1">
 <h3>Problema<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h3>
@@ -2616,28 +2828,28 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <p class="caption"><span class="caption-text">Generando la pareja de claves del servidor.</span></p>
 </div>
 <p>Los pasos desglosados implican ejecutar estos comandos en el servidor:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span># El servidor genera una pareja de claves que se almacena en un
-#fichero llamado &quot;clavesservidor&quot;. Dentro del fichero se indica
-#un alias para poder referirnos a esa clave fácilmente
-keytool -genkeypair -keyalg RSA
-     -alias servidor -keystore clavesservidor
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># El servidor genera una pareja de claves que se almacena en un</span>
+<span class="c1">#fichero llamado &quot;clavesservidor&quot;. Dentro del fichero se indica</span>
+<span class="c1">#un alias para poder referirnos a esa clave fácilmente</span>
+<span class="n">keytool</span> <span class="o">-</span><span class="n">genkeypair</span> <span class="o">-</span><span class="n">keyalg</span> <span class="n">RSA</span>
+     <span class="o">-</span><span class="n">alias</span> <span class="n">servidor</span> <span class="o">-</span><span class="n">keystore</span> <span class="n">clavesservidor</span>
 
-#El servidor genera su &quot;certificado&quot;, es decir un fichero que
-#de alguna forma indica quien es él. El certificado se almacena
-#en un fichero llamado clavesservidor y a partir de él queremos
-#generar el certificado de un alias que tiene que haber llamado servidor
-keytool --exportcert -alias servidor
-     -file servidor.cer -keystore clavesservidor
+<span class="c1">#El servidor genera su &quot;certificado&quot;, es decir un fichero que</span>
+<span class="c1">#de alguna forma indica quien es él. El certificado se almacena</span>
+<span class="c1">#en un fichero llamado clavesservidor y a partir de él queremos</span>
+<span class="c1">#generar el certificado de un alias que tiene que haber llamado servidor</span>
+<span class="n">keytool</span> <span class="o">--</span><span class="n">exportcert</span> <span class="o">-</span><span class="n">alias</span> <span class="n">servidor</span>
+     <span class="o">-</span><span class="n">file</span> <span class="n">servidor</span><span class="o">.</span><span class="n">cer</span> <span class="o">-</span><span class="n">keystore</span> <span class="n">clavesservidor</span>
 </pre></div>
 </div>
 <p>En el cliente daremos estos pasos:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>#Se genera una pareja de claves (en realidad no nos hace falta solo
-#queremos tener un almacén de claves.
-keytool -genkeypair -keyalg RSA -alias cliente -keystore clavescliente
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Se genera una pareja de claves (en realidad no nos hace falta solo</span>
+<span class="c1">#queremos tener un almacén de claves.</span>
+<span class="n">keytool</span> <span class="o">-</span><span class="n">genkeypair</span> <span class="o">-</span><span class="n">keyalg</span> <span class="n">RSA</span> <span class="o">-</span><span class="n">alias</span> <span class="n">cliente</span> <span class="o">-</span><span class="n">keystore</span> <span class="n">clavescliente</span>
 
-#Se importa el certificado del servidor indicando que pertenece a
-#la lista de certificados confiables.
-keytool -importcert -trustcacerts -alias servidor -file servidor.cer -keystore clavescliente
+<span class="c1">#Se importa el certificado del servidor indicando que pertenece a</span>
+<span class="c1">#la lista de certificados confiables.</span>
+<span class="n">keytool</span> <span class="o">-</span><span class="n">importcert</span> <span class="o">-</span><span class="n">trustcacerts</span> <span class="o">-</span><span class="n">alias</span> <span class="n">servidor</span> <span class="o">-</span><span class="n">file</span> <span class="n">servidor</span><span class="o">.</span><span class="n">cer</span> <span class="o">-</span><span class="n">keystore</span> <span class="n">clavescliente</span>
 </pre></div>
 </div>
 <p>Una vez creados los ficheros iniciales se deben dar los siguientes pasos en Java (servidor y cliente van por separado):</p>
@@ -2800,7 +3012,7 @@ keytool -importcert -trustcacerts -alias servidor -file servidor.cer -keystore c
 </ol>
 <p>Con estos pasos se tiene un aplicación firmada que el usuario puede verificar si así lo desea. De hecho, si se extrae el contenido del JAR con <code class="docutils literal"><span class="pre">jar</span> <span class="pre">-xf</span> <span class="pre">Aplicacion.jar</span></code> se extraen los archivos <code class="docutils literal"><span class="pre">.class</span></code> y un fichero <code class="docutils literal"><span class="pre">META-INF/Manifest</span></code> que se puede abrir con un editor para ver que realmente está firmado.</p>
 <p>Para que otras personas puedan comprobar que nuestra aplicacion es correcta los programadores deberemos exportar un certificado que los usuarios puedan importar para hacer el verificado. Recordemos que el comando es:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>keytool -exportcert -keystore ..\Almacen.store -file Programador.cer -alias Programador
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">keytool</span> <span class="o">-</span><span class="n">exportcert</span> <span class="o">-</span><span class="n">keystore</span> <span class="o">..</span>\<span class="n">Almacen</span><span class="o">.</span><span class="n">store</span> <span class="o">-</span><span class="n">file</span> <span class="n">Programador</span><span class="o">.</span><span class="n">cer</span> <span class="o">-</span><span class="n">alias</span> <span class="n">Programador</span>
 </pre></div>
 </div>
 </div>
@@ -2836,6 +3048,72 @@ keytool -importcert -trustcacerts -alias servidor -file servidor.cer -keystore c
 <div class="section" id="la-clase-utilidadesficheros">
 <h3>La clase <code class="docutils literal"><span class="pre">UtilidadesFicheros</span></code><a class="headerlink" href="#la-clase-utilidadesficheros" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>A continuación se muestra el código completo de la clase <code class="docutils literal"><span class="pre">UtilidadesFicheros</span></code>:</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UtilidadesFicheros</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">BufferedReader</span> <span class="nf">getBufferedReader</span><span class="o">(</span>
+        <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span>
+    <span class="n">FileNotFoundException</span> <span class="o">{</span>
+        <span class="n">FileReader</span> <span class="n">lector</span><span class="o">;</span>
+        <span class="n">lector</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+        <span class="n">BufferedReader</span> <span class="n">bufferedReader</span><span class="o">;</span>
+        <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="n">lector</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">bufferedReader</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">PrintWriter</span> <span class="nf">getPrintWriter</span><span class="o">(</span>
+        <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">PrintWriter</span> <span class="n">printWriter</span><span class="o">;</span>
+        <span class="n">FileWriter</span> <span class="n">fileWriter</span><span class="o">;</span>
+        <span class="n">fileWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+        <span class="n">printWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span><span class="n">fileWriter</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">printWriter</span><span class="o">;</span>
+        <span class="c1">//Fin de getPrintWriter</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getLineasFichero</span><span class="o">(</span>
+        <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+        <span class="n">BufferedReader</span> <span class="n">bfr</span> <span class="o">=</span> <span class="n">getBufferedReader</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+        <span class="c1">//Leemos líneas del fichero...</span>
+        <span class="n">String</span> <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">linea</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//Y las añadimos al array</span>
+            <span class="n">lineas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">linea</span><span class="o">);</span>
+            <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="c1">//Fin del bucle que lee líneas</span>
+        <span class="k">return</span> <span class="n">lineas</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//Fin de getLineasFichero</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getSuma</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span>
+                               <span class="n">listaNombresFichero</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">long</span> <span class="n">suma</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span><span class="o">;</span>
+        <span class="n">String</span> <span class="n">lineaCantidad</span><span class="o">;</span>
+        <span class="kt">long</span> <span class="n">cantidad</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">nombreFichero</span> <span class="o">:</span> <span class="n">listaNombresFichero</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="c1">//Recuperamos todas las lineas</span>
+                <span class="n">lineas</span> <span class="o">=</span> <span class="n">getLineasFichero</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+                <span class="c1">//Pero solo nos interesa la primera</span>
+                <span class="n">lineaCantidad</span> <span class="o">=</span> <span class="n">lineas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+                <span class="c1">//Convertimos la linea a número</span>
+                <span class="n">cantidad</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">lineaCantidad</span><span class="o">);</span>
+                <span class="c1">//Y se incrementa la suma total</span>
+                <span class="n">suma</span> <span class="o">=</span> <span class="n">suma</span> <span class="o">+</span> <span class="n">cantidad</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Fallo al procesar el fichero &quot;</span>
+                                   <span class="o">+</span> <span class="n">nombreFichero</span><span class="o">);</span>
+                <span class="c1">//Fin del catch</span>
+            <span class="o">}</span>
+            <span class="c1">//Fin del for que recorre los nombres de fichero</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">suma</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -2881,6 +3159,7 @@ keytool -importcert -trustcacerts -alias servidor -file servidor.cer -keystore c
 <li class="toctree-l2"><a class="reference internal" href="index.html#programacion-de-aplicaciones-multihilo">Programación de aplicaciones multihilo.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#problema">Problema</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#solucion-completa-al-problema-de-los-filosofos">Solución completa al problema de los filósofos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#problema-simulador-de-casino">Problema: simulador de casino</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#id1">Problema</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#una-mala-solucion-al-problema-de-los-barberos">Una (mala) solución al problema de los barberos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#problema-productores-y-consumidores">Problema: productores y consumidores.</a></li>
@@ -2958,8 +3237,8 @@ keytool -importcert -trustcacerts -alias servidor -file servidor.cer -keystore c
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 
