@@ -1,0 +1,22 @@
+import java.util.Random;
+
+public class Filosofo implements Runnable{
+	GestorPalillos gestorPalillos;
+	public Filosofo(GestorPalillos g){
+		gestorPalillos=g;
+	}
+	@Override
+	public void run() {
+		Random generador=new Random();
+		String nombreFilosofo;
+		nombreFilosofo=Thread.currentThread().getName();
+		while (true){
+			/* Comer */
+			
+			/* Filosofar */
+			
+		}
+		
+	}
+
+}

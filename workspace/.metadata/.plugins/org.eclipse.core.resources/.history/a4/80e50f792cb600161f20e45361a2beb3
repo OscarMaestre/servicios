@@ -1,0 +1,10 @@
+
+public class Lanzador {
+
+	public static void main(String[] args) {
+		final int NUM_FILOSOFOS=5;
+		GestorPalillos gestorPalillos;
+		gestorPalillos=new GestorPalillos(NUM_FILOSOFOS);
+	}
+
+}

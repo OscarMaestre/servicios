@@ -1,0 +1,7 @@
+//org.eclipse.ui.commands/state/org.eclipse.ui.navigator.resources.nested.changeProjectPresentation/org.eclipse.ui.commands.radioState=false
+ColorsAndFontsPreferencePage.expandedCategories=Torg.eclipse.jdt.ui.presentation
+ColorsAndFontsPreferencePage.selectedElement=Forg.eclipse.jdt.ui.editors.textfont
+PLUGINS_NOT_ACTIVATED_ON_STARTUP=org.eclipse.m2e.discovery;
+eclipse.preferences.version=1
+org.eclipse.jdt.internal.ui.compare.JavaMergeViewer=1|Lucida Console|20.25|1|WINDOWS|1|-27|0|0|0|700|0|0|0|0|3|2|1|49|Lucida Console;
+org.eclipse.jdt.ui.editors.textfont=1|Lucida Console|20.25|1|WINDOWS|1|-27|0|0|0|700|0|0|0|0|3|2|1|49|Lucida Console;

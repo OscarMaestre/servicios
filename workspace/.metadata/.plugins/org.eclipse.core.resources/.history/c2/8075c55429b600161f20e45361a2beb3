@@ -1,0 +1,15 @@
+
+public class Filosofo implements Runnable{
+
+	@Override
+	public void run() {
+		while (true){
+			/* Comer */
+			
+			/* Filosofar */
+			
+		}
+		
+	}
+
+}

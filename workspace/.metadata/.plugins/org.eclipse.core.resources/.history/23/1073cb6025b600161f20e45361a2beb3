@@ -1,0 +1,9 @@
+
+public class Ejemplo {
+	public void tareaCompleja(){
+		int i;
+		for (;;){
+			i=i+1;
+		}
+	}
+}
