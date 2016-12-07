@@ -9,11 +9,14 @@ public class JugadorParImpar extends Jugador{
 	}
 
 	protected boolean jugamosAPares;
-	public void apostar(){
+	@Override
+	public void hacerApuesta(){
 		Random generador=new Random();
 		if (generador.nextBoolean()==true){
+			System.out.println(nombreHilo+" elige apostar a par");
 			jugamosAPares=true;
 		} else {
+			System.out.println(nombreHilo+" elige apostar a impar");
 			jugamosAPares=false;
 		}
 	}
@@ -31,9 +34,24 @@ public class JugadorParImpar extends Jugador{
 	//Fin de esGanador
 	}
 
+
 	@Override
-	public void hacerApuesta() {
-		// TODO Auto-generated method stub
-		
-	} 
+	public void comunicarNumero(int numero) {
+		boolean elNumeroEsPar=(numero%2)==0;
+		if ( (jugamosAPares) && (elNumeroEsPar) ) {
+			/*Ganamos y cogemos a la banca 20 euros*/
+			banca.restarSaldo(20);
+			this.sumarSaldo(20);
+		}
+		/* Si no jugábamos a pares (es decir, jugabamos
+		 * a impares) y el número no es par, también 
+		 * ganamos y cogemos 20 euros */
+		if ( ( ! jugamosAPares) && ( ! elNumeroEsPar) ) {
+			/*Ganamos y cogemos a la banca 20 euros*/
+			banca.restarSaldo(20);
+			this.sumarSaldo(20);
+		}
+	}
+
+ 
 }

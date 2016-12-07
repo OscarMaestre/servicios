@@ -1,12 +1,17 @@
 package com.ies.casino;
 
-public abstract class Jugador {
+public abstract class Jugador implements Runnable{
 	protected	long 	saldo;
 	protected	boolean enBancarrota;
 	protected	long 	cantidadApostada;
-	
+	protected 	boolean	apuestaRealizada;
+	protected	Banca	banca;
+	protected	String	nombreHilo;
 	public Jugador(long saldoInicial, Banca b){
 		saldo=saldoInicial;
+		banca=b;
+		apuestaRealizada=false;
+		nombreHilo=Thread.currentThread().getName();
 	}
 	public void sumarSaldo(long cantidad){
 		saldo = saldo + cantidad;
@@ -22,6 +27,10 @@ public abstract class Jugador {
 	public boolean enBancarrota(){
 		return enBancarrota;
 	}
+	
+	/* Las formas de jugar se implementan 
+	 * de distinta forma en función
+	 * de los tipos de jugador*/
 	public void jugar(){
 		while (saldo>0){
 			hacerApuesta();
@@ -29,5 +38,24 @@ public abstract class Jugador {
 		String nombre=Thread.currentThread().getName();
 		System.out.println(nombre+": ¡¡Me arruiné!!");
 	}
+	/* Lo usa la banca para comunicarnos el número*/
+	public abstract void comunicarNumero(int numero);
+	
+
 	public abstract void hacerApuesta();
+	
+	/* Todos los jugadores hacen lo mismo:
+	 * Mientras no estemos en bancarrota ni la
+	 * banca tampoco, hacemos apuestas. La banca
+	 * nos dirá el número que haya salido y en 
+	 * ese momento (y si procede) incrementaremos
+	 * nuestro saldo
+	 */
+	@Override
+	public void run() {
+		while ( (!banca.enBancarrota) && (!enBancarrota) ){
+			hacerApuesta();
+		}
+		
+	}
 }
