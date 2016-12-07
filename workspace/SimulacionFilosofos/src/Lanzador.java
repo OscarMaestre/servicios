@@ -9,8 +9,7 @@ public class Lanzador {
 		for (int i=0; i<NUM_ELEMENTOS; i++){
 			Filosofo filosofo;
 			filosofo=new Filosofo(
-					gestorPalillos, i, 
-					(i+1) % NUM_ELEMENTOS);
+					gestorPalillos);
 			hilos[i]=new Thread ( filosofo );
 			hilos[i].start();
 			

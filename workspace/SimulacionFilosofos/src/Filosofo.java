@@ -12,17 +12,20 @@ public class Filosofo implements Runnable{
 		Random generador=new Random();
 		String nombreFilosofo;
 		nombreFilosofo=Thread.currentThread().getName();
+		ParejaPalillos parejaAsignada;
 		while (true){
 			try{
 				/* Comer */
-				gestorPalillos.cogerPalillos(
-						numPalilloIzq, numPalilloDer);
+				parejaAsignada=gestorPalillos.cogerPalillos();
+				while(parejaAsignada==null){
+					parejaAsignada=gestorPalillos.cogerPalillos();
+				}
 				System.out.println("Soy "
 					+ nombreFilosofo +" y estoy comiendo" );
 				int msAzar=generador.nextInt(3000);
 				Thread.sleep(msAzar);
 				gestorPalillos.liberarPalillos(
-						numPalilloIzq, numPalilloDer);
+						parejaAsignada);
 				/* Filosofar */
 				System.out.println("Soy "
 						+ nombreFilosofo +

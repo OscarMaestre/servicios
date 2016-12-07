@@ -1,0 +1,25 @@
+package com.ies.casino;
+
+public abstract class Jugador {
+	long saldo;
+	boolean enBancarrota;
+	int numApostado;
+	public Jugador(long saldoInicial){
+		saldo=saldoInicial;
+	}
+	public void sumarSaldo(long cantidad){
+		saldo = saldo + cantidad;
+	}
+	public void restarSaldo(long cantidad){
+		if (saldo - cantidad <= 0){
+			saldo = 0;
+			enBancarrota=true;
+			return ;
+		}
+		saldo = saldo - cantidad;
+	}
+	public boolean enBancarrota(){
+		return enBancarrota;
+	}
+	public abstract void apostar();
+}

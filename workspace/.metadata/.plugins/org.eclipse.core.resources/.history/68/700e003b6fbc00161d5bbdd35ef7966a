@@ -1,0 +1,11 @@
+package com.ies.casino;
+
+public class Jugador {
+	long saldo;
+	public void sumarSaldo(long cantidad){
+		saldo = saldo + cantidad;
+	}
+	public void restarSaldo(long cantidad){
+		saldo = saldo - cantidad ;
+	}
+}

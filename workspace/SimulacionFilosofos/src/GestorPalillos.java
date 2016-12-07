@@ -11,27 +11,55 @@ public class GestorPalillos {
 			vectorPalillos[i]=false;
 		}
 	}
-	public synchronized void cogerPalillos(int n1, int n2){
-		boolean palilloIzq;
-		palilloIzq=vectorPalillos[n1];
-		boolean palilloDer;
-		palilloDer=vectorPalillos[n2];
-		
-		/* Si no está cogido el izquierdo
-		 * y además no está cogido el derecho...
-		 */
-		if ( (!palilloIzq) && (!palilloDer) ){
-			vectorPalillos[n1]=true;
-			vectorPalillos[n2]=true;
-			System.out.println(
-				"Cogidos palillos " + 
-				n1 +" y " + n2);
+	
+	
+	public 
+		synchronized ParejaPalillos 
+			cogerPalillos()
+	{
+		ParejaPalillos pareja;
+		int pos1, pos2;
+		pos1=-1;
+		pos2=-1;
+		boolean seguirBuscando=true;
+		int pos=0;
+		while (seguirBuscando) {
+			if (vectorPalillos[pos]==false){
+				if (pos1==-1){
+					pos1=pos;
+				} else {
+					if (pos2==-1){
+						pos2=pos;
+					}
+				}
+			}
+			pos=pos+1;
+			if (pos>=vectorPalillos.length){
+				seguirBuscando=false;
+			}
+			if ( (pos1!=-1) && (pos2!=-1) ){
+				seguirBuscando=false;
+			}
+		//Fin del while
 		}
-	// Fin de cogerPalillos
+		if ( (pos1!=-1) && (pos2!=-1) ) {
+			vectorPalillos[pos1]=true;
+			vectorPalillos[pos2]=true;
+			pareja=new ParejaPalillos();
+			pareja.setPalilloDer(pos1);
+			pareja.setPalilloIzq(pos2);
+			return pareja;
+		}
+		return null;
+		
 	}
 	
-	public synchronized void liberarPalillos(int n1, int n2){
-		vectorPalillos[n1]=false;
-		vectorPalillos[n2]=false;
+	public synchronized void liberarPalillos(
+			ParejaPalillos pareja){
+		int pos1=pareja.getPalilloDer();
+		int pos2=pareja.getPalilloIzq();
+		vectorPalillos[pos1]=false;
+		vectorPalillos[pos2]=false;
+		
 	}
 }

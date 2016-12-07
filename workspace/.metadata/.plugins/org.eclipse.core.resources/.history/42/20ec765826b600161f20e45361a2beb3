@@ -1,7 +1,0 @@
-/* Controla el acceso a los recursos
- * compartidos, en este caso los palillos
- */
-public class GestorPalillos {
-	private boolean[] vectorPalillos;
-	
-}
