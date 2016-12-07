@@ -21,6 +21,7 @@ public class Banca {
 		saldo=saldoInicial;
 		enBancarrota=false;
 		sePuedenHacerApuestas=true;
+		generador=new Random();
 	}
 	public synchronized void sumarSaldo(long cantidad){
 		saldo = saldo + cantidad;
@@ -39,6 +40,12 @@ public class Banca {
 			apostadores.add(jugador);
 		}
 	}
+	public boolean aceptaApuestas(){
+		if (estadoRuleta == Estado.ACEPTANDO_APUESTAS ) {
+			return true;
+		}
+		return false;
+	}
 	public void comunicarNumeroGanador (int numero){
 		/* Al pasar el número a los jugadores, ellos nos
 		 * irán restando el saldo que les corresponda por haber ganado */
@@ -48,6 +55,7 @@ public class Banca {
 	}
 	public synchronized void girarRuleta() throws InterruptedException{
 		int segundosAzar;
+		System.out.println("¡Empieza el juego!");
 		while (estadoRuleta!=Estado.EN_BANCARROTA){
 			estadoRuleta=Estado.ACEPTANDO_APUESTAS;
 			/* Se eligen unos milisegundos al azar para que los jugadores
@@ -77,7 +85,7 @@ public class Banca {
 		}
 		this.girarRuleta();
 	}
-	public static void main(String[] args){
+	public static void main(String[] args) throws InterruptedException{
 		Banca b=new Banca(50000);
 		b.simular(5);
 	}

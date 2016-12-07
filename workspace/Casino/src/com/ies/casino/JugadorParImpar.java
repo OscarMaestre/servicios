@@ -10,8 +10,9 @@ public class JugadorParImpar extends Jugador{
 
 	protected boolean jugamosAPares;
 	@Override
-	public void hacerApuesta(){
-		Random generador=new Random();
+	public void hacerApuesta() {
+		
+		
 		if (generador.nextBoolean()==true){
 			System.out.println(nombreHilo+" elige apostar a par");
 			jugamosAPares=true;
@@ -39,6 +40,7 @@ public class JugadorParImpar extends Jugador{
 	public void comunicarNumero(int numero) {
 		boolean elNumeroEsPar=(numero%2)==0;
 		if ( (jugamosAPares) && (elNumeroEsPar) ) {
+			System.out.print(nombreHilo + " ganó 20 euros por acertar par");
 			/*Ganamos y cogemos a la banca 20 euros*/
 			banca.restarSaldo(20);
 			this.sumarSaldo(20);
@@ -48,6 +50,7 @@ public class JugadorParImpar extends Jugador{
 		 * ganamos y cogemos 20 euros */
 		if ( ( ! jugamosAPares) && ( ! elNumeroEsPar) ) {
 			/*Ganamos y cogemos a la banca 20 euros*/
+			System.out.print(nombreHilo + " ganó 20 euros por acertar impar");
 			banca.restarSaldo(20);
 			this.sumarSaldo(20);
 		}

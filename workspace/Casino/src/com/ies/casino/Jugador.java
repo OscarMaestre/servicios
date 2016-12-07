@@ -1,5 +1,7 @@
 package com.ies.casino;
 
+import java.util.Random;
+
 public abstract class Jugador implements Runnable{
 	protected	long 	saldo;
 	protected	boolean enBancarrota;
@@ -7,11 +9,13 @@ public abstract class Jugador implements Runnable{
 	protected 	boolean	apuestaRealizada;
 	protected	Banca	banca;
 	protected	String	nombreHilo;
+	protected	Random	generador;
 	public Jugador(long saldoInicial, Banca b){
 		saldo=saldoInicial;
 		banca=b;
 		apuestaRealizada=false;
 		nombreHilo=Thread.currentThread().getName();
+		generador=new Random();
 	}
 	public void sumarSaldo(long cantidad){
 		saldo = saldo + cantidad;
@@ -31,8 +35,15 @@ public abstract class Jugador implements Runnable{
 	/* Las formas de jugar se implementan 
 	 * de distinta forma en función
 	 * de los tipos de jugador*/
-	public void jugar(){
+	public void jugar() throws InterruptedException{
 		while (saldo>0){
+			int msAzar;
+			/* Mientras la ruleta no acepte apuestas, dormimos un 
+			 * periodo al azar */
+			while (!banca.aceptaApuestas()){
+				msAzar=this.generador.nextInt(500);
+				Thread.currentThread().sleep(msAzar);
+			}
 			hacerApuesta();
 		}
 		String nombre=Thread.currentThread().getName();
