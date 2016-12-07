@@ -3,10 +3,12 @@ package com.ies.casino;
 import java.util.Random;
 
 public class JugadorParImpar extends Jugador{
-	protected boolean jugamosAPares;
-	public JugadorParImpar(long saldoInicial) {
-		super(saldoInicial);
+	public JugadorParImpar(long saldoInicial, Banca b) {
+		super(saldoInicial, b);
+		// TODO Auto-generated constructor stub
 	}
+
+	protected boolean jugamosAPares;
 	public void apostar(){
 		Random generador=new Random();
 		if (generador.nextBoolean()==true){
@@ -16,17 +18,22 @@ public class JugadorParImpar extends Jugador{
 		}
 	}
 
-	@Override
-	public boolean ganador(int num) {
-		if (num==0){
-			//Perdemos 
+	public boolean esGanador(int num) {
+		if (num==0){ 
+			return false;
 		} else {
-			if ((num%2==0 ) && (jugamosAPares)){
-				//Ganamos
-			} else {
-				//Perdemos
+			if ((num%2==0 ) && (jugamosAPares))
+			{
+				return true;
 			}
-		}
+		} //Fin del else externo
+		return false;
+	//Fin de esGanador
 	}
 
+	@Override
+	public void hacerApuesta() {
+		// TODO Auto-generated method stub
+		
+	} 
 }

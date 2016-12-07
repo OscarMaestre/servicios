@@ -1,9 +1,11 @@
 package com.ies.casino;
 
 public abstract class Jugador {
-	long saldo;
-	boolean enBancarrota;
-	public Jugador(long saldoInicial){
+	protected	long 	saldo;
+	protected	boolean enBancarrota;
+	protected	long 	cantidadApostada;
+	
+	public Jugador(long saldoInicial, Banca b){
 		saldo=saldoInicial;
 	}
 	public void sumarSaldo(long cantidad){
@@ -20,5 +22,12 @@ public abstract class Jugador {
 	public boolean enBancarrota(){
 		return enBancarrota;
 	}
-	public abstract boolean ganador(int num);
+	public void jugar(){
+		while (saldo>0){
+			hacerApuesta();
+		}
+		String nombre=Thread.currentThread().getName();
+		System.out.println(nombre+": ¡¡Me arruiné!!");
+	}
+	public abstract void hacerApuesta();
 }
