@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="Casino/src"/>
+	<classpathentry kind="src" path="EjemplosHilos/src"/>
+	<classpathentry kind="src" path="Multiproceso_Vocales/src"/>
+	<classpathentry kind="src" path="MultiProceso1/src"/>
+	<classpathentry kind="src" path="SimulacionFilosofos/src"/>
+	<classpathentry kind="src" path="SolucionExamen2016_11_15/src"/>
+	<classpathentry kind="src" path="SumaContabilidades/src"/>
+	<classpathentry kind="src" path="Utilidades/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="Casino/bin"/>
+</classpath>
