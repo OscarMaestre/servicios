@@ -16,13 +16,13 @@
 \contentsline {section}{\numberline {1.9}Lanzamiento de los procesos}{10}{section.1.9}
 \contentsline {section}{\numberline {1.10}Ejercicio propuesto (I)}{11}{section.1.10}
 \contentsline {subsection}{\numberline {1.10.1}Soluci\IeC {\'o}n al ejercicio propuesto (I)}{11}{subsection.1.10.1}
-\contentsline {section}{\numberline {1.11}Gesti\IeC {\'o}n de procesos.}{14}{section.1.11}
-\contentsline {section}{\numberline {1.12}Comandos para la gesti\IeC {\'o}n de procesos en sistemas libres y propietarios.}{14}{section.1.12}
+\contentsline {section}{\numberline {1.11}Gesti\IeC {\'o}n de procesos.}{13}{section.1.11}
+\contentsline {section}{\numberline {1.12}Comandos para la gesti\IeC {\'o}n de procesos en sistemas libres y propietarios.}{13}{section.1.12}
 \contentsline {subsection}{\numberline {1.12.1}Prioridades}{14}{subsection.1.12.1}
-\contentsline {section}{\numberline {1.13}Sincronizaci\IeC {\'o}n entre procesos.}{15}{section.1.13}
+\contentsline {section}{\numberline {1.13}Sincronizaci\IeC {\'o}n entre procesos.}{14}{section.1.13}
 \contentsline {subsection}{\numberline {1.13.1}Mecanismos para controlar secciones cr\IeC {\'\i }ticas}{15}{subsection.1.13.1}
-\contentsline {section}{\numberline {1.14}Documentaci\IeC {\'o}n}{16}{section.1.14}
-\contentsline {section}{\numberline {1.15}Depuraci\IeC {\'o}n.}{16}{section.1.15}
+\contentsline {section}{\numberline {1.14}Documentaci\IeC {\'o}n}{15}{section.1.14}
+\contentsline {section}{\numberline {1.15}Depuraci\IeC {\'o}n.}{15}{section.1.15}
 \contentsline {section}{\numberline {1.16}Examen}{16}{section.1.16}
 \contentsline {chapter}{\numberline {2}Programaci\IeC {\'o}n multihilo}{17}{chapter.2}
 \contentsline {section}{\numberline {2.1}Recursos compartidos por los hilos.}{17}{section.2.1}
@@ -80,7 +80,7 @@
 \contentsline {subsection}{\numberline {3.10.1}Ejemplo de servidor Java}{46}{subsection.3.10.1}
 \contentsline {section}{\numberline {3.11}Utilizaci\IeC {\'o}n de hilos en la programaci\IeC {\'o}n de aplicaciones en red.}{49}{section.3.11}
 \contentsline {subsection}{\numberline {3.11.1}Ejercicio: servicio de ordenaci\IeC {\'o}n}{50}{subsection.3.11.1}
-\contentsline {subsection}{\numberline {3.11.2}Una clase Protocolo}{51}{subsection.3.11.2}
+\contentsline {subsection}{\numberline {3.11.2}Una clase Protocolo}{50}{subsection.3.11.2}
 \contentsline {subsection}{\numberline {3.11.3}Una clase con funciones de utilidad}{51}{subsection.3.11.3}
 \contentsline {subsection}{\numberline {3.11.4}La clase Petici\IeC {\'o}n}{51}{subsection.3.11.4}
 \contentsline {subsection}{\numberline {3.11.5}La clase Servidor}{52}{subsection.3.11.5}
@@ -116,7 +116,7 @@
 \contentsline {section}{\numberline {5.7}Protocolos seguros de comunicaciones.}{61}{section.5.7}
 \contentsline {section}{\numberline {5.8}Programaci\IeC {\'o}n de aplicaciones con comunicaciones seguras.}{61}{section.5.8}
 \contentsline {section}{\numberline {5.9}Firmado de aplicaciones}{65}{section.5.9}
-\contentsline {section}{\numberline {5.10}Verificado de aplicaciones}{66}{section.5.10}
+\contentsline {section}{\numberline {5.10}Verificado de aplicaciones}{65}{section.5.10}
 \contentsline {section}{\numberline {5.11}Ejercicio}{66}{section.5.11}
 \contentsline {section}{\numberline {5.12}Recordatorio}{66}{section.5.12}
 \contentsline {section}{\numberline {5.13}Pol\IeC {\'\i }tica de seguridad.}{66}{section.5.13}
@@ -124,3 +124,9 @@
 \contentsline {section}{\numberline {5.15}Pruebas y depuraci\IeC {\'o}n.}{66}{section.5.15}
 \contentsline {chapter}{\numberline {6}Anexos}{67}{chapter.6}
 \contentsline {section}{\numberline {6.1}La clase \texttt {UtilidadesFicheros}}{67}{section.6.1}
+\contentsline {section}{\numberline {6.2}Soluci\IeC {\'o}n al problema del simulador de Casino}{68}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}La clase Banca}{68}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}La clase Jugador}{71}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.3}La clase JugadorClasico}{72}{subsection.6.2.3}
+\contentsline {subsection}{\numberline {6.2.4}La clase JugadorParImpar}{73}{subsection.6.2.4}
+\contentsline {subsection}{\numberline {6.2.5}La clase JugadorMartingala}{74}{subsection.6.2.5}

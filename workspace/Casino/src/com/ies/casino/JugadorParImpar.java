@@ -26,6 +26,9 @@ public class JugadorParImpar extends Jugador{
 	}
 
 	public boolean esGanador(int num) {
+		/* Este jugador necesita comprobar si ha salido el 0,
+		 * aunque no lo elige nunca, ya que si hemos apostado
+		 * Par podríamos pensar que hemos ganado cuando no es así */
 		if (num==0){ 
 			return false;
 		} else {

@@ -96,3 +96,28 @@ e5=Extraccion(clase_cualificada="com.ies.LanzadorContabilidades",
 e5.extraer_clase()
 e5.extraer_metodo("main")
 
+
+e6=Extraccion(clase_cualificada="com.ies.casino.JugadorClasico",
+							dir_proyecto="Casino")
+e6.extraer_clase()
+
+
+e7=Extraccion(clase_cualificada="com.ies.casino.JugadorMartingala",
+							dir_proyecto="Casino")
+e7.extraer_clase()
+
+e7=Extraccion(clase_cualificada="com.ies.casino.JugadorParImpar",
+							dir_proyecto="Casino")
+e7.extraer_clase()
+
+
+e8=Extraccion(clase_cualificada="com.ies.casino.Banca",
+							dir_proyecto="Casino")
+e8.extraer_clase()
+
+
+e9=Extraccion(clase_cualificada="com.ies.casino.Jugador",
+							dir_proyecto="Casino")
+e9.extraer_clase()
+
+

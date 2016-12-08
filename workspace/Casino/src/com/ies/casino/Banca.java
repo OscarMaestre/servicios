@@ -11,7 +11,9 @@ public class Banca {
 	protected	boolean	sePuedenHacerApuestas;
 	protected	int		numeroGanador;
 	public 		enum 	Estado {
-		INICIO, ACEPTANDO_APUESTAS, RULETA_GIRANDO, PAGANDO_APUESTAS, EN_BANCARROTA
+		INICIO, ACEPTANDO_APUESTAS, 
+		RULETA_GIRANDO, PAGANDO_APUESTAS, 
+		EN_BANCARROTA
 	};
 	private Estado estadoRuleta;
 	
@@ -86,7 +88,8 @@ public class Banca {
 		}
 	}
 	
-	public void simular(int jugadoresPar, int jugadoresMartingala) throws InterruptedException{
+	public void simular(int jugadoresPar, int jugadoresMartingala,
+			int jugadoresClasicos) throws InterruptedException{
 		Thread[] hilosJugadoresPares=new Thread[jugadoresPar];
 		for (int i=0; i<jugadoresPar; i++){
 			JugadorParImpar jugador=new JugadorParImpar(1000, this);
@@ -94,6 +97,7 @@ public class Banca {
 			hilosJugadoresPares[i].setName("Apostador par/impar "+i);
 			hilosJugadoresPares[i].start();
 		}
+		
 		Thread[] hilosJugadoresMartingala=new Thread[jugadoresMartingala];
 		for (int i=0; i<jugadoresMartingala; i++){
 			JugadorMartingala jugador=new JugadorMartingala(1000, this);
@@ -101,10 +105,17 @@ public class Banca {
 			hilosJugadoresMartingala[i].setName("Apostador martingala "+i);
 			hilosJugadoresMartingala[i].start();
 		}
+		Thread[] hilosJugadoresClasico=new Thread[jugadoresClasicos];
+		for (int i=0; i<jugadoresClasicos; i++){
+			JugadorClasico jugador=new JugadorClasico(1000, this);
+			hilosJugadoresClasico[i]=new Thread ( jugador );
+			hilosJugadoresClasico[i].setName("Apostador clasico "+i);
+			hilosJugadoresClasico[i].start();
+		}
 		this.girarRuleta();
 	}
 	public static void main(String[] args) throws InterruptedException{
 		Banca b=new Banca(50000);
-		b.simular(5, 5);
+		b.simular(5, 5, 5);
 	}
 }
