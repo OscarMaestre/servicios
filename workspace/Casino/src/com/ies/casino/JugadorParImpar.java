@@ -1,25 +1,28 @@
 package com.ies.casino;
 
-import java.util.Random;
-
 public class JugadorParImpar extends Jugador{
 	public JugadorParImpar(long saldoInicial, Banca b) {
 		super(saldoInicial, b);
-		// TODO Auto-generated constructor stub
 	}
 
 	protected boolean jugamosAPares;
 	@Override
 	public void hacerApuesta() {
-		
-		
+		if (!banca.aceptaApuestas()) return ;
+		if (apuestaRealizada) return ;
+		/* Elegimos una apuesta...*/
 		if (generador.nextBoolean()==true){
-			System.out.println(nombreHilo+" elige apostar a par");
+			//System.out.println(nombreHilo+" elige apostar a par");
 			jugamosAPares=true;
 		} else {
-			System.out.println(nombreHilo+" elige apostar a impar");
+			//System.out.println(nombreHilo+" elige apostar a impar");
 			jugamosAPares=false;
 		}
+		banca.sumarSaldo(10);
+		restarSaldo(10);
+		apuestaRealizada=true;
+		/* Y pedimos a la banca que nos la acepte*/
+		banca.aceptarApuesta(this);
 	}
 
 	public boolean esGanador(int num) {
@@ -30,30 +33,29 @@ public class JugadorParImpar extends Jugador{
 			{
 				return true;
 			}
+			if ((num%2!=0 ) && (!jugamosAPares))
+			{
+				return true;
+			}
 		} //Fin del else externo
 		return false;
 	//Fin de esGanador
 	}
 
-
 	@Override
 	public void comunicarNumero(int numero) {
-		boolean elNumeroEsPar=(numero%2)==0;
-		if ( (jugamosAPares) && (elNumeroEsPar) ) {
-			System.out.print(nombreHilo + " ganó 20 euros por acertar par");
+		
+		if ( esGanador(numero) ) {
 			/*Ganamos y cogemos a la banca 20 euros*/
+			System.out.println(nombreHilo + " ganó 20 euros por acertar impar");
 			banca.restarSaldo(20);
 			this.sumarSaldo(20);
 		}
-		/* Si no jugábamos a pares (es decir, jugabamos
-		 * a impares) y el número no es par, también 
-		 * ganamos y cogemos 20 euros */
-		if ( ( ! jugamosAPares) && ( ! elNumeroEsPar) ) {
-			/*Ganamos y cogemos a la banca 20 euros*/
-			System.out.print(nombreHilo + " ganó 20 euros por acertar impar");
-			banca.restarSaldo(20);
-			this.sumarSaldo(20);
-		}
+		System.out.println(nombreHilo + " se queda con un saldo de "+saldo);
+		/* Sea como sea, al terminar indicamos que ya no tenemos
+		 * una apuesta realizada. Es decir, permitirmos al
+		 * jugador volver a apostar	 */
+		apuestaRealizada=false;
 	}
 
  

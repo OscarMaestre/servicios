@@ -14,7 +14,7 @@ public abstract class Jugador implements Runnable{
 		saldo=saldoInicial;
 		banca=b;
 		apuestaRealizada=false;
-		nombreHilo=Thread.currentThread().getName();
+		
 		generador=new Random();
 	}
 	public void sumarSaldo(long cantidad){
@@ -32,23 +32,6 @@ public abstract class Jugador implements Runnable{
 		return enBancarrota;
 	}
 	
-	/* Las formas de jugar se implementan 
-	 * de distinta forma en función
-	 * de los tipos de jugador*/
-	public void jugar() throws InterruptedException{
-		while (saldo>0){
-			int msAzar;
-			/* Mientras la ruleta no acepte apuestas, dormimos un 
-			 * periodo al azar */
-			while (!banca.aceptaApuestas()){
-				msAzar=this.generador.nextInt(500);
-				Thread.currentThread().sleep(msAzar);
-			}
-			hacerApuesta();
-		}
-		String nombre=Thread.currentThread().getName();
-		System.out.println(nombre+": ¡¡Me arruiné!!");
-	}
 	/* Lo usa la banca para comunicarnos el número*/
 	public abstract void comunicarNumero(int numero);
 	
@@ -64,9 +47,29 @@ public abstract class Jugador implements Runnable{
 	 */
 	@Override
 	public void run() {
-		while ( (!banca.enBancarrota) && (!enBancarrota) ){
+		nombreHilo=Thread.currentThread().getName();
+		while ( (!enBancarrota) && (!banca.enBancarrota()) ){
+			int msAzar;
+			/* Mientras la ruleta no acepte apuestas, dormimos un 
+			 * periodo al azar */
+			while (!banca.aceptaApuestas()){
+				msAzar=this.generador.nextInt(500);
+				try {
+					//System.out.println(nombreHilo+":banca ocupada, durmiendo...");
+					Thread.sleep(msAzar);
+				} catch (InterruptedException e) {
+					return ;
+				}
+			}
 			hacerApuesta();
 		}
-		
+		String nombre=Thread.currentThread().getName();
+		if (enBancarrota){
+			System.out.println(nombre+": ¡¡Me arruiné!!");
+			return ;
+		}
+		if (banca.enBancarrota()){
+			System.out.println(nombre+" hizo saltar la banca");
+		}
 	}
 }

@@ -11,7 +11,7 @@ public class Banca {
 	protected	boolean	sePuedenHacerApuestas;
 	protected	int		numeroGanador;
 	public 		enum 	Estado {
-		ACEPTANDO_APUESTAS, RULETA_GIRANDO, PAGANDO_APUESTAS, EN_BANCARROTA
+		INICIO, ACEPTANDO_APUESTAS, RULETA_GIRANDO, PAGANDO_APUESTAS, EN_BANCARROTA
 	};
 	private Estado estadoRuleta;
 	
@@ -20,8 +20,12 @@ public class Banca {
 	public Banca(long saldoInicial) {
 		saldo=saldoInicial;
 		enBancarrota=false;
-		sePuedenHacerApuestas=true;
+		estadoRuleta=Estado.INICIO;
 		generador=new Random();
+		apostadores=new ArrayList<Jugador>();
+	}
+	public synchronized boolean enBancarrota(){
+		return enBancarrota;
 	}
 	public synchronized void sumarSaldo(long cantidad){
 		saldo = saldo + cantidad;
@@ -40,7 +44,7 @@ public class Banca {
 			apostadores.add(jugador);
 		}
 	}
-	public boolean aceptaApuestas(){
+	public synchronized boolean aceptaApuestas(){
 		if (estadoRuleta == Estado.ACEPTANDO_APUESTAS ) {
 			return true;
 		}
@@ -49,11 +53,16 @@ public class Banca {
 	public void comunicarNumeroGanador (int numero){
 		/* Al pasar el número a los jugadores, ellos nos
 		 * irán restando el saldo que les corresponda por haber ganado */
+		int numApostadores=apostadores.size();
+		
 		for (Jugador apostador: apostadores){
 			apostador.comunicarNumero(numeroGanador);
 		}
+		/* Una vez comunicadas todas las apuestas, borramos
+		 * el vector. La partida va a volver a empezar */
+		apostadores.clear();
 	}
-	public synchronized void girarRuleta() throws InterruptedException{
+	public void girarRuleta() throws InterruptedException{
 		int segundosAzar;
 		System.out.println("¡Empieza el juego!");
 		while (estadoRuleta!=Estado.EN_BANCARROTA){
@@ -73,20 +82,29 @@ public class Banca {
 			System.out.println("El número ganador es el :"+numeroGanador);
 			estadoRuleta=Estado.PAGANDO_APUESTAS;
 			this.comunicarNumeroGanador(numeroGanador);
+			System.out.println("El saldo de la banca es ahora:"+saldo);
 		}
 	}
 	
-	public void simular(int jugadoresPar) throws InterruptedException{
-		Thread[] hilosJugadores=new Thread[jugadoresPar];
+	public void simular(int jugadoresPar, int jugadoresMartingala) throws InterruptedException{
+		Thread[] hilosJugadoresPares=new Thread[jugadoresPar];
 		for (int i=0; i<jugadoresPar; i++){
 			JugadorParImpar jugador=new JugadorParImpar(1000, this);
-			hilosJugadores[i]=new Thread ( jugador );
-			hilosJugadores[i].start();
+			hilosJugadoresPares[i]=new Thread ( jugador );
+			hilosJugadoresPares[i].setName("Apostador par/impar "+i);
+			hilosJugadoresPares[i].start();
+		}
+		Thread[] hilosJugadoresMartingala=new Thread[jugadoresMartingala];
+		for (int i=0; i<jugadoresMartingala; i++){
+			JugadorMartingala jugador=new JugadorMartingala(1000, this);
+			hilosJugadoresMartingala[i]=new Thread ( jugador );
+			hilosJugadoresMartingala[i].setName("Apostador martingala "+i);
+			hilosJugadoresMartingala[i].start();
 		}
 		this.girarRuleta();
 	}
 	public static void main(String[] args) throws InterruptedException{
 		Banca b=new Banca(50000);
-		b.simular(5);
+		b.simular(5, 5);
 	}
 }
