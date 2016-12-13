@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Programación multihilo &mdash; Apuntes de Lenguajes de Marcas v1.3</title>
+    <title>Programación multihilo &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -28,11 +28,14 @@
     <link rel="next" title="Programación de comunicaciones en red" href="tema3.html" />
     <link rel="prev" title="Programación multiproceso" href="tema1.html" />
    
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -207,23 +210,7 @@
 </pre></div>
 </div>
 <p>Para implementar la clase <code class="docutils literal"><span class="pre">AreasEnParalelo</span></code> que lanza los hilos para hacer muchos cálculos de áreas en paralelo usaremos esto:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AreasEnParalelo</span> <span class="o">{</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
-    <span class="n">InterruptedException</span> <span class="o">{</span>
-        <span class="n">CalculadorAreas</span> <span class="n">ca</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CalculadorAreas</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
-        <span class="kd">final</span> <span class="kt">int</span> <span class="n">MAX_HILOS</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">;</span>
-        <span class="n">Thread</span><span class="o">[]</span> <span class="n">hilos</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">MAX_HILOS</span><span class="o">];</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">MAX_HILOS</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">ca</span><span class="o">);</span>
-            <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
-        <span class="o">}</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">MAX_HILOS</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
-        <span class="o">}</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Total de calculos:&quot;</span> <span class="o">+</span> <span class="n">ca</span><span class="o">.</span><span class="na">contador</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.ies</span><span class="o">;</span>
@@ -1065,6 +1052,12 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="documentacion">
 <h2>Documentación.<a class="headerlink" href="#documentacion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>La estructura general de toda aplicación multihilo es algo similar a lo siguiente:</p>
+<ul class="simple">
+<li>Habrá tareas que se puedan paralelizar. Dichas tareas heredarán de <code class="docutils literal"><span class="pre">Runnable</span></code>.</li>
+<li>Habrá procesos que pueden ser accedidos por muchos hilos. Estos objetos <strong>deberán usar synchronized</strong></li>
+<li>Habrá que crear los recursos compartidos y crear los hilos. Esta operación se debe hacer en este orden.</li>
+</ul>
 </div>
 <div class="section" id="depuracion">
 <h2>Depuración.<a class="headerlink" href="#depuracion" title="Enlazar permanentemente con este título">¶</a></h2>
@@ -1145,14 +1138,11 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <div id="searchbox" style="display: none" role="search">
   <h3>Búsqueda rápida</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Ir a" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Ir a" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Introduzca los términos de búsqueda o un nombre de módulo, clase o función.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -1163,8 +1153,8 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
       <a href="../_sources/textos/tema2.txt"

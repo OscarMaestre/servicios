@@ -1,0 +1,34 @@
+package com.ies.barberia;
+
+public class Barbero implements Runnable {
+
+	GestorSillas gestorSillas;
+	int sillaQueAtendemos;
+	public Barbero(GestorSillas gestor){
+		gestorSillas=gestor;
+	}
+	public int esperarSillaConCliente(){
+		int sillaSinAtender;
+		sillaSinAtender=gestorSillas.getSillaSinAtender();
+		while (sillaSinAtender==-1){
+			/*Dormimos y lo volvemos 
+			 * a intentar*/
+			try{
+				Thread.sleep(200);
+				sillaSinAtender=gestorSillas.getSillaSinAtender();
+			}
+			catch (Exception e){
+			//Fin del catch	
+			}
+		//Fin del while	
+		}
+	//Fin de esperarSillaConCliente
+	}
+	@Override
+	public void run() {
+		while (true){
+			
+		}
+	}
+
+}

@@ -60,7 +60,11 @@ public abstract class Jugador implements Runnable{
 				} catch (InterruptedException e) {
 					return ;
 				}
+				if (banca.enBancarrota()){
+					return ;
+				}
 			}
+			
 			hacerApuesta();
 		}
 		String nombre=Thread.currentThread().getName();

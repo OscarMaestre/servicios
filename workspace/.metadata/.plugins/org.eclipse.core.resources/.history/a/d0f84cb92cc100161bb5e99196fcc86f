@@ -1,0 +1,8 @@
+package com.ies.barberia;
+
+public class GestorSillas {
+	int numSillas;
+	GestorSillas(int num){
+		numSillas=num;
+	}
+}

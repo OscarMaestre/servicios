@@ -1,0 +1,14 @@
+package com.ies.barberia;
+
+public class GestorSillas {
+	int numSillas;
+	boolean sillaOcupada[];
+	GestorSillas(int num){
+		numSillas=num;
+		sillaOcupada=new boolean[num];
+		for (int i=0;i<numSillas; i++){
+			sillaOcupada=false;
+		}
+		
+	}
+}

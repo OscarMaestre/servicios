@@ -1,0 +1,22 @@
+package com.ies.barberia;
+
+public class Cliente implements Runnable{
+	GestorSillas gestorSillas;
+	public Cliente(GestorSillas gestor){
+		gestorSillas=gestor;
+	}
+	
+	@Override
+	public void run() {
+		int sillaLibre;
+		sillaLibre=gestorSillas.getSillaLibre();
+		if (sillaLibre==-1){
+			System.out.println("Me voy");
+			return ;
+		}
+		
+		
+	}
+	
+
+}

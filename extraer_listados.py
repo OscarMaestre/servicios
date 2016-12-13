@@ -120,4 +120,15 @@ e9=Extraccion(clase_cualificada="com.ies.casino.Jugador",
 							dir_proyecto="Casino")
 e9.extraer_clase()
 
+e10=Extraccion(clase_cualificada="com.ies.plantilla.Hilo",
+							dir_proyecto="PlantillaAplicacionMultihilo")
+e10.extraer_clase()
 
+e11=Extraccion(clase_cualificada="com.ies.plantilla.RecursoCompartido",
+							dir_proyecto="PlantillaAplicacionMultihilo")
+e11.extraer_clase()
+
+
+e12=Extraccion(clase_cualificada="com.ies.plantilla.Lanzador",
+							dir_proyecto="PlantillaAplicacionMultihilo")
+e12.extraer_clase()

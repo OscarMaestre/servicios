@@ -1089,5 +1089,16 @@ Realizar la simulación en Java de dicha situación.
 Documentación.
 --------------------------------------------------------------------------
 
+La estructura general de toda aplicación multihilo es algo similar a lo siguiente:
+
+
+* Habrá tareas que se puedan paralelizar. Dichas tareas heredarán de ``Runnable``.
+
+* Habrá procesos que pueden ser accedidos por muchos hilos. Estos objetos **deberán usar synchronized**
+
+* Habrá que crear los recursos compartidos y crear los hilos. Esta operación se debe hacer en este orden.
+
+
+
 Depuración.
 --------------------------------------------------------------------------

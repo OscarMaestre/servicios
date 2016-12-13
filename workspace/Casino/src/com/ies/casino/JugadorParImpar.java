@@ -50,7 +50,7 @@ public class JugadorParImpar extends Jugador{
 		
 		if ( esGanador(numero) ) {
 			/*Ganamos y cogemos a la banca 20 euros*/
-			System.out.println(nombreHilo + " ganó 20 euros por acertar impar");
+			System.out.println(nombreHilo + " gana 20 euros por acertar impar");
 			banca.restarSaldo(20);
 			this.sumarSaldo(20);
 		}

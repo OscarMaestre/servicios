@@ -30,7 +30,7 @@ public class JugadorParImpar extends Jugador {
     public boolean esGanador(int num) {
         /* Este jugador necesita comprobar si ha salido el 0,
 		 * aunque no lo elige nunca, ya que si hemos apostado
-		 * Par podr√≠amos pensar que hemos ganado cuando no es as√≠ */
+		 * Par podrÌamos pensar que hemos ganado cuando no es asÌ */
         if (num == 0) {
             return false;
         } else {
@@ -50,7 +50,7 @@ public class JugadorParImpar extends Jugador {
     public void comunicarNumero(int numero) {
         if (esGanador(numero)) {
             /*Ganamos y cogemos a la banca 20 euros*/
-            System.out.println(nombreHilo + " gan√≥ 20 euros por acertar impar");
+            System.out.println(nombreHilo + " gana 20 euros por acertar impar");
             banca.restarSaldo(20);
             this.sumarSaldo(20);
         }

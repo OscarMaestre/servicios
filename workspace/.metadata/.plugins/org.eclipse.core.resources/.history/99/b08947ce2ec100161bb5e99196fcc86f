@@ -1,0 +1,16 @@
+package com.ies.barberia;
+
+public class Barbero implements Runnable {
+
+	GestorSillas gestorSillas;
+	public Barbero(GestorSillas gestor){
+		gestorSillas=gestor;
+	}
+	@Override
+	public void run() {
+		while (true){
+		
+		}
+	}
+
+}
