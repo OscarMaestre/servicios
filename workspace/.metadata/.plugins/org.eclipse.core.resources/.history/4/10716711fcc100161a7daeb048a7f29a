@@ -1,0 +1,10 @@
+package com.ies.examenhilos;
+
+public class Lanzador {
+	public static void main(String[] args){
+		/* Si no te deja escribir en este fichero, modifícalo*/
+		String rutaFichero="C:\\fich.txt";
+		PrintWriter pw=Utilidades.getPrintWriter(rutaFichero);
+		Utilidades.escribirMensaje(System.out, "Hola");
+	}
+}

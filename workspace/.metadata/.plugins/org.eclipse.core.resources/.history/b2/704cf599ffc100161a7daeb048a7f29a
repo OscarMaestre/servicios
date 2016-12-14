@@ -1,0 +1,12 @@
+package com.ies.examenhilos;
+
+import java.util.Comparator;
+
+public class ComparadorCadenas implements Comparator<String> {
+
+	@Override
+	public int compare(String cad1, String cad2) {
+		return cad1.compareTo(cad2);
+	}
+
+}

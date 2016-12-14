@@ -1,0 +1,13 @@
+package com.ies.examenhilos;
+
+import java.util.Comparator;
+
+public class ComparadorCadenas implements Comparator<String> {
+
+	@Override
+	public int compare(T arg0, T arg1) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}
