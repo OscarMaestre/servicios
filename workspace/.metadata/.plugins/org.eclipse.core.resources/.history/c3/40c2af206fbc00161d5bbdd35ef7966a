@@ -1,8 +1,0 @@
-package com.ies.casino;
-
-public class Jugador {
-	long saldo;
-	public void addSaldo(long cantidad){
-		saldo = saldo + cantidad;
-	}
-}

@@ -1,9 +1,0 @@
-package com.ies.casino;
-
-public class JugadorParImpar extends Jugador{
-
-	public JugadorParImpar(long saldoInicial) {
-		super(saldoInicial);
-	}
-
-}

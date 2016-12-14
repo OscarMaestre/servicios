@@ -33,11 +33,15 @@ public class Barbero implements Runnable {
 	}
 	@Override
 	public void run() {
+		String nombre=Thread.currentThread().getName();
 		while (true){
 			int silla=this.esperarSillaConCliente();
-			System.out.println("Atendiendo silla:"+silla);
+			System.out.println(nombre +
+					" atendiendo silla:"+silla);
 			esperarTiempoAlAzar();
 			gestorSillas.liberarSilla(silla);
+			System.out.println(nombre +
+					" libera silla:"+silla);
 		}
 	}
 

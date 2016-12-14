@@ -26,14 +26,14 @@ public class GestorSillas {
 		}
 		return -1;
 	}
-	public boolean afeitadoCompleto(int pos){
+	public synchronized boolean afeitadoCompleto(int pos){
 		if (sillaAtendida[pos]==false){
 			return true;
 		}
 		return false;
 		
 	}
-	public void liberarSilla(int pos){
+	public  void liberarSilla(int pos){
 		sillaOcupada[pos]=false;
 		sillaAtendida[pos]=false;
 	}

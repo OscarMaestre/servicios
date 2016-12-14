@@ -21,13 +21,13 @@ public class Cliente implements Runnable{
 		int sillaLibre;
 		sillaLibre=gestorSillas.getSillaLibre();
 		if (sillaLibre==-1){
-			System.out.println("Me voy");
+			//System.out.println("Me voy");
 			return ;
 		}
 		boolean terminar;
 		terminar=gestorSillas.afeitadoCompleto(sillaLibre);
 		while (!terminar){
-			esperarTiempoAlAzar();
+			//esperarTiempoAlAzar();
 			terminar=gestorSillas.afeitadoCompleto(sillaLibre);
 		}
 		
