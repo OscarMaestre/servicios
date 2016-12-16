@@ -4,16 +4,25 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Lanzador {
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException, InterruptedException{
 		/* Si no te deja escribir en este fichero, modifícalo.  */
-		String rutaFichero="c:\\Users\\ogomez\\Downloads\\eclipse\\fich.txt";
+		String rutaFicheroErrores="errores.txt";
+		String rutaFicheroTrazas="trazas.txt";
+		final int MAX_HILOS = 500;
 		
+		ProcesadorMensajes p=new ProcesadorMensajes(rutaFicheroTrazas, rutaFicheroErrores);
+		Thread[] hilos=new Thread[MAX_HILOS];
+		for (int i=0; i<MAX_HILOS; i++){
+			hilos[i]=new Thread(new GeneradorMensajes(p));
+			hilos[i].setName("Generador "+i);
+			hilos[i].start();
+		}
 		
-		PrintWriter pwFichero=Utilidades.getPrintWriter(rutaFichero);
-		Utilidades.escribirMensaje(pwFichero, "Hola");
-		
-		/* Recuerda cerrar ficheros en tu aplicación*/
-		pwFichero.flush();
-		pwFichero.close();
+		System.out.println("Hilos lanzados, esperando la finalización");
+		for (int i=0; i<MAX_HILOS; i++){
+			hilos[i].join();
+		}
+		p.cerrarFicheros();
+		System.out.println("Hilos finalizados. Compruebe el fichero");
 	}
 }
