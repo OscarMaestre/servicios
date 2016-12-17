@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 
 public class ProcesadorMensajes  {
 	private PrintWriter pwFicheroTrazas;
-	int numeroDeEvento=0;
+	int numeroDeMensaje=0;
 	
 	
 	public ProcesadorMensajes(String ficheroTrazas) throws IOException {
@@ -15,8 +15,8 @@ public class ProcesadorMensajes  {
 	
 	public synchronized void escribirTraza(String mensaje){
 		Utilidades.escribirMensaje(this.pwFicheroTrazas,  mensaje);
-		System.out.println(numeroDeEvento);
-		numeroDeEvento++;
+		System.out.println(numeroDeMensaje);
+		numeroDeMensaje++;
 	}
 	public void cerrarFicheros(){
 		this.pwFicheroTrazas.flush();
