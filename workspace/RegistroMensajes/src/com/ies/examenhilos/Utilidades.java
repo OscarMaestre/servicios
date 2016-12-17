@@ -3,9 +3,9 @@ package com.ies.examenhilos;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,8 +65,10 @@ public class Utilidades {
 	 * @throws FileNotFoundException
 	 */
 	public static PrintWriter getPrintWriter(String nombreFichero) throws IOException{
-		System.out.println("Creando el fichero "+nombreFichero);
-		PrintWriter pw			=	new PrintWriter 	( nombreFichero, "UTF-8" );
+		boolean abrirFicheroEnModoAnadido=false;
+				
+		FileWriter  fw			=	new FileWriter 		(nombreFichero, abrirFicheroEnModoAnadido);
+		PrintWriter pw			=	new PrintWriter 	( fw );
 		return pw;
 	}
 	
@@ -93,22 +95,24 @@ public class Utilidades {
 	 * que será muy útil a la hora de ordenar los eventos que se han
 	 * apuntado en el fichero)
 	 */
-	public static void escribirMensaje(PrintWriter pw, String nombreHilo, String mensaje){
+	public static void escribirMensaje(PrintWriter pw,  String mensaje){
 		Date instanteActual=new Date();
 		String cadenaFecha=formateadorFechas.format(instanteActual);
 		
-		pw.println(nombreHilo + "----" + cadenaFecha + " --> "+ mensaje );
+		pw.println(mensaje  + " ---- " + cadenaFecha );
 	}	
 	
 	/**
 	 * Dado un fichero en el que se han apuntado mensajes, ordena
-	 * las líneas por orden de fecha y reescribe el fichero
+	 * las líneas por orden de fecha y escribe un nuevo fichero
 	 * con los eventos ordenados por fecha
 	 * @param nombreFichero Nombre del fichero que deseamos ordenar. Se 
 	 * presupone que en cada línea la fecha va al comienzo
+	 * @param nombreFichero Nombre del fichero en el que deseamos que se
+	 * almacenen las líneas ordenadas
 	 * @throws IOException
 	 */
-	public static void ordenarLineasFichero(String nombreFichero) throws IOException{
+	public static void ordenarLineasFichero(String nombreFichero, String nombreFicheroOrdenado) throws IOException{
 		ComparadorCadenas c=new ComparadorCadenas();
 		ArrayList<String> lineas=new ArrayList<String>();
 		/* Leemos todas las lineas del fichero y las almacenamos*/
@@ -126,7 +130,7 @@ public class Utilidades {
 		
 		
 		/* Y ahora borramos el fichero escribiendo encima las líneas ordenadas*/
-		PrintWriter pw=getPrintWriter(nombreFichero);
+		PrintWriter pw=getPrintWriter(nombreFicheroOrdenado);
 		for (String lineaNueva: lineas){
 			pw.println(lineaNueva);
 		}
