@@ -179,7 +179,7 @@ IP pero <em>solo a veces tendrá un nombre DNS</em>. Para nosotros no habrá dif
 <li>UDP: ofrece velocidad sacrificando la fiabilidad.</li>
 </ul>
 <p>A partir de ahora cuando usemos un número de puerto habrá que comprobar si ese número ya está usado.</p>
-<p>Por ejemplo, es mala idea que nuestros programas usen el puerto 80 TCP, probablemente ya esté en uso.
+<p>Por ejemplo, es mala idea que nuestros servidores usen el puerto 80 TCP para aceptar peticiones, probablemente ya esté en uso.
 Antes de usar un puerto en una aplicación comercial deberíamos consultar la lista de &#8220;IANA assigned ports&#8221;.</p>
 <p>En líneas generales se pueden usar los puertos desde 1024 TCP a 49151 TCP, pero deberíamos comprobar que el número que elegimos no sea un número usado por un puerto de alguna aplicación que haya en la empresa.</p>
 <p>En las prácticas de clase usaremos el 9876 TCP. Si se desea conectar desde el instituto con algún programa ejecutado en casa se deberá &#8220;abrir el puerto 9876 TCP&#8221;. Abrir un puerto consiste en configurar el router para que <strong>SÍ ACEPTE TRÁFICO INICIADO DESDE EL EXTERIOR</strong> cosa que no hace nunca por motivos de protección.</p>
@@ -400,11 +400,11 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <h3>Ejemplo de servidor Java<a class="headerlink" href="#ejemplo-de-servidor-java" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Supongamos que se nos pide crear un servidor de operaciones de cálculo que sea menos estricto que el anterior:</p>
 <ul class="simple">
-<li>Cualquier parámetro que envíe el usuario debe ir terminado en un fin de línea UNIX (&#8220;n&#8221;).</li>
+<li>Cualquier parámetro que envíe el usuario debe ir terminado en un fin de línea UNIX (<code class="docutils literal"><span class="pre">\n</span></code>).</li>
 <li>El usuario enviará primero un símbolo &#8220;+&#8221;, &#8220;-&#8221;, &#8220;*&#8221; o &#8220;/&#8221;.</li>
 <li>Despues se puede enviar un positivo de 1 a 8 cifras. El usuario podría equivocarse y enviar en vez de &#8220;3762&#8221; algo como &#8220;37a62&#8221;. En ese caso se asume que el parámetro es 0.</li>
 <li>Despues se envía un segundo positivo de 1 a 8 cifras igual que el anterior.</li>
-<li>Cuando se haya procesado todo el servidor contestará al cliente con un positivo de 1 a 12 cifras.</li>
+<li>Cuando el servidor haya recogido todos los parámetros contestará al cliente con un positivo de 1 a 16 cifras.</li>
 </ul>
 <p>Antes de empezar crear el código que permita procesar estos parámetros complejos.</p>
 <div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServidorCalculo</span> <span class="o">{</span>
