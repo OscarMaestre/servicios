@@ -76,7 +76,7 @@ Además, Java ofrece clases que gestionan automáticamente los *buffers* por nos
 
 En el primer caso creamos un objeto ``FileReader`` que es capaz de leer caracteres de ``fich1.txt``. Como esto nos parece poco práctico creamos otro objeto a partir del primero de tipo ``BufferedReader`` que nos permitirá leer bloques enteros de texto.
 
-De hecho, si se comprueba la ayuda de la clase ``FileReader`` se verá que solo hay un método ``read`` que devuelve un ``int``, es decir el siguiente **carácter** disponible, lo que hace que el método sea muy incómodo. Sin embargo ``BufferedReader``
+De hecho, si se comprueba la ayuda de la clase ``FileReader`` se verá que solo hay un método ``read`` que devuelve un ``int``, es decir el siguiente **carácter** disponible, lo que hace que el método sea muy incómodo. Sin embargo ``BufferedReader`` nos resuelve esta incomodidad permitiéndonos trabajar con líneas.
 
 Elementos de programación de aplicaciones en red. Librerías.
 -----------------------------------------------------------------------
