@@ -92,7 +92,7 @@ La clase URL
 
 La clase URL permite gestionar accesos a URLs del tipo ``http://marca.com/fichero.html`` y descargar cosas con bastante sencillez.
 
-Al crear un objeto URL se debe capturar la excepción ``MalformedURLException`` que sucede cuando hay algún error en la URL (como escribir ``htp://marca.com``).
+Al crear un objeto URL se debe capturar la excepción ``MalformedURLException`` que sucede cuando hay algún error en la URL, como por ejemplo escribir ``htp://marca.com`` en lugar de ``http://marca.com`` (obsérvese que el primero tiene un sola t en http en lugar de dos).
 
 La clase URL nos ofrece un método ``openStream`` que nos devuelve un flujo básico de bytes. Podemos crear objetos más sofisticados para leer bloques como muestra el programa siguiente:
 

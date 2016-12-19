@@ -105,7 +105,7 @@
 <div class="section" id="la-clase-url">
 <h3>La clase URL<a class="headerlink" href="#la-clase-url" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>La clase URL permite gestionar accesos a URLs del tipo <code class="docutils literal"><span class="pre">http://marca.com/fichero.html</span></code> y descargar cosas con bastante sencillez.</p>
-<p>Al crear un objeto URL se debe capturar la excepción <code class="docutils literal"><span class="pre">MalformedURLException</span></code> que sucede cuando hay algún error en la URL (como escribir <code class="docutils literal"><span class="pre">htp://marca.com</span></code>).</p>
+<p>Al crear un objeto URL se debe capturar la excepción <code class="docutils literal"><span class="pre">MalformedURLException</span></code> que sucede cuando hay algún error en la URL, como por ejemplo escribir <code class="docutils literal"><span class="pre">htp://marca.com</span></code> en lugar de <code class="docutils literal"><span class="pre">http://marca.com</span></code> (obsérvese que el primero tiene un sola t en http en lugar de dos).</p>
 <p>La clase URL nos ofrece un método <code class="docutils literal"><span class="pre">openStream</span></code> que nos devuelve un flujo básico de bytes. Podemos crear objetos más sofisticados para leer bloques como muestra el programa siguiente:</p>
 <div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorDescargas</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">descargarArchivo</span><span class="o">(</span>
