@@ -1,0 +1,12 @@
+import java.net.URL;
+
+public class DescargadorFichero {
+	
+	public void descargarFichero(String urlDescarga, String nombreFichero){
+		URL url=new URL(urlDescarga);
+	}
+	public static void main(String[] args) {
+		
+	}
+
+}

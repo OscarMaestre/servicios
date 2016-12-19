@@ -1,0 +1,14 @@
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class DescargadorFichero {
+	
+	public void descargarFichero(String urlDescarga, String nombreFichero) throws MalformedURLException{
+		URL url=new URL(urlDescarga);
+		InputStream is=url.openStream();
+	}
+	public static void main(String[] args) {
+		
+	}
+
+}

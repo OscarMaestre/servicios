@@ -178,7 +178,7 @@ Otro elemento necesario en la comunicación en redes es el uso de un puerto de u
 
 A partir de ahora cuando usemos un número de puerto habrá que comprobar si ese número ya está usado.
 
-Por ejemplo, es mala idea que nuestros programas usen el puerto 80 TCP, probablemente ya esté en uso.
+Por ejemplo, es mala idea que nuestros servidores usen el puerto 80 TCP para aceptar peticiones, probablemente ya esté en uso.
 Antes de usar un puerto en una aplicación comercial deberíamos consultar la lista de "IANA assigned ports".
 
 En líneas generales se pueden usar los puertos desde 1024 TCP a 49151 TCP, pero deberíamos comprobar que el número que elegimos no sea un número usado por un puerto de alguna aplicación que haya en la empresa.
@@ -439,11 +439,11 @@ Ejemplo de servidor Java
 
 Supongamos que se nos pide crear un servidor de operaciones de cálculo que sea menos estricto que el anterior:
 
-* Cualquier parámetro que envíe el usuario debe ir terminado en un fin de línea UNIX ("\n").
+* Cualquier parámetro que envíe el usuario debe ir terminado en un fin de línea UNIX (``\n``).
 * El usuario enviará primero un símbolo "+", "-", "*" o "/". 
 * Despues se puede enviar un positivo de 1 a 8 cifras. El usuario podría equivocarse y enviar en vez de "3762" algo como "37a62". En ese caso se asume que el parámetro es 0.
 * Despues se envía un segundo positivo de 1 a 8 cifras igual que el anterior.
-* Cuando se haya procesado todo el servidor contestará al cliente con un positivo de 1 a 12 cifras.
+* Cuando el servidor haya recogido todos los parámetros contestará al cliente con un positivo de 1 a 16 cifras.
 
 Antes de empezar crear el código que permita procesar estos parámetros complejos.
 
