@@ -126,7 +126,7 @@ La clase URL nos ofrece un método ``openStream`` que nos devuelve un flujo bás
 				return ;
 			} catch (IOException e) {
 				System.out.println(
-						"Fallo en la lectura del fichero");
+					"Fallo en la lectura del fichero");
 				return ;
 			}
 		}
