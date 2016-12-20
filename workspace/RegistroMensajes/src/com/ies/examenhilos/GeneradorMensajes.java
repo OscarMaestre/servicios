@@ -29,8 +29,9 @@ public class GeneradorMensajes implements Runnable {
 	@Override
 	public void run() {
 		nombreHilo=Thread.currentThread().getName();
-		for (int i=0; i<10; i++){
+		for (int i=0; i<100; i++){
 			tareaCompleja();
+			Utilidades.esperarTiempoAlAzar();
 		}
 
 	}

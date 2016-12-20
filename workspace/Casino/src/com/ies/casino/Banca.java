@@ -15,6 +15,7 @@ public class Banca {
 		RULETA_GIRANDO, PAGANDO_APUESTAS, 
 		EN_BANCARROTA
 	};
+	
 	private Estado estadoRuleta;
 	
 	private ArrayList<Jugador> apostadores;
@@ -66,7 +67,7 @@ public class Banca {
 	}
 	public void girarRuleta() throws InterruptedException{
 		int segundosAzar;
-		System.out.println("¡Empieza el juego!");
+		System.out.println("ï¿½Empieza el juego!");
 		while (estadoRuleta!=Estado.EN_BANCARROTA){
 			estadoRuleta=Estado.ACEPTANDO_APUESTAS;
 			/* Se eligen unos milisegundos al azar para que los jugadores
@@ -77,11 +78,11 @@ public class Banca {
 			Thread.sleep(1000*segundosAzar);
 			
 			
-			System.out.println("Ya no va más, señores. ¡Girando!");
+			System.out.println("Ya no va mï¿½s, seï¿½ores. ï¿½Girando!");
 			estadoRuleta=Estado.RULETA_GIRANDO;
 			Thread.sleep(3000);
 			numeroGanador=generador.nextInt(37);
-			System.out.println("El número ganador es el :"+numeroGanador);
+			System.out.println("El nï¿½mero ganador es el :"+numeroGanador);
 			estadoRuleta=Estado.PAGANDO_APUESTAS;
 			this.comunicarNumeroGanador(numeroGanador);
 			System.out.println("El saldo de la banca es ahora:"+saldo);

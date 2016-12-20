@@ -6,10 +6,9 @@ import java.io.PrintWriter;
 public class ProcesadorMensajes  {
 	private PrintWriter pwFicheroTrazas;
 	int numeroDeMensaje=0;
-	
-	
-	public ProcesadorMensajes(String ficheroTrazas) throws IOException {
-		
+	Pruebas p;
+	public ProcesadorMensajes(Pruebas pruebas,String ficheroTrazas) throws IOException {
+		p=pruebas;
 		pwFicheroTrazas=Utilidades.getPrintWriter(ficheroTrazas);
 	}
 	
@@ -17,6 +16,7 @@ public class ProcesadorMensajes  {
 		Utilidades.escribirMensaje(this.pwFicheroTrazas,  mensaje);
 		System.out.println(numeroDeMensaje);
 		numeroDeMensaje++;
+		p.setEscrituras(this.numeroDeMensaje);
 	}
 	public void cerrarFicheros(){
 		this.pwFicheroTrazas.flush();
