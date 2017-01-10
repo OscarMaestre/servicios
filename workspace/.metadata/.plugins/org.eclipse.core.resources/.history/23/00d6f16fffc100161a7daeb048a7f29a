@@ -1,7 +1,0 @@
-package com.ies.examenhilos;
-
-import java.util.Comparator;
-
-public class ComparadorCadenas implements Comparator<T> {
-
-}

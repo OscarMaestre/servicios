@@ -1,8 +1,0 @@
-package com.ies.examenhilos;
-
-public class Lanzador {
-	public static void main(String[] args){
-		
-		Utilidades.escribirMensaje(System.out, "Hola");
-	}
-}
