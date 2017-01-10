@@ -1,5 +1,0 @@
-package com.ies.barberia;
-
-public class Barbero implements Runnable {
-
-}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.9.21)  19 DEC 2016 14:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.9.21)  10 JAN 2017 12:06
 entering extended mode
 **./Servicios_y_procesos.tex
 (Servicios_y_procesos.tex
@@ -1401,7 +1401,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 254.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 254.
- [2] <configuraciones.png, id=462, 595.47469pt x 472.01344pt>
+ [2] <configuraciones.png, id=467, 595.47469pt x 472.01344pt>
 File: configuraciones.png Graphic file (type png)
 
 <use configuraciones.png>
@@ -2273,7 +2273,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 1398.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 1398.
- <Filosofos.png, id=575, 397.485pt x 289.08pt>
+ <Filosofos.png, id=580, 397.485pt x 289.08pt>
 File: Filosofos.png Graphic file (type png)
 
 <use Filosofos.png>
@@ -2427,7 +2427,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 1611.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 1611.
- <barberodormilon.png, id=598, 397.485pt x 289.08pt>
+ <barberodormilon.png, id=603, 397.485pt x 289.08pt>
 File: barberodormilon.png Graphic file (type png)
 
 <use barberodormilon.png>
@@ -2932,33 +2932,45 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 2265.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 2265.
-LaTeX Info: Redefining \. on input line 2276.
-LaTeX Info: Redefining \% on input line 2276.
+LaTeX Info: Redefining \. on input line 2281.
+LaTeX Info: Redefining \% on input line 2281.
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 2276.
+(babel)             in language  on input line 2281.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 2276.
+(babel)             in language  on input line 2281.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 2276.
+(babel)             in language  on input line 2281.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 2276.
+(babel)             in language  on input line 2281.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 2276.
+(babel)             in language  on input line 2281.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 2276.
+(babel)             in language  on input line 2281.
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 2276.
+(babel)             in language  on input line 2281.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 2276.
+(babel)             in language  on input line 2281.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 2276.
+(babel)             in language  on input line 2281.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 2276.
+(babel)             in language  on input line 2281.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 2276.
+(babel)             in language  on input line 2281.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 2276.
+(babel)             in language  on input line 2281.
  [41]
+Package babel Info: Redefining spanish shorthand <<
+(babel)             in language  on input line 2302.
+Package babel Info: Redefining spanish shorthand >>
+(babel)             in language  on input line 2302.
+Package babel Info: Redefining spanish shorthand "=
+(babel)             in language  on input line 2302.
+Package babel Info: Redefining spanish shorthand "~
+(babel)             in language  on input line 2302.
+Package babel Info: Redefining spanish shorthand "!
+(babel)             in language  on input line 2302.
+Package babel Info: Redefining spanish shorthand "?
+(babel)             in language  on input line 2302.
 Package babel Info: Redefining spanish shorthand <<
 (babel)             in language  on input line 2319.
 Package babel Info: Redefining spanish shorthand >>
@@ -3852,7 +3864,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 3366.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 3366.
- <generacion_clave.png, id=773, 948.54375pt x 379.4175pt>
+ <generacion_clave.png, id=777, 948.54375pt x 379.4175pt>
 File: generacion_clave.png Graphic file (type png)
 
 <use generacion_clave.png>
@@ -4437,14 +4449,14 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 4157.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 4157.
 
 Package rerunfilecheck Info: File `Servicios_y_procesos.out' has not changed.
-(rerunfilecheck)             Checksum: 3CCCEE33B4F714A0A767E5835FA2D2B6;18087.
+(rerunfilecheck)             Checksum: 8BAB18692082C287D058D57A233443B5;18225.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 4157.
  ) 
 Here is how much of TeX's memory you used:
- 14273 strings out of 493334
- 199938 string characters out of 3129789
- 564366 words of memory out of 3000000
- 17225 multiletter control sequences out of 15000+200000
+ 14274 strings out of 493334
+ 199949 string characters out of 3129789
+ 564363 words of memory out of 3000000
+ 17226 multiletter control sequences out of 15000+200000
  63845 words of font info for 81 fonts, out of 3000000 for 9000
  1142 hyphenation exceptions out of 8191
  38i,12n,49p,636b,695s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -4461,9 +4473,9 @@ s/ogomez/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:
 /Users/ogomez/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pf
 b><C:/Users/ogomez/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr
 i8a.pfb>
-Output written on Servicios_y_procesos.pdf (79 pages, 539523 bytes).
+Output written on Servicios_y_procesos.pdf (79 pages, 540065 bytes).
 PDF statistics:
- 961 PDF objects out of 1000 (max. 8388607)
+ 965 PDF objects out of 1000 (max. 8388607)
  261 named destinations out of 1000 (max. 500000)
- 705 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 713 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -69,23 +69,23 @@
 \contentsline {subsection}{\numberline {3.3.3}\texttt {BufferedReaders} y \texttt {PrintWriters}}{40}{subsection.3.3.3}
 \contentsline {section}{\numberline {3.4}Elementos de programaci\IeC {\'o}n de aplicaciones en red. Librer\IeC {\'\i }as.}{40}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}La clase URL}{40}{subsection.3.4.1}
-\contentsline {section}{\numberline {3.5}Funciones y objetos de las librer\IeC {\'\i }as.}{41}{section.3.5}
-\contentsline {subsection}{\numberline {3.5.1}Repaso de redes}{42}{subsection.3.5.1}
-\contentsline {section}{\numberline {3.6}Sockets.}{42}{section.3.6}
-\contentsline {section}{\numberline {3.7}Creaci\IeC {\'o}n de sockets.}{42}{section.3.7}
-\contentsline {section}{\numberline {3.8}Enlazado y establecimiento de conexiones.}{43}{section.3.8}
-\contentsline {section}{\numberline {3.9}Utilizaci\IeC {\'o}n de sockets para la transmisi\IeC {\'o}n y recepci\IeC {\'o}n de informaci\IeC {\'o}n.}{44}{section.3.9}
-\contentsline {subsection}{\numberline {3.9.1}El ejemplo completo}{44}{subsection.3.9.1}
-\contentsline {section}{\numberline {3.10}Programaci\IeC {\'o}n de aplicaciones cliente y servidor.}{45}{section.3.10}
-\contentsline {subsection}{\numberline {3.10.1}Ejemplo de servidor Java}{46}{subsection.3.10.1}
-\contentsline {section}{\numberline {3.11}Utilizaci\IeC {\'o}n de hilos en la programaci\IeC {\'o}n de aplicaciones en red.}{49}{section.3.11}
-\contentsline {subsection}{\numberline {3.11.1}Ejercicio: servicio de ordenaci\IeC {\'o}n}{50}{subsection.3.11.1}
-\contentsline {subsection}{\numberline {3.11.2}Una clase Protocolo}{51}{subsection.3.11.2}
-\contentsline {subsection}{\numberline {3.11.3}Una clase con funciones de utilidad}{51}{subsection.3.11.3}
-\contentsline {subsection}{\numberline {3.11.4}La clase Petici\IeC {\'o}n}{51}{subsection.3.11.4}
-\contentsline {subsection}{\numberline {3.11.5}La clase Servidor}{52}{subsection.3.11.5}
-\contentsline {subsection}{\numberline {3.11.6}La clase Cliente}{53}{subsection.3.11.6}
-\contentsline {subsection}{\numberline {3.11.7}Ampliaci\IeC {\'o}n}{54}{subsection.3.11.7}
+\contentsline {section}{\numberline {3.5}Repaso de redes}{41}{section.3.5}
+\contentsline {section}{\numberline {3.6}Funciones y objetos de las librer\IeC {\'\i }as.}{42}{section.3.6}
+\contentsline {section}{\numberline {3.7}Sockets.}{42}{section.3.7}
+\contentsline {section}{\numberline {3.8}Creaci\IeC {\'o}n de sockets.}{42}{section.3.8}
+\contentsline {section}{\numberline {3.9}Enlazado y establecimiento de conexiones.}{43}{section.3.9}
+\contentsline {section}{\numberline {3.10}Utilizaci\IeC {\'o}n de sockets para la transmisi\IeC {\'o}n y recepci\IeC {\'o}n de informaci\IeC {\'o}n.}{44}{section.3.10}
+\contentsline {subsection}{\numberline {3.10.1}El ejemplo completo}{44}{subsection.3.10.1}
+\contentsline {section}{\numberline {3.11}Programaci\IeC {\'o}n de aplicaciones cliente y servidor.}{45}{section.3.11}
+\contentsline {subsection}{\numberline {3.11.1}Ejemplo de servidor Java}{46}{subsection.3.11.1}
+\contentsline {section}{\numberline {3.12}Utilizaci\IeC {\'o}n de hilos en la programaci\IeC {\'o}n de aplicaciones en red.}{49}{section.3.12}
+\contentsline {subsection}{\numberline {3.12.1}Ejercicio: servicio de ordenaci\IeC {\'o}n}{50}{subsection.3.12.1}
+\contentsline {subsection}{\numberline {3.12.2}Una clase Protocolo}{51}{subsection.3.12.2}
+\contentsline {subsection}{\numberline {3.12.3}Una clase con funciones de utilidad}{51}{subsection.3.12.3}
+\contentsline {subsection}{\numberline {3.12.4}La clase Petici\IeC {\'o}n}{51}{subsection.3.12.4}
+\contentsline {subsection}{\numberline {3.12.5}La clase Servidor}{52}{subsection.3.12.5}
+\contentsline {subsection}{\numberline {3.12.6}La clase Cliente}{53}{subsection.3.12.6}
+\contentsline {subsection}{\numberline {3.12.7}Ampliaci\IeC {\'o}n}{54}{subsection.3.12.7}
 \contentsline {chapter}{\numberline {4}Generaci\IeC {\'o}n de servicios en red}{55}{chapter.4}
 \contentsline {section}{\numberline {4.1}Protocolos est\IeC {\'a}ndar de comunicaci\IeC {\'o}n en red a nivel de aplicaci\IeC {\'o}n}{56}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}Telnet}{56}{subsection.4.1.1}

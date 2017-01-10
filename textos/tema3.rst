@@ -2,6 +2,8 @@
 =======================================
 
 
+
+
 Comunicación entre aplicaciones.
 -----------------------------------------------------------------------
 
@@ -143,21 +145,8 @@ La clase URL nos ofrece un método ``openStream`` que nos devuelve un flujo bás
 	}
 	
 
-
-Funciones y objetos de las librerías.
------------------------------------------------------------------------
-La clase URL proporciona un mecanismo muy sencillo pero por desgracia completamente atado al protocolo de las URL.
-
-Java ofrece otros objetos que permiten tener un mayor control sobre lo que se envía o recibe a través de la red. Por desgracia esto implica que en muchos casos tendremos solo flujos de bajo nivel (streams).
-
-En concreto Java ofrece dos elementos fundamentales para crear programas que usen redes
-
-* Sockets
-* ServerSockets
-
-
 Repaso de redes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 En redes el protocolo IP es el responsable de dos cuestiones fundamentales:
 
@@ -185,6 +174,20 @@ En líneas generales se pueden usar los puertos desde 1024 TCP a 49151 TCP, pero
 
 
 En las prácticas de clase usaremos el 9876 TCP. Si se desea conectar desde el instituto con algún programa ejecutado en casa se deberá "abrir el puerto 9876 TCP". Abrir un puerto consiste en configurar el router para que **SÍ ACEPTE TRÁFICO INICIADO DESDE EL EXTERIOR** cosa que no hace nunca por motivos de protección.
+
+	
+
+Funciones y objetos de las librerías.
+-----------------------------------------------------------------------
+La clase URL proporciona un mecanismo muy sencillo pero por desgracia completamente atado al protocolo de las URL.
+
+Java ofrece otros objetos que permiten tener un mayor control sobre lo que se envía o recibe a través de la red. Por desgracia esto implica que en muchos casos tendremos solo flujos de bajo nivel (streams).
+
+En concreto Java ofrece dos elementos fundamentales para crear programas que usen redes
+
+* Sockets
+* ServerSockets
+
 
 
 Sockets.

@@ -154,17 +154,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="funciones-y-objetos-de-las-librerias">
-<h2>Funciones y objetos de las librerías.<a class="headerlink" href="#funciones-y-objetos-de-las-librerias" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>La clase URL proporciona un mecanismo muy sencillo pero por desgracia completamente atado al protocolo de las URL.</p>
-<p>Java ofrece otros objetos que permiten tener un mayor control sobre lo que se envía o recibe a través de la red. Por desgracia esto implica que en muchos casos tendremos solo flujos de bajo nivel (streams).</p>
-<p>En concreto Java ofrece dos elementos fundamentales para crear programas que usen redes</p>
-<ul class="simple">
-<li>Sockets</li>
-<li>ServerSockets</li>
-</ul>
 <div class="section" id="repaso-de-redes">
-<h3>Repaso de redes<a class="headerlink" href="#repaso-de-redes" title="Enlazar permanentemente con este título">¶</a></h3>
+<h2>Repaso de redes<a class="headerlink" href="#repaso-de-redes" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>En redes el protocolo IP es el responsable de dos cuestiones fundamentales:</p>
 <ul class="simple">
 <li>Establecer un sistema de direcciones universal (direcciones IP)</li>
@@ -184,6 +175,15 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <p>En líneas generales se pueden usar los puertos desde 1024 TCP a 49151 TCP, pero deberíamos comprobar que el número que elegimos no sea un número usado por un puerto de alguna aplicación que haya en la empresa.</p>
 <p>En las prácticas de clase usaremos el 9876 TCP. Si se desea conectar desde el instituto con algún programa ejecutado en casa se deberá &#8220;abrir el puerto 9876 TCP&#8221;. Abrir un puerto consiste en configurar el router para que <strong>SÍ ACEPTE TRÁFICO INICIADO DESDE EL EXTERIOR</strong> cosa que no hace nunca por motivos de protección.</p>
 </div>
+<div class="section" id="funciones-y-objetos-de-las-librerias">
+<h2>Funciones y objetos de las librerías.<a class="headerlink" href="#funciones-y-objetos-de-las-librerias" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>La clase URL proporciona un mecanismo muy sencillo pero por desgracia completamente atado al protocolo de las URL.</p>
+<p>Java ofrece otros objetos que permiten tener un mayor control sobre lo que se envía o recibe a través de la red. Por desgracia esto implica que en muchos casos tendremos solo flujos de bajo nivel (streams).</p>
+<p>En concreto Java ofrece dos elementos fundamentales para crear programas que usen redes</p>
+<ul class="simple">
+<li>Sockets</li>
+<li>ServerSockets</li>
+</ul>
 </div>
 <div class="section" id="sockets">
 <h2>Sockets.<a class="headerlink" href="#sockets" title="Enlazar permanentemente con este título">¶</a></h2>
@@ -862,10 +862,8 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <li><a class="reference internal" href="#la-clase-url">La clase URL</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#funciones-y-objetos-de-las-librerias">Funciones y objetos de las librerías.</a><ul>
 <li><a class="reference internal" href="#repaso-de-redes">Repaso de redes</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#funciones-y-objetos-de-las-librerias">Funciones y objetos de las librerías.</a></li>
 <li><a class="reference internal" href="#sockets">Sockets.</a></li>
 <li><a class="reference internal" href="#creacion-de-sockets">Creación de sockets.</a></li>
 <li><a class="reference internal" href="#enlazado-y-establecimiento-de-conexiones">Enlazado y establecimiento de conexiones.</a></li>
