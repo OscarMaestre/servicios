@@ -1,0 +1,28 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class ServidorCalculo {
+
+	
+	public static void main(String[] args) {
+		ServerSocket socket;
+		Socket cliente;
+		final int PUERTO=9876;
+		try {
+			socket=new ServerSocket(PUERTO);
+			cliente=socket.accept();
+			BufferedReader bfr;
+			PrintWriter pw;
+			
+			InputStream is=cliente.getInputStream();
+			OutputStream os=cliente.getOutputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}

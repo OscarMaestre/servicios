@@ -1,0 +1,13 @@
+
+public class ClienteCalculo {
+
+	public static BufferedReader 
+		getBufferedReader (InputStream is)
+	{
+		
+	}
+	public static void main(String[] args) {
+
+	}
+
+}

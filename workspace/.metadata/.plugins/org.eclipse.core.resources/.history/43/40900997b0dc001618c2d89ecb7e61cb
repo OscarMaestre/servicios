@@ -1,0 +1,20 @@
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
+public class ClienteMaligno {
+	public ClienteMaligno (String ip){
+		InetSocketAddress servidor=
+				new InetSocketAddress(ip, 9876);
+	}
+	public void colgar(){
+		Socket socket=new Socket();
+		InputStream is=socket.getInputStream();
+		BufferedReader bfr=
+				ClienteCalculo.getBufferedReader(is);
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

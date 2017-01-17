@@ -1,9 +1,6 @@
 ﻿Programación de comunicaciones en red
 =======================================
 
-
-
-
 Comunicación entre aplicaciones.
 -----------------------------------------------------------------------
 

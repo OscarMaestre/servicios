@@ -41,6 +41,6 @@ class GestorConexion(socketserver.BaseRequestHandler):
         
 
 
-servidor=socketserver.TCPServer(("10.13.0.20", 9876), GestorConexion)
+servidor=socketserver.TCPServer(("10.13.0.100", 9876), GestorConexion)
 print ("Servidor en marcha.")
 servidor.serve_forever()

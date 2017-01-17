@@ -1,0 +1,21 @@
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+public class ClienteCalculo {
+
+	public static BufferedReader 
+		getBufferedReader (InputStream is)
+	{
+		InputStreamReader isr;
+		isr=new InputStreamReader(is);
+		BufferedReader bfr;
+		bfr=new BufferedReader(isr);
+		return bfr;
+		
+	}
+	public static void main(String[] args) {
+
+	}
+
+}
