@@ -861,6 +861,41 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <li>180 (que es la suma para ZZ)</li>
 </ul>
 </div>
+<div class="section" id="solucion-a-las-sumas-de-verificacion">
+<h2>Solución a las sumas de verificación<a class="headerlink" href="#solucion-a-las-sumas-de-verificacion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El código siguiente ilustra la clase que hace sumas de verificación.</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">CalculadorAreas</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+
+    <span class="kt">float</span> <span class="n">base</span><span class="o">,</span> <span class="n">altura</span><span class="o">,</span> <span class="n">area</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">contador</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">CalculadorAreas</span><span class="o">(</span><span class="kt">float</span> <span class="n">b</span><span class="o">,</span> <span class="kt">float</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">base</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">altura</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">incrementarContador</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">contador</span> <span class="o">=</span> <span class="n">contador</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Random</span> <span class="n">generador</span><span class="o">;</span>
+        <span class="n">generador</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="n">base</span> <span class="o">*</span> <span class="n">altura</span> <span class="o">/</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">650</span><span class="o">));</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// TODO Auto-generated catch block</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">incrementarContador</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -911,6 +946,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </li>
 <li><a class="reference internal" href="#ejercicios">Ejercicios</a><ul>
 <li><a class="reference internal" href="#ejercicio-1">Ejercicio 1</a></li>
+<li><a class="reference internal" href="#solucion-a-las-sumas-de-verificacion">Solución a las sumas de verificación</a></li>
 </ul>
 </li>
 </ul>

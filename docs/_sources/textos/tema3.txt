@@ -936,3 +936,12 @@ Entonces el servidor luego enviará
 * 198 (que es la suma para ABC)
 * 180 (que es la suma para ZZ)
 
+
+
+Solución a las sumas de verificación
+-------------------------------------
+
+El código siguiente ilustra la clase que hace sumas de verificación.
+
+.. literalinclude:: ../listados/Clase_com_ies_CalculadorAreas.java
+   :language: java

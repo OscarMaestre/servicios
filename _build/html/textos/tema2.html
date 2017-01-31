@@ -210,7 +210,23 @@
 </pre></div>
 </div>
 <p>Para implementar la clase <code class="docutils literal"><span class="pre">AreasEnParalelo</span></code> que lanza los hilos para hacer muchos cálculos de áreas en paralelo usaremos esto:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AreasEnParalelo</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
+    <span class="n">InterruptedException</span> <span class="o">{</span>
+        <span class="n">CalculadorAreas</span> <span class="n">ca</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CalculadorAreas</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+        <span class="kd">final</span> <span class="kt">int</span> <span class="n">MAX_HILOS</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">;</span>
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">hilos</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">MAX_HILOS</span><span class="o">];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">MAX_HILOS</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">ca</span><span class="o">);</span>
+            <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">MAX_HILOS</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Total de calculos:&quot;</span> <span class="o">+</span> <span class="n">ca</span><span class="o">.</span><span class="na">contador</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 </pre></div>
 </div>
 <div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.ies</span><span class="o">;</span>
