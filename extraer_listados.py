@@ -132,3 +132,8 @@ e11.extraer_clase()
 e12=Extraccion(clase_cualificada="com.ies.plantilla.Lanzador",
 							dir_proyecto="PlantillaAplicacionMultihilo")
 e12.extraer_clase()
+
+
+e12=Extraccion(clase_cualificada="com.ies.sumasverificacion.Sumador",
+							dir_proyecto="ServicioSumasVerificacion")
+e12.extraer_clase()

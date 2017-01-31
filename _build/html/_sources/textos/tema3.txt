@@ -909,3 +909,30 @@ En el servidor se añade este código extra a la hora de comprobar el protocolo:
 Y finalmente solo habría que implementar un método en la petición que reciba un vector de ``String`` (las palabras) y devuelva el mismo vector pero ordenado.
 
 
+Ejercicios
+===============
+
+Ejercicio 1
+-------------
+
+Crear un servidor multihilo que permita a los clientes calcular "sumas de verificación" compuesta por la suma de los valores ASCII de los carácteres.
+
+Así, la suma de verificación de la cadena "ABC" es 65+66+67=198.
+
+El protocolo será el siguiente:
+
+* El servidor esperá recibir una línea con solo un número positivo. Dicho número es la cantidad de líneas que nos va a enviar el cliente. Supongamos que envía 3.
+
+* Despues se deben recibir 3 líneas. En cada línea hay una sola palabra, de la cual el servidor calculará las sumas.
+
+* Despues el servidor contesta al cliente, y enviará 3 líneas separadas. En cada línea estará la suma de verificación. Las sumas se envían en el mismo orden que se recibieron. Es decir, si el cliente envió estas líneas
+
+* 2
+* ABC
+* ZZ
+
+Entonces el servidor luego enviará
+
+* 198 (que es la suma para ABC)
+* 180 (que es la suma para ZZ)
+
