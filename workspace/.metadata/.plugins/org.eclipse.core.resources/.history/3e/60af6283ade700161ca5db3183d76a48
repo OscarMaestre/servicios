@@ -1,0 +1,50 @@
+package com.ies.sumasverificacion;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+public class HiloConexion implements Runnable{
+
+	BufferedReader bfr;
+	PrintWriter pw;
+	Socket socket;
+	Random generador=new Random();
+	public HiloConexion(Socket socket){
+		this.socket=socket;
+	}
+	public void procesarMensaje() 
+			throws IOException{
+		String lineaNumero=bfr.readLine();
+		
+		//Si el bucle se termina es porque no
+		//hemos encontrado ningún divisor:
+		//Conclusión: sí es primo
+		pw.println("SI");
+		pw.flush();
+		
+		return ;
+		
+	}
+	public void run() {
+		try {
+			bfr=Utilidades.getFlujoLectura(s);
+			pw=Utilidades.getFlujoEscritura(s);
+			
+			//Aquí empezaría el verdadero trabajo
+			
+			
+		} catch (IOException e) {
+			System.out.println(
+				"Hubo una interrupción");
+		}
+		
+	}
+	
+
+}

@@ -1,0 +1,64 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+public class HiloConexion implements Runnable{
+
+	BufferedReader bfr;
+	PrintWriter pw;
+	Socket socket;
+	public HiloConexion(Socket socket){
+		this.socket=socket;
+	}
+	public void procesarMensaje() 
+			throws IOException{
+		String lineaNumero=bfr.readLine();
+		Integer num=Integer.parseInt(lineaNumero);
+		num=Math.abs(num);
+		for (int i=2;i<num;i++){
+			if (num%i==0){
+				pw.println("NO");
+				pw.flush();
+				return ;
+			}
+		}
+		//Si el bucle se termina es porque no
+		//hemos encontrado ningún divisor:
+		//Conclusión: sí es primo
+		pw.println("SI");
+		pw.flush();
+		
+		return ;
+		
+	}
+	public void run() {
+		try {
+			InputStream is=socket.getInputStream();
+			InputStreamReader isr;
+			isr=new InputStreamReader(is);
+			bfr=new BufferedReader(isr);
+			
+			OutputStream os=socket.getOutputStream();
+			OutputStreamWriter osw;
+			osw=new OutputStreamWriter(os);
+			pw=new PrintWriter(osw);
+			
+			//Aquí empezaría el verdadero trabajo
+			while (true){
+				procesarMensaje();
+			}
+			
+		} catch (IOException e) {
+			System.out.println(
+				"Hubo una interrupción");
+		}
+		
+	}
+	
+
+}

@@ -910,10 +910,10 @@ Y finalmente solo habría que implementar un método en la petición que reciba 
 
 
 Ejercicios
-===============
+-----------------
 
-Ejercicio 1
--------------
+Sumas de verificación
+~~~~~~~~~~~~~~~~~~~~~~
 
 Crear un servidor multihilo que permita a los clientes calcular "sumas de verificación" compuesta por la suma de los valores ASCII de los carácteres.
 
@@ -925,7 +925,9 @@ El protocolo será el siguiente:
 
 * Despues se deben recibir 3 líneas. En cada línea hay una sola palabra, de la cual el servidor calculará las sumas.
 
-* Despues el servidor contesta al cliente, y enviará 3 líneas separadas. En cada línea estará la suma de verificación. Las sumas se envían en el mismo orden que se recibieron. Es decir, si el cliente envió estas líneas
+* Despues el servidor contesta al cliente, y enviará 3 líneas separadas. En cada línea estará la suma de verificación. Las sumas se envían en el mismo orden que se recibieron. 
+
+A modo de ejemplo si el cliente envió estas líneas
 
 * 2
 * ABC
@@ -939,9 +941,36 @@ Entonces el servidor luego enviará
 
 
 Solución a las sumas de verificación
--------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 El código siguiente ilustra la clase que hace sumas de verificación.
 
-.. literalinclude:: ../listados/Clase_com_ies_CalculadorAreas.java
+.. literalinclude:: ../listados/Clase_com_ies_sumasverificacion_Sumador.java
    :language: java
+   
+A continuación se muestra el servidor.
+
+
+.. literalinclude:: ../listados/Clase_com_ies_sumasverificacion_Servidor.java
+   :language: java
+   :encoding: utf-8
+   
+   
+
+Y a  continuación el cliente:
+
+.. literalinclude:: ../listados/Clase_com_ies_sumasverificacion_Cliente.java
+   :language: java
+
+   
+Servidor de bases de datos
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Se desea crear un pequeño servidor de datos en el cual los cliente puedan almacenar información de empleados. La unica información que se almacena es su código y su nombre (tampoco hay que preocuparse de qué hacer si se repite un código)
+
+Un cliente puede enviar al servidor varias cosas:
+
+* Puede enviar una linea con el texto "CREAR". En ese caso el cliente debe enviar despues dos líneas.  La primera línea contiene el codigo y la segunda el nombre.
+
+* Un cliente puede enviar la cadena "SELECT". En ese caso el servidor contesta con una línea numérica que indica cuantos empleados hay. Si contesta por ejemplo 2 significa que va a enviar 2 parejas de líneas (codigo, nombre). Si contesta 3 significa que va a enviar 6 líneas indicando los codigos y los nombres de los empleados.
+
