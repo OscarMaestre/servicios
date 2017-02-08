@@ -974,3 +974,27 @@ Un cliente puede enviar al servidor varias cosas:
 
 * Un cliente puede enviar la cadena "SELECT". En ese caso el servidor contesta con una línea numérica que indica cuantos empleados hay. Si contesta por ejemplo 2 significa que va a enviar 2 parejas de líneas (codigo, nombre). Si contesta 3 significa que va a enviar 6 líneas indicando los codigos y los nombres de los empleados.
 
+
+Servidor de eco
+~~~~~~~~~~~~~~~~~~
+
+Se desea crear una aplicación cliente/servidor que consista de las siguientes 
+partes:
+
+* Por un lado habrá un servidor multihilo que implementará la capacidad de 
+"hacer el eco" de las cadenas que reciba. Así, el servidor escuchará una cadena 
+y cuando la reciba devolverá exactamente la misma cadena al cliente. Se da por 
+sentado que se recibirá una sola línea y que el servidor siempre tiene 
+memoria suficiente para leer dicha línea.
+
+* Por otro lado, se desea tener un cliente para hacer pruebas conectándose a 
+dicha servidor. Un cliente simplemente se conecta al servidor, le envía una 
+cadena y espera recibir la misma cadena.
+
+* En último lugar se desea tener una clase que compruebe la capacidad del 
+servidor. Esta clase empezará lanzando muchos clientes a la vez y comprobará si 
+ha habido alguna excepción. Si no la hay es que el servidor es capaz de manejar 
+dicha cantidad de clientes y se incrementará la cantidad total de clientes 
+simultáneos. El cliente irá incrementando la cantidad de clientes hasta lograr 
+una excepción momento en el cual mostrará por pantalla la cantidad total de 
+clientes que pudo manejar el servidor sin generar ninguna excepción.

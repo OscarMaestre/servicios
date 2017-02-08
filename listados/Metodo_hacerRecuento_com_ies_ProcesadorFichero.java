@@ -12,7 +12,7 @@ IOException {
     String lineaLeida;
     lineaLeida = br.readLine();
     int totalVocales = 0;
-    //Mientras no queden líneas....
+    //Mientras no queden lÃ­neas....
     while (lineaLeida != null) {
         //...recorremos la linea...
         for (int i = 0; i < lineaLeida.length(); i++) {
@@ -35,5 +35,5 @@ IOException {
     //Y cerramos los ficheros
     pw.close();
     br.close();
-//Fin del método hacerRecuento
+//Fin del mÃ©todo hacerRecuento
 }

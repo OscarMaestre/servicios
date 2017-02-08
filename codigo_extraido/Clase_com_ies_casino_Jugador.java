@@ -38,7 +38,7 @@ public abstract class Jugador implements Runnable {
         return enBancarrota;
     }
 
-    /* Lo usa la banca para comunicarnos el número*/
+    /* Lo usa la banca para comunicarnos el nÃºmero*/
     public abstract void comunicarNumero(int numero);
 
     public abstract void hacerApuesta();
@@ -46,7 +46,7 @@ public abstract class Jugador implements Runnable {
     /* Todos los jugadores hacen lo mismo:
 	 * Mientras no estemos en bancarrota ni la
 	 * banca tampoco, hacemos apuestas. La banca
-	 * nos dirá el número que haya salido y en 
+	 * nos dirÃ¡ el nÃºmero que haya salido y en 
 	 * ese momento (y si procede) incrementaremos
 	 * nuestro saldo
 	 */
@@ -73,7 +73,7 @@ public abstract class Jugador implements Runnable {
         }
         String nombre = Thread.currentThread().getName();
         if (enBancarrota) {
-            System.out.println(nombre + ": ¡¡Me arruiné!!");
+            System.out.println(nombre + ": Â¡Â¡Me arruinÃ©!!");
             return;
         }
         if (banca.enBancarrota()) {

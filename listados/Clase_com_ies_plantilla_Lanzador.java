@@ -1,28 +1,28 @@
 public class Lanzador {
 
     public Lanzador() {
-        /* Poner aquÌ todo el cÛdigo que
+        /* Poner aqu√≠ todo el c√≥digo que
         	 * se necesite para inicializar los atributos
         	 */
     }
 
-    /* Nadie de fuera puede llamar a este mÈtodo. Ni el main*/
+    /* Nadie de fuera puede llamar a este m√©todo. Ni el main*/
     protected void crearRecursosCompartidos() {
-        /* Crear aquÌ los recursos compartidos. Esto se
-        	 * har· ANTES DE LANZAR LOS HILOS */
+        /* Crear aqu√≠ los recursos compartidos. Esto se
+        	 * har√° ANTES DE LANZAR LOS HILOS */
     }
 
-    /* Nadie de fuera puede llamar a este mÈtodo. Ni el main*/
+    /* Nadie de fuera puede llamar a este m√©todo. Ni el main*/
     protected void crearHilos() {
-        /* Crear aquÌ los hilos. Esto se ejecutar·
+        /* Crear aqu√≠ los hilos. Esto se ejecutar√°
         	 * DESPUES DE CREAR LOS RECURSOS COMPARTIDOS */
     }
 
-    /* Este mÈtodo pone en marcha todo el proceso...*/
+    /* Este m√©todo pone en marcha todo el proceso...*/
     public void lanzar() {
         /* Para ello PRIMERO CREA LOS RECURSOS COMPARTIDOS*/
         crearRecursosCompartidos();
-        /* Y despues crea los hilos, pas·ndoles, si es necesario
+        /* Y despues crea los hilos, pas√°ndoles, si es necesario
          * el o los objetos compartidos */
         crearHilos();
     }
