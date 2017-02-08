@@ -890,6 +890,32 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <li>Un cliente puede enviar la cadena &#8220;SELECT&#8221;. En ese caso el servidor contesta con una línea numérica que indica cuantos empleados hay. Si contesta por ejemplo 2 significa que va a enviar 2 parejas de líneas (codigo, nombre). Si contesta 3 significa que va a enviar 6 líneas indicando los codigos y los nombres de los empleados.</li>
 </ul>
 </div>
+<div class="section" id="servidor-de-eco">
+<h3>Servidor de eco<a class="headerlink" href="#servidor-de-eco" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Se desea crear una aplicación cliente/servidor que consista de las siguientes
+partes:</p>
+<ul class="simple">
+<li>Por un lado habrá un servidor multihilo que implementará la capacidad de</li>
+</ul>
+<p>&#8220;hacer el eco&#8221; de las cadenas que reciba. Así, el servidor escuchará una cadena
+y cuando la reciba devolverá exactamente la misma cadena al cliente. Se da por
+sentado que se recibirá una sola línea y que el servidor siempre tiene
+memoria suficiente para leer dicha línea.</p>
+<ul class="simple">
+<li>Por otro lado, se desea tener un cliente para hacer pruebas conectándose a</li>
+</ul>
+<p>dicha servidor. Un cliente simplemente se conecta al servidor, le envía una
+cadena y espera recibir la misma cadena.</p>
+<ul class="simple">
+<li>En último lugar se desea tener una clase que compruebe la capacidad del</li>
+</ul>
+<p>servidor. Esta clase empezará lanzando muchos clientes a la vez y comprobará si
+ha habido alguna excepción. Si no la hay es que el servidor es capaz de manejar
+dicha cantidad de clientes y se incrementará la cantidad total de clientes
+simultáneos. El cliente irá incrementando la cantidad de clientes hasta lograr
+una excepción momento en el cual mostrará por pantalla la cantidad total de
+clientes que pudo manejar el servidor sin generar ninguna excepción.</p>
+</div>
 </div>
 </div>
 
@@ -941,6 +967,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <li><a class="reference internal" href="#sumas-de-verificacion">Sumas de verificación</a></li>
 <li><a class="reference internal" href="#solucion-a-las-sumas-de-verificacion">Solución a las sumas de verificación</a></li>
 <li><a class="reference internal" href="#servidor-de-bases-de-datos">Servidor de bases de datos</a></li>
+<li><a class="reference internal" href="#servidor-de-eco">Servidor de eco</a></li>
 </ul>
 </li>
 </ul>

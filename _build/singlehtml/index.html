@@ -389,43 +389,11 @@
 <ul class="simple">
 <li>Aunque nos estamos anticipando, puede ser útil tener un método que dado un nombre de fichero nos devuelva un <code class="docutils literal"><span class="pre">ArrayList&lt;String&gt;</span></code> con todas las líneas que hay en el fichero. <strong>En este ejercicio no lo usaremos</strong>. Este método podría implementarse así:</li>
 </ul>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getLineasFichero</span><span class="o">(</span>
-    <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
-    <span class="n">BufferedReader</span> <span class="n">bfr</span> <span class="o">=</span> <span class="n">getBufferedReader</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
-    <span class="c1">//Leemos líneas del fichero...</span>
-    <span class="n">String</span> <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-    <span class="k">while</span> <span class="o">(</span><span class="n">linea</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">//Y las añadimos al array</span>
-        <span class="n">lineas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">linea</span><span class="o">);</span>
-        <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-    <span class="o">}</span>
-    <span class="c1">//Fin del bucle que lee líneas</span>
-    <span class="k">return</span> <span class="n">lineas</span><span class="o">;</span>
-<span class="o">}</span>
-</pre></div>
-</div>
 </div>
 <div class="section" id="procesado-de-ficheros">
 <h4>Procesado de ficheros<a class="headerlink" href="#procesado-de-ficheros" title="Enlazar permanentemente con este título">¶</a></h4>
 <p>Necesitaremos una clase <code class="docutils literal"><span class="pre">ProcesadorFichero</span></code> que nos permita procesar los ficheros de la forma pedida. Antes de crear un programa multiproceso empezaremos por crear una clase simple que nos resuelva este problema.</p>
 <p>Dicha clase tendrá un método <code class="docutils literal"><span class="pre">hacerRecuento</span></code> que resuelva el problema de contar el número de apariciones en un fichero dejando el total de apariciones en un fichero de salida distintos. En el código adjunto podemos ver como podría implementarse dicho método.</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getLineasFichero</span><span class="o">(</span>
-    <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
-    <span class="n">BufferedReader</span> <span class="n">bfr</span> <span class="o">=</span> <span class="n">getBufferedReader</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
-    <span class="c1">//Leemos líneas del fichero...</span>
-    <span class="n">String</span> <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-    <span class="k">while</span> <span class="o">(</span><span class="n">linea</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">//Y las añadimos al array</span>
-        <span class="n">lineas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">linea</span><span class="o">);</span>
-        <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-    <span class="o">}</span>
-    <span class="c1">//Fin del bucle que lee líneas</span>
-    <span class="k">return</span> <span class="n">lineas</span><span class="o">;</span>
-<span class="o">}</span>
-</pre></div>
-</div>
 <p>La clase <code class="docutils literal"><span class="pre">ProcesadorFichero</span></code> será lanzada desde otra clase que llamaremos <code class="docutils literal"><span class="pre">Lanzador</span></code>. Nuestra <code class="docutils literal"><span class="pre">ProcesadorFichero</span></code> recogerá en su método <code class="docutils literal"><span class="pre">main</span></code> los siguientes parámetros:</p>
 <ol class="arabic simple">
 <li>El nombre del fichero a procesar. Lo llamaremos <code class="docutils literal"><span class="pre">nombreFicheroEntrada</span></code> y estará en la posición 0 de los argumentos.</li>
@@ -433,23 +401,6 @@
 <li>El nombre del fichero donde se dejarán los resultados. Lo llamaremos <code class="docutils literal"><span class="pre">nombreFicheroResultado</span></code> y estará en la posición 1 de los argumentos.</li>
 </ol>
 <p>El código del main se muestra a continuación.</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="cm">/**</span>
-<span class="cm">	 * Dado un fichero pasado como argumento, contará cuantas</span>
-<span class="cm">	 * apariciones hay de una cierta vocal (pasada como argumento)</span>
-<span class="cm">	 * y dejará la cantidad en otro fichero (también pasado como</span>
-<span class="cm">	 * argumento)</span>
-<span class="cm">	 * @throws IOException</span>
-<span class="cm">	 * @throws FileNotFoundException  */</span>
-<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
-<span class="n">FileNotFoundException</span><span class="o">,</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="n">String</span> <span class="n">nombreFicheroEntrada</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
-    <span class="n">String</span> <span class="n">letra</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
-    <span class="n">String</span> <span class="n">nombreFicheroResultado</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
-    <span class="n">hacerRecuento</span><span class="o">(</span><span class="n">nombreFicheroEntrada</span><span class="o">,</span> <span class="n">letra</span><span class="o">,</span> <span class="n">nombreFicheroResultado</span><span class="o">);</span>
-<span class="c1">//Fin del main</span>
-<span class="o">}</span>
-</pre></div>
-</div>
 </div>
 </div>
 <div class="section" id="lanzamiento-de-los-procesos">
@@ -463,38 +414,6 @@
 <li>Los procesos se ejecutarán y después recogeremos los resultados de los ficheros.</li>
 </ol>
 <p>En el código siguiente puede verse el método <code class="docutils literal"><span class="pre">main</span></code> de esta clase <code class="docutils literal"><span class="pre">Lanzador</span></code>. La recogida de resultados se deja como ejercicio:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
-<span class="n">IOException</span><span class="o">,</span> <span class="n">InterruptedException</span> <span class="o">{</span>
-    <span class="n">String</span> <span class="n">ficheroEntrada</span><span class="o">;</span>
-    <span class="n">ficheroEntrada</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
-    <span class="n">String</span> <span class="n">classpathUtilidades</span><span class="o">;</span>
-    <span class="n">classpathUtilidades</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
-    <span class="n">String</span> <span class="n">classpathProcesadorFichero</span><span class="o">;</span>
-    <span class="n">classpathProcesadorFichero</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
-    <span class="n">String</span><span class="o">[]</span> <span class="n">vocales</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&quot;A&quot;</span><span class="o">,</span> <span class="s">&quot;E&quot;</span><span class="o">,</span> <span class="s">&quot;I&quot;</span><span class="o">,</span> <span class="s">&quot;O&quot;</span><span class="o">,</span> <span class="s">&quot;U&quot;</span> <span class="o">};</span>
-    <span class="n">String</span> <span class="n">classPath</span><span class="o">;</span>
-    <span class="n">classPath</span> <span class="o">=</span> <span class="n">classpathProcesadorFichero</span> <span class="o">+</span> <span class="s">&quot;:&quot;</span> <span class="o">+</span> <span class="n">classpathUtilidades</span><span class="o">;</span>
-    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Usando classpath:&quot;</span> <span class="o">+</span> <span class="n">classPath</span><span class="o">);</span>
-    <span class="cm">/* Se lanzan los procesos*/</span>
-    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vocales</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-        <span class="n">String</span> <span class="n">fichErrores</span> <span class="o">=</span> <span class="s">&quot;Errores_&quot;</span> <span class="o">+</span> <span class="n">vocales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span>
-                             <span class="s">&quot;.txt&quot;</span><span class="o">;</span>
-        <span class="n">ProcessBuilder</span> <span class="n">pb</span><span class="o">;</span>
-        <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">(</span><span class="s">&quot;java&quot;</span><span class="o">,</span> <span class="s">&quot;-cp&quot;</span><span class="o">,</span> <span class="n">classPath</span><span class="o">,</span>
-                                <span class="s">&quot;com.ies.ProcesadorFichero&quot;</span><span class="o">,</span> <span class="n">ficheroEntrada</span><span class="o">,</span>
-                                <span class="n">vocales</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">vocales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="s">&quot;.txt&quot;</span><span class="o">);</span>
-        <span class="c1">//Si hay algún error, almacenarlo en un fichero</span>
-        <span class="n">pb</span><span class="o">.</span><span class="na">redirectError</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">fichErrores</span><span class="o">));</span>
-        <span class="n">pb</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-        <span class="c1">//Fin del for</span>
-    <span class="o">}</span>
-    <span class="cm">/* Esperamos un poco*/</span>
-    <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">3000</span><span class="o">);</span>
-    <span class="cm">/* La recogida de resultados se deja como</span>
-<span class="cm">    		 * ejercicio al lector. ;) */</span>
-<span class="o">}</span>
-</pre></div>
-</div>
 </div>
 <div class="section" id="ejercicio-propuesto-i">
 <h3>Ejercicio propuesto (I)<a class="headerlink" href="#ejercicio-propuesto-i" title="Enlazar permanentemente con este título">¶</a></h3>
@@ -512,34 +431,6 @@
 <p>Este ejercicio es bastante parecido al anterior, con la salvedad de que ahora necesitaremos sumar cantidades en lugar de buscar elementos. Por lo demás,  también generaremos un fichero de resultados por cada fichero de datos y los llamaremos igual pero añadiendo la extensión &#8221;.res&#8221;. Es decir, la suma de las cantidades de <code class="docutils literal"><span class="pre">informatica.txt</span></code> se dejará en <code class="docutils literal"><span class="pre">informatica.txt.res</span></code>.</p>
 <p>Una vez generados todos los fichero <code class="docutils literal"><span class="pre">Resultado</span></code> tendremos que sumar todas las cantidades de estos ficheros. Su estructura es muy simple, todos contienen una única línea con una cantidad. Dado que esta operación de sumar cantidades almacenadas en distintos ficheros es una operación muy habitual, añadiremos un método a <code class="docutils literal"><span class="pre">UtilidadesFicheros</span></code> que se encargue de hacer esta operación. Obsérvese que usaremos tipos de datos <code class="docutils literal"><span class="pre">long</span></code> y no <code class="docutils literal"><span class="pre">int</span></code> dado que no sabemos como de grandes serán las cantidades a procesar.</p>
 <p>A continuación se muestra el código de este método.</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="c1">//Fin de getLineasFichero</span>
-<span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getSuma</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span>
-                           <span class="n">listaNombresFichero</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kt">long</span> <span class="n">suma</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span><span class="o">;</span>
-    <span class="n">String</span> <span class="n">lineaCantidad</span><span class="o">;</span>
-    <span class="kt">long</span> <span class="n">cantidad</span><span class="o">;</span>
-    <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">nombreFichero</span> <span class="o">:</span> <span class="n">listaNombresFichero</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">try</span> <span class="o">{</span>
-            <span class="c1">//Recuperamos todas las lineas</span>
-            <span class="n">lineas</span> <span class="o">=</span> <span class="n">getLineasFichero</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
-            <span class="c1">//Pero solo nos interesa la primera</span>
-            <span class="n">lineaCantidad</span> <span class="o">=</span> <span class="n">lineas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
-            <span class="c1">//Convertimos la linea a número</span>
-            <span class="n">cantidad</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">lineaCantidad</span><span class="o">);</span>
-            <span class="c1">//Y se incrementa la suma total</span>
-            <span class="n">suma</span> <span class="o">=</span> <span class="n">suma</span> <span class="o">+</span> <span class="n">cantidad</span><span class="o">;</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Fallo al procesar el fichero &quot;</span>
-                               <span class="o">+</span> <span class="n">nombreFichero</span><span class="o">);</span>
-            <span class="c1">//Fin del catch</span>
-        <span class="o">}</span>
-        <span class="c1">//Fin del for que recorre los nombres de fichero</span>
-    <span class="o">}</span>
-    <span class="k">return</span> <span class="n">suma</span><span class="o">;</span>
-<span class="o">}</span>
-</pre></div>
-</div>
 <p>Una vez creado este método que usaremos al final, pasemos a crear una clase <code class="docutils literal"><span class="pre">ProcesadorContabilidad</span></code> que leerá un fichero, sumará las cantidades y las dejará en el fichero de resultados. Esta clase solo tendrá un método <code class="docutils literal"><span class="pre">main</span></code> que realizará esta tarea.</p>
 <p>Como nuestro programa está formado por varias clases que están dispersas por distintos directorios, nuestro <code class="docutils literal"><span class="pre">main</span></code> tomará el <code class="docutils literal"><span class="pre">CLASSPATH</span></code> de los argumentos.</p>
 <div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
@@ -550,7 +441,8 @@
     <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
     <span class="k">try</span> <span class="o">{</span>
         <span class="c1">//Extraemos las cantidades</span>
-        <span class="n">cantidades</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getLineasFichero</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+        <span class="n">cantidades</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getLineasFichero</span><span class="o">(</span>
+            <span class="n">nombreFichero</span><span class="o">);</span>
         <span class="c1">//Y las sumamos una por una</span>
         <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">lineaCantidad</span> <span class="o">:</span> <span class="n">cantidades</span><span class="o">)</span> <span class="o">{</span>
             <span class="kt">long</span> <span class="n">cantidad</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">lineaCantidad</span><span class="o">);</span>
@@ -559,13 +451,14 @@
         <span class="o">}</span>
         <span class="c1">//Almacenamos el total en un fichero</span>
         <span class="n">PrintWriter</span> <span class="n">pw</span><span class="o">;</span>
-        <span class="n">pw</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getPrintWriter</span><span class="o">(</span><span class="n">nombreFicheroResultado</span><span class="o">);</span>
+        <span class="n">pw</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getPrintWriter</span><span class="o">(</span>
+                 <span class="n">nombreFicheroResultado</span><span class="o">);</span>
         <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">total</span><span class="o">);</span>
         <span class="n">pw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
     <span class="o">}</span><span class="c1">//Fin del try</span>
     <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;No se pudo procesar el fichero &quot;</span>
-        <span class="o">+</span> <span class="n">nombreFichero</span><span class="o">);</span>
+                           <span class="o">+</span> <span class="n">nombreFichero</span><span class="o">);</span>
         <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
     <span class="o">}</span>
 <span class="c1">//Fin del main</span>
@@ -573,43 +466,6 @@
 </pre></div>
 </div>
 <p>Por último, solo queda crear la clase <code class="docutils literal"><span class="pre">Lanzador</span></code> que recogerá los nombres de fichero que hay que sumar y lanzará un proceso de la clase <code class="docutils literal"><span class="pre">ProcesadorContabilidad</span></code> para cada uno de ellos. Por último, sumará todos los resultados y los dejará en un fichero que llamaremos (por ejemplo) <code class="docutils literal"><span class="pre">Resultado_global.txt</span></code></p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
-<span class="n">IOException</span> <span class="o">{</span>
-    <span class="n">String</span> <span class="n">classpath</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
-    <span class="n">String</span><span class="o">[]</span> <span class="n">ficheros</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&quot;informatica.txt&quot;</span><span class="o">,</span> <span class="s">&quot;gerencia.txt&quot;</span><span class="o">,</span> <span class="s">&quot;contabilidad.txt&quot;</span><span class="o">,</span> <span class="s">&quot;comercio.txt&quot;</span><span class="o">,</span> <span class="s">&quot;rrhh.txt&quot;</span> <span class="o">};</span>
-    <span class="c1">//Los nombres de los ficheros de resultados</span>
-    <span class="c1">//se generarán y luego se almacenarán aquí</span>
-    <span class="n">String</span><span class="o">[]</span> <span class="n">ficherosResultado</span><span class="o">;</span>
-    <span class="n">ficherosResultado</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">ficheros</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
-    <span class="cm">/* Lanzamos los procesos*/</span>
-    <span class="n">ProcessBuilder</span><span class="o">[]</span> <span class="n">constructores</span><span class="o">;</span>
-    <span class="n">constructores</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">[</span><span class="n">ficheros</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
-    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ficheros</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-        <span class="n">String</span> <span class="n">fichResultado</span><span class="o">,</span> <span class="n">fichErrores</span><span class="o">;</span>
-        <span class="n">fichResultado</span> <span class="o">=</span> <span class="n">ficheros</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">SUFIJO_RESULTADO</span><span class="o">;</span>
-        <span class="n">fichErrores</span> <span class="o">=</span> <span class="n">ficheros</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">SUFIJO_ERRORES</span><span class="o">;</span>
-        <span class="n">ficherosResultado</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">fichResultado</span><span class="o">;</span>
-        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">();</span>
-        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">command</span><span class="o">(</span><span class="s">&quot;java&quot;</span><span class="o">,</span> <span class="s">&quot;-cp&quot;</span><span class="o">,</span> <span class="n">classpath</span><span class="o">,</span>
-                                 <span class="s">&quot;com.ies.ProcesadorContabilidad&quot;</span><span class="o">,</span> <span class="n">ficheros</span><span class="o">[</span><span class="n">i</span><span class="o">],</span>
-                                 <span class="n">fichResultado</span><span class="o">);</span>
-        <span class="c1">//El fichero de errores se generará, aunque</span>
-        <span class="c1">//puede que vacío</span>
-        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">redirectError</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span>
-                                           <span class="n">fichErrores</span><span class="o">));</span>
-        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
-        <span class="c1">//Fin del for que recorre los ficheros</span>
-    <span class="o">}</span>
-    <span class="c1">//Calculamos las sumas de cantidades</span>
-    <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getSuma</span><span class="o">(</span><span class="n">ficherosResultado</span><span class="o">);</span>
-    <span class="c1">//Y las almacenamos</span>
-    <span class="n">PrintWriter</span> <span class="n">pw</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getPrintWriter</span><span class="o">(</span><span class="n">RESULTADOS_GLOBALES</span><span class="o">);</span>
-    <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">total</span><span class="o">);</span>
-    <span class="n">pw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-<span class="c1">//Fin del main</span>
-<span class="o">}</span>
-</pre></div>
-</div>
 </div>
 </div>
 <div class="section" id="gestion-de-procesos">
@@ -1740,6 +1596,12 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="documentacion">
 <h3>Documentación.<a class="headerlink" href="#documentacion" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La estructura general de toda aplicación multihilo es algo similar a lo siguiente:</p>
+<ul class="simple">
+<li>Habrá tareas que se puedan paralelizar. Dichas tareas heredarán de <code class="docutils literal"><span class="pre">Runnable</span></code>.</li>
+<li>Habrá procesos que pueden ser accedidos por muchos hilos. Estos objetos <strong>deberán usar synchronized</strong></li>
+<li>Habrá que crear los recursos compartidos y crear los hilos. Esta operación se debe hacer en este orden.</li>
+</ul>
 </div>
 <div class="section" id="depuracion">
 <h3>Depuración.<a class="headerlink" href="#depuracion" title="Enlazar permanentemente con este título">¶</a></h3>
@@ -1798,7 +1660,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </pre></div>
 </div>
 <p>En el primer caso creamos un objeto <code class="docutils literal"><span class="pre">FileReader</span></code> que es capaz de leer caracteres de <code class="docutils literal"><span class="pre">fich1.txt</span></code>. Como esto nos parece poco práctico creamos otro objeto a partir del primero de tipo <code class="docutils literal"><span class="pre">BufferedReader</span></code> que nos permitirá leer bloques enteros de texto.</p>
-<p>De hecho, si se comprueba la ayuda de la clase <code class="docutils literal"><span class="pre">FileReader</span></code> se verá que solo hay un método <code class="docutils literal"><span class="pre">read</span></code> que devuelve un <code class="docutils literal"><span class="pre">int</span></code>, es decir el siguiente <strong>carácter</strong> disponible, lo que hace que el método sea muy incómodo. Sin embargo <code class="docutils literal"><span class="pre">BufferedReader</span></code></p>
+<p>De hecho, si se comprueba la ayuda de la clase <code class="docutils literal"><span class="pre">FileReader</span></code> se verá que solo hay un método <code class="docutils literal"><span class="pre">read</span></code> que devuelve un <code class="docutils literal"><span class="pre">int</span></code>, es decir el siguiente <strong>carácter</strong> disponible, lo que hace que el método sea muy incómodo. Sin embargo <code class="docutils literal"><span class="pre">BufferedReader</span></code> nos resuelve esta incomodidad permitiéndonos trabajar con líneas.</p>
 </div>
 </div>
 <div class="section" id="elementos-de-programacion-de-aplicaciones-en-red-librerias">
@@ -1808,7 +1670,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <div class="section" id="la-clase-url">
 <h4>La clase URL<a class="headerlink" href="#la-clase-url" title="Enlazar permanentemente con este título">¶</a></h4>
 <p>La clase URL permite gestionar accesos a URLs del tipo <code class="docutils literal"><span class="pre">http://marca.com/fichero.html</span></code> y descargar cosas con bastante sencillez.</p>
-<p>Al crear un objeto URL se debe capturar la excepción <code class="docutils literal"><span class="pre">MalformedURLException</span></code> que sucede cuando hay algún error en la URL (como escribir <code class="docutils literal"><span class="pre">htp://marca.com</span></code>).</p>
+<p>Al crear un objeto URL se debe capturar la excepción <code class="docutils literal"><span class="pre">MalformedURLException</span></code> que sucede cuando hay algún error en la URL, como por ejemplo escribir <code class="docutils literal"><span class="pre">htp://marca.com</span></code> en lugar de <code class="docutils literal"><span class="pre">http://marca.com</span></code> (obsérvese que el primero tiene un sola t en http en lugar de dos).</p>
 <p>La clase URL nos ofrece un método <code class="docutils literal"><span class="pre">openStream</span></code> que nos devuelve un flujo básico de bytes. Podemos crear objetos más sofisticados para leer bloques como muestra el programa siguiente:</p>
 <div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorDescargas</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">descargarArchivo</span><span class="o">(</span>
@@ -1838,7 +1700,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
                         <span class="k">return</span> <span class="o">;</span>
                 <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
                         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                                        <span class="s">&quot;Fallo en la lectura del fichero&quot;</span><span class="o">);</span>
+                                <span class="s">&quot;Fallo en la lectura del fichero&quot;</span><span class="o">);</span>
                         <span class="k">return</span> <span class="o">;</span>
                 <span class="o">}</span>
         <span class="o">}</span>
@@ -1857,17 +1719,8 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 </div>
 </div>
-<div class="section" id="funciones-y-objetos-de-las-librerias">
-<h3>Funciones y objetos de las librerías.<a class="headerlink" href="#funciones-y-objetos-de-las-librerias" title="Enlazar permanentemente con este título">¶</a></h3>
-<p>La clase URL proporciona un mecanismo muy sencillo pero por desgracia completamente atado al protocolo de las URL.</p>
-<p>Java ofrece otros objetos que permiten tener un mayor control sobre lo que se envía o recibe a través de la red. Por desgracia esto implica que en muchos casos tendremos solo flujos de bajo nivel (streams).</p>
-<p>En concreto Java ofrece dos elementos fundamentales para crear programas que usen redes</p>
-<ul class="simple">
-<li>Sockets</li>
-<li>ServerSockets</li>
-</ul>
 <div class="section" id="repaso-de-redes">
-<h4>Repaso de redes<a class="headerlink" href="#repaso-de-redes" title="Enlazar permanentemente con este título">¶</a></h4>
+<h3>Repaso de redes<a class="headerlink" href="#repaso-de-redes" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>En redes el protocolo IP es el responsable de dos cuestiones fundamentales:</p>
 <ul class="simple">
 <li>Establecer un sistema de direcciones universal (direcciones IP)</li>
@@ -1882,11 +1735,20 @@ IP pero <em>solo a veces tendrá un nombre DNS</em>. Para nosotros no habrá dif
 <li>UDP: ofrece velocidad sacrificando la fiabilidad.</li>
 </ul>
 <p>A partir de ahora cuando usemos un número de puerto habrá que comprobar si ese número ya está usado.</p>
-<p>Por ejemplo, es mala idea que nuestros programas usen el puerto 80 TCP, probablemente ya esté en uso.
+<p>Por ejemplo, es mala idea que nuestros servidores usen el puerto 80 TCP para aceptar peticiones, probablemente ya esté en uso.
 Antes de usar un puerto en una aplicación comercial deberíamos consultar la lista de &#8220;IANA assigned ports&#8221;.</p>
 <p>En líneas generales se pueden usar los puertos desde 1024 TCP a 49151 TCP, pero deberíamos comprobar que el número que elegimos no sea un número usado por un puerto de alguna aplicación que haya en la empresa.</p>
 <p>En las prácticas de clase usaremos el 9876 TCP. Si se desea conectar desde el instituto con algún programa ejecutado en casa se deberá &#8220;abrir el puerto 9876 TCP&#8221;. Abrir un puerto consiste en configurar el router para que <strong>SÍ ACEPTE TRÁFICO INICIADO DESDE EL EXTERIOR</strong> cosa que no hace nunca por motivos de protección.</p>
 </div>
+<div class="section" id="funciones-y-objetos-de-las-librerias">
+<h3>Funciones y objetos de las librerías.<a class="headerlink" href="#funciones-y-objetos-de-las-librerias" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La clase URL proporciona un mecanismo muy sencillo pero por desgracia completamente atado al protocolo de las URL.</p>
+<p>Java ofrece otros objetos que permiten tener un mayor control sobre lo que se envía o recibe a través de la red. Por desgracia esto implica que en muchos casos tendremos solo flujos de bajo nivel (streams).</p>
+<p>En concreto Java ofrece dos elementos fundamentales para crear programas que usen redes</p>
+<ul class="simple">
+<li>Sockets</li>
+<li>ServerSockets</li>
+</ul>
 </div>
 <div class="section" id="sockets">
 <h3>Sockets.<a class="headerlink" href="#sockets" title="Enlazar permanentemente con este título">¶</a></h3>
@@ -2103,11 +1965,11 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <h4>Ejemplo de servidor Java<a class="headerlink" href="#ejemplo-de-servidor-java" title="Enlazar permanentemente con este título">¶</a></h4>
 <p>Supongamos que se nos pide crear un servidor de operaciones de cálculo que sea menos estricto que el anterior:</p>
 <ul class="simple">
-<li>Cualquier parámetro que envíe el usuario debe ir terminado en un fin de línea UNIX (&#8220;n&#8221;).</li>
+<li>Cualquier parámetro que envíe el usuario debe ir terminado en un fin de línea UNIX (<code class="docutils literal"><span class="pre">\n</span></code>).</li>
 <li>El usuario enviará primero un símbolo &#8220;+&#8221;, &#8220;-&#8221;, &#8220;*&#8221; o &#8220;/&#8221;.</li>
 <li>Despues se puede enviar un positivo de 1 a 8 cifras. El usuario podría equivocarse y enviar en vez de &#8220;3762&#8221; algo como &#8220;37a62&#8221;. En ese caso se asume que el parámetro es 0.</li>
 <li>Despues se envía un segundo positivo de 1 a 8 cifras igual que el anterior.</li>
-<li>Cuando se haya procesado todo el servidor contestará al cliente con un positivo de 1 a 12 cifras.</li>
+<li>Cuando el servidor haya recogido todos los parámetros contestará al cliente con un positivo de 1 a 16 cifras.</li>
 </ul>
 <p>Antes de empezar crear el código que permita procesar estos parámetros complejos.</p>
 <div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServidorCalculo</span> <span class="o">{</span>
@@ -2540,6 +2402,84 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </pre></div>
 </div>
 <p>Y finalmente solo habría que implementar un método en la petición que reciba un vector de <code class="docutils literal"><span class="pre">String</span></code> (las palabras) y devuelva el mismo vector pero ordenado.</p>
+</div>
+</div>
+<div class="section" id="ejercicios">
+<h3>Ejercicios<a class="headerlink" href="#ejercicios" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="section" id="sumas-de-verificacion">
+<h4>Sumas de verificación<a class="headerlink" href="#sumas-de-verificacion" title="Enlazar permanentemente con este título">¶</a></h4>
+<p>Crear un servidor multihilo que permita a los clientes calcular &#8220;sumas de verificación&#8221; compuesta por la suma de los valores ASCII de los carácteres.</p>
+<p>Así, la suma de verificación de la cadena &#8220;ABC&#8221; es 65+66+67=198.</p>
+<p>El protocolo será el siguiente:</p>
+<ul class="simple">
+<li>El servidor esperá recibir una línea con solo un número positivo. Dicho número es la cantidad de líneas que nos va a enviar el cliente. Supongamos que envía 3.</li>
+<li>Despues se deben recibir 3 líneas. En cada línea hay una sola palabra, de la cual el servidor calculará las sumas.</li>
+<li>Despues el servidor contesta al cliente, y enviará 3 líneas separadas. En cada línea estará la suma de verificación. Las sumas se envían en el mismo orden que se recibieron.</li>
+</ul>
+<p>A modo de ejemplo si el cliente envió estas líneas</p>
+<ul class="simple">
+<li>2</li>
+<li>ABC</li>
+<li>ZZ</li>
+</ul>
+<p>Entonces el servidor luego enviará</p>
+<ul class="simple">
+<li>198 (que es la suma para ABC)</li>
+<li>180 (que es la suma para ZZ)</li>
+</ul>
+</div>
+<div class="section" id="solucion-a-las-sumas-de-verificacion">
+<h4>Solución a las sumas de verificación<a class="headerlink" href="#solucion-a-las-sumas-de-verificacion" title="Enlazar permanentemente con este título">¶</a></h4>
+<p>El código siguiente ilustra la clase que hace sumas de verificación.</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sumador</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">sumaSimple</span><span class="o">(</span><span class="n">String</span> <span class="n">cad</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">suma</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">cad</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">suma</span> <span class="o">+=</span> <span class="n">cad</span><span class="o">.</span><span class="na">codePointAt</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">suma</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>A continuación se muestra el servidor.</p>
+<p>Y a  continuación el cliente:</p>
+</div>
+<div class="section" id="servidor-de-bases-de-datos">
+<h4>Servidor de bases de datos<a class="headerlink" href="#servidor-de-bases-de-datos" title="Enlazar permanentemente con este título">¶</a></h4>
+<p>Se desea crear un pequeño servidor de datos en el cual los cliente puedan almacenar información de empleados. La unica información que se almacena es su código y su nombre (tampoco hay que preocuparse de qué hacer si se repite un código)</p>
+<p>Un cliente puede enviar al servidor varias cosas:</p>
+<ul class="simple">
+<li>Puede enviar una linea con el texto &#8220;CREAR&#8221;. En ese caso el cliente debe enviar despues dos líneas.  La primera línea contiene el codigo y la segunda el nombre.</li>
+<li>Un cliente puede enviar la cadena &#8220;SELECT&#8221;. En ese caso el servidor contesta con una línea numérica que indica cuantos empleados hay. Si contesta por ejemplo 2 significa que va a enviar 2 parejas de líneas (codigo, nombre). Si contesta 3 significa que va a enviar 6 líneas indicando los codigos y los nombres de los empleados.</li>
+</ul>
+</div>
+<div class="section" id="servidor-de-eco">
+<h4>Servidor de eco<a class="headerlink" href="#servidor-de-eco" title="Enlazar permanentemente con este título">¶</a></h4>
+<p>Se desea crear una aplicación cliente/servidor que consista de las siguientes
+partes:</p>
+<ul class="simple">
+<li>Por un lado habrá un servidor multihilo que implementará la capacidad de</li>
+</ul>
+<p>&#8220;hacer el eco&#8221; de las cadenas que reciba. Así, el servidor escuchará una cadena
+y cuando la reciba devolverá exactamente la misma cadena al cliente. Se da por
+sentado que se recibirá una sola línea y que el servidor siempre tiene
+memoria suficiente para leer dicha línea.</p>
+<ul class="simple">
+<li>Por otro lado, se desea tener un cliente para hacer pruebas conectándose a</li>
+</ul>
+<p>dicha servidor. Un cliente simplemente se conecta al servidor, le envía una
+cadena y espera recibir la misma cadena.</p>
+<ul class="simple">
+<li>En último lugar se desea tener una clase que compruebe la capacidad del</li>
+</ul>
+<p>servidor. Esta clase empezará lanzando muchos clientes a la vez y comprobará si
+ha habido alguna excepción. Si no la hay es que el servidor es capaz de manejar
+dicha cantidad de clientes y se incrementará la cantidad total de clientes
+simultáneos. El cliente irá incrementando la cantidad de clientes hasta lograr
+una excepción momento en el cual mostrará por pantalla la cantidad total de
+clientes que pudo manejar el servidor sin generar ninguna excepción.</p>
 </div>
 </div>
 </div>
@@ -3048,71 +2988,121 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <div class="section" id="la-clase-utilidadesficheros">
 <h3>La clase <code class="docutils literal"><span class="pre">UtilidadesFicheros</span></code><a class="headerlink" href="#la-clase-utilidadesficheros" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>A continuación se muestra el código completo de la clase <code class="docutils literal"><span class="pre">UtilidadesFicheros</span></code>:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UtilidadesFicheros</span> <span class="o">{</span>
+</div>
+<div class="section" id="solucion-al-problema-del-simulador-de-casino">
+<h3>Solución al problema del simulador de Casino<a class="headerlink" href="#solucion-al-problema-del-simulador-de-casino" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Se ha optado por un diseño muy simple y con un acoplamiento muy alto. En pocas palabras hay solo dos clases:</p>
+<ol class="arabic simple">
+<li>La clase <code class="docutils literal"><span class="pre">Banca</span></code>: ejecuta toda la simulación y acepta apuestas de jugadores. La banca crea los Jugadores (que serán hilos), y luego pasará a ejecutar la simulación, que puede pasar por diversos estados. Algunos métodos de la banca deben ser <code class="docutils literal"><span class="pre">synchronized</span></code>, ya que todos los hilos Jugador tienen una referencia a la clase <code class="docutils literal"><span class="pre">Banca</span></code> y por lo tanto <strong>puede haber varios hilos intentando entrar en un cierto método</strong>.</li>
+<li>La clase <code class="docutils literal"><span class="pre">Jugador</span></code>: no necesita métodos <code class="docutils literal"><span class="pre">synchronized</span></code>, ya que cada <code class="docutils literal"><span class="pre">Jugador</span></code> accede solo a su propia información. <em>Sin embargo, si hubiese más de una banca (quizá porque un Jugador jugase a varias ruletas a la vez) la situación sería muy distinta</em>.</li>
+<li>En realidad, la clase <code class="docutils literal"><span class="pre">Jugador</span></code> es solo una base para poder crear distintos tipos de Jugador que siguen distintas estrategias.</li>
+</ol>
+<p>En las secciones siguientes se ilustra el código de las distintas clases.</p>
+<div class="section" id="la-clase-banca">
+<h4>La clase Banca<a class="headerlink" href="#la-clase-banca" title="Enlazar permanentemente con este título">¶</a></h4>
+</div>
+<div class="section" id="la-clase-jugador">
+<h4>La clase Jugador<a class="headerlink" href="#la-clase-jugador" title="Enlazar permanentemente con este título">¶</a></h4>
+</div>
+<div class="section" id="la-clase-jugadorclasico">
+<h4>La clase JugadorClasico<a class="headerlink" href="#la-clase-jugadorclasico" title="Enlazar permanentemente con este título">¶</a></h4>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JugadorClasico</span> <span class="kd">extends</span> <span class="n">Jugador</span> <span class="o">{</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="n">BufferedReader</span> <span class="nf">getBufferedReader</span><span class="o">(</span>
-        <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span>
-    <span class="n">FileNotFoundException</span> <span class="o">{</span>
-        <span class="n">FileReader</span> <span class="n">lector</span><span class="o">;</span>
-        <span class="n">lector</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
-        <span class="n">BufferedReader</span> <span class="n">bufferedReader</span><span class="o">;</span>
-        <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="n">lector</span><span class="o">);</span>
-        <span class="k">return</span> <span class="n">bufferedReader</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">numeroElegido</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">JugadorClasico</span><span class="o">(</span><span class="kt">long</span> <span class="n">saldoInicial</span><span class="o">,</span>
+                          <span class="n">Banca</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">saldoInicial</span><span class="o">,</span> <span class="n">b</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="n">PrintWriter</span> <span class="nf">getPrintWriter</span><span class="o">(</span>
-        <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-        <span class="n">PrintWriter</span> <span class="n">printWriter</span><span class="o">;</span>
-        <span class="n">FileWriter</span> <span class="n">fileWriter</span><span class="o">;</span>
-        <span class="n">fileWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
-        <span class="n">printWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span><span class="n">fileWriter</span><span class="o">);</span>
-        <span class="k">return</span> <span class="n">printWriter</span><span class="o">;</span>
-        <span class="c1">//Fin de getPrintWriter</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getLineasFichero</span><span class="o">(</span>
-        <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
-        <span class="n">BufferedReader</span> <span class="n">bfr</span> <span class="o">=</span> <span class="n">getBufferedReader</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
-        <span class="c1">//Leemos líneas del fichero...</span>
-        <span class="n">String</span> <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-        <span class="k">while</span> <span class="o">(</span><span class="n">linea</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="c1">//Y las añadimos al array</span>
-            <span class="n">lineas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">linea</span><span class="o">);</span>
-            <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comunicarNumero</span><span class="o">(</span><span class="kt">int</span> <span class="n">numero</span><span class="o">)</span> <span class="o">{</span>
+        <span class="cm">/* No hace falta comprobar si el numero es</span>
+<span class="cm">         * 0, ya que este jugador no lo elige nunca */</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">numero</span> <span class="o">==</span> <span class="n">numeroElegido</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">nombreHilo</span> <span class="o">+</span>
+                               <span class="s">&quot;: ?Gana 36 veces lo jugado, 360 euros&quot;</span><span class="o">);</span>
+            <span class="n">banca</span><span class="o">.</span><span class="na">restarSaldo</span><span class="o">(</span><span class="mi">360</span><span class="o">);</span>
+            <span class="n">sumarSaldo</span><span class="o">(</span><span class="mi">360</span><span class="o">);</span>
         <span class="o">}</span>
-        <span class="c1">//Fin del bucle que lee líneas</span>
-        <span class="k">return</span> <span class="n">lineas</span><span class="o">;</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">nombreHilo</span> <span class="o">+</span>
+                           <span class="s">&quot; queda con un saldo de &quot;</span> <span class="o">+</span> <span class="n">saldo</span><span class="o">);</span>
+        <span class="n">apuestaRealizada</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
     <span class="o">}</span>
 
-    <span class="c1">//Fin de getLineasFichero</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getSuma</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span>
-                               <span class="n">listaNombresFichero</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kt">long</span> <span class="n">suma</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span><span class="o">;</span>
-        <span class="n">String</span> <span class="n">lineaCantidad</span><span class="o">;</span>
-        <span class="kt">long</span> <span class="n">cantidad</span><span class="o">;</span>
-        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">nombreFichero</span> <span class="o">:</span> <span class="n">listaNombresFichero</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">try</span> <span class="o">{</span>
-                <span class="c1">//Recuperamos todas las lineas</span>
-                <span class="n">lineas</span> <span class="o">=</span> <span class="n">getLineasFichero</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
-                <span class="c1">//Pero solo nos interesa la primera</span>
-                <span class="n">lineaCantidad</span> <span class="o">=</span> <span class="n">lineas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
-                <span class="c1">//Convertimos la linea a número</span>
-                <span class="n">cantidad</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">lineaCantidad</span><span class="o">);</span>
-                <span class="c1">//Y se incrementa la suma total</span>
-                <span class="n">suma</span> <span class="o">=</span> <span class="n">suma</span> <span class="o">+</span> <span class="n">cantidad</span><span class="o">;</span>
-            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Fallo al procesar el fichero &quot;</span>
-                                   <span class="o">+</span> <span class="n">nombreFichero</span><span class="o">);</span>
-                <span class="c1">//Fin del catch</span>
-            <span class="o">}</span>
-            <span class="c1">//Fin del for que recorre los nombres de fichero</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="n">suma</span><span class="o">;</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">hacerApuesta</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">banca</span><span class="o">.</span><span class="na">aceptaApuestas</span><span class="o">())</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">apuestaRealizada</span><span class="o">)</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="cm">/* Elegimos del 1 al 36 (no se puede elegir el 0*/</span>
+        <span class="n">numeroElegido</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">36</span><span class="o">);</span>
+        <span class="n">banca</span><span class="o">.</span><span class="na">sumarSaldo</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="n">restarSaldo</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="n">apuestaRealizada</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="n">banca</span><span class="o">.</span><span class="na">aceptarApuesta</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="la-clase-jugadorparimpar">
+<h4>La clase JugadorParImpar<a class="headerlink" href="#la-clase-jugadorparimpar" title="Enlazar permanentemente con este título">¶</a></h4>
+</div>
+<div class="section" id="la-clase-jugadormartingala">
+<h4>La clase JugadorMartingala<a class="headerlink" href="#la-clase-jugadormartingala" title="Enlazar permanentemente con este título">¶</a></h4>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JugadorMartingala</span> <span class="kd">extends</span> <span class="n">Jugador</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">cantidadAApostar</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">numeroElegido</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">JugadorMartingala</span><span class="o">(</span><span class="kt">long</span> <span class="n">saldoInicial</span><span class="o">,</span>
+                             <span class="n">Banca</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">saldoInicial</span><span class="o">,</span> <span class="n">b</span><span class="o">);</span>
+        <span class="n">cantidadAApostar</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comunicarNumero</span><span class="o">(</span><span class="kt">int</span> <span class="n">numero</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">numero</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">nombreHilo</span> <span class="o">+</span> <span class="s">&quot; pierde &quot;</span> <span class="o">+</span>
+                               <span class="n">cantidadAApostar</span><span class="o">);</span>
+            <span class="n">cantidadAApostar</span> <span class="o">=</span> <span class="n">cantidadAApostar</span> <span class="o">*</span> <span class="mi">2</span><span class="o">;</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">numeroElegido</span> <span class="o">==</span> <span class="n">numero</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">beneficios</span> <span class="o">=</span> <span class="n">cantidadAApostar</span> <span class="o">*</span> <span class="mi">36</span><span class="o">;</span>
+            <span class="n">banca</span><span class="o">.</span><span class="na">restarSaldo</span><span class="o">(</span><span class="n">beneficios</span><span class="o">);</span>
+            <span class="n">sumarSaldo</span><span class="o">(</span><span class="n">beneficios</span><span class="o">);</span>
+            <span class="n">cantidadAApostar</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">numeroElegido</span> <span class="o">!=</span> <span class="n">numero</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//System.out.println(nombreHilo + &quot; pierde &quot;+cantidadAApostar);</span>
+            <span class="n">cantidadAApostar</span> <span class="o">=</span> <span class="n">cantidadAApostar</span> <span class="o">*</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">nombreHilo</span> <span class="o">+</span>
+                           <span class="s">&quot; queda con un saldo de &quot;</span> <span class="o">+</span> <span class="n">saldo</span><span class="o">);</span>
+        <span class="n">apuestaRealizada</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">hacerApuesta</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">banca</span><span class="o">.</span><span class="na">aceptaApuestas</span><span class="o">())</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">apuestaRealizada</span><span class="o">)</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="cm">/* Elegimos del 1 al 36 (no se puede elegir el 0*/</span>
+        <span class="n">numeroElegido</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">36</span><span class="o">);</span>
+        <span class="n">banca</span><span class="o">.</span><span class="na">sumarSaldo</span><span class="o">(</span><span class="n">cantidadAApostar</span><span class="o">);</span>
+        <span class="n">restarSaldo</span><span class="o">(</span><span class="n">cantidadAApostar</span><span class="o">);</span>
+        <span class="n">apuestaRealizada</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="n">banca</span><span class="o">.</span><span class="na">aceptarApuesta</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -3174,6 +3164,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <li class="toctree-l2"><a class="reference internal" href="index.html#roles-cliente-y-servidor">Roles cliente y servidor.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#recordatorio-de-los-flujos-en-java">Recordatorio de los flujos en Java</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#elementos-de-programacion-de-aplicaciones-en-red-librerias">Elementos de programación de aplicaciones en red. Librerías.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#repaso-de-redes">Repaso de redes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#funciones-y-objetos-de-las-librerias">Funciones y objetos de las librerías.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#sockets">Sockets.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#creacion-de-sockets">Creación de sockets.</a></li>
@@ -3181,6 +3172,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <li class="toctree-l2"><a class="reference internal" href="index.html#utilizacion-de-sockets-para-la-transmision-y-recepcion-de-informacion">Utilización de sockets para la transmisión y recepción de información.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#programacion-de-aplicaciones-cliente-y-servidor">Programación de aplicaciones cliente y servidor.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#utilizacion-de-hilos-en-la-programacion-de-aplicaciones-en-red">Utilización de hilos en la programación de aplicaciones en red.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#ejercicios">Ejercicios</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-textos/tema4">Generación de servicios en red</a><ul>
@@ -3219,6 +3211,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-textos/anexos">Anexos</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="index.html#la-clase-utilidadesficheros">La clase <code class="docutils literal"><span class="pre">UtilidadesFicheros</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#solucion-al-problema-del-simulador-de-casino">Solución al problema del simulador de Casino</a></li>
 </ul>
 </li>
 </ul>
