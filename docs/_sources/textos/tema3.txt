@@ -981,20 +981,39 @@ Servidor de eco
 Se desea crear una aplicación cliente/servidor que consista de las siguientes 
 partes:
 
-* Por un lado habrá un servidor multihilo que implementará la capacidad de 
-"hacer el eco" de las cadenas que reciba. Así, el servidor escuchará una cadena 
-y cuando la reciba devolverá exactamente la misma cadena al cliente. Se da por 
-sentado que se recibirá una sola línea y que el servidor siempre tiene 
-memoria suficiente para leer dicha línea.
+* Por un lado habrá un servidor multihilo que implementará la capacidad de "hacer el eco" de las cadenas que reciba. Así, el servidor escuchará una cadena y cuando la reciba devolverá exactamente la misma cadena al cliente. Se da por sentado que se recibirá una sola línea y que el servidor siempre tiene memoria suficiente para leer dicha línea.
 
-* Por otro lado, se desea tener un cliente para hacer pruebas conectándose a 
-dicha servidor. Un cliente simplemente se conecta al servidor, le envía una 
-cadena y espera recibir la misma cadena.
+* Por otro lado, se desea tener un cliente para hacer pruebas conectándose a  dicha servidor. Un cliente simplemente se conecta al servidor, le envía una cadena y espera recibir la misma cadena.
 
-* En último lugar se desea tener una clase que compruebe la capacidad del 
-servidor. Esta clase empezará lanzando muchos clientes a la vez y comprobará si 
-ha habido alguna excepción. Si no la hay es que el servidor es capaz de manejar 
-dicha cantidad de clientes y se incrementará la cantidad total de clientes 
-simultáneos. El cliente irá incrementando la cantidad de clientes hasta lograr 
-una excepción momento en el cual mostrará por pantalla la cantidad total de 
-clientes que pudo manejar el servidor sin generar ninguna excepción.
+* En último lugar se desea tener una clase que compruebe la capacidad del servidor. Esta clase empezará lanzando muchos clientes a la vez y comprobará si ha habido alguna excepción. Si no la hay es que el servidor es capaz de manejar dicha cantidad de clientes y se incrementará la cantidad total de clientes simultáneos. El cliente irá incrementando la cantidad de clientes hasta lograr una excepción momento en el cual mostrará por pantalla la cantidad total de clientes que pudo manejar el servidor sin generar ninguna excepción.
+
+Solución al servidor
+~~~~~~~~~~~~~~~~~~~~~
+
+.. literalinclude:: ../listados/Clase_com_ies_servidoreco_Servidor.java
+   :language: java
+   :encoding: utf-8
+
+
+Solución HiloConexion
+~~~~~~~~~~~~~~~~~~~~~
+
+.. literalinclude:: ../listados/Clase_com_ies_servidoreco_HiloConexion.java
+   :language: java
+   :encoding: utf-8
+   
+Solución Cliente
+~~~~~~~~~~~~~~~~~~~~~
+
+.. literalinclude:: ../listados/Clase_com_ies_servidoreco_Cliente.java
+   :language: java
+   :encoding: utf-8
+   
+Solución LanzadorClientes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. literalinclude:: ../listados/Clase_com_ies_servidoreco_LanzadorClientes.java
+   :language: java
+   :encoding: utf-8
+
+   

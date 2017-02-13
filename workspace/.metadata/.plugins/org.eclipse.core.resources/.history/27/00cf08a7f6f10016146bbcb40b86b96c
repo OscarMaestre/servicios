@@ -1,0 +1,10 @@
+package com.ies.servidoreco;
+
+public class LanzadorClientes {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

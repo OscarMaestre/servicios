@@ -1,0 +1,15 @@
+package com.ies.servidoreco;
+
+public class LanzadorClientes {
+	public void lanzarClientes(int numClientes){
+		for (int i=0;i<numClientes;i++){
+			Cliente cliente=new Cliente();
+			Thread hiloAsociado=new Thread(cliente);
+		}
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,45 @@
+package com.ies.servidoreco;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.util.Random;
+
+public class Cliente {
+	Socket         conexion;
+	BufferedReader bfr;
+	PrintWriter    pw;
+	public Cliente(){
+		InetSocketAddress direccion;
+		direccion=new InetSocketAddress(
+				"localhost", 9876);
+		Socket conexion;
+		conexion=new Socket();
+		try {
+			conexion.connect(direccion);
+			bfr=Utilidades.getFlujoLectura(
+					conexion);
+			pw=Utilidades.getFlujoEscritura(conexion);			
+		} catch (IOException e) {
+			System.out.println(
+				"Error en conexion o envio/recepción de datos");
+		} //Fin del catch
+	}
+	public void enviarComprobandoRecepcion() 
+			throws IOException
+	{
+		
+	}
+	public static void main(String[] args) {
+		Cliente cliente;
+		cliente=new Cliente();
+		
+		
+	} //Fin del main
+}

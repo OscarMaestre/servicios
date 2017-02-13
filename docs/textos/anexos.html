@@ -203,7 +203,7 @@
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">girarRuleta</span><span class="o">()</span> <span class="kd">throws</span>
     <span class="n">InterruptedException</span> <span class="o">{</span>
         <span class="kt">int</span> <span class="n">segundosAzar</span><span class="o">;</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;�Empieza el juego!&quot;</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Empieza el juego!&quot;</span><span class="o">);</span>
         <span class="k">while</span> <span class="o">(</span><span class="n">estadoRuleta</span> <span class="o">!=</span> <span class="n">Estado</span><span class="o">.</span><span class="na">EN_BANCARROTA</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">estadoRuleta</span> <span class="o">=</span> <span class="n">Estado</span><span class="o">.</span><span class="na">ACEPTANDO_APUESTAS</span><span class="o">;</span>
             <span class="cm">/* Se eligen unos milisegundos al azar para que los jugadores</span>
@@ -213,11 +213,11 @@
             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hagan juego, tienen Vds &quot;</span> <span class="o">+</span>
             <span class="n">segundosAzar</span> <span class="o">+</span> <span class="s">&quot; segundos&quot;</span><span class="o">);</span>
             <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="n">segundosAzar</span><span class="o">);</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Ya no va m�s, se�ores. �Girando!&quot;</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Ya no va más, señores. ¡Girando!&quot;</span><span class="o">);</span>
             <span class="n">estadoRuleta</span> <span class="o">=</span> <span class="n">Estado</span><span class="o">.</span><span class="na">RULETA_GIRANDO</span><span class="o">;</span>
             <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">3000</span><span class="o">);</span>
             <span class="n">numeroGanador</span> <span class="o">=</span> <span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">37</span><span class="o">);</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;El n�mero ganador es el :&quot;</span> <span class="o">+</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;El número ganador es el :&quot;</span> <span class="o">+</span>
             <span class="n">numeroGanador</span><span class="o">);</span>
             <span class="n">estadoRuleta</span> <span class="o">=</span> <span class="n">Estado</span><span class="o">.</span><span class="na">PAGANDO_APUESTAS</span><span class="o">;</span>
             <span class="k">this</span><span class="o">.</span><span class="na">comunicarNumeroGanador</span><span class="o">(</span><span class="n">numeroGanador</span><span class="o">);</span>
@@ -378,7 +378,7 @@
 <span class="cm">         * 0, ya que este jugador no lo elige nunca */</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">numero</span> <span class="o">==</span> <span class="n">numeroElegido</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">nombreHilo</span> <span class="o">+</span>
-                               <span class="s">&quot;: �Gana 36 veces lo jugado, 360 euros&quot;</span><span class="o">);</span>
+                               <span class="s">&quot;: ¡Gana 36 veces lo jugado, 360 euros&quot;</span><span class="o">);</span>
             <span class="n">banca</span><span class="o">.</span><span class="na">restarSaldo</span><span class="o">(</span><span class="mi">360</span><span class="o">);</span>
             <span class="n">sumarSaldo</span><span class="o">(</span><span class="mi">360</span><span class="o">);</span>
         <span class="o">}</span>

@@ -146,3 +146,19 @@ e12.extraer_clase()
 e20=Extraccion(clase_cualificada="com.ies.sumasverificacion.Cliente",
 							dir_proyecto="ServicioSumasVerificacion")
 e20.extraer_clase()
+
+e21=Extraccion(clase_cualificada="com.ies.servidoreco.LanzadorClientes",
+							dir_proyecto="ServicioEco")
+e21.extraer_clase()
+
+e21=Extraccion(clase_cualificada="com.ies.servidoreco.Cliente",
+							dir_proyecto="ServicioEco")
+e21.extraer_clase()
+
+e21=Extraccion(clase_cualificada="com.ies.servidoreco.Servidor",
+							dir_proyecto="ServicioEco")
+e21.extraer_clase()
+
+e21=Extraccion(clase_cualificada="com.ies.servidoreco.HiloConexion",
+							dir_proyecto="ServicioEco")
+e21.extraer_clase()

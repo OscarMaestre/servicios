@@ -1,0 +1,41 @@
+package com.ies.servidoreco;
+
+public class LanzadorClientes {
+	public boolean servidorAtendioClientes(int numClientes){
+		//En este metodo lanzamos x clientes y luego comprobamos
+		//si todos funcionaron bien. Si todo fue bien
+		//devolvemos true y si no devolveremos false
+		Thread[] hilos=new Thread[numClientes];
+		Cliente[] clientes=new Cliente[numClientes];
+		for (int i=0;i<numClientes;i++){
+			Cliente cliente=new Cliente();
+			Thread hiloAsociado=new Thread(cliente);
+			hiloAsociado.start();
+			hilos[i]=hiloAsociado;
+			clientes[i]=cliente;
+		}
+		/* Esperamos que todos los hilos acaben
+		 * dandoles un plazo maximo de 10.000 ms
+		 * Si en ese tiempo no se completó
+		 * una operación tan simple, probablemente
+		 * el servidor falló*/
+		for (int i=0; i<numClientes; i++){
+			try {
+				hilos[i].join(10000);
+			} catch (InterruptedException e) {
+				System.out.println(
+					"Se interrumpió un hilo por parte "+
+					"de alguna clase del cliente ");
+			}
+		} //Fin del for que espera a los hilos
+		/* Comprobamos si todos los hilos están bien*/
+		for (int i=0; i<numClientes; i++){
+			if 
+		}
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

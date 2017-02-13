@@ -11,7 +11,7 @@ public class JugadorClasico extends Jugador {
         /* No hace falta comprobar si el numero es
 		 * 0, ya que este jugador no lo elige nunca */
         if (numero == numeroElegido) {
-            System.out.println(nombreHilo + ": �Gana 36 veces lo jugado, 360 euros");
+            System.out.println(nombreHilo + ": ¡Gana 36 veces lo jugado, 360 euros");
             banca.restarSaldo(360);
             sumarSaldo(360);
         }
