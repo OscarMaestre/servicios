@@ -32,7 +32,7 @@ public class HiloConexion implements Runnable{
 			System.out.print(Thread.currentThread().getName());
 			System.out.println(" recibio:"+lineaRecibida);
 			
-			pw.print(lineaRecibida);
+			pw.println(lineaRecibida);
 			pw.flush();
 		} catch (IOException e) {
 			System.out.println(

@@ -975,6 +975,11 @@ partes:</p>
 <li>En último lugar se desea tener una clase que compruebe la capacidad del servidor. Esta clase empezará lanzando muchos clientes a la vez y comprobará si ha habido alguna excepción. Si no la hay es que el servidor es capaz de manejar dicha cantidad de clientes y se incrementará la cantidad total de clientes simultáneos. El cliente irá incrementando la cantidad de clientes hasta lograr una excepción momento en el cual mostrará por pantalla la cantidad total de clientes que pudo manejar el servidor sin generar ninguna excepción.</li>
 </ul>
 </div>
+<div class="section" id="comentarios-generales-a-la-solucion">
+<h3>Comentarios generales a la solución<a class="headerlink" href="#comentarios-generales-a-la-solucion" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Cuando probamos el servidor y el cliente en la misma máquina es muy difícil saber si los fallos se produjeron por culpa del servidor o del cliente, ya que ambos comparten una máquina con una misma RAM.</p>
+<p>Por otro lado, incluso probando en máquinas distintas pueden obtenerse fallos por ejemplo al lanzar 3000 hilos y otro día al lanzar 4000 hilos. Recordemos que cuando lanzamos nuestro servidor puede haber otros procesos activos que consuman RAM y tiempo de CPU por lo que averiguar un valor real es <strong>absolutamente imposible</strong></p>
+</div>
 <div class="section" id="solucion-al-servidor">
 <h3>Solución al servidor<a class="headerlink" href="#solucion-al-servidor" title="Enlazar permanentemente con este título">¶</a></h3>
 <div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Servidor</span> <span class="o">{</span>
@@ -1000,6 +1005,8 @@ partes:</p>
             <span class="c1">//capaces de enviar o recibir nada</span>
             <span class="c1">//Todo funcionaba pero el usuario</span>
             <span class="c1">//interrumpió</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Error en conexion &quot;</span> <span class="o">+</span>
+                               <span class="s">&quot;o al crear los hilos o al procesar E/S&quot;</span><span class="o">);</span>
         <span class="o">}</span>
     <span class="o">}</span>
 
@@ -1039,7 +1046,7 @@ partes:</p>
             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span>
                 <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot; recibio:&quot;</span> <span class="o">+</span> <span class="n">lineaRecibida</span><span class="o">);</span>
-            <span class="n">pw</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">lineaRecibida</span><span class="o">);</span>
+            <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">lineaRecibida</span><span class="o">);</span>
             <span class="n">pw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
         <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hubo un fallo al enviar/recibir datos&quot;</span><span class="o">);</span>
@@ -1119,14 +1126,18 @@ partes:</p>
             <span class="n">pw</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
             <span class="n">eco</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
             <span class="k">if</span> <span class="o">(</span><span class="n">eco</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">palabra</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hilo &quot;</span> <span class="o">+</span> <span class="n">numHilo</span> <span class="o">+</span>
+                                   <span class="s">&quot; recibio bien:&quot;</span> <span class="o">+</span> <span class="n">eco</span><span class="o">);</span>
                 <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
             <span class="o">}</span>
             <span class="c1">//Fin del if</span>
         <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-            <span class="c1">//Indicamos que no funcionó con false</span>
             <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
         <span class="o">}</span>
-        <span class="c1">//que enviamos, o sea que el servidor falló</span>
+        <span class="cm">/*Si se llega a este punto es porque</span>
+<span class="cm">         *la palabra devuelta no fue la</span>
+<span class="cm">         *que enviamos, o sea que el servidor falló</span>
+<span class="cm">        */</span>
         <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
     <span class="o">}</span>
 
@@ -1165,8 +1176,8 @@ partes:</p>
             <span class="n">Cliente</span> <span class="n">cliente</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Cliente</span><span class="o">();</span>
             <span class="n">cliente</span><span class="o">.</span><span class="na">setNumHilo</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
             <span class="n">Thread</span> <span class="n">hiloAsociado</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">cliente</span><span class="o">);</span>
-            <span class="n">hiloAsociado</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
             <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">hiloAsociado</span><span class="o">;</span>
+            <span class="n">hiloAsociado</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
             <span class="n">clientes</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">cliente</span><span class="o">;</span>
         <span class="o">}</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Lanzados!&quot;</span><span class="o">);</span>
@@ -1177,7 +1188,7 @@ partes:</p>
 <span class="cm">         * el servidor falló*/</span>
         <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numClientes</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
             <span class="k">try</span> <span class="o">{</span>
-                <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+                <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
             <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
                 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Se interrumpió un hilo por parte &quot;</span>
                                    <span class="o">+</span> <span class="s">&quot;de alguna clase del cliente &quot;</span><span class="o">);</span>
@@ -1277,6 +1288,7 @@ partes:</p>
 <li><a class="reference internal" href="#solucion-a-las-sumas-de-verificacion">Solución a las sumas de verificación</a></li>
 <li><a class="reference internal" href="#servidor-de-bases-de-datos">Servidor de bases de datos</a></li>
 <li><a class="reference internal" href="#servidor-de-eco">Servidor de eco</a></li>
+<li><a class="reference internal" href="#comentarios-generales-a-la-solucion">Comentarios generales a la solución</a></li>
 <li><a class="reference internal" href="#solucion-al-servidor">Solución al servidor</a></li>
 <li><a class="reference internal" href="#solucion-hiloconexion">Solución HiloConexion</a></li>
 <li><a class="reference internal" href="#solucion-cliente">Solución Cliente</a></li>

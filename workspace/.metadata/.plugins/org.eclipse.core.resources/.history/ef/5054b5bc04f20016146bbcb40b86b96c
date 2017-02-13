@@ -1,0 +1,42 @@
+package com.ies.servidoreco;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+public class HiloConexion implements Runnable{
+	BufferedReader bfr;
+	PrintWriter pw;
+	Socket socket;
+	public HiloConexion(Socket socket){
+		this.socket=socket;
+	}
+	
+	public void run() {
+		try {
+			/* Nuestro hilo se limita a
+			 * recibir una línea y reenviarla
+			 * de vuelta al cliente
+			 */
+			bfr=Utilidades.getFlujoLectura(
+					this.socket);
+			pw=Utilidades.getFlujoEscritura(
+					this.socket);
+			String lineaRecibida;
+			lineaRecibida=bfr.readLine();
+			System.out.print(Thread.currentThread().getName());
+			System.out.println(" recibio:"+lineaRecibida);
+			
+			pw.print(lineaRecibida);
+			pw.flush();
+		} catch (IOException e) {
+			System.out.println(
+				"Hubo un fallo al enviar/recibir datos");
+		}
+	} //Fin del run
+} //Fin de la clase

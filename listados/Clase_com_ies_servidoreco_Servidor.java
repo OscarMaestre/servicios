@@ -21,6 +21,8 @@ public class Servidor {
             //capaces de enviar o recibir nada
             //Todo funcionaba pero el usuario
             //interrumpió
+            System.out.println("Error en conexion " +
+                               "o al crear los hilos o al procesar E/S");
         }
     }
 

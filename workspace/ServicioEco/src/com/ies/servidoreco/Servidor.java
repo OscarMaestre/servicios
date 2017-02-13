@@ -30,6 +30,8 @@ public class Servidor {
 			
 			//Todo funcionaba pero el usuario
 			//interrumpió
+			System.out.println("Error en conexion "+
+				"o al crear los hilos o al procesar E/S");
 		}
 	}
 	public static void main(String[] args){

@@ -15,12 +15,13 @@ public class Servidor {
                 hilo.start();
             }
         } catch (IOException e) {
-        //No se pudo crear el server
-        //socket porque no tenemos permisos
-        //Se pudo crear pero no fuimos
-        //capaces de enviar o recibir nada
-        //Todo funcionaba pero el usuario
-        //interrumpió
+            //No se pudo crear el server
+            //socket porque no tenemos permisos
+            //Se pudo crear pero no fuimos
+            //capaces de enviar o recibir nada
+            //Todo funcionaba pero el usuario
+            //interrumpió
+            System.out.println("Error en conexion " + "o al crear los hilos o al procesar E/S");
         }
     }
 

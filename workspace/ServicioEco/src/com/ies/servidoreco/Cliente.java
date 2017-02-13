@@ -66,12 +66,15 @@ public class Cliente implements Runnable{
 			pw.flush();
 			eco = bfr.readLine();
 			if (eco.equals(palabra)){
+				System.out.println("Hilo "+numHilo +
+						" recibio bien:"+eco);
 				return true;
 			} //Fin del if
 		} catch (IOException e) {
 			/*Si salta una excepción probablemente
 			el servidor colapsó
 			Indicamos que no funcionó con false*/
+			
 			return false;
 		}
 		/*Si se llega a este punto es porque

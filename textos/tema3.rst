@@ -987,6 +987,12 @@ partes:
 
 * En último lugar se desea tener una clase que compruebe la capacidad del servidor. Esta clase empezará lanzando muchos clientes a la vez y comprobará si ha habido alguna excepción. Si no la hay es que el servidor es capaz de manejar dicha cantidad de clientes y se incrementará la cantidad total de clientes simultáneos. El cliente irá incrementando la cantidad de clientes hasta lograr una excepción momento en el cual mostrará por pantalla la cantidad total de clientes que pudo manejar el servidor sin generar ninguna excepción.
 
+Comentarios generales a la solución
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Cuando probamos el servidor y el cliente en la misma máquina es muy difícil saber si los fallos se produjeron por culpa del servidor o del cliente, ya que ambos comparten una máquina con una misma RAM.
+
+Por otro lado, incluso probando en máquinas distintas pueden obtenerse fallos por ejemplo al lanzar 3000 hilos y otro día al lanzar 4000 hilos. Recordemos que cuando lanzamos nuestro servidor puede haber otros procesos activos que consuman RAM y tiempo de CPU por lo que averiguar un valor real es **absolutamente imposible**
+
 Solución al servidor
 ~~~~~~~~~~~~~~~~~~~~~
 

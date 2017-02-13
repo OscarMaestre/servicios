@@ -91,10 +91,11 @@
 \contentsline {subsection}{\numberline {3.13.2}Soluci\IeC {\'o}n a las sumas de verificaci\IeC {\'o}n}{55}{subsection.3.13.2}
 \contentsline {subsection}{\numberline {3.13.3}Servidor de bases de datos}{56}{subsection.3.13.3}
 \contentsline {subsection}{\numberline {3.13.4}Servidor de eco}{57}{subsection.3.13.4}
-\contentsline {subsection}{\numberline {3.13.5}Soluci\IeC {\'o}n al servidor}{57}{subsection.3.13.5}
-\contentsline {subsection}{\numberline {3.13.6}Soluci\IeC {\'o}n HiloConexion}{58}{subsection.3.13.6}
-\contentsline {subsection}{\numberline {3.13.7}Soluci\IeC {\'o}n Cliente}{58}{subsection.3.13.7}
-\contentsline {subsection}{\numberline {3.13.8}Soluci\IeC {\'o}n LanzadorClientes}{60}{subsection.3.13.8}
+\contentsline {subsection}{\numberline {3.13.5}Comentarios generales a la soluci\IeC {\'o}n}{57}{subsection.3.13.5}
+\contentsline {subsection}{\numberline {3.13.6}Soluci\IeC {\'o}n al servidor}{57}{subsection.3.13.6}
+\contentsline {subsection}{\numberline {3.13.7}Soluci\IeC {\'o}n HiloConexion}{58}{subsection.3.13.7}
+\contentsline {subsection}{\numberline {3.13.8}Soluci\IeC {\'o}n Cliente}{59}{subsection.3.13.8}
+\contentsline {subsection}{\numberline {3.13.9}Soluci\IeC {\'o}n LanzadorClientes}{60}{subsection.3.13.9}
 \contentsline {chapter}{\numberline {4}Generaci\IeC {\'o}n de servicios en red}{63}{chapter.4}
 \contentsline {section}{\numberline {4.1}Protocolos est\IeC {\'a}ndar de comunicaci\IeC {\'o}n en red a nivel de aplicaci\IeC {\'o}n}{64}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}Telnet}{64}{subsection.4.1.1}

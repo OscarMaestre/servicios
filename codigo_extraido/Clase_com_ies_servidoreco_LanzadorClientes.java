@@ -10,8 +10,8 @@ public class LanzadorClientes {
             Cliente cliente = new Cliente();
             cliente.setNumHilo(i);
             Thread hiloAsociado = new Thread(cliente);
-            hiloAsociado.start();
             hilos[i] = hiloAsociado;
+            hiloAsociado.start();
             clientes[i] = cliente;
         }
         System.out.println("Lanzados!");
@@ -22,7 +22,7 @@ public class LanzadorClientes {
 		 * el servidor falló*/
         for (int i = 0; i < numClientes; i++) {
             try {
-                hilos[i].join(100);
+                hilos[i].join();
             } catch (InterruptedException e) {
                 System.out.println("Se interrumpió un hilo por parte " + "de alguna clase del cliente ");
             }
