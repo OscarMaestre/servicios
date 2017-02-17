@@ -22,4 +22,6 @@
 			<item value="org.eclipse.ui.Basic"/>
 		</list>
 	</section>
+	<section name="ImportExportAction">
+	</section>
 </section>

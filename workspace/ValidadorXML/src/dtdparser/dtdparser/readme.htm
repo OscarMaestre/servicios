@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+   <title>DTD Parser, Version 2.0</title>
+</head>
+<body>
+
+<h1><center>DTD Parser, Version 2.0</center></h1>
+
+<p>The DTD Parser is a set of Java packages for exploring DTDs. For example, it could be used by software that generates database schema or Java classes from a DTD.</p>
+
+<h2>System Requirements</h2>
+
+<p>To run the DTD parser, you need the following software:</p>
+
+<ul>
+<li>
+<b>DTD parser</b>
+<br /><br />
+Download: <a href="http://www.rpbourret.com/dtdparser/index.htm">http://www.rpbourret.com/dtdparser/index.htm</a>
+<br /><br />
+</li>
+
+<li>
+<b>JDK (Java Development Kit) 1.1.x or higher</b>
+<br /><br />
+Download: <a href="http://java.sun.com/products/jdk/1.1/index.html">http://java.sun.com/products/jdk/1.1/index.html</a>
+<br /><br />
+</li>
+
+<li>
+<b>SAX (Simple API for XML) version 1 or 2</b>
+<br /><br />
+Only the InputSource class is required. If you have an XML parser on your system, you probably already have this.
+<br /><br />
+Download: <a href="http://www.saxproject.org/">http://www.saxproject.org/</a>
+<br /><br />
+</li>
+</ul>
+
+<h2>Class Overview</h2>
+
+<p>The main classes are:</p>
+
+<ul>
+<li><p><a href="docs/org.xmlmiddleware.schemas.dtds.DTD.html">DTD</a>, <a href="docs/org.xmlmiddleware.schemas.dtds.ElementType.html">ElementType</a>, <a href="docs/org.xmlmiddleware.schemas.dtds.Attribute.html">Attribute</a>, <a href="docs/org.xmlmiddleware.schemas.dtds.Particle.html">Particle</a>, <a href="docs/org.xmlmiddleware.schemas.dtds.Group.html">Group</a>, <a href="docs/org.xmlmiddleware.schemas.dtds.Reference.html">Reference</a>: Classes that model the "logical" part of a DTD. Particle is the base class for Group and Reference, which are used to model content models.</p></li>
+
+<li><p><a href="docs/org.xmlmiddleware.schemas.dtds.Entity.html">Entity</a>, <a href="docs/org.xmlmiddleware.schemas.dtds.ParameterEntity.html">ParameterEntity</a>, <a href="docs/org.xmlmiddleware.schemas.dtds.ParsedGeneralEntity.html">ParsedGeneralEntity</a>, <a href="docs/org.xmlmiddleware.schemas.dtds.UnparsedEntity.html">UnparsedEntity</a>: Classes that model the entities declared in a DTD.
+<br /><br />
+NOTE: The ParameterEntity class is used by the DTD parser during parsing only. While the DTD object that is constructed by the parser contains a list of parameter entities, these are not reference in other objects, such as ElementType.</p></li>
+
+<li><p><a href="docs/org.xmlmiddleware.schemas.dtds.DTDParser.html">DTDParser</a>: The DTD parser. This creates a set of DTD objects from a DTD.</p></li>
+
+<li><p><a href="docs/org.xmlmiddleware.schemas.dtds.DTDSerializer.html">DTDSerializer</a>: Serializes a set of DTD objects as a DTD.</p></li>
+
+<li><p><a href="docs/ClassGenerator.html">ClassGenerator</a>: A command line application that generates Java classes from a DTD (in the samples directory).</p></li>
+
+</ul>
+
+<h2>Source Code</h2>
+
+<p>You can find complete source code for the DTD parser in <a href="sourcecode.zip">sourcecode.zip</a></p>
+
+<h2>Licensing</h2>
+
+<p>The DTD Parser is in the public domain.</p>
+
+<p>The DTD Parser is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. In no event shall the author(s) be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the DTD Parser or the use or other dealings in the DTD Parser.</p>
+</p>
+
+<h2>Support</h2>
+
+<p>If you have questions about how to use the DTD parser, the first thing you should do is read the <a href="docs/packages.html">documentation</a> and look at the sample program (ClassGenerator). If you want to check for known bugs, you have two options. First, check the <a href="http://sourceforge.net/tracker/?group_id=13613&atid=113613">XML-DBMS bug database</a> on SourceForge. Second, look at the archives of the XML-DBMS mailing list (see below), which lists many known bugs and frequently asked questions. (The DTD parser is part of <a href="http://www.rpbourret.com/xmldbms/index.htm">XML-DBMS</a>.)</p>
+
+<p>If you still have a question, you can send email to the mailing list at <a href="mailto:xml-dbms@yahoogroups.com">xml-dbms@yahoogroups.com</a>. Although you must be a member of the mailing list to post messages, anyone can read the messages in the archives. You can join the mailing list and read the archives at:</p>
+
+<p>&nbsp;&nbsp;&nbsp;<a href="http://groups.yahoo.com/group/xml-dbms">http://groups.yahoo.com/group/xml-dbms</a></p>
+
+<p>And no matter where you post them, bug reports and comments are always welcome.</p>
+
+</body>
+</html>

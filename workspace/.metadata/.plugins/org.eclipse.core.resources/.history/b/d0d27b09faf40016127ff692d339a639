@@ -1,0 +1,9 @@
+package io.github.oscarmaestre;
+
+public class Validador {
+	public static esUnaDTD(String texto){
+		boolean respuesta=False;
+		
+		return respuesta;
+	}
+}

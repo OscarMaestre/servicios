@@ -1,0 +1,16 @@
+package io.github.oscarmaestre;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+
+public class Validador {
+	public DocumentBuilderFactory 	fabrica;
+	public DocumentBuilder			constructorDOM;
+	public  Validador(){
+		fabrica=DocumentBuilderFactory.newInstance();
+	}
+	public boolean esUnaDTD(String texto){
+		boolean respuesta=false;
+		
+		return respuesta;
+	}
+}
