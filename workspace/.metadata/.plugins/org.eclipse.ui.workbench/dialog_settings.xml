@@ -17,9 +17,11 @@
 		</list>
 	</section>
 	<section name="NewWizardAction">
-		<item value="org.eclipse.ui.wizards.new.file" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<item value="org.eclipse.fx.ide.fxml.wizard1" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
 			<item value="org.eclipse.ui.Basic"/>
+			<item value="org.eclipse.emf.codegen.ecore.ui.wizardCategory"/>
+			<item value="org.eclipse.fx.ide"/>
 		</list>
 	</section>
 	<section name="ImportExportAction">
