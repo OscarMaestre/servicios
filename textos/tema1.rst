@@ -55,7 +55,9 @@ Un proceso no tiene acceso a los datos de otro procesos. Sin embargo un hilo sí
 Programación concurrente.
 -------------------------
 
-La programación concurrente es la parte de la programación que se ocupa de crear programas que pueden tener varios procesos/hilos que colaboran para ejecutar un trabajo y aprovechar al máximo el rendimiento de sistemas multinúcleo.
+La programación concurrente es la parte de la programación que se ocupa de crear programas que pueden tener varios procesos/hilos que colaboran para ejecutar un trabajo y aprovechar al máximo el rendimiento de sistemas multinúcleo. En el caso de la programación concurrente un solo ordenador puede ejecutar varias tareas a la vez (lo que supone que tiene 2 o más núcleos).
+
+Por otro lado se denomina programación paralela a la capacidad de un núcleo de ejecutar dos o más tareas a la vez, normalmente repartiendo el tiempo de proceso entre las tareas.
 
 
 

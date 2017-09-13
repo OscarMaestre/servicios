@@ -1,30 +1,29 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Programación multiproceso &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
-    
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
         VERSION:     '1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
-    <link rel="top" title="Apuntes de Lenguajes de Marcas v1.3" href="../index.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
     <link rel="next" title="Programación multihilo" href="tema2.html" />
     <link rel="prev" title="Programacion de servicios y procesos" href="../index.html" />
    
@@ -34,7 +33,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -49,16 +48,16 @@
 <div class="section" id="ejecutables">
 <h3>Ejecutables<a class="headerlink" href="#ejecutables" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Un ejecutable es un archivo con la estructura necesaria para que el sistema operativo pueda poner en marcha el programa que hay dentro. En Windows, los ejecutables suelen ser archivos con la extension .EXE.</p>
-<p>Se pueden utilizar &#8220;desensambladores&#8221; para averiguar la secuencia de instrucciones que hay en un EXE. Incluso existen desensambladores en línea como <a class="reference external" href="http://onlinedisassembler.com">http://onlinedisassembler.com</a></p>
+<p>Se pueden utilizar «desensambladores» para averiguar la secuencia de instrucciones que hay en un EXE. Incluso existen desensambladores en línea como <a class="reference external" href="http://onlinedisassembler.com">http://onlinedisassembler.com</a></p>
 <p>Sin embargo, Java genera ficheros .JAR o .CLASS. Estos ficheros <em>no son ejecutables</em> sino que son archivos que el intérprete de JAVA (el archivo <code class="docutils literal"><span class="pre">java.exe</span></code>) leerá y ejecutará.</p>
-<p>El intérprete toma el programa y lo traduce a instrucciones del microprocesador en el que estemos, que puede ser x86 o un x64 o lo que sea. Ese proceso se hace &#8220;al instante&#8221; o JIT (Just-In-Time).</p>
-<p>Un archivo .CLASS puede desensamblarse utilizando el comando <code class="docutils literal"><span class="pre">javap</span> <span class="pre">-c</span> <span class="pre">&lt;archivo.class&gt;</span></code> . Cuando se hace así, se obtiene un listado de &#8220;instrucciones&#8221; que no se corresponden con las instrucciones del microprocesador, sino con &#8220;instrucciones virtuales de Java&#8221;. El intérprte Java (el archivo <code class="docutils literal"><span class="pre">java.exe</span></code>) traducirá en el momento del arranque dichas instrucciones virtuales Java a instrucciones reales del microprocesador.</p>
+<p>El intérprete toma el programa y lo traduce a instrucciones del microprocesador en el que estemos, que puede ser x86 o un x64 o lo que sea. Ese proceso se hace «al instante» o JIT (Just-In-Time).</p>
+<p>Un archivo .CLASS puede desensamblarse utilizando el comando <code class="docutils literal"><span class="pre">javap</span> <span class="pre">-c</span> <span class="pre">&lt;archivo.class&gt;</span></code> . Cuando se hace así, se obtiene un listado de «instrucciones» que no se corresponden con las instrucciones del microprocesador, sino con «instrucciones virtuales de Java». El intérprte Java (el archivo <code class="docutils literal"><span class="pre">java.exe</span></code>) traducirá en el momento del arranque dichas instrucciones virtuales Java a instrucciones reales del microprocesador.</p>
 <p>Este último aspecto es el esgrimido por Java para defender que su ejecución puede ser más rápida que la de un EXE, ya que Java puede averiguar en qué microprocesador se está ejecutando y así generar el código más óptimo posible.</p>
 <p>Un EXE puede que no contenga las instrucciones de los microprocesadores más modernos. Como todos son compatibles no es un gran problema, sin embargo, puede que no aprovechemos al 100% la capacidad de nuestro micro.</p>
 </div>
 <div class="section" id="procesos">
 <h3>Procesos<a class="headerlink" href="#procesos" title="Enlazar permanentemente con este título">¶</a></h3>
-<p>Es un archivo que está en ejecución y bajo el control del sistema operativo. Un proceso puede atravesar diversas etapas en su &#8220;ciclo de vida&#8221;. Los estados en los que puede estar son:</p>
+<p>Es un archivo que está en ejecución y bajo el control del sistema operativo. Un proceso puede atravesar diversas etapas en su «ciclo de vida». Los estados en los que puede estar son:</p>
 <ul class="simple">
 <li>En ejecución: está dentro del microprocesador.</li>
 <li>Pausado/detenido/en espera: el proceso tiene que seguir en ejecución pero en ese momento el S.O tomó la decisión de dejar paso a otro.</li>
@@ -79,14 +78,15 @@
 </div>
 <div class="section" id="programacion-concurrente">
 <h2>Programación concurrente.<a class="headerlink" href="#programacion-concurrente" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>La programación concurrente es la parte de la programación que se ocupa de crear programas que pueden tener varios procesos/hilos que colaboran para ejecutar un trabajo y aprovechar al máximo el rendimiento de sistemas multinúcleo.</p>
+<p>La programación concurrente es la parte de la programación que se ocupa de crear programas que pueden tener varios procesos/hilos que colaboran para ejecutar un trabajo y aprovechar al máximo el rendimiento de sistemas multinúcleo. En el caso de la programación concurrente un solo ordenador puede ejecutar varias tareas a la vez (lo que supone que tiene 2 o más núcleos).</p>
+<p>Por otro lado se denomina programación paralela a la capacidad de un núcleo de ejecutar dos o más tareas a la vez, normalmente repartiendo el tiempo de proceso entre las tareas.</p>
 </div>
 <div class="section" id="programacion-paralela-y-distribuida">
 <h2>Programación paralela y distribuida.<a class="headerlink" href="#programacion-paralela-y-distribuida" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Dentro de la programación concurrente tenemos la paralela y la distribuida:</p>
 <ul class="simple">
-<li>En general se denomina &#8220;programación paralela&#8221; a la creación de software que se ejecuta siempre en un solo ordenador (con varios núcleos o no)</li>
-<li>Se denomina &#8220;programación distribuida&#8221; a la creación de software que se ejecuta en ordenadores distintos y que se comunican a través de una red.</li>
+<li>En general se denomina «programación paralela» a la creación de software que se ejecuta siempre en un solo ordenador (con varios núcleos o no)</li>
+<li>Se denomina «programación distribuida» a la creación de software que se ejecuta en ordenadores distintos y que se comunican a través de una red.</li>
 </ul>
 </div>
 <div class="section" id="creacion-de-procesos">
@@ -145,7 +145,7 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>Para ejecutar este programa desde dentro de Eclipse es necesario indicar que deseamos enviar <em>argumentos</em> al programa. Por ejemplo, si deseamos sumar los números del 2 al 10, deberemos ir a la venta &#8220;Run configuration&#8221; y en la pestaña &#8220;Arguments&#8221; indicar los argumentos (que en este caso son los dos números a indicar).</p>
+<p>Para ejecutar este programa desde dentro de Eclipse es necesario indicar que deseamos enviar <em>argumentos</em> al programa. Por ejemplo, si deseamos sumar los números del 2 al 10, deberemos ir a la venta «Run configuration» y en la pestaña «Arguments» indicar los argumentos (que en este caso son los dos números a indicar).</p>
 <div class="figure align-center" id="id1" style="width: 50%">
 <img alt="../_images/configuraciones.png" src="../_images/configuraciones.png" />
 <p class="caption"><span class="caption-text">Modificando los argumentos del programa</span></p>
@@ -508,7 +508,7 @@
 <p>En cada fichero hay una lista de cantidades enteras que representa las contabilidades de distintos departamentos. Hay una cantidad en cada línea. Se desea que el programa creado sume la cantidad total que suman todas las cantidades de los cinco ficheros haciendo uso del paralelismo.</p>
 <div class="section" id="solucion-al-ejercicio-propuesto-i">
 <h3>Solución al ejercicio propuesto (I)<a class="headerlink" href="#solucion-al-ejercicio-propuesto-i" title="Enlazar permanentemente con este título">¶</a></h3>
-<p>Este ejercicio es bastante parecido al anterior, con la salvedad de que ahora necesitaremos sumar cantidades en lugar de buscar elementos. Por lo demás,  también generaremos un fichero de resultados por cada fichero de datos y los llamaremos igual pero añadiendo la extensión &#8221;.res&#8221;. Es decir, la suma de las cantidades de <code class="docutils literal"><span class="pre">informatica.txt</span></code> se dejará en <code class="docutils literal"><span class="pre">informatica.txt.res</span></code>.</p>
+<p>Este ejercicio es bastante parecido al anterior, con la salvedad de que ahora necesitaremos sumar cantidades en lugar de buscar elementos. Por lo demás,  también generaremos un fichero de resultados por cada fichero de datos y los llamaremos igual pero añadiendo la extensión «.res». Es decir, la suma de las cantidades de <code class="docutils literal"><span class="pre">informatica.txt</span></code> se dejará en <code class="docutils literal"><span class="pre">informatica.txt.res</span></code>.</p>
 <p>Una vez generados todos los fichero <code class="docutils literal"><span class="pre">Resultado</span></code> tendremos que sumar todas las cantidades de estos ficheros. Su estructura es muy simple, todos contienen una única línea con una cantidad. Dado que esta operación de sumar cantidades almacenadas en distintos ficheros es una operación muy habitual, añadiremos un método a <code class="docutils literal"><span class="pre">UtilidadesFicheros</span></code> que se encargue de hacer esta operación. Obsérvese que usaremos tipos de datos <code class="docutils literal"><span class="pre">long</span></code> y no <code class="docutils literal"><span class="pre">int</span></code> dado que no sabemos como de grandes serán las cantidades a procesar.</p>
 <p>A continuación se muestra el código de este método.</p>
 <div class="highlight-java"><div class="highlight"><pre><span></span><span class="c1">//Fin de getLineasFichero</span>
@@ -615,7 +615,7 @@
 <h2>Gestión de procesos.<a class="headerlink" href="#gestion-de-procesos" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>La gestión de procesos se realiza de dos formas <strong>muy distintas</strong> en función de los dos grandes sistemas operativos: Windows y Linux.</p>
 <ul class="simple">
-<li>En Windows toda la gestión de procesos se realiza desde el &#8220;Administrador de tareas&#8221; al cual se accede con Ctrl+Alt+Supr. Existen otros programas más sofisticados que proporcionan algo más de información sobre los procesos, como Process Explorer (antes conocido con el nombre de ProcessViewer).</li>
+<li>En Windows toda la gestión de procesos se realiza desde el «Administrador de tareas» al cual se accede con Ctrl+Alt+Supr. Existen otros programas más sofisticados que proporcionan algo más de información sobre los procesos, como Process Explorer (antes conocido con el nombre de ProcessViewer).</li>
 </ul>
 </div>
 <div class="section" id="comandos-para-la-gestion-de-procesos-en-sistemas-libres-y-propietarios">
@@ -636,8 +636,8 @@
 <h3>Prioridades<a class="headerlink" href="#prioridades" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>En sistemas como GNU/Linux se puede modificar la prioridad con que se ejecuta un proceso. Esto implica dos posibilidades</p>
 <ul class="simple">
-<li>Si pensamos que un programa que necesitamos ejecutar es muy importante podemos darle más prioridad para que reciba &#8220;más turnos&#8221; del planificador.</li>
-<li>Y por el contrario, si pensamos que un programa no es muy necesario podemos quitarle prioridad y reservar &#8220;más turnos de planificador&#8221; para otros posibles procesos.</li>
+<li>Si pensamos que un programa que necesitamos ejecutar es muy importante podemos darle más prioridad para que reciba «más turnos» del planificador.</li>
+<li>Y por el contrario, si pensamos que un programa no es muy necesario podemos quitarle prioridad y reservar «más turnos de planificador» para otros posibles procesos.</li>
 </ul>
 <p>El comando <code class="docutils literal"><span class="pre">nice</span></code> permite indicar prioridades entre -20 y 19. El -20 implica que un proceso reciba la <strong>máxima prioridad</strong>, y el 19 supone asignar la <strong>mínima prioridad</strong></p>
 </div>
@@ -657,7 +657,7 @@
 </pre></div>
 </div>
 <p>Si dos o más procesos avanzan por esta sección de código es perfectamente posible que unas veces nuestro programa multiproceso se ejecute bien y otras no.</p>
-<p>En todo programa multiproceso pueden encontrarse estas zonas de código &#8220;peligrosas&#8221; que deben protegerse especialmente utilizando ciertos mecanismos. El nombre global para todos los lenguajes es denominar a estos trozos &#8220;secciones críticas&#8221;.</p>
+<p>En todo programa multiproceso pueden encontrarse estas zonas de código «peligrosas» que deben protegerse especialmente utilizando ciertos mecanismos. El nombre global para todos los lenguajes es denominar a estos trozos «secciones críticas».</p>
 <div class="section" id="mecanismos-para-controlar-secciones-criticas">
 <h3>Mecanismos para controlar secciones críticas<a class="headerlink" href="#mecanismos-para-controlar-secciones-criticas" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Los mecanismos más típicos son los ofrecidos por UNIX/Windows:</p>
@@ -667,7 +667,7 @@
 <li>Tuberías (pipes)</li>
 <li>Bloques de memoria compartida.</li>
 </ul>
-<p>En realidad algunos de estos mecanismos se utilizan más para intercomunicar procesos, aunque para los programadores Java la forma de resolver el problema de la &#8220;sección crítica&#8221; es más simple.</p>
+<p>En realidad algunos de estos mecanismos se utilizan más para intercomunicar procesos, aunque para los programadores Java la forma de resolver el problema de la «sección crítica» es más simple.</p>
 <p>En Java, si el programador piensa que un trozo de código es peligroso puede ponerle la palabra clave <code class="docutils literal"><span class="pre">synchronized</span></code> y la máquina virtual Java protege el código automáticamente.</p>
 <div class="highlight-java"><div class="highlight"><pre><span></span>    <span class="cm">/* La máquina virtual Java evitará que más de un proceso/hilo acceda a este método*/</span>
     <span class="kd">synchronized</span>
@@ -703,8 +703,8 @@
 <li>A veces cuando un depurador interviene en un proceso puede ocurrir que el resto de procesos consigan ejecutarse en el orden correcto y dar lugar a que el programa parezca que funciona bien.</li>
 <li>Un error muy típico es la <code class="docutils literal"><span class="pre">NullPointerException</span></code>, que en muchos casos se deben a la utilización de referencias Java no inicializadas o incluso a la devolución de valores NULL que luego no se comprueban en alguna parte del código.</li>
 <li>Se puede usar el método <code class="docutils literal"><span class="pre">redirectError</span></code> pasándole un objeto de tipo <code class="docutils literal"><span class="pre">File</span></code> para que los mensajes de error vayan a un fichero.</li>
-<li>Se debe recordar que la &#8220;visión&#8221; que tiene Eclipse del sistema puede ser <strong>muy diferente</strong> de la visión que tiene el proceso lanzado. Un problema muy común es que el proceso lanzado no encuentre clases, lo que obligará a indicar el <code class="docutils literal"><span class="pre">CLASSPATH</span></code>.</li>
-<li>Un buen método para determinar errores consiste en utilizar el entorno de consola para lanzar comandos para ver &#8220;como es el sistema&#8221; que ve un proceso fuera de Eclipse (o de cualquier otro entorno).</li>
+<li>Se debe recordar que la «visión» que tiene Eclipse del sistema puede ser <strong>muy diferente</strong> de la visión que tiene el proceso lanzado. Un problema muy común es que el proceso lanzado no encuentre clases, lo que obligará a indicar el <code class="docutils literal"><span class="pre">CLASSPATH</span></code>.</li>
+<li>Un buen método para determinar errores consiste en utilizar el entorno de consola para lanzar comandos para ver «como es el sistema» que ve un proceso fuera de Eclipse (o de cualquier otro entorno).</li>
 </ol>
 <p>En general todos los fallos en un programa multiproceso vienen derivado de no usar <code class="docutils literal"><span class="pre">synchronized</span></code> de la forma correcta.</p>
 </div>
@@ -772,7 +772,7 @@
   <div role="note" aria-label="source link">
     <h3>Esta página</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/textos/tema1.txt"
+      <li><a href="../_sources/textos/tema1.rst.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
    </div>
@@ -794,11 +794,11 @@
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="../_sources/textos/tema1.txt"
+      <a href="../_sources/textos/tema1.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

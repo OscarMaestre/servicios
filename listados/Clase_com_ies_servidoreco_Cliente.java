@@ -44,8 +44,8 @@ public class Cliente implements Runnable {
 
     public boolean servidorFunciona() {
         /* Elegimos una palabra al azar*/
-        String palabra =
-            palabras[generador.nextInt(palabras.length)];
+        String palabra = palabras[generador.nextInt(
+                                      palabras.length)];
         String eco;
         try {
             /* Si no pudimos obtener un flujo

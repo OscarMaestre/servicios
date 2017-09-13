@@ -1,30 +1,29 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Utilización de técnicas de programación segura &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
-    
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
         VERSION:     '1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
-    <link rel="top" title="Apuntes de Lenguajes de Marcas v1.3" href="../index.html" />
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
     <link rel="next" title="Anexos" href="anexos.html" />
     <link rel="prev" title="Generación de servicios en red" href="tema4.html" />
    
@@ -34,7 +33,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -46,7 +45,7 @@
 <h1>Utilización de técnicas de programación segura<a class="headerlink" href="#utilizacion-de-tecnicas-de-programacion-segura" title="Enlazar permanentemente con este título">¶</a></h1>
 <div class="section" id="introduccion">
 <h2>Introducción<a class="headerlink" href="#introduccion" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>En general, cuando se envía algo a través de sockets se envía como &#8220;texto plano&#8221;, es decir, no sabemos si hay alguien usando un sniffer en la red y por tanto no sabemos si alguien está capturando los datos.</p>
+<p>En general, cuando se envía algo a través de sockets se envía como «texto plano», es decir, no sabemos si hay alguien usando un sniffer en la red y por tanto no sabemos si alguien está capturando los datos.</p>
 <p>En general, cualquier sistema que pretenda ser seguro necesitará usar cifrado.</p>
 </div>
 <div class="section" id="practicas-de-programacion-segura">
@@ -297,7 +296,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <p>Una vez creados los ficheros iniciales se deben dar los siguientes pasos en Java (servidor y cliente van por separado):</p>
 <ol class="arabic simple">
 <li>El servidor debe cargar su almacén de claves (el fichero <code class="docutils literal"><span class="pre">clavesservidor</span></code>)</li>
-<li>Ese almacén (cargado en un objeto Java llamado <code class="docutils literal"><span class="pre">KeyStore</span></code>), se usará para crear un gestor de claves (objeto <code class="docutils literal"><span class="pre">KeyManager</span></code>), el cual se obtiene a partir de una &#8220;fábrica&#8221; llamada <code class="docutils literal"><span class="pre">KeyManagerFactory</span></code>.</li>
+<li>Ese almacén (cargado en un objeto Java llamado <code class="docutils literal"><span class="pre">KeyStore</span></code>), se usará para crear un gestor de claves (objeto <code class="docutils literal"><span class="pre">KeyManager</span></code>), el cual se obtiene a partir de una «fábrica» llamada <code class="docutils literal"><span class="pre">KeyManagerFactory</span></code>.</li>
 <li>Se creará un contexto SSL (objeto <code class="docutils literal"><span class="pre">SSLContext</span></code>) a partir de la fábrica comentada.</li>
 <li>El objeto <code class="docutils literal"><span class="pre">SSLContext</span></code> permitirá crear una fábrica de sockets que será la que finalmente nos permita tener un <code class="docutils literal"><span class="pre">SSLServerSocket</span></code>, es decir un socket de servidor que usará cifrado.</li>
 </ol>
@@ -367,8 +366,8 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 </div>
 <p>En el cliente se tienen que dar algunos pasos parecidos:</p>
 <ol class="arabic simple">
-<li>En primer lugar se carga el almacén de claves del cliente (que contiene el certificado del servidor y que es la clave para poder &#8220;autenticar&#8221; el servidor)</li>
-<li>El almacén del cliente se usará para crear un &#8220;gestor de confianza&#8221; (<code class="docutils literal"><span class="pre">TrustManager</span></code>) que Java usará para determinar si puede confiar o no en una conexión. Usaremos un <code class="docutils literal"><span class="pre">TrustManagerFactory</span></code> que usará el almacén del cliente para crear objetos que puedan gestionar la confianza.</li>
+<li>En primer lugar se carga el almacén de claves del cliente (que contiene el certificado del servidor y que es la clave para poder «autenticar» el servidor)</li>
+<li>El almacén del cliente se usará para crear un «gestor de confianza» (<code class="docutils literal"><span class="pre">TrustManager</span></code>) que Java usará para determinar si puede confiar o no en una conexión. Usaremos un <code class="docutils literal"><span class="pre">TrustManagerFactory</span></code> que usará el almacén del cliente para crear objetos que puedan gestionar la confianza.</li>
 <li>Se creará un contexto SSL (<code class="docutils literal"><span class="pre">SSLContext</span></code>) que se basará en los <code class="docutils literal"><span class="pre">TrustManager</span></code> que pueda crear la fábrica.</li>
 <li>A partir del contexto SSL el cliente ya puede crear un socket seguro (<code class="docutils literal"><span class="pre">SSLSocket</span></code>) que puede usar para conectar con el servidor de forma segura.</li>
 </ol>
@@ -444,7 +443,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 </div>
 <div class="section" id="firmado-de-aplicaciones">
 <h2>Firmado de aplicaciones<a class="headerlink" href="#firmado-de-aplicaciones" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>Utilizando la criptografía de clave pública es posible &#8220;firmar&#8221; aplicaciones. El firmado es un mecanismo que permite al usuario de una aplicación el verificar que la aplicación no ha sido alterada desde que el programador la creó (virus o programas malignos, personal descontento con la empresa, etc...).</p>
+<p>Utilizando la criptografía de clave pública es posible «firmar» aplicaciones. El firmado es un mecanismo que permite al usuario de una aplicación el verificar que la aplicación no ha sido alterada desde que el programador la creó (virus o programas malignos, personal descontento con la empresa, etc…).</p>
 <p>Antes de efectuar el firmado se debe disponer de un par de claves generadas con la herramienta <code class="docutils literal"><span class="pre">keytool</span></code> mencionada anteriormente. Supongamos que el almacén de claves está creado y que en él hay uno o varios <em>alias</em> creados. El proceso de firmado es el siguiente:</p>
 <ol class="arabic simple">
 <li>Crear la aplicación, que puede estar formada por un conjunto de clases pero que en última instancia tendrá un <code class="docutils literal"><span class="pre">main</span></code>.</li>
@@ -528,7 +527,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
   <div role="note" aria-label="source link">
     <h3>Esta página</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/textos/tema5.txt"
+      <li><a href="../_sources/textos/tema5.rst.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
    </div>
@@ -550,11 +549,11 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="../_sources/textos/tema5.txt"
+      <a href="../_sources/textos/tema5.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

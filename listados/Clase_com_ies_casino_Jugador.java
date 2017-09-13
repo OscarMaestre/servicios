@@ -1,5 +1,5 @@
 public abstract class Jugador implements
-        Runnable {
+    Runnable {
 
     protected long saldo;
 
