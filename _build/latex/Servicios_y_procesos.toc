@@ -55,7 +55,7 @@
 \contentsline {subsection}{\numberline {2.17.1}Una cola limitada en tama\IeC {\~n}o}{34}{subsection.2.17.1}
 \contentsline {subsection}{\numberline {2.17.2}Un gestor de concurrencia para la cola}{34}{subsection.2.17.2}
 \contentsline {subsection}{\numberline {2.17.3}La clase Productor}{35}{subsection.2.17.3}
-\contentsline {subsection}{\numberline {2.17.4}La clase consumidor}{35}{subsection.2.17.4}
+\contentsline {subsection}{\numberline {2.17.4}La clase Consumidor}{35}{subsection.2.17.4}
 \contentsline {subsection}{\numberline {2.17.5}Un lanzador}{36}{subsection.2.17.5}
 \contentsline {section}{\numberline {2.18}Ejercicio}{37}{section.2.18}
 \contentsline {section}{\numberline {2.19}Documentaci\IeC {\'o}n.}{37}{section.2.19}
