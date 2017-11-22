@@ -416,7 +416,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <p>Despues de comer, soltará los cubiertos y esperará al azar un tiempo entre 1000 y 5000 milisegundos, indicando por pantalla «El filósofo 2 está pensando».</p>
 <p>En general todos los objetos de la clase Filósofo está en un bucle infinito dedicándose a comer y a pensar.</p>
 <p>Simular este problema en un programa Java que muestre el progreso de todos sin caer en problemas de sincronización ni de inanición.</p>
-<div class="figure align-center" id="id2" style="width: 50%">
+<div class="figure align-center" id="id3" style="width: 50%">
 <img alt="../_images/Filosofos.png" src="../_images/Filosofos.png" />
 <p class="caption"><span class="caption-text">Esquema de los filósofos</span></p>
 </div>
@@ -605,7 +605,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <div class="section" id="id1">
 <h2>Problema<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>En una peluquería hay barberos y sillas para los clientes (siempre hay más sillas que clientes). Sin embargo, en esta peluquería no siempre hay trabajo por lo que los barberos duermen cuando no hay clientes a los que afeitar. Un cliente puede llegar a la barbería y encontrar alguna silla libre, en cuyo caso, el cliente se sienta y esperará que algún barbero le afeite. Puede ocurrir que el cliente llegue y no haya sillas libres, en cuyo caso se marcha. Simular el comportamiento de la barbería mediante un programa Java.</p>
-<div class="figure align-center" id="id3" style="width: 50%">
+<div class="figure align-center" id="id4" style="width: 50%">
 <img alt="../_images/barberodormilon.png" src="../_images/barberodormilon.png" />
 <p class="caption"><span class="caption-text">Los  barberos dormilones</span></p>
 </div>
@@ -1064,6 +1064,126 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li>No quedan productos: el cliente simplemente se marchará.</li>
 </ol>
 <p>Realizar la simulación en Java de dicha situación.</p>
+<p>Una posible solución sería la siguiente:</p>
+<div class="section" id="id2">
+<h3>Clase cliente<a class="headerlink" href="#id2" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cliente</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+
+        <span class="n">Puerta</span>      <span class="n">puerta</span><span class="o">;</span>
+        <span class="n">Almacen</span>     <span class="n">almacen</span><span class="o">;</span>
+        <span class="n">String</span>      <span class="n">nombre</span><span class="o">;</span>
+        <span class="n">Random</span>      <span class="n">generador</span><span class="o">;</span>
+        <span class="kd">final</span> <span class="kt">int</span> <span class="n">MAX_INTENTOS</span>  <span class="o">=</span>   <span class="mi">10</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nf">Cliente</span><span class="o">(</span><span class="n">Puerta</span> <span class="n">p</span><span class="o">,</span> <span class="n">Almacen</span> <span class="n">a</span><span class="o">,</span> <span class="n">String</span> <span class="n">nombre</span><span class="o">){</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">puerta</span>     <span class="o">=</span>   <span class="n">p</span><span class="o">;</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">almacen</span>    <span class="o">=</span>   <span class="n">a</span><span class="o">;</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">nombre</span>     <span class="o">=</span>   <span class="n">nombre</span><span class="o">;</span>
+                <span class="n">generador</span>       <span class="o">=</span>   <span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">esperar</span><span class="o">(){</span>
+                <span class="k">try</span> <span class="o">{</span>
+                        <span class="kt">int</span> <span class="n">ms_azar</span> <span class="o">=</span> <span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+                        <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">ms_azar</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Falló la espera&quot;</span><span class="o">);</span>
+                <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">MAX_INTENTOS</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                        <span class="k">if</span> <span class="o">(!</span><span class="n">puerta</span><span class="o">.</span><span class="na">estaOcupada</span><span class="o">()){</span>
+                                <span class="k">if</span> <span class="o">(</span><span class="n">puerta</span><span class="o">.</span><span class="na">intentarEntrar</span><span class="o">()){</span>
+                                        <span class="n">esperar</span><span class="o">();</span>
+                                        <span class="n">puerta</span><span class="o">.</span><span class="na">liberarPuerta</span><span class="o">();</span>
+                                        <span class="k">if</span> <span class="o">(</span><span class="n">almacen</span><span class="o">.</span><span class="na">cogerProducto</span><span class="o">()){</span>
+                                                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
+                                                                <span class="k">this</span><span class="o">.</span><span class="na">nombre</span> <span class="o">+</span> <span class="s">&quot;: cogí un producto!&quot;</span><span class="o">);</span>
+                                                <span class="k">return</span> <span class="o">;</span>
+                                        <span class="o">}</span>
+                                        <span class="k">else</span> <span class="o">{</span>
+                                                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
+                                                           <span class="k">this</span><span class="o">.</span><span class="na">nombre</span><span class="o">+</span>
+                                                           <span class="s">&quot;: ops, crucé pero no cogí nada&quot;</span><span class="o">);</span>
+                                                <span class="k">return</span> <span class="o">;</span>
+                                        <span class="o">}</span> <span class="c1">//Fin del else</span>
+                                <span class="o">}</span> <span class="c1">//Fin del if</span>
+                        <span class="o">}</span> <span class="k">else</span><span class="o">{</span>
+                           <span class="n">esperar</span><span class="o">();</span>
+                        <span class="o">}</span>
+
+                <span class="o">}</span> <span class="c1">//Fin del for</span>
+                <span class="c1">//Se superó el máximo de reintentos y abandonamos</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">nombre</span><span class="o">+</span>
+                                <span class="s">&quot;: lo intenté muchas veces y no pude&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clase-almacen">
+<h3>Clase Almacén<a class="headerlink" href="#clase-almacen" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Almacen</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">numProductos</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nf">Almacen</span><span class="o">(</span><span class="kt">int</span> <span class="n">nProductos</span><span class="o">){</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">numProductos</span><span class="o">=</span><span class="n">nProductos</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">cogerProducto</span><span class="o">(){</span>
+                <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">numProductos</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">){</span>
+                        <span class="k">this</span><span class="o">.</span><span class="na">numProductos</span><span class="o">--;</span>
+                        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clase-puerta">
+<h3>Clase Puerta<a class="headerlink" href="#clase-puerta" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.logging.Level</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.logging.Logger</span><span class="o">;</span>
+
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Puerta</span> <span class="o">{</span>
+        <span class="kt">boolean</span> <span class="n">ocupada</span><span class="o">;</span>
+
+        <span class="n">Puerta</span><span class="o">(){</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">ocupada</span><span class="o">=</span><span class="kc">false</span><span class="o">;</span>
+
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">estaOcupada</span><span class="o">(){</span>
+                <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">ocupada</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">liberarPuerta</span><span class="o">(){</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">ocupada</span><span class="o">=</span><span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">boolean</span> <span class="nf">intentarEntrar</span><span class="o">(){</span>
+                <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">ocupada</span><span class="o">)</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="cm">/* Si llegamos aquí, la puerta estaba libre</span>
+<span class="cm">                pero la pondremos a ocupada un tiempo</span>
+<span class="cm">                y luego la volveremos a poner a &quot;libre&quot;</span>
+<span class="cm">                */</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">ocupada</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clase-lanzadora-grandesalmacenes">
+<h3>Clase lanzadora (GrandesAlmacenes)<a class="headerlink" href="#clase-lanzadora-grandesalmacenes" title="Enlazar permanentemente con este título">¶</a></h3>
+</div>
 </div>
 <div class="section" id="documentacion">
 <h2>Documentación.<a class="headerlink" href="#documentacion" title="Enlazar permanentemente con este título">¶</a></h2>
@@ -1128,7 +1248,13 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li><a class="reference internal" href="#un-lanzador">Un lanzador</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#ejercicio">Ejercicio</a></li>
+<li><a class="reference internal" href="#ejercicio">Ejercicio</a><ul>
+<li><a class="reference internal" href="#id2">Clase cliente</a></li>
+<li><a class="reference internal" href="#clase-almacen">Clase Almacén</a></li>
+<li><a class="reference internal" href="#clase-puerta">Clase Puerta</a></li>
+<li><a class="reference internal" href="#clase-lanzadora-grandesalmacenes">Clase lanzadora (GrandesAlmacenes)</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#documentacion">Documentación.</a></li>
 <li><a class="reference internal" href="#depuracion">Depuración.</a></li>
 </ul>
@@ -1168,7 +1294,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

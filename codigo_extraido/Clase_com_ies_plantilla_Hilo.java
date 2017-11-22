@@ -3,19 +3,19 @@
 public class Hilo implements Runnable {
 
     public Hilo() {
-    /* Inicializar aquÃ­ todos los atributos de interÃ©s*/
+    /* Inicializar aquí todos los atributos de interés*/
     }
 
-    /* Es obligatorio implementar este mÃ©todo.
+    /* Es obligatorio implementar este método.
 	 * Nunca lo llamaremos nosotros, sino Java */
     @Override
     public void run() {
-    /* Poner aquÃ­ el cÃ³digo de la tarea
+    /* Poner aquí el código de la tarea
 		 * que deseemos que permita el paralelismo
 		 * con otras
-		 * Â¡AtenciÃ³n! La tarea puede ser de 3 tipos
+		 * ¡Atención! La tarea puede ser de 3 tipos
 		 * 1.- Una tarea simple que ejecute algunas sentencias
-		 * 2.- Una tarea repetitiva que se ejecute mientras se dÃ© una condicion
+		 * 2.- Una tarea repetitiva que se ejecute mientras se dé una condicion
 		 * 3.- Una tarea repetitiva que se ejecute siempre (bucle infinito)*/
     }
 }

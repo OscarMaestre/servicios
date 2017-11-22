@@ -54,7 +54,7 @@
 
 
 \title{Apuntes de Servicios y Procesos}
-\date{16 de noviembre de 2017}
+\date{22 de noviembre de 2017}
 \release{1.3}
 \author{Oscar Gomez}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -70,7 +70,7 @@
 
 
 \chapter{Programación multiproceso}
-\label{\detokenize{textos/tema1::doc}}\label{\detokenize{textos/tema1:programacion-multiproceso}}\label{\detokenize{textos/tema1:programacion-de-servicios-y-procesos}}
+\label{\detokenize{textos/tema1:programacion-de-servicios-y-procesos}}\label{\detokenize{textos/tema1:programacion-multiproceso}}\label{\detokenize{textos/tema1::doc}}
 
 \section{Ejecutables. Procesos. Servicios.}
 \label{\detokenize{textos/tema1:ejecutables-procesos-servicios}}
@@ -908,7 +908,7 @@ Fecha por determinar
 
 
 \chapter{Programación multihilo}
-\label{\detokenize{textos/tema2::doc}}\label{\detokenize{textos/tema2:programacion-multihilo}}
+\label{\detokenize{textos/tema2:programacion-multihilo}}\label{\detokenize{textos/tema2::doc}}
 
 \section{Recursos compartidos por los hilos.}
 \label{\detokenize{textos/tema2:recursos-compartidos-por-los-hilos}}
@@ -1353,7 +1353,7 @@ Simular este problema en un programa Java que muestre el progreso de todos sin c
 \capstart
 
 \noindent\sphinxincludegraphics{{Filosofos}.png}
-\caption{Esquema de los filósofos}\label{\detokenize{textos/tema2:id2}}\end{figure}
+\caption{Esquema de los filósofos}\label{\detokenize{textos/tema2:id3}}\end{figure}
 
 
 \subsection{Boceto de solución}
@@ -1561,7 +1561,7 @@ En una peluquería hay barberos y sillas para los clientes (siempre hay más sil
 \capstart
 
 \noindent\sphinxincludegraphics{{barberodormilon}.png}
-\caption{Los  barberos dormilones}\label{\detokenize{textos/tema2:id3}}\end{figure}
+\caption{Los  barberos dormilones}\label{\detokenize{textos/tema2:id4}}\end{figure}
 
 
 \section{Una (mala) solución al problema de los barberos}
@@ -2043,6 +2043,130 @@ No quedan productos: el cliente simplemente se marchará.
 
 Realizar la simulación en Java de dicha situación.
 
+Una posible solución sería la siguiente:
+
+
+\subsection{Clase cliente}
+\label{\detokenize{textos/tema2:id2}}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package} \PYG{n+nn}{grandesalmacenes}\PYG{o}{;}
+
+\PYG{k+kn}{import} \PYG{n+nn}{java.util.Random}\PYG{o}{;}
+
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Cliente} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
+
+        \PYG{n}{Puerta}      \PYG{n}{puerta}\PYG{o}{;}
+        \PYG{n}{Almacen}     \PYG{n}{almacen}\PYG{o}{;}
+        \PYG{n}{String}      \PYG{n}{nombre}\PYG{o}{;}
+        \PYG{n}{Random}      \PYG{n}{generador}\PYG{o}{;}
+        \PYG{k+kd}{final} \PYG{k+kt}{int} \PYG{n}{MAX\PYGZus{}INTENTOS}  \PYG{o}{=}   \PYG{l+m+mi}{10}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{n+nf}{Cliente}\PYG{o}{(}\PYG{n}{Puerta} \PYG{n}{p}\PYG{o}{,} \PYG{n}{Almacen} \PYG{n}{a}\PYG{o}{,} \PYG{n}{String} \PYG{n}{nombre}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{puerta}     \PYG{o}{=}   \PYG{n}{p}\PYG{o}{;}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{almacen}    \PYG{o}{=}   \PYG{n}{a}\PYG{o}{;}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{nombre}     \PYG{o}{=}   \PYG{n}{nombre}\PYG{o}{;}
+                \PYG{n}{generador}       \PYG{o}{=}   \PYG{k}{new} \PYG{n}{Random}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{esperar}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{try} \PYG{o}{\PYGZob{}}
+                        \PYG{k+kt}{int} \PYG{n}{ms\PYGZus{}azar} \PYG{o}{=} \PYG{n}{generador}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{100}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{sleep}\PYG{o}{(}\PYG{n}{ms\PYGZus{}azar}\PYG{o}{)}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{ex}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Falló la espera\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{n+nd}{@Override}
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{run}\PYG{o}{(}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}INTENTOS}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{k}{if} \PYG{o}{(}\PYG{o}{!}\PYG{n}{puerta}\PYG{o}{.}\PYG{n+na}{estaOcupada}\PYG{o}{(}\PYG{o}{)}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                                \PYG{k}{if} \PYG{o}{(}\PYG{n}{puerta}\PYG{o}{.}\PYG{n+na}{intentarEntrar}\PYG{o}{(}\PYG{o}{)}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                                        \PYG{n}{esperar}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                                        \PYG{n}{puerta}\PYG{o}{.}\PYG{n+na}{liberarPuerta}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                                        \PYG{k}{if} \PYG{o}{(}\PYG{n}{almacen}\PYG{o}{.}\PYG{n+na}{cogerProducto}\PYG{o}{(}\PYG{o}{)}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                                                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
+                                                                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{nombre} \PYG{o}{+} \PYG{l+s}{\PYGZdq{}: cogí un producto!\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
+                                                \PYG{k}{return} \PYG{o}{;}
+                                        \PYG{o}{\PYGZcb{}}
+                                        \PYG{k}{else} \PYG{o}{\PYGZob{}}
+                                                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
+                                                           \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{nombre}\PYG{o}{+}
+                                                           \PYG{l+s}{\PYGZdq{}: ops, crucé pero no cogí nada\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
+                                                \PYG{k}{return} \PYG{o}{;}
+                                        \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del else}
+                                \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del if}
+                        \PYG{o}{\PYGZcb{}} \PYG{k}{else}\PYG{o}{\PYGZob{}}
+                           \PYG{n}{esperar}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{o}{\PYGZcb{}}
+
+                \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del for}
+                \PYG{c+c1}{//Se superó el máximo de reintentos y abandonamos}
+                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{nombre}\PYG{o}{+}
+                                \PYG{l+s}{\PYGZdq{}: lo intenté muchas veces y no pude\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+
+\subsection{Clase Almacén}
+\label{\detokenize{textos/tema2:clase-almacen}}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package} \PYG{n+nn}{grandesalmacenes}\PYG{o}{;}
+
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Almacen} \PYG{o}{\PYGZob{}}
+        \PYG{k+kd}{private} \PYG{k+kt}{int} \PYG{n}{numProductos}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{n+nf}{Almacen}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{nProductos}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{numProductos}\PYG{o}{=}\PYG{n}{nProductos}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{public} \PYG{k+kt}{boolean} \PYG{n+nf}{cogerProducto}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{if} \PYG{o}{(}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{numProductos}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{0}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{numProductos}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{;}
+                        \PYG{k}{return} \PYG{k+kc}{true}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}}
+                \PYG{k}{return} \PYG{k+kc}{false}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+
+\subsection{Clase Puerta}
+\label{\detokenize{textos/tema2:clase-puerta}}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package} \PYG{n+nn}{grandesalmacenes}\PYG{o}{;}
+
+\PYG{k+kn}{import} \PYG{n+nn}{java.util.Random}\PYG{o}{;}
+\PYG{k+kn}{import} \PYG{n+nn}{java.util.logging.Level}\PYG{o}{;}
+\PYG{k+kn}{import} \PYG{n+nn}{java.util.logging.Logger}\PYG{o}{;}
+
+
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Puerta} \PYG{o}{\PYGZob{}}
+        \PYG{k+kt}{boolean} \PYG{n}{ocupada}\PYG{o}{;}
+
+        \PYG{n}{Puerta}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{ocupada}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
+
+        \PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{public} \PYG{k+kt}{boolean} \PYG{n+nf}{estaOcupada}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{return} \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{ocupada}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{void} \PYG{n+nf}{liberarPuerta}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{ocupada}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{boolean} \PYG{n+nf}{intentarEntrar}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{if} \PYG{o}{(}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{ocupada}\PYG{o}{)} \PYG{k}{return} \PYG{k+kc}{false}\PYG{o}{;}
+                \PYG{c+cm}{/* Si llegamos aquí, la puerta estaba libre}
+\PYG{c+cm}{                pero la pondremos a ocupada un tiempo}
+\PYG{c+cm}{                y luego la volveremos a poner a \PYGZdq{}libre\PYGZdq{}}
+\PYG{c+cm}{                */}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{ocupada}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
+                \PYG{k}{return} \PYG{k+kc}{true}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+
+\subsection{Clase lanzadora (GrandesAlmacenes)}
+\label{\detokenize{textos/tema2:clase-lanzadora-grandesalmacenes}}
 
 \section{Documentación.}
 \label{\detokenize{textos/tema2:documentacion}}
@@ -2064,7 +2188,7 @@ Habrá que crear los recursos compartidos y crear los hilos. Esta operación se 
 \label{\detokenize{textos/tema2:depuracion}}
 
 \chapter{Programación de comunicaciones en red}
-\label{\detokenize{textos/tema3::doc}}\label{\detokenize{textos/tema3:programacion-de-comunicaciones-en-red}}
+\label{\detokenize{textos/tema3:programacion-de-comunicaciones-en-red}}\label{\detokenize{textos/tema3::doc}}
 
 \section{Comunicación entre aplicaciones.}
 \label{\detokenize{textos/tema3:comunicacion-entre-aplicaciones}}
@@ -3435,7 +3559,7 @@ Por otro lado, incluso probando en máquinas distintas pueden obtenerse fallos p
 
 
 \chapter{Generación de servicios en red}
-\label{\detokenize{textos/tema4::doc}}\label{\detokenize{textos/tema4:generacion-de-servicios-en-red}}
+\label{\detokenize{textos/tema4:generacion-de-servicios-en-red}}\label{\detokenize{textos/tema4::doc}}
 
 \section{Protocolos estándar de comunicación en red a nivel de aplicación}
 \label{\detokenize{textos/tema4:protocolos-estandar-de-comunicacion-en-red-a-nivel-de-aplicacion}}
@@ -3492,7 +3616,7 @@ Por otro lado, incluso probando en máquinas distintas pueden obtenerse fallos p
 \label{\detokenize{textos/tema4:monitorizacion-de-tiempos-de-respuesta}}
 
 \chapter{Utilización de técnicas de programación segura}
-\label{\detokenize{textos/tema5::doc}}\label{\detokenize{textos/tema5:utilizacion-de-tecnicas-de-programacion-segura}}
+\label{\detokenize{textos/tema5:utilizacion-de-tecnicas-de-programacion-segura}}\label{\detokenize{textos/tema5::doc}}
 
 \section{Introducción}
 \label{\detokenize{textos/tema5:introduccion}}
@@ -4040,7 +4164,7 @@ Hemos hecho el proceso de firmado y verificado con \sphinxstylestrong{certificad
 \label{\detokenize{textos/tema5:pruebas-y-depuracion}}
 
 \chapter{Anexos}
-\label{\detokenize{textos/anexos::doc}}\label{\detokenize{textos/anexos:anexos}}
+\label{\detokenize{textos/anexos:anexos}}\label{\detokenize{textos/anexos::doc}}
 
 \section{La clase \sphinxstyleliteralintitle{UtilidadesFicheros}}
 \label{\detokenize{textos/anexos:la-clase-utilidadesficheros}}
