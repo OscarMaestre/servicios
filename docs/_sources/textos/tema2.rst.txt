@@ -1214,7 +1214,7 @@ Clase Puerta
 Clase lanzadora (GrandesAlmacenes)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block::
+.. code-block:: java
 
 	package grandesalmacenes;
 	public class GrandesAlmacenes {  

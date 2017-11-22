@@ -1183,6 +1183,35 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="clase-lanzadora-grandesalmacenes">
 <h3>Clase lanzadora (GrandesAlmacenes)<a class="headerlink" href="#clase-lanzadora-grandesalmacenes" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GrandesAlmacenes</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+                <span class="kd">final</span> <span class="kt">int</span> <span class="n">NUM_CLIENTES</span>  <span class="o">=</span> <span class="mi">300</span><span class="o">;</span>
+                <span class="kd">final</span> <span class="kt">int</span> <span class="n">NUM_PRODUCTOS</span> <span class="o">=</span> <span class="mi">100</span><span class="o">;</span>
+
+                <span class="n">Cliente</span><span class="o">[]</span>   <span class="n">cliente</span> <span class="o">=</span>   <span class="k">new</span> <span class="n">Cliente</span><span class="o">[</span><span class="n">NUM_CLIENTES</span><span class="o">];</span>
+                <span class="n">Almacen</span>     <span class="n">almacen</span> <span class="o">=</span>   <span class="k">new</span> <span class="n">Almacen</span><span class="o">(</span><span class="n">NUM_PRODUCTOS</span><span class="o">);</span>
+                <span class="n">Puerta</span>      <span class="n">puerta</span>  <span class="o">=</span>   <span class="k">new</span> <span class="n">Puerta</span><span class="o">();</span>
+
+                <span class="n">Thread</span><span class="o">[]</span>    <span class="n">hilosAsociados</span><span class="o">=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">NUM_CLIENTES</span><span class="o">];</span>
+
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">NUM_CLIENTES</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                        <span class="n">String</span> <span class="n">nombreHilo</span>   <span class="o">=</span> <span class="s">&quot;Cliente &quot;</span><span class="o">+</span><span class="n">i</span><span class="o">;</span>
+                        <span class="n">cliente</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>          <span class="o">=</span> <span class="k">new</span> <span class="n">Cliente</span><span class="o">(</span><span class="n">puerta</span><span class="o">,</span> <span class="n">almacen</span><span class="o">,</span>
+                                                                                                <span class="n">nombreHilo</span><span class="o">);</span>
+                        <span class="n">hilosAsociados</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>   <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">cliente</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+                        <span class="c1">//Intentamos arrancar el hilo</span>
+                        <span class="n">hilosAsociados</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+                <span class="o">}</span> <span class="c1">//Fin del for</span>
+
+                <span class="c1">//Una vez arrancados esperamos a que todos terminen</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">NUM_CLIENTES</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                        <span class="n">hilosAsociados</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
+                <span class="o">}</span> <span class="c1">//Fin del for</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="documentacion">
