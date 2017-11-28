@@ -54,7 +54,7 @@
 
 
 \title{Apuntes de Servicios y Procesos}
-\date{22 de noviembre de 2017}
+\date{28 de noviembre de 2017}
 \release{1.3}
 \author{Oscar Gomez}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -70,7 +70,7 @@
 
 
 \chapter{Programación multiproceso}
-\label{\detokenize{textos/tema1:programacion-de-servicios-y-procesos}}\label{\detokenize{textos/tema1::doc}}\label{\detokenize{textos/tema1:programacion-multiproceso}}
+\label{\detokenize{textos/tema1:programacion-multiproceso}}\label{\detokenize{textos/tema1::doc}}\label{\detokenize{textos/tema1:programacion-de-servicios-y-procesos}}
 
 \section{Ejecutables. Procesos. Servicios.}
 \label{\detokenize{textos/tema1:ejecutables-procesos-servicios}}
@@ -2156,8 +2156,7 @@ Una posible solución sería la siguiente:
                 \PYG{k}{if} \PYG{o}{(}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{ocupada}\PYG{o}{)} \PYG{k}{return} \PYG{k+kc}{false}\PYG{o}{;}
                 \PYG{c+cm}{/* Si llegamos aquí, la puerta estaba libre}
 \PYG{c+cm}{                pero la pondremos a ocupada un tiempo}
-\PYG{c+cm}{                y luego la volveremos a poner a \PYGZdq{}libre\PYGZdq{}}
-\PYG{c+cm}{                */}
+\PYG{c+cm}{                y luego la volveremos a poner a \PYGZdq{}libre\PYGZdq{}*/}
                 \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{ocupada}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
                 \PYG{k}{return} \PYG{k+kc}{true}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
@@ -2196,6 +2195,39 @@ Una posible solución sería la siguiente:
         \PYG{o}{\PYGZcb{}}
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
+
+
+\section{Simulación bancaria}
+\label{\detokenize{textos/tema2:simulacion-bancaria}}
+Un banco necesita controlar el acceso a cuentas bancarias y para ello desea hacer un programa de prueba en Java que permita lanzar procesos que ingresen y retiren dinero a la vez y comprobar así si el resultado final es el esperado.
+
+Se parte de una cuenta con 100 euros y se pueden tener procesos que ingresen 100 euros, 50 o 20. También se pueden tener procesos que retiran 100, 50 o 20 euros euros. Se desean tener los siguientes procesos:
+\begin{itemize}
+\item {} 
+40 procesos que ingresan 100
+
+\item {} 
+20 procesos que ingresan 50
+
+\item {} 
+60 que ingresen 20.
+
+\end{itemize}
+
+De la misma manera se desea lo siguientes
+\begin{itemize}
+\item {} 
+40 procesos que retiran 100
+
+\item {} 
+20 procesos que retiran  50
+
+\item {} 
+60 que retiran 20.
+
+\end{itemize}
+
+Se desea comprobar que tras la ejecución la cuenta tiene exactamente 100 euros, que era la cantidad de la que se disponía al principio. Realizar el programa Java que demuestra dicho hecho.
 
 
 \section{Documentación.}
@@ -4194,7 +4226,7 @@ Hemos hecho el proceso de firmado y verificado con \sphinxstylestrong{certificad
 \label{\detokenize{textos/tema5:pruebas-y-depuracion}}
 
 \chapter{Anexos}
-\label{\detokenize{textos/anexos:anexos}}\label{\detokenize{textos/anexos::doc}}
+\label{\detokenize{textos/anexos::doc}}\label{\detokenize{textos/anexos:anexos}}
 
 \section{La clase \sphinxstyleliteralintitle{UtilidadesFicheros}}
 \label{\detokenize{textos/anexos:la-clase-utilidadesficheros}}

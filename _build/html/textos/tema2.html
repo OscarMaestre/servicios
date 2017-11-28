@@ -1172,8 +1172,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
                 <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">ocupada</span><span class="o">)</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
                 <span class="cm">/* Si llegamos aquí, la puerta estaba libre</span>
 <span class="cm">                pero la pondremos a ocupada un tiempo</span>
-<span class="cm">                y luego la volveremos a poner a &quot;libre&quot;</span>
-<span class="cm">                */</span>
+<span class="cm">                y luego la volveremos a poner a &quot;libre&quot;*/</span>
                 <span class="k">this</span><span class="o">.</span><span class="na">ocupada</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
                 <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
         <span class="o">}</span>
@@ -1213,6 +1212,23 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="simulacion-bancaria">
+<h2>Simulación bancaria<a class="headerlink" href="#simulacion-bancaria" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Un banco necesita controlar el acceso a cuentas bancarias y para ello desea hacer un programa de prueba en Java que permita lanzar procesos que ingresen y retiren dinero a la vez y comprobar así si el resultado final es el esperado.</p>
+<p>Se parte de una cuenta con 100 euros y se pueden tener procesos que ingresen 100 euros, 50 o 20. También se pueden tener procesos que retiran 100, 50 o 20 euros euros. Se desean tener los siguientes procesos:</p>
+<ul class="simple">
+<li>40 procesos que ingresan 100</li>
+<li>20 procesos que ingresan 50</li>
+<li>60 que ingresen 20.</li>
+</ul>
+<p>De la misma manera se desea lo siguientes</p>
+<ul class="simple">
+<li>40 procesos que retiran 100</li>
+<li>20 procesos que retiran  50</li>
+<li>60 que retiran 20.</li>
+</ul>
+<p>Se desea comprobar que tras la ejecución la cuenta tiene exactamente 100 euros, que era la cantidad de la que se disponía al principio. Realizar el programa Java que demuestra dicho hecho.</p>
 </div>
 <div class="section" id="documentacion">
 <h2>Documentación.<a class="headerlink" href="#documentacion" title="Enlazar permanentemente con este título">¶</a></h2>
@@ -1284,6 +1300,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li><a class="reference internal" href="#clase-lanzadora-grandesalmacenes">Clase lanzadora (GrandesAlmacenes)</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#simulacion-bancaria">Simulación bancaria</a></li>
 <li><a class="reference internal" href="#documentacion">Documentación.</a></li>
 <li><a class="reference internal" href="#depuracion">Depuración.</a></li>
 </ul>
