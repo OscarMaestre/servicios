@@ -1254,7 +1254,7 @@ Se parte de una cuenta con 100 euros y se pueden tener procesos que ingresen 100
 * 20 procesos que ingresan 50
 * 60 que ingresen 20.
 
-De la misma manera se desea lo siguientes
+De la misma manera se desean lo siguientes procesos que retiran cantidades.
 
 * 40 procesos que retiran 100
 * 20 procesos que retiran  50
