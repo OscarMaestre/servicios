@@ -1229,6 +1229,133 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li>60 que retiran 20.</li>
 </ul>
 <p>Se desea comprobar que tras la ejecución la cuenta tiene exactamente 100 euros, que era la cantidad de la que se disponía al principio. Realizar el programa Java que demuestra dicho hecho.</p>
+<p>En primer lugar la clase Cuenta podría ser así:</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cuenta</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">saldo</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">saldoInicial</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Cuenta</span><span class="o">(</span><span class="kt">int</span> <span class="n">saldo</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">saldoInicial</span><span class="o">=</span><span class="n">saldo</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">saldo</span><span class="o">=</span><span class="n">saldo</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">hacerMovimiento</span><span class="o">(</span><span class="kt">int</span> <span class="n">cantidad</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">saldo</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">saldo</span><span class="o">+</span><span class="n">cantidad</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">esSimulacionCorrecta</span><span class="o">(){</span>
+        <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">saldo</span><span class="o">==</span><span class="k">this</span><span class="o">.</span><span class="na">saldoInicial</span><span class="o">)</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getSaldo</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">saldo</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>La clase HiloCliente podría ser así:</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HiloCliente</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+    <span class="n">Cuenta</span> <span class="n">cuenta</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">cantidad</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">HiloCliente</span><span class="o">(</span><span class="n">Cuenta</span> <span class="n">cuenta</span><span class="o">,</span> <span class="kt">int</span> <span class="n">cantidad</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">cuenta</span> <span class="o">=</span> <span class="n">cuenta</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">cantidad</span> <span class="o">=</span> <span class="n">cantidad</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="cm">/* Forzamos la maquinaria: repetimos</span>
+<span class="cm">        la operación muchísimas veces para</span>
+<span class="cm">        intentar verificar si la simulación es</span>
+<span class="cm">        correcta</span>
+<span class="cm">        */</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">100</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="n">cuenta</span><span class="o">.</span><span class="na">hacerMovimiento</span><span class="o">(</span><span class="n">cantidad</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>La clase Lanzador podría ser así:</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span><span class="o">{</span>
+        <span class="n">Cuenta</span> <span class="n">cuenta</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Cuenta</span> <span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+
+        <span class="kd">final</span> <span class="kt">int</span> <span class="n">NUM_OPS_CON_100</span> <span class="o">=</span> <span class="mi">40</span><span class="o">;</span>
+        <span class="kd">final</span> <span class="kt">int</span> <span class="n">NUM_OPS_CON_50</span>  <span class="o">=</span> <span class="mi">20</span><span class="o">;</span>
+        <span class="kd">final</span> <span class="kt">int</span> <span class="n">NUM_OPS_CON_20</span>  <span class="o">=</span> <span class="mi">60</span><span class="o">;</span>
+
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">hilosIngresan100</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">NUM_OPS_CON_100</span><span class="o">];</span>
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">hilosRetiran100</span>  <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">NUM_OPS_CON_100</span><span class="o">];</span>
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">hilosIngresan50</span>  <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">NUM_OPS_CON_50</span><span class="o">];</span>
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">hilosRetiran50</span>   <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">NUM_OPS_CON_50</span><span class="o">];</span>
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">hilosIngresan20</span>  <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">NUM_OPS_CON_20</span><span class="o">];</span>
+        <span class="n">Thread</span><span class="o">[]</span> <span class="n">hilosRetiran20</span>   <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">NUM_OPS_CON_20</span><span class="o">];</span>
+
+        <span class="cm">/* Arrancamos todos los hilos*/</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">NUM_OPS_CON_100</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+            <span class="n">HiloCliente</span> <span class="n">ingresa</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HiloCliente</span><span class="o">(</span><span class="n">cuenta</span><span class="o">,</span> <span class="mi">100</span><span class="o">);</span>
+            <span class="n">HiloCliente</span> <span class="n">retira</span>  <span class="o">=</span> <span class="k">new</span> <span class="n">HiloCliente</span><span class="o">(</span><span class="n">cuenta</span><span class="o">,</span> <span class="o">-</span><span class="mi">100</span><span class="o">);</span>
+
+            <span class="n">hilosIngresan100</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">ingresa</span><span class="o">);</span>
+            <span class="n">hilosRetiran100</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">retira</span><span class="o">);</span>
+
+            <span class="n">hilosIngresan100</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+            <span class="n">hilosRetiran100</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">NUM_OPS_CON_50</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+            <span class="n">HiloCliente</span> <span class="n">ingresa</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HiloCliente</span><span class="o">(</span><span class="n">cuenta</span><span class="o">,</span> <span class="mi">50</span><span class="o">);</span>
+            <span class="n">HiloCliente</span> <span class="n">retira</span>  <span class="o">=</span> <span class="k">new</span> <span class="n">HiloCliente</span><span class="o">(</span><span class="n">cuenta</span><span class="o">,</span> <span class="o">-</span><span class="mi">50</span><span class="o">);</span>
+
+            <span class="n">hilosIngresan50</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">ingresa</span><span class="o">);</span>
+            <span class="n">hilosRetiran50</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">retira</span><span class="o">);</span>
+
+            <span class="n">hilosIngresan50</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+            <span class="n">hilosRetiran50</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">NUM_OPS_CON_20</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+            <span class="n">HiloCliente</span> <span class="n">ingresa</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HiloCliente</span><span class="o">(</span><span class="n">cuenta</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+            <span class="n">HiloCliente</span> <span class="n">retira</span>  <span class="o">=</span> <span class="k">new</span> <span class="n">HiloCliente</span><span class="o">(</span><span class="n">cuenta</span><span class="o">,</span> <span class="o">-</span><span class="mi">20</span><span class="o">);</span>
+
+            <span class="n">hilosIngresan20</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">ingresa</span><span class="o">);</span>
+            <span class="n">hilosRetiran20</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">retira</span><span class="o">);</span>
+
+            <span class="n">hilosIngresan20</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+            <span class="n">hilosRetiran20</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="cm">/* En este punto todos los hilos están arrancados,</span>
+<span class="cm">        ahora toca esperarlos */</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">NUM_OPS_CON_100</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+            <span class="n">hilosIngresan100</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
+            <span class="n">hilosRetiran100</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">NUM_OPS_CON_50</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+            <span class="n">hilosIngresan50</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
+            <span class="n">hilosRetiran50</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">NUM_OPS_CON_20</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+            <span class="n">hilosIngresan20</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
+            <span class="n">hilosRetiran20</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">cuenta</span><span class="o">.</span><span class="na">esSimulacionCorrecta</span><span class="o">()){</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;La simulación fue correcta&quot;</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;La simulación falló &quot;</span><span class="o">);</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;La cuenta tiene:&quot;</span><span class="o">+</span>
+                    <span class="n">cuenta</span><span class="o">.</span><span class="na">getSaldo</span><span class="o">());</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Revise sus synchronized&quot;</span><span class="o">);</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="documentacion">
 <h2>Documentación.<a class="headerlink" href="#documentacion" title="Enlazar permanentemente con este título">¶</a></h2>
