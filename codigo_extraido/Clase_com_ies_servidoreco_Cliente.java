@@ -72,7 +72,7 @@ public class Cliente implements Runnable {
         }
         /*Si se llega a este punto es porque
 		 *la palabra devuelta no fue la
-		 *que enviamos, o sea que el servidor fallÛ
+		 *que enviamos, o sea que el servidor fall√≥
 		*/
         return false;
     }
@@ -81,7 +81,7 @@ public class Cliente implements Runnable {
     public void run() {
         if (!servidorFunciona()) {
             /* Imprimimos un mensaje y 
-			 * adem·s cambiamos la variable
+			 * adem√°s cambiamos la variable
 			 * que indica que hubo un fallo
 			 */
             System.out.println("Fallo en el hilo " + numHilo);

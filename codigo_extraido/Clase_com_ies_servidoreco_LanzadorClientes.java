@@ -16,18 +16,18 @@ public class LanzadorClientes {
         }
         System.out.println("Lanzados!");
         /* Esperamos que todos los hilos acaben
-		 * dandoles un plazo maximo mas bien pequeño
-		 * Si en ese tiempo no se completó
-		 * una operación tan simple, probablemente
-		 * el servidor falló*/
+		 * dandoles un plazo maximo mas bien pequeÃ±o
+		 * Si en ese tiempo no se completÃ³
+		 * una operaciÃ³n tan simple, probablemente
+		 * el servidor fallÃ³*/
         for (int i = 0; i < numClientes; i++) {
             try {
                 hilos[i].join();
             } catch (InterruptedException e) {
-                System.out.println("Se interrumpió un hilo por parte " + "de alguna clase del cliente ");
+                System.out.println("Se interrumpiÃ³ un hilo por parte " + "de alguna clase del cliente ");
             }
         }
-        /* Comprobamos si todos los hilos están bien
+        /* Comprobamos si todos los hilos estÃ¡n bien
 		 * y en cuanto uno sufra un fallo podemos 
 		 * asumir que el servidor no pudo atender tantos
 		 * clientes*/
@@ -54,7 +54,7 @@ public class LanzadorClientes {
 			 * de clientes con que se produjo el fallo
 			 */
             if (!todoOK) {
-                System.out.println("El servidor pareció fallar con:" + numClientes);
+                System.out.println("El servidor pareciÃ³ fallar con:" + numClientes);
                 return;
             }
         //Fin del if
