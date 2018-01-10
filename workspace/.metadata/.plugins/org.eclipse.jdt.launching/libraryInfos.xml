@@ -76,7 +76,7 @@
 <entry path="/home/usuario/jdk8/jdk/jre/lib/endorsed"/>
 </endorsedDirs>
 </libraryInfo>
-<libraryInfo home="/home/usuario/jdk8" version="1.8.0_111">
+<libraryInfo home="/home/usuario/jdk8" version="1.8.0_151">
 <bootpath>
 <entry path="/home/usuario/jdk8/jre/lib/resources.jar"/>
 <entry path="/home/usuario/jdk8/jre/lib/rt.jar"/>
