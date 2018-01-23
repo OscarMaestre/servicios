@@ -29,8 +29,8 @@ class GestorConexion(socketserver.BaseRequestHandler):
     def handle(self):
         direccion=self.client_address[0]
         operacion   =   self.leer_cadena(2)
-        num1        =   self.leer_cadena(3)
-        num2        =   self.leer_cadena(3)
+        num1        =   self.leer_cadena(5)
+        num2        =   self.leer_cadena(5)
         print (direccion+" pregunta:"+str(num1)+" "+str(operacion)+" "+str(num2))
         
         resultado=self.calcular_resultado(num1, operacion, num2)

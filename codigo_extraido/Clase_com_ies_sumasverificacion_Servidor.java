@@ -19,7 +19,7 @@ public class Servidor {
         //Se pudo crear pero no fuimos
         //capaces de enviar o recibir nada
         //Todo funcionaba pero el usuario
-        //interrumpiÃ³
+        //interrumpió
         }
     }
 

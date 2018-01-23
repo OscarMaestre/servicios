@@ -29,8 +29,8 @@ public class Cliente {
             bfr.close();
             conexion.close();
         } catch (IOException e) {
-        //Quiza el servidor no est√° encendido
-        //Quiz√° lo est√© pero su cortafuegos
+        //Quiza el servidor no est· encendido
+        //Quiz· lo estÈ pero su cortafuegos
         //impide conexiones
         //...
         }
