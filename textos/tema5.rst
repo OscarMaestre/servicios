@@ -480,6 +480,7 @@ Hemos hecho el proceso de firmado y verificado con **certificados autofirmados**
 Política de seguridad.
 ------------------------------------------------------------
 
+Java incluye un mecanismo para definir *políticas de seguridad*. La definición oficial de Java para una política es *objeto que especifica qué permisos están disponibles para el código en función de su origen y del usuario con el que se ejecutan*. Este origen puede ser los diversos directorios del sistema operativo o incluso direcciones URL.
 
 Programación de mecanismos de control de acceso.
 ------------------------------------------------------------
