@@ -476,6 +476,9 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 </div>
 <div class="section" id="politica-de-seguridad">
 <h2>Política de seguridad.<a class="headerlink" href="#politica-de-seguridad" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Java incluye un mecanismo para definir <em>políticas de seguridad</em>. La definición oficial de Java para una política es <em>objeto que especifica qué permisos están disponibles para el código en función de su origen y del usuario con el que se ejecutan</em>. Este origen puede ser los diversos directorios del sistema operativo o incluso direcciones URL.</p>
+<p>Cabe destacar que <strong>todo lo que se menciona aquí no funciona si el usuario tiene acceso al sistema y puede ejecutar el intérprete de Java sin restricciones</strong>. Es decir, se necesita el trabajo de un administrador de sistemas para restringir la manera en la que el usuario ejecuta el código.</p>
+<p>Supongamos entonces que estamos en un entorno seguro donde los programas Java se ejecutan utilizando un gestor de seguridad, es decir, se lanzan ejecutando <code class="docutils literal"><span class="pre">java</span> <span class="pre">-Djava.security.manager</span> <span class="pre">Clase</span></code>. En principio, los programas no podrán hacer muchas cosas, como por ejemplo, conectarse a Internet o leer un fichero que no esté en el mismo directorio de la clase.</p>
 </div>
 <div class="section" id="programacion-de-mecanismos-de-control-de-acceso">
 <h2>Programación de mecanismos de control de acceso.<a class="headerlink" href="#programacion-de-mecanismos-de-control-de-acceso" title="Enlazar permanentemente con este título">¶</a></h2>
@@ -549,7 +552,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
