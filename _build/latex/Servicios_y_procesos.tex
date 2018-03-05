@@ -44,7 +44,7 @@
 \addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
 \addto\captionsspanish{\renewcommand{\literalblockname}{Lista}}
 
-\addto\captionsspanish{\renewcommand{\literalblockcontinuedname}{continued from previous page}}
+\addto\captionsspanish{\renewcommand{\literalblockcontinuedname}{proviene de la página anterior}}
 \addto\captionsspanish{\renewcommand{\literalblockcontinuesname}{continues on next page}}
 
 \addto\extrasspanish{\def\pageautorefname{página}}
@@ -54,7 +54,7 @@
 
 
 \title{Apuntes de Servicios y Procesos}
-\date{23 de enero de 2018}
+\date{05 de marzo de 2018}
 \release{1.3}
 \author{Oscar Gomez}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -70,7 +70,7 @@
 
 
 \chapter{Programación multiproceso}
-\label{\detokenize{textos/tema1::doc}}\label{\detokenize{textos/tema1:programacion-de-servicios-y-procesos}}\label{\detokenize{textos/tema1:programacion-multiproceso}}
+\label{\detokenize{textos/tema1:programacion-de-servicios-y-procesos}}\label{\detokenize{textos/tema1:programacion-multiproceso}}\label{\detokenize{textos/tema1::doc}}
 
 \section{Ejecutables. Procesos. Servicios.}
 \label{\detokenize{textos/tema1:ejecutables-procesos-servicios}}
@@ -908,7 +908,7 @@ Fecha por determinar
 
 
 \chapter{Programación multihilo}
-\label{\detokenize{textos/tema2::doc}}\label{\detokenize{textos/tema2:programacion-multihilo}}
+\label{\detokenize{textos/tema2:programacion-multihilo}}\label{\detokenize{textos/tema2::doc}}
 
 \section{Recursos compartidos por los hilos.}
 \label{\detokenize{textos/tema2:recursos-compartidos-por-los-hilos}}
@@ -3758,15 +3758,29 @@ Por otro lado, incluso probando en máquinas distintas pueden obtenerse fallos p
 
 \section{Protocolos estándar de comunicación en red a nivel de aplicación}
 \label{\detokenize{textos/tema4:protocolos-estandar-de-comunicacion-en-red-a-nivel-de-aplicacion}}
+Una vez vistas las comunicaciones en Java a través de sockets podemos utilizar dicho conocimiento para dar un paso más allá y acceder a servicios de red habituales. En las siguientes secciones desglosamos el funcionamiento de los protocoles y proporcionamos algunas clases básicas para realizar dichos accesos.
 
-\subsection{Telnet}
-\label{\detokenize{textos/tema4:telnet}}
+
+\subsection{Telnet/SSH}
+\label{\detokenize{textos/tema4:telnet-ssh}}
+Aunque hoy está prácticamente obsoleto, Telnet fue un servicio de administración remota que permitía conectarse a máquinas UNIX desde un sitio remoto, permitiendo enviar comandos y ver el resultado de dichos comandos en nuestro terminal \sphinxstyleemphasis{como si estuviésemos sentados en la máquina administrada}
+
+El gran problema de Telnet fue \sphinxstylestrong{la seguridad}. Telnet no enviaba datos cifrados por lo que cualquier persona con un \sphinxstyleemphasis{sniffer} podía capturar el tráfico de una sesión y ver no solamente los comandos sino también los usuarios y contraseñas enviados a través de la red. Por ello, Telnet prácticamente no se usa hoy en día y ha sido sustituido «de facto» por SSH, que hace lo mismo pero cifrando la comunicación con criptografía de clave pública.
+
 
 \subsection{FTP}
 \label{\detokenize{textos/tema4:ftp}}
+FTP significa «File Transfer Protocol» y es un protocolo orientado a comandos pensado para descargar ficheros. Podría decirse que también tiende a desaparecer, ya que cada vez más a menudo se usa el navegador (con HTTP) para descargar ficheros. En realidad, algunos navegadores, como Mozilla Firefox siguen implementando el protocolo FTP, permitiendo así el descargar ficheros como si en realidad estuviésemos usando comandos.
+
+Cabe destacar que FTP tiene dos modalidades de uso: pasivo y activo. La diferencia entre activo y pasivo está en quien inicia las conexiones. Por defecto, los router no suelen permitir la entrada de conexiones iniciadas desde el exterior (aunque sí permiten que entren datos del exterior si desde el interior hemos iniciado previamente la conexion). Cuando se definió FTP como protocolo, se daba por sentado que todo el mundo aceptaría conexiones siempre, por lo cual en el FTP normal (el activo) se permite que el servidor inicie una conexión con nosotros para enviarnos un fichero. En FTP hay dos conexiones, una para enviar comandos (que inician los cliente) y otra (que inicia el servidor) para recibir el archivo. Podría decirse que en el FTP normal/activo «no se descarga» sino que «el servidor envía un fichero».
+
+Cuando la seguridad empezó a preocupar a todo el mundo los fabricantes y compañías telefónicas empezaron a distribuir routers en los que por defecto no se aceptaban conexiones empezadas fuera de nuestra red, así que de repente el FTP empezó mostrar un comportamiento peculiar que podría resumirse en la frase  «se pueden enviar comandos pero no descargar ficheros». Ese error tiene su lógica porque la conexión de comandos la inicia el cliente pero el servidor inicia la conexión (mejor dicho, lo intenta) para enviar el fichero al cliente. Debido a estos problemas  se desarrolló el  «modo pasivo», que consiste en que ahora el cliente inicia una conexión para enviar comandos e inicia otra conexión para descargar el fichero. Como la conexión de descarga se inicia «dentro de la red», el router autoriza la salida, toma nota de la conexión y cuando llega la respuesta, la deja pasar (porque observa que la conexión no se ha iniciado fuera, sino que es la respuesta a una conexión iniciada dentro). Como puede deducirse se llama pasivo porque el servidor ya no es activo, sino que se limita a recibir conexiones.
+
 
 \subsection{HTTP}
 \label{\detokenize{textos/tema4:http}}
+El protocolo para la transferencia de hipertexto (HyperText Transfer Protocol)
+
 
 \subsection{POP3}
 \label{\detokenize{textos/tema4:pop3}}
@@ -4351,6 +4365,12 @@ Hemos hecho el proceso de firmado y verificado con \sphinxstylestrong{certificad
 
 \section{Política de seguridad.}
 \label{\detokenize{textos/tema5:politica-de-seguridad}}
+Java incluye un mecanismo para definir \sphinxstyleemphasis{políticas de seguridad}. La definición oficial de Java para una política es \sphinxstyleemphasis{objeto que especifica qué permisos están disponibles para el código en función de su origen y del usuario con el que se ejecutan}. Este origen puede ser los diversos directorios del sistema operativo o incluso direcciones URL.
+
+Cabe destacar que \sphinxstylestrong{todo lo que se menciona aquí no funciona si el usuario tiene acceso al sistema y puede ejecutar el intérprete de Java sin restricciones}. Es decir, se necesita el trabajo de un administrador de sistemas para restringir la manera en la que el usuario ejecuta el código.
+
+Supongamos entonces que estamos en un entorno seguro donde los programas Java se ejecutan utilizando un gestor de seguridad, es decir, se lanzan ejecutando \sphinxcode{java -Djava.security.manager Clase}. En principio, los programas no podrán hacer muchas cosas, como por ejemplo, conectarse a Internet o leer un fichero que no esté en el mismo directorio de la clase.
+
 
 \section{Programación de mecanismos de control de acceso.}
 \label{\detokenize{textos/tema5:programacion-de-mecanismos-de-control-de-acceso}}
