@@ -43,22 +43,20 @@
             
   <div class="section" id="generacion-de-servicios-en-red">
 <h1>Generación de servicios en red<a class="headerlink" href="#generacion-de-servicios-en-red" title="Enlazar permanentemente con este título">¶</a></h1>
-<div class="section" id="protocolos-estandar-de-comunicacion-en-red-a-nivel-de-aplicacion">
-<h2>Protocolos estándar de comunicación en red a nivel de aplicación<a class="headerlink" href="#protocolos-estandar-de-comunicacion-en-red-a-nivel-de-aplicacion" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Una vez vistas las comunicaciones en Java a través de sockets podemos utilizar dicho conocimiento para dar un paso más allá y acceder a servicios de red habituales. En las siguientes secciones desglosamos el funcionamiento de los protocoles y proporcionamos algunas clases básicas para realizar dichos accesos.</p>
 <div class="section" id="telnet-ssh">
-<h3>Telnet/SSH<a class="headerlink" href="#telnet-ssh" title="Enlazar permanentemente con este título">¶</a></h3>
+<h2>Telnet/SSH<a class="headerlink" href="#telnet-ssh" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Aunque hoy está prácticamente obsoleto, Telnet fue un servicio de administración remota que permitía conectarse a máquinas UNIX desde un sitio remoto, permitiendo enviar comandos y ver el resultado de dichos comandos en nuestro terminal <em>como si estuviésemos sentados en la máquina administrada</em></p>
 <p>El gran problema de Telnet fue <strong>la seguridad</strong>. Telnet no enviaba datos cifrados por lo que cualquier persona con un <em>sniffer</em> podía capturar el tráfico de una sesión y ver no solamente los comandos sino también los usuarios y contraseñas enviados a través de la red. Por ello, Telnet prácticamente no se usa hoy en día y ha sido sustituido «de facto» por SSH, que hace lo mismo pero cifrando la comunicación con criptografía de clave pública.</p>
 </div>
 <div class="section" id="ftp">
-<h3>FTP<a class="headerlink" href="#ftp" title="Enlazar permanentemente con este título">¶</a></h3>
+<h2>FTP<a class="headerlink" href="#ftp" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>FTP significa «File Transfer Protocol» y es un protocolo orientado a comandos pensado para descargar ficheros. Podría decirse que también tiende a desaparecer, ya que cada vez más a menudo se usa el navegador (con HTTP) para descargar ficheros. En realidad, algunos navegadores, como Mozilla Firefox siguen implementando el protocolo FTP, permitiendo así el descargar ficheros como si en realidad estuviésemos usando comandos.</p>
 <p>Cabe destacar que FTP tiene dos modalidades de uso: pasivo y activo. La diferencia entre activo y pasivo está en quien inicia las conexiones. Por defecto, los router no suelen permitir la entrada de conexiones iniciadas desde el exterior (aunque sí permiten que entren datos del exterior si desde el interior hemos iniciado previamente la conexion). Cuando se definió FTP como protocolo, se daba por sentado que todo el mundo aceptaría conexiones siempre, por lo cual en el FTP normal (el activo) se permite que el servidor inicie una conexión con nosotros para enviarnos un fichero. En FTP hay dos conexiones, una para enviar comandos (que inician los cliente) y otra (que inicia el servidor) para recibir el archivo. Podría decirse que en el FTP normal/activo «no se descarga» sino que «el servidor envía un fichero».</p>
 <p>Cuando la seguridad empezó a preocupar a todo el mundo los fabricantes y compañías telefónicas empezaron a distribuir routers en los que por defecto no se aceptaban conexiones empezadas fuera de nuestra red, así que de repente el FTP empezó mostrar un comportamiento peculiar que podría resumirse en la frase  «se pueden enviar comandos pero no descargar ficheros». Ese error tiene su lógica porque la conexión de comandos la inicia el cliente pero el servidor inicia la conexión (mejor dicho, lo intenta) para enviar el fichero al cliente. Debido a estos problemas  se desarrolló el  «modo pasivo», que consiste en que ahora el cliente inicia una conexión para enviar comandos e inicia otra conexión para descargar el fichero. Como la conexión de descarga se inicia «dentro de la red», el router autoriza la salida, toma nota de la conexión y cuando llega la respuesta, la deja pasar (porque observa que la conexión no se ha iniciado fuera, sino que es la respuesta a una conexión iniciada dentro). Como puede deducirse se llama pasivo porque el servidor ya no es activo, sino que se limita a recibir conexiones.</p>
 </div>
 <div class="section" id="http">
-<h3>HTTP<a class="headerlink" href="#http" title="Enlazar permanentemente con este título">¶</a></h3>
+<h2>HTTP<a class="headerlink" href="#http" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>El protocolo para la transferencia de hipertexto (HyperText Transfer Protocol) es un protocolo que en su momento se diseñó para que los navegadores (clientes web) se conectasen a servidores y descargasen archivos HTML. Sin embargo, su uso se ha popularizado en otros ámbitos como son la creación de aplicaciones web, es decir aplicaciones pensadas para ser manejadas desde un navegador.</p>
 <p>Desde mayo de 2015, HTTP va por su versión 2.0 que incluye mejoras en la latencia de los tiempos de respuesta y mejoras en el empaquetado de los datos.</p>
 <p>HTTP es un protocolo basado en texto.  A modo de ejemplo se incluye a continuación un ejemplo de petición (copiada de Wikipedia):</p>
@@ -90,62 +88,163 @@ Content-Length: 1221
 </div>
 </div>
 <div class="section" id="pop3">
-<h3>POP3<a class="headerlink" href="#pop3" title="Enlazar permanentemente con este título">¶</a></h3>
+<h2>POP3<a class="headerlink" href="#pop3" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>POP3 significa «Post Office Protocol version 3» y <strong>está pensando fundamentalmente</strong> para descargar cliente desde un servidor de correo al ordenador de un cliente que habitualmente utiliza Outlook, Mozilla Thunderbird o algún otro cliente de correo. Las versiones más antiguas no usaban mecanismos de cifrado, pero al igual que Telnet, POP3 ha necesitado cambiar para manejar correctamente la seguridad (aunque Telnet ha sido sustituido por otro protocolo y POP3 lo que ha hecho ha sido incorporar extensiones).</p>
 </div>
 <div class="section" id="smtp">
-<h3>SMTP<a class="headerlink" href="#smtp" title="Enlazar permanentemente con este título">¶</a></h3>
+<h2>SMTP<a class="headerlink" href="#smtp" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Al contrario que POP3, está pensado sobre todo para <strong>enviar correo</strong>. Esto significa que quienes usan SMTP son máquinas que están en una de estas situaciones.</p>
 <ul class="simple">
 <li>Cliente de correo (que supongamos que tiene el usuario «pepe») de un servidor de correo (por ejemplo «hotmail.es») y que quiere enviar un mensaje a otro usuario «john» que tiene su cuenta en «gmail.com». Esto significa que si «pepe» escribe un mensaje en su Outlook y quiere enviarlo a «<a class="reference external" href="mailto:john&#37;&#52;&#48;gmail&#46;com">john<span>&#64;</span>gmail<span>&#46;</span>com</a>» primero tiene que enviar el mensaje desde su ordenador a «hotmail.es» y pedirle que lo entregue. La subida del correo desde el ordenador de «pepe» a «hotmail.es» <strong>se hace mediante SMTP</strong>.</li>
 <li>Servidor de correo que quiere enviar mensaje a otro servidor. En el ejemplo anterior «hotmail.es» recibe un correo que debe entregar a su destinatario, pero como dicho destinatario está en otro servidor debe entregarlo a «gmail.com» que comprobará si tiene un usuario «john» y si es así recibirá el mensaje. <strong>Todo este proceso también se hace mediante SMTP</strong></li>
 </ul>
-<p>Ejemplo de base: supongamos que deseamos crear un programa Java que al ser lanzado permita enviar un mensaje con un fichero del cual nos dan la ruta y que en el cuerpo del mensaje indique el nombre del archivo.</p>
+<p>Ejemplo de base: supongamos que deseamos crear un programa Java que al ser lanzado permita enviar un mensaje con un fichero del cual nos dan la ruta y que en el cuerpo del mensaje indique el nombre del archivo. El programa debe ser capaz de enviar el email a varios destinatarios y debe ser capaz también de enviar varios adjuntos a la vez.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Advertencia</p>
-<p class="last">Si utilizamos este programa con un servidor público (GMail, Yahoo, Hotmail) debemos asegurarnos de que configuramos nuestra cuenta para permitir el acceso a aplicaciones desconocidas por dichos servidores. La forma de configurarlo varía de unos servicios a otros</p>
+<p class="last">Si utilizamos este código con un servidor público (GMail, Yahoo, Hotmail) debemos asegurarnos de que configuramos nuestra cuenta para permitir el acceso a aplicaciones desconocidas por dichos servidores. La forma de configurarlo varía de unos servicios a otros</p>
 </div>
 <div class="admonition danger">
 <p class="first admonition-title">Peligro</p>
 <p class="last">Una vez activado el acceso a aplicaciones desconocidas GMail permitirá a nuestra aplicación enviar y recibir emails con nuestra cuenta de correo, pero existe el riesgo de que nuestra cuenta se marque como «generadora de spam». Se recomienda usar cuentas de prueba con estos programas.</p>
 </div>
-</div>
-</div>
 <div class="section" id="librerias-de-clases-y-componentes">
-<h2>Librerías de clases y componentes.<a class="headerlink" href="#librerias-de-clases-y-componentes" title="Enlazar permanentemente con este título">¶</a></h2>
+<h3>Librerías de clases y componentes.<a class="headerlink" href="#librerias-de-clases-y-componentes" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Para crear este programa vamos a usar las siguientes bibliotecas de libre distribución:</p>
+<ul class="simple">
+<li>La biblioteca JavaMail. Curiosamente, no se distribuye con el JDK, sino que debe descargarse el JAR por separado.</li>
+<li>La biblioteca Apache Commons Email. Es una biblioteca de libre distribución que facilita el desarrollo de aplicaciones que necesiten enviar o recibir email.</li>
+</ul>
 </div>
 <div class="section" id="utilizacion-de-objetos-predefinidos">
-<h2>Utilización de objetos predefinidos.<a class="headerlink" href="#utilizacion-de-objetos-predefinidos" title="Enlazar permanentemente con este título">¶</a></h2>
-</div>
-<div class="section" id="propiedades-de-los-objetos-predefinidos">
-<h2>Propiedades de los objetos predefinidos.<a class="headerlink" href="#propiedades-de-los-objetos-predefinidos" title="Enlazar permanentemente con este título">¶</a></h2>
-</div>
-<div class="section" id="metodos-y-eventos-de-los-objetos-predefinidos">
-<h2>Métodos y eventos de los objetos predefinidos.<a class="headerlink" href="#metodos-y-eventos-de-los-objetos-predefinidos" title="Enlazar permanentemente con este título">¶</a></h2>
+<h3>Utilización de objetos predefinidos.<a class="headerlink" href="#utilizacion-de-objetos-predefinidos" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>El objeto fundamental es la clase <code class="docutils literal"><span class="pre">Email</span></code>, proporcionado por Apache Commons Email. Esta clase no tiene propiedades de interés y no está orientada a eventos, sin embargo tiene algunos métodos interesantes que además son bastante autoexplicativos.</p>
+<ul class="simple">
+<li>El método <code class="docutils literal"><span class="pre">setHostname</span></code> permite configurar el servidor SMTP de nuestro proveedor de correo.</li>
+<li>El método <code class="docutils literal"><span class="pre">setSmtpPort</span></code> permite indicar el número de puerto en el que el servidor de correo escucha. Para conexiones SMTPS (SMTP seguro) el puerto es el 465.</li>
+<li>El método <code class="docutils literal"><span class="pre">setAuthenticator</span></code> permite indicar el objeto que se encargará de configurar la autenticación. Suele usar un objeto básico de la clase <code class="docutils literal"><span class="pre">DefaultAuthenticator</span></code>.</li>
+<li>El método <code class="docutils literal"><span class="pre">setSslOnConect</span></code> se usa para indicar si se establece una conexión SSL (o TLS) en el momento de conectar</li>
+</ul>
 </div>
 <div class="section" id="establecimiento-y-finalizacion-de-conexiones">
-<h2>Establecimiento y finalización de conexiones.<a class="headerlink" href="#establecimiento-y-finalizacion-de-conexiones" title="Enlazar permanentemente con este título">¶</a></h2>
+<h3>Establecimiento y finalización de conexiones.<a class="headerlink" href="#establecimiento-y-finalizacion-de-conexiones" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La biblioteca proporciona de manera transparente el proceso correcto para el establecimiento y finalización de conexiones.</p>
 </div>
 <div class="section" id="transmision-de-informacion">
-<h2>Transmisión de información.<a class="headerlink" href="#transmision-de-informacion" title="Enlazar permanentemente con este título">¶</a></h2>
+<h3>Transmisión de información.<a class="headerlink" href="#transmision-de-informacion" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Toda la transmisión de información es controlada por la biblioteca, liberando al programador de tareas de control.</p>
 </div>
 <div class="section" id="programacion-de-aplicaciones-cliente">
-<h2>Programación de aplicaciones cliente.<a class="headerlink" href="#programacion-de-aplicaciones-cliente" title="Enlazar permanentemente con este título">¶</a></h2>
+<h3>Programación de aplicaciones cliente.<a class="headerlink" href="#programacion-de-aplicaciones-cliente" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>La clase <code class="docutils literal"><span class="pre">Cliente.java</span></code> que se adjunta a continuación presenta un interfaz con dos métodos que permiten enviar correos electrónicos con adjuntos. El código es mejorable pero se ha primado la legibilidad e inteligibilidad del mismo.</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="cm">/* Para poder usar esta clase debes disponer</span>
+<span class="cm">del JAR de la biblioteca Apache Commons EMail y</span>
+<span class="cm">las extensiones JavaMail así como configurar tu entorno</span>
+<span class="cm">para que encuentre correctamente dichas bibliotecas.</span>
+<span class="cm">Puedes encontrar el JAR en https://commons.apache.org/email/</span>
+<span class="cm">*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RemitenteCorreo</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">String</span>          <span class="n">servidorSMTP</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span>          <span class="n">usuarioRemitente</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span>          <span class="n">claveRemitente</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">MultiPartEmail</span>  <span class="n">email</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">RemitenteCorreo</span><span class="o">(</span><span class="n">String</span> <span class="n">servidorSMTP</span><span class="o">,</span>
+            <span class="n">String</span> <span class="n">usuarioRemitente</span><span class="o">,</span> <span class="n">String</span> <span class="n">claveRemitente</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">servidorSMTP</span>       <span class="o">=</span>   <span class="n">servidorSMTP</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">usuarioRemitente</span>   <span class="o">=</span>   <span class="n">usuarioRemitente</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">claveRemitente</span>     <span class="o">=</span>   <span class="n">claveRemitente</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">email</span>              <span class="o">=</span>   <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span> <span class="c1">//Fin del constructor</span>
+
+    <span class="c1">//Método usado solo en el interior de la clase</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">iniciarConexionEmail</span><span class="o">(){</span>
+        <span class="n">email</span><span class="o">=</span><span class="k">new</span> <span class="n">MultiPartEmail</span><span class="o">();</span>
+        <span class="cm">/*Se indica el servidor del remitente*/</span>
+        <span class="n">email</span><span class="o">.</span><span class="na">setHostName</span><span class="o">(</span><span class="n">servidorSMTP</span><span class="o">);</span>
+        <span class="cm">/*Habitualmente el puerto 465 se usa para SMTPS,</span>
+<span class="cm">        en el que la encriptación se inicia antes de enviar nada*/</span>
+        <span class="n">email</span><span class="o">.</span><span class="na">setSmtpPort</span><span class="o">(</span><span class="mi">465</span><span class="o">);</span>
+
+        <span class="cm">/*Se configura la autenticación*/</span>
+        <span class="n">DefaultAuthenticator</span> <span class="n">sistemaAutenticacion</span><span class="o">;</span>
+        <span class="n">sistemaAutenticacion</span><span class="o">=</span><span class="k">new</span> <span class="n">DefaultAuthenticator</span><span class="o">(</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">usuarioRemitente</span><span class="o">,</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">claveRemitente</span> <span class="o">);</span>
+        <span class="n">email</span><span class="o">.</span><span class="na">setAuthenticator</span><span class="o">(</span><span class="n">sistemaAutenticacion</span><span class="o">);</span>
+
+        <span class="cm">/*Se indica que vamos a usar el cifrado</span>
+<span class="cm">        al inicio de la conexión    */</span>
+        <span class="n">email</span><span class="o">.</span><span class="na">setSSLOnConnect</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span>  <span class="kt">void</span> <span class="nf">configurarParametrosBasicos</span> <span class="o">(</span>
+        <span class="n">String</span> <span class="n">asunto</span><span class="o">,</span> <span class="n">String</span> <span class="n">textoEmail</span><span class="o">,</span> <span class="n">String</span> <span class="n">destinatario</span><span class="o">,</span>
+            <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosCC</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosBCC</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">EmailException</span>
+    <span class="o">{</span>
+        <span class="cm">/*Se indica el asunto*/</span>
+        <span class="n">email</span><span class="o">.</span><span class="na">setSubject</span><span class="o">(</span><span class="n">asunto</span><span class="o">);</span>
+        <span class="cm">/*Se indica el remitente*/</span>
+        <span class="n">email</span><span class="o">.</span><span class="na">setFrom</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">usuarioRemitente</span><span class="o">+</span><span class="s">&quot;@&quot;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="na">servidorSMTP</span><span class="o">);</span>
+        <span class="cm">/*Se pasa el texto*/</span>
+        <span class="n">email</span><span class="o">.</span><span class="na">setMsg</span><span class="o">(</span><span class="n">textoEmail</span><span class="o">);</span>
+        <span class="cm">/*Se configura el destinatario principal*/</span>
+        <span class="n">email</span><span class="o">.</span><span class="na">addTo</span><span class="o">(</span><span class="n">destinatario</span><span class="o">);</span>
+        <span class="cm">/*Y se configuran otros posibles destinatarios*/</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">destinatariosCC</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
+            <span class="n">email</span><span class="o">.</span><span class="na">addCc</span><span class="o">(</span><span class="n">destinatariosCC</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">destinatariosBCC</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
+            <span class="n">email</span><span class="o">.</span><span class="na">addBcc</span><span class="o">(</span><span class="n">destinatariosBCC</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">enviarMensaje</span><span class="o">(</span><span class="n">String</span> <span class="n">asunto</span><span class="o">,</span> <span class="n">String</span> <span class="n">textoEmail</span><span class="o">,</span> <span class="n">String</span> <span class="n">destinatario</span><span class="o">,</span>
+            <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosCC</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosBCC</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="n">EmailException</span>
+    <span class="o">{</span>
+        <span class="n">iniciarConexionEmail</span><span class="o">();</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">configurarParametrosBasicos</span><span class="o">(</span><span class="n">asunto</span><span class="o">,</span> <span class="n">textoEmail</span><span class="o">,</span>
+                <span class="n">destinatario</span><span class="o">,</span> <span class="n">destinatariosCC</span><span class="o">,</span> <span class="n">destinatariosBCC</span><span class="o">);</span>
+
+        <span class="cm">/*Y se envía el mensaje ;) */</span>
+        <span class="n">email</span><span class="o">.</span><span class="na">send</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">enviarMensajeConAdjuntos</span><span class="o">(</span><span class="n">String</span> <span class="n">asunto</span><span class="o">,</span> <span class="n">String</span> <span class="n">textoEmail</span><span class="o">,</span> <span class="n">String</span> <span class="n">destinatario</span><span class="o">,</span>
+            <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosCC</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosBCC</span><span class="o">,</span>
+            <span class="n">String</span><span class="o">[]</span> <span class="n">listaRutasArchivo</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="n">EmailException</span><span class="o">,</span> <span class="n">FileNotFoundException</span>
+    <span class="o">{</span>
+        <span class="cm">/*Se configura lo basico*/</span>
+        <span class="n">iniciarConexionEmail</span><span class="o">();</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">configurarParametrosBasicos</span><span class="o">(</span><span class="n">asunto</span><span class="o">,</span> <span class="n">textoEmail</span><span class="o">,</span>
+                <span class="n">destinatario</span><span class="o">,</span> <span class="n">destinatariosCC</span><span class="o">,</span> <span class="n">destinatariosBCC</span><span class="o">);</span>
+        <span class="cm">/*Y añadimos los adjuntos*/</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">ruta</span> <span class="o">:</span> <span class="n">listaRutasArchivo</span><span class="o">){</span>
+            <span class="n">File</span> <span class="n">fichero</span><span class="o">=</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">ruta</span><span class="o">);</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">email</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="n">fichero</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="cm">/*Y se envía el mensaje ;) */</span>
+        <span class="n">email</span><span class="o">.</span><span class="na">send</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="programacion-de-servidores">
-<h2>Programación de servidores.<a class="headerlink" href="#programacion-de-servidores" title="Enlazar permanentemente con este título">¶</a></h2>
+<h3>Programación de servidores.<a class="headerlink" href="#programacion-de-servidores" title="Enlazar permanentemente con este título">¶</a></h3>
 </div>
 <div class="section" id="implementacion-de-comunicaciones-simultaneas">
-<h2>Implementación de comunicaciones simultáneas.<a class="headerlink" href="#implementacion-de-comunicaciones-simultaneas" title="Enlazar permanentemente con este título">¶</a></h2>
+<h3>Implementación de comunicaciones simultáneas.<a class="headerlink" href="#implementacion-de-comunicaciones-simultaneas" title="Enlazar permanentemente con este título">¶</a></h3>
 </div>
 <div class="section" id="documentacion">
-<h2>Documentación.<a class="headerlink" href="#documentacion" title="Enlazar permanentemente con este título">¶</a></h2>
+<h3>Documentación.<a class="headerlink" href="#documentacion" title="Enlazar permanentemente con este título">¶</a></h3>
 </div>
 <div class="section" id="depuracion">
-<h2>Depuración.<a class="headerlink" href="#depuracion" title="Enlazar permanentemente con este título">¶</a></h2>
+<h3>Depuración.<a class="headerlink" href="#depuracion" title="Enlazar permanentemente con este título">¶</a></h3>
 </div>
 <div class="section" id="monitorizacion-de-tiempos-de-respuesta">
-<h2>Monitorización de tiempos de respuesta.<a class="headerlink" href="#monitorizacion-de-tiempos-de-respuesta" title="Enlazar permanentemente con este título">¶</a></h2>
+<h3>Monitorización de tiempos de respuesta.<a class="headerlink" href="#monitorizacion-de-tiempos-de-respuesta" title="Enlazar permanentemente con este título">¶</a></h3>
+</div>
 </div>
 </div>
 
@@ -158,18 +257,13 @@ Content-Length: 1221
   <h3><a href="../index.html">Tabla de Contenidos</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Generación de servicios en red</a><ul>
-<li><a class="reference internal" href="#protocolos-estandar-de-comunicacion-en-red-a-nivel-de-aplicacion">Protocolos estándar de comunicación en red a nivel de aplicación</a><ul>
 <li><a class="reference internal" href="#telnet-ssh">Telnet/SSH</a></li>
 <li><a class="reference internal" href="#ftp">FTP</a></li>
 <li><a class="reference internal" href="#http">HTTP</a></li>
 <li><a class="reference internal" href="#pop3">POP3</a></li>
-<li><a class="reference internal" href="#smtp">SMTP</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#smtp">SMTP</a><ul>
 <li><a class="reference internal" href="#librerias-de-clases-y-componentes">Librerías de clases y componentes.</a></li>
 <li><a class="reference internal" href="#utilizacion-de-objetos-predefinidos">Utilización de objetos predefinidos.</a></li>
-<li><a class="reference internal" href="#propiedades-de-los-objetos-predefinidos">Propiedades de los objetos predefinidos.</a></li>
-<li><a class="reference internal" href="#metodos-y-eventos-de-los-objetos-predefinidos">Métodos y eventos de los objetos predefinidos.</a></li>
 <li><a class="reference internal" href="#establecimiento-y-finalizacion-de-conexiones">Establecimiento y finalización de conexiones.</a></li>
 <li><a class="reference internal" href="#transmision-de-informacion">Transmisión de información.</a></li>
 <li><a class="reference internal" href="#programacion-de-aplicaciones-cliente">Programación de aplicaciones cliente.</a></li>
@@ -178,6 +272,8 @@ Content-Length: 1221
 <li><a class="reference internal" href="#documentacion">Documentación.</a></li>
 <li><a class="reference internal" href="#depuracion">Depuración.</a></li>
 <li><a class="reference internal" href="#monitorizacion-de-tiempos-de-respuesta">Monitorización de tiempos de respuesta.</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
