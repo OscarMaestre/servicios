@@ -205,14 +205,14 @@ El siguiente código muestra como crear una clase que permita cifrar y descifrar
 				("Cadena cifrada:"+cadCifrada);
 			
 			/* Cogemos la cadCifrada y la desciframos
-			 * con la otra clave
-			 */
+			 * con la otra clave */
 			Key clavePrivada;
 			clavePrivada=gestorCifrado.getPrivada();
 			byte[] descifrada=
 					gestorCifrado.descifrar(
 							mensajeCifrado,clavePrivada);
 			String mensajeDescifrado;
+            /* E imprimimos el mensaje*/
 			mensajeDescifrado=
 					new String(descifrada, "UTF-8");
 			System.out.println(
@@ -241,6 +241,21 @@ En general, todo protocolo que queramos implementar dará estos pasos.
 6. Ahora cliente y servidor pueden enviar mensajes al otro con la garantía de que solo servidor y cliente respectivamente pueden descifrar.
 
 En realidad se puede asegurar más el proceso haciendo que en el paso 5 el servidor cifre su propia clave pública con la clave pública del cliente. De esta forma, incluso aunque alguien robara la clave privada del cliente tampoco tendría demasiado, ya que tendría que robar la clave privada del servidor.
+
+Infraestructura de clave pública (PKI)
+-------------------------------------------
+
+Para garantizar la seguridad es necesario que entre un tercer jugador en el intercambio de claves entre clientes y servidores. Este tercer individuo son las *autoridades de certificación* .
+
+
+
+.. figure:: ../imagenes/certificacion/Paso01.png
+   :figwidth: 50%
+   :align: center
+   
+   Autoridades de certificación.
+
+
 
 Programación de aplicaciones con comunicaciones seguras.
 ------------------------------------------------------------

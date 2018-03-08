@@ -102,46 +102,44 @@
 \contentsline {subsection}{\numberline {3.13.8}Soluci\IeC {\'o}n Cliente}{65}{subsection.3.13.8}
 \contentsline {subsection}{\numberline {3.13.9}Soluci\IeC {\'o}n LanzadorClientes}{66}{subsection.3.13.9}
 \contentsline {chapter}{\numberline {4}Generaci\IeC {\'o}n de servicios en red}{69}{chapter.4}
-\contentsline {section}{\numberline {4.1}Protocolos est\IeC {\'a}ndar de comunicaci\IeC {\'o}n en red a nivel de aplicaci\IeC {\'o}n}{69}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}Telnet/SSH}{69}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}FTP}{69}{subsection.4.1.2}
-\contentsline {subsection}{\numberline {4.1.3}HTTP}{70}{subsection.4.1.3}
-\contentsline {subsection}{\numberline {4.1.4}POP3}{71}{subsection.4.1.4}
-\contentsline {subsection}{\numberline {4.1.5}SMTP}{71}{subsection.4.1.5}
-\contentsline {section}{\numberline {4.2}Librer\IeC {\'\i }as de clases y componentes.}{71}{section.4.2}
-\contentsline {section}{\numberline {4.3}Utilizaci\IeC {\'o}n de objetos predefinidos.}{71}{section.4.3}
-\contentsline {section}{\numberline {4.4}Propiedades de los objetos predefinidos.}{71}{section.4.4}
-\contentsline {section}{\numberline {4.5}M\IeC {\'e}todos y eventos de los objetos predefinidos.}{71}{section.4.5}
-\contentsline {section}{\numberline {4.6}Establecimiento y finalizaci\IeC {\'o}n de conexiones.}{71}{section.4.6}
-\contentsline {section}{\numberline {4.7}Transmisi\IeC {\'o}n de informaci\IeC {\'o}n.}{71}{section.4.7}
-\contentsline {section}{\numberline {4.8}Programaci\IeC {\'o}n de aplicaciones cliente.}{71}{section.4.8}
-\contentsline {section}{\numberline {4.9}Programaci\IeC {\'o}n de servidores.}{71}{section.4.9}
-\contentsline {section}{\numberline {4.10}Implementaci\IeC {\'o}n de comunicaciones simult\IeC {\'a}neas.}{71}{section.4.10}
-\contentsline {section}{\numberline {4.11}Documentaci\IeC {\'o}n.}{71}{section.4.11}
-\contentsline {section}{\numberline {4.12}Depuraci\IeC {\'o}n.}{71}{section.4.12}
-\contentsline {section}{\numberline {4.13}Monitorizaci\IeC {\'o}n de tiempos de respuesta.}{71}{section.4.13}
-\contentsline {chapter}{\numberline {5}Utilizaci\IeC {\'o}n de t\IeC {\'e}cnicas de programaci\IeC {\'o}n segura}{73}{chapter.5}
-\contentsline {section}{\numberline {5.1}Introducci\IeC {\'o}n}{73}{section.5.1}
-\contentsline {section}{\numberline {5.2}Pr\IeC {\'a}cticas de programaci\IeC {\'o}n segura.}{73}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}M\IeC {\'e}todo C\IeC {\'e}sar}{73}{subsection.5.2.1}
-\contentsline {section}{\numberline {5.3}Criptograf\IeC {\'\i }a de clave p\IeC {\'u}blica y clave privada.}{74}{section.5.3}
-\contentsline {section}{\numberline {5.4}Principales aplicaciones de la criptograf\IeC {\'\i }a.}{74}{section.5.4}
-\contentsline {section}{\numberline {5.5}Protocolos criptogr\IeC {\'a}ficos.}{75}{section.5.5}
-\contentsline {section}{\numberline {5.6}Encriptaci\IeC {\'o}n de informaci\IeC {\'o}n.}{75}{section.5.6}
-\contentsline {section}{\numberline {5.7}Protocolos seguros de comunicaciones.}{77}{section.5.7}
-\contentsline {section}{\numberline {5.8}Programaci\IeC {\'o}n de aplicaciones con comunicaciones seguras.}{77}{section.5.8}
-\contentsline {section}{\numberline {5.9}Firmado de aplicaciones}{81}{section.5.9}
-\contentsline {section}{\numberline {5.10}Verificado de aplicaciones}{82}{section.5.10}
-\contentsline {section}{\numberline {5.11}Ejercicio}{82}{section.5.11}
-\contentsline {section}{\numberline {5.12}Recordatorio}{82}{section.5.12}
-\contentsline {section}{\numberline {5.13}Pol\IeC {\'\i }tica de seguridad.}{82}{section.5.13}
-\contentsline {section}{\numberline {5.14}Programaci\IeC {\'o}n de mecanismos de control de acceso.}{83}{section.5.14}
-\contentsline {section}{\numberline {5.15}Pruebas y depuraci\IeC {\'o}n.}{83}{section.5.15}
-\contentsline {chapter}{\numberline {6}Anexos}{85}{chapter.6}
-\contentsline {section}{\numberline {6.1}La clase \sphinxstyleliteralintitle {UtilidadesFicheros}}{85}{section.6.1}
-\contentsline {section}{\numberline {6.2}Soluci\IeC {\'o}n al problema del simulador de Casino}{86}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}La clase Banca}{87}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}La clase Jugador}{89}{subsection.6.2.2}
-\contentsline {subsection}{\numberline {6.2.3}La clase JugadorClasico}{91}{subsection.6.2.3}
-\contentsline {subsection}{\numberline {6.2.4}La clase JugadorParImpar}{91}{subsection.6.2.4}
-\contentsline {subsection}{\numberline {6.2.5}La clase JugadorMartingala}{93}{subsection.6.2.5}
+\contentsline {section}{\numberline {4.1}Telnet/SSH}{69}{section.4.1}
+\contentsline {section}{\numberline {4.2}FTP}{69}{section.4.2}
+\contentsline {section}{\numberline {4.3}HTTP}{70}{section.4.3}
+\contentsline {section}{\numberline {4.4}POP3}{70}{section.4.4}
+\contentsline {section}{\numberline {4.5}SMTP}{71}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Librer\IeC {\'\i }as de clases y componentes.}{71}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}Utilizaci\IeC {\'o}n de objetos predefinidos.}{71}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Establecimiento y finalizaci\IeC {\'o}n de conexiones.}{72}{subsection.4.5.3}
+\contentsline {subsection}{\numberline {4.5.4}Transmisi\IeC {\'o}n de informaci\IeC {\'o}n.}{72}{subsection.4.5.4}
+\contentsline {subsection}{\numberline {4.5.5}Programaci\IeC {\'o}n de aplicaciones cliente.}{72}{subsection.4.5.5}
+\contentsline {subsection}{\numberline {4.5.6}Programaci\IeC {\'o}n de servidores.}{74}{subsection.4.5.6}
+\contentsline {subsection}{\numberline {4.5.7}Implementaci\IeC {\'o}n de comunicaciones simult\IeC {\'a}neas.}{74}{subsection.4.5.7}
+\contentsline {subsection}{\numberline {4.5.8}Documentaci\IeC {\'o}n.}{74}{subsection.4.5.8}
+\contentsline {subsection}{\numberline {4.5.9}Depuraci\IeC {\'o}n.}{74}{subsection.4.5.9}
+\contentsline {subsection}{\numberline {4.5.10}Monitorizaci\IeC {\'o}n de tiempos de respuesta.}{74}{subsection.4.5.10}
+\contentsline {chapter}{\numberline {5}Utilizaci\IeC {\'o}n de t\IeC {\'e}cnicas de programaci\IeC {\'o}n segura}{75}{chapter.5}
+\contentsline {section}{\numberline {5.1}Introducci\IeC {\'o}n}{75}{section.5.1}
+\contentsline {section}{\numberline {5.2}Pr\IeC {\'a}cticas de programaci\IeC {\'o}n segura.}{75}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}M\IeC {\'e}todo C\IeC {\'e}sar}{75}{subsection.5.2.1}
+\contentsline {section}{\numberline {5.3}Criptograf\IeC {\'\i }a de clave p\IeC {\'u}blica y clave privada.}{76}{section.5.3}
+\contentsline {section}{\numberline {5.4}Principales aplicaciones de la criptograf\IeC {\'\i }a.}{76}{section.5.4}
+\contentsline {section}{\numberline {5.5}Protocolos criptogr\IeC {\'a}ficos.}{77}{section.5.5}
+\contentsline {section}{\numberline {5.6}Encriptaci\IeC {\'o}n de informaci\IeC {\'o}n.}{77}{section.5.6}
+\contentsline {section}{\numberline {5.7}Protocolos seguros de comunicaciones.}{79}{section.5.7}
+\contentsline {section}{\numberline {5.8}Infraestructura de clave p\IeC {\'u}blica (PKI)}{79}{section.5.8}
+\contentsline {section}{\numberline {5.9}Programaci\IeC {\'o}n de aplicaciones con comunicaciones seguras.}{79}{section.5.9}
+\contentsline {section}{\numberline {5.10}Firmado de aplicaciones}{84}{section.5.10}
+\contentsline {section}{\numberline {5.11}Verificado de aplicaciones}{84}{section.5.11}
+\contentsline {section}{\numberline {5.12}Ejercicio}{84}{section.5.12}
+\contentsline {section}{\numberline {5.13}Recordatorio}{85}{section.5.13}
+\contentsline {section}{\numberline {5.14}Pol\IeC {\'\i }tica de seguridad.}{85}{section.5.14}
+\contentsline {section}{\numberline {5.15}Programaci\IeC {\'o}n de mecanismos de control de acceso.}{85}{section.5.15}
+\contentsline {section}{\numberline {5.16}Pruebas y depuraci\IeC {\'o}n.}{85}{section.5.16}
+\contentsline {chapter}{\numberline {6}Anexos}{87}{chapter.6}
+\contentsline {section}{\numberline {6.1}La clase \sphinxstyleliteralintitle {UtilidadesFicheros}}{87}{section.6.1}
+\contentsline {section}{\numberline {6.2}Soluci\IeC {\'o}n al problema del simulador de Casino}{88}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}La clase Banca}{89}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}La clase Jugador}{91}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.3}La clase JugadorClasico}{93}{subsection.6.2.3}
+\contentsline {subsection}{\numberline {6.2.4}La clase JugadorParImpar}{93}{subsection.6.2.4}
+\contentsline {subsection}{\numberline {6.2.5}La clase JugadorMartingala}{95}{subsection.6.2.5}

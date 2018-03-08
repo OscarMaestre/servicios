@@ -218,14 +218,14 @@ IPMBNVÑEP</div></blockquote>
                         <span class="o">(</span><span class="s">&quot;Cadena cifrada:&quot;</span><span class="o">+</span><span class="n">cadCifrada</span><span class="o">);</span>
 
                 <span class="cm">/* Cogemos la cadCifrada y la desciframos</span>
-<span class="cm">                 * con la otra clave</span>
-<span class="cm">                 */</span>
+<span class="cm">                 * con la otra clave */</span>
                 <span class="n">Key</span> <span class="n">clavePrivada</span><span class="o">;</span>
                 <span class="n">clavePrivada</span><span class="o">=</span><span class="n">gestorCifrado</span><span class="o">.</span><span class="na">getPrivada</span><span class="o">();</span>
                 <span class="kt">byte</span><span class="o">[]</span> <span class="n">descifrada</span><span class="o">=</span>
                                 <span class="n">gestorCifrado</span><span class="o">.</span><span class="na">descifrar</span><span class="o">(</span>
                                                 <span class="n">mensajeCifrado</span><span class="o">,</span><span class="n">clavePrivada</span><span class="o">);</span>
                 <span class="n">String</span> <span class="n">mensajeDescifrado</span><span class="o">;</span>
+    <span class="cm">/* E imprimimos el mensaje*/</span>
                 <span class="n">mensajeDescifrado</span><span class="o">=</span>
                                 <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">descifrada</span><span class="o">,</span> <span class="s">&quot;UTF-8&quot;</span><span class="o">);</span>
                 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
@@ -255,6 +255,14 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 </ol>
 <p>En realidad se puede asegurar más el proceso haciendo que en el paso 5 el servidor cifre su propia clave pública con la clave pública del cliente. De esta forma, incluso aunque alguien robara la clave privada del cliente tampoco tendría demasiado, ya que tendría que robar la clave privada del servidor.</p>
 </div>
+<div class="section" id="infraestructura-de-clave-publica-pki">
+<h2>Infraestructura de clave pública (PKI)<a class="headerlink" href="#infraestructura-de-clave-publica-pki" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Para garantizar la seguridad es necesario que entre un tercer jugador en el intercambio de claves entre clientes y servidores. Este tercer individuo son las <em>autoridades de certificación</em> .</p>
+<div class="figure align-center" id="id1" style="width: 50%">
+<img alt="../_images/Paso01.png" src="../_images/Paso01.png" />
+<p class="caption"><span class="caption-text">Autoridades de certificación.</span></p>
+</div>
+</div>
 <div class="section" id="programacion-de-aplicaciones-con-comunicaciones-seguras">
 <h2>Programación de aplicaciones con comunicaciones seguras.<a class="headerlink" href="#programacion-de-aplicaciones-con-comunicaciones-seguras" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Por fortuna Java dispone de clases ya prefabricadas que facilitan enormemente el que dos aplicaciones intercambios datos de forma segura a través de una red. Se deben considerar los siguientes puntos:</p>
@@ -264,7 +272,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <li>El cliente necesita indicar que confía en el certificado del servidor. Dicho certificado del servidor puede estar guardado (por ejemplo) en el almacén de claves del cliente.</li>
 <li>Aunque no suele hacerse también podría hacerse a la inversa y obligar al cliente a tener un certificado que el servidor pudiera importar, lo que aumentaría la seguridad.</li>
 </ul>
-<div class="figure align-center" id="id1" style="width: 50%">
+<div class="figure align-center" id="id2" style="width: 50%">
 <img alt="../_images/generacion_clave.png" src="../_images/generacion_clave.png" />
 <p class="caption"><span class="caption-text">Generando la pareja de claves del servidor.</span></p>
 </div>
@@ -507,6 +515,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <li><a class="reference internal" href="#protocolos-criptograficos">Protocolos criptográficos.</a></li>
 <li><a class="reference internal" href="#encriptacion-de-informacion">Encriptación de información.</a></li>
 <li><a class="reference internal" href="#protocolos-seguros-de-comunicaciones">Protocolos seguros de comunicaciones.</a></li>
+<li><a class="reference internal" href="#infraestructura-de-clave-publica-pki">Infraestructura de clave pública (PKI)</a></li>
 <li><a class="reference internal" href="#programacion-de-aplicaciones-con-comunicaciones-seguras">Programación de aplicaciones con comunicaciones seguras.</a></li>
 <li><a class="reference internal" href="#firmado-de-aplicaciones">Firmado de aplicaciones</a></li>
 <li><a class="reference internal" href="#verificado-de-aplicaciones">Verificado de aplicaciones</a></li>
@@ -552,7 +561,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

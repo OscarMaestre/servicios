@@ -44,7 +44,7 @@
 \addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
 \addto\captionsspanish{\renewcommand{\literalblockname}{Lista}}
 
-\addto\captionsspanish{\renewcommand{\literalblockcontinuedname}{proviene de la página anterior}}
+\addto\captionsspanish{\renewcommand{\literalblockcontinuedname}{continued from previous page}}
 \addto\captionsspanish{\renewcommand{\literalblockcontinuesname}{continues on next page}}
 
 \addto\extrasspanish{\def\pageautorefname{página}}
@@ -54,7 +54,7 @@
 
 
 \title{Apuntes de Servicios y Procesos}
-\date{05 de marzo de 2018}
+\date{08 de marzo de 2018}
 \release{1.3}
 \author{Oscar Gomez}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -70,7 +70,7 @@
 
 
 \chapter{Programación multiproceso}
-\label{\detokenize{textos/tema1:programacion-de-servicios-y-procesos}}\label{\detokenize{textos/tema1:programacion-multiproceso}}\label{\detokenize{textos/tema1::doc}}
+\label{\detokenize{textos/tema1:programacion-de-servicios-y-procesos}}\label{\detokenize{textos/tema1::doc}}\label{\detokenize{textos/tema1:programacion-multiproceso}}
 
 \section{Ejecutables. Procesos. Servicios.}
 \label{\detokenize{textos/tema1:ejecutables-procesos-servicios}}
@@ -2383,7 +2383,7 @@ Habrá que crear los recursos compartidos y crear los hilos. Esta operación se 
 \label{\detokenize{textos/tema2:depuracion}}
 
 \chapter{Programación de comunicaciones en red}
-\label{\detokenize{textos/tema3:programacion-de-comunicaciones-en-red}}\label{\detokenize{textos/tema3::doc}}
+\label{\detokenize{textos/tema3::doc}}\label{\detokenize{textos/tema3:programacion-de-comunicaciones-en-red}}
 
 \section{Comunicación entre aplicaciones.}
 \label{\detokenize{textos/tema3:comunicacion-entre-aplicaciones}}
@@ -3754,21 +3754,18 @@ Por otro lado, incluso probando en máquinas distintas pueden obtenerse fallos p
 
 
 \chapter{Generación de servicios en red}
-\label{\detokenize{textos/tema4::doc}}\label{\detokenize{textos/tema4:generacion-de-servicios-en-red}}
-
-\section{Protocolos estándar de comunicación en red a nivel de aplicación}
-\label{\detokenize{textos/tema4:protocolos-estandar-de-comunicacion-en-red-a-nivel-de-aplicacion}}
+\label{\detokenize{textos/tema4:generacion-de-servicios-en-red}}\label{\detokenize{textos/tema4::doc}}
 Una vez vistas las comunicaciones en Java a través de sockets podemos utilizar dicho conocimiento para dar un paso más allá y acceder a servicios de red habituales. En las siguientes secciones desglosamos el funcionamiento de los protocoles y proporcionamos algunas clases básicas para realizar dichos accesos.
 
 
-\subsection{Telnet/SSH}
+\section{Telnet/SSH}
 \label{\detokenize{textos/tema4:telnet-ssh}}
 Aunque hoy está prácticamente obsoleto, Telnet fue un servicio de administración remota que permitía conectarse a máquinas UNIX desde un sitio remoto, permitiendo enviar comandos y ver el resultado de dichos comandos en nuestro terminal \sphinxstyleemphasis{como si estuviésemos sentados en la máquina administrada}
 
 El gran problema de Telnet fue \sphinxstylestrong{la seguridad}. Telnet no enviaba datos cifrados por lo que cualquier persona con un \sphinxstyleemphasis{sniffer} podía capturar el tráfico de una sesión y ver no solamente los comandos sino también los usuarios y contraseñas enviados a través de la red. Por ello, Telnet prácticamente no se usa hoy en día y ha sido sustituido «de facto» por SSH, que hace lo mismo pero cifrando la comunicación con criptografía de clave pública.
 
 
-\subsection{FTP}
+\section{FTP}
 \label{\detokenize{textos/tema4:ftp}}
 FTP significa «File Transfer Protocol» y es un protocolo orientado a comandos pensado para descargar ficheros. Podría decirse que también tiende a desaparecer, ya que cada vez más a menudo se usa el navegador (con HTTP) para descargar ficheros. En realidad, algunos navegadores, como Mozilla Firefox siguen implementando el protocolo FTP, permitiendo así el descargar ficheros como si en realidad estuviésemos usando comandos.
 
@@ -3777,55 +3774,230 @@ Cabe destacar que FTP tiene dos modalidades de uso: pasivo y activo. La diferenc
 Cuando la seguridad empezó a preocupar a todo el mundo los fabricantes y compañías telefónicas empezaron a distribuir routers en los que por defecto no se aceptaban conexiones empezadas fuera de nuestra red, así que de repente el FTP empezó mostrar un comportamiento peculiar que podría resumirse en la frase  «se pueden enviar comandos pero no descargar ficheros». Ese error tiene su lógica porque la conexión de comandos la inicia el cliente pero el servidor inicia la conexión (mejor dicho, lo intenta) para enviar el fichero al cliente. Debido a estos problemas  se desarrolló el  «modo pasivo», que consiste en que ahora el cliente inicia una conexión para enviar comandos e inicia otra conexión para descargar el fichero. Como la conexión de descarga se inicia «dentro de la red», el router autoriza la salida, toma nota de la conexión y cuando llega la respuesta, la deja pasar (porque observa que la conexión no se ha iniciado fuera, sino que es la respuesta a una conexión iniciada dentro). Como puede deducirse se llama pasivo porque el servidor ya no es activo, sino que se limita a recibir conexiones.
 
 
-\subsection{HTTP}
+\section{HTTP}
 \label{\detokenize{textos/tema4:http}}
-El protocolo para la transferencia de hipertexto (HyperText Transfer Protocol)
+El protocolo para la transferencia de hipertexto (HyperText Transfer Protocol) es un protocolo que en su momento se diseñó para que los navegadores (clientes web) se conectasen a servidores y descargasen archivos HTML. Sin embargo, su uso se ha popularizado en otros ámbitos como son la creación de aplicaciones web, es decir aplicaciones pensadas para ser manejadas desde un navegador.
+
+Desde mayo de 2015, HTTP va por su versión 2.0 que incluye mejoras en la latencia de los tiempos de respuesta y mejoras en el empaquetado de los datos.
+
+HTTP es un protocolo basado en texto.  A modo de ejemplo se incluye a continuación un ejemplo de petición (copiada de Wikipedia):
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+GET /index.html HTTP/1.1
+Host: www.example.com
+Referer: www.google.com
+User\PYGZhy{}Agent: Mozilla/5.0 (X11; Linux x86\PYGZus{}64; rv:45.0) Gecko/20100101 Firefox/45.0
+Connection: keep\PYGZhy{}alive
+[Línea en blanco]
+\end{sphinxVerbatim}
+
+Y a continuación se muestra una respuesta (ejemplo copiado también de Wikipedia):
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+HTTP/1.1 200 OK
+Date: Fri, 31 Dec 2003 23:59:59 GMT
+Content\PYGZhy{}Type: text/html
+Content\PYGZhy{}Length: 1221
+
+\PYGZlt{}html lang=\PYGZdq{}es\PYGZdq{}\PYGZgt{}
+\PYGZlt{}head\PYGZgt{}
+\PYGZlt{}meta charset=\PYGZdq{}utf\PYGZhy{}8\PYGZdq{}\PYGZgt{}
+\PYGZlt{}title\PYGZgt{}Título del sitio\PYGZlt{}/title\PYGZgt{}
+\PYGZlt{}/head\PYGZgt{}
+\PYGZlt{}body\PYGZgt{}
+\PYGZlt{}h1\PYGZgt{}Página \PYGZlt{}/h1\PYGZgt{}
+    ...
+\PYGZlt{}/body\PYGZgt{}
+\PYGZlt{}/html\PYGZgt{}
+\end{sphinxVerbatim}
 
 
-\subsection{POP3}
+\section{POP3}
 \label{\detokenize{textos/tema4:pop3}}
+POP3 significa «Post Office Protocol version 3» y \sphinxstylestrong{está pensando fundamentalmente} para descargar cliente desde un servidor de correo al ordenador de un cliente que habitualmente utiliza Outlook, Mozilla Thunderbird o algún otro cliente de correo. Las versiones más antiguas no usaban mecanismos de cifrado, pero al igual que Telnet, POP3 ha necesitado cambiar para manejar correctamente la seguridad (aunque Telnet ha sido sustituido por otro protocolo y POP3 lo que ha hecho ha sido incorporar extensiones).
 
-\subsection{SMTP}
+
+\section{SMTP}
 \label{\detokenize{textos/tema4:smtp}}
+Al contrario que POP3, está pensado sobre todo para \sphinxstylestrong{enviar correo}. Esto significa que quienes usan SMTP son máquinas que están en una de estas situaciones.
+\begin{itemize}
+\item {} 
+Cliente de correo (que supongamos que tiene el usuario «pepe») de un servidor de correo (por ejemplo «hotmail.es») y que quiere enviar un mensaje a otro usuario «john» que tiene su cuenta en «gmail.com». Esto significa que si «pepe» escribe un mensaje en su Outlook y quiere enviarlo a «\sphinxhref{mailto:john@gmail.com}{john@gmail.com}» primero tiene que enviar el mensaje desde su ordenador a «hotmail.es» y pedirle que lo entregue. La subida del correo desde el ordenador de «pepe» a «hotmail.es» \sphinxstylestrong{se hace mediante SMTP}.
 
-\section{Librerías de clases y componentes.}
+\item {} 
+Servidor de correo que quiere enviar mensaje a otro servidor. En el ejemplo anterior «hotmail.es» recibe un correo que debe entregar a su destinatario, pero como dicho destinatario está en otro servidor debe entregarlo a «gmail.com» que comprobará si tiene un usuario «john» y si es así recibirá el mensaje. \sphinxstylestrong{Todo este proceso también se hace mediante SMTP}
+
+\end{itemize}
+
+Ejemplo de base: supongamos que deseamos crear un programa Java que al ser lanzado permita enviar un mensaje con un fichero del cual nos dan la ruta y que en el cuerpo del mensaje indique el nombre del archivo. El programa debe ser capaz de enviar el email a varios destinatarios y debe ser capaz también de enviar varios adjuntos a la vez.
+
+\begin{sphinxadmonition}{warning}{Advertencia:}
+Si utilizamos este código con un servidor público (GMail, Yahoo, Hotmail) debemos asegurarnos de que configuramos nuestra cuenta para permitir el acceso a aplicaciones desconocidas por dichos servidores. La forma de configurarlo varía de unos servicios a otros
+\end{sphinxadmonition}
+
+\begin{sphinxadmonition}{danger}{Peligro:}
+Una vez activado el acceso a aplicaciones desconocidas GMail permitirá a nuestra aplicación enviar y recibir emails con nuestra cuenta de correo, pero existe el riesgo de que nuestra cuenta se marque como «generadora de spam». Se recomienda usar cuentas de prueba con estos programas.
+\end{sphinxadmonition}
+
+
+\subsection{Librerías de clases y componentes.}
 \label{\detokenize{textos/tema4:librerias-de-clases-y-componentes}}
+Para crear este programa vamos a usar las siguientes bibliotecas de libre distribución:
+\begin{itemize}
+\item {} 
+La biblioteca JavaMail. Curiosamente, no se distribuye con el JDK, sino que debe descargarse el JAR por separado.
 
-\section{Utilización de objetos predefinidos.}
+\item {} 
+La biblioteca Apache Commons Email. Es una biblioteca de libre distribución que facilita el desarrollo de aplicaciones que necesiten enviar o recibir email.
+
+\end{itemize}
+
+
+\subsection{Utilización de objetos predefinidos.}
 \label{\detokenize{textos/tema4:utilizacion-de-objetos-predefinidos}}
+El objeto fundamental es la clase \sphinxcode{Email}, proporcionado por Apache Commons Email. Esta clase no tiene propiedades de interés y no está orientada a eventos, sin embargo tiene algunos métodos interesantes que además son bastante autoexplicativos.
+\begin{itemize}
+\item {} 
+El método \sphinxcode{setHostname} permite configurar el servidor SMTP de nuestro proveedor de correo.
 
-\section{Propiedades de los objetos predefinidos.}
-\label{\detokenize{textos/tema4:propiedades-de-los-objetos-predefinidos}}
+\item {} 
+El método \sphinxcode{setSmtpPort} permite indicar el número de puerto en el que el servidor de correo escucha. Para conexiones SMTPS (SMTP seguro) el puerto es el 465.
 
-\section{Métodos y eventos de los objetos predefinidos.}
-\label{\detokenize{textos/tema4:metodos-y-eventos-de-los-objetos-predefinidos}}
+\item {} 
+El método \sphinxcode{setAuthenticator} permite indicar el objeto que se encargará de configurar la autenticación. Suele usar un objeto básico de la clase \sphinxcode{DefaultAuthenticator}.
 
-\section{Establecimiento y finalización de conexiones.}
+\item {} 
+El método \sphinxcode{setSslOnConect} se usa para indicar si se establece una conexión SSL (o TLS) en el momento de conectar
+
+\end{itemize}
+
+
+\subsection{Establecimiento y finalización de conexiones.}
 \label{\detokenize{textos/tema4:establecimiento-y-finalizacion-de-conexiones}}
+La biblioteca proporciona de manera transparente el proceso correcto para el establecimiento y finalización de conexiones.
 
-\section{Transmisión de información.}
+
+\subsection{Transmisión de información.}
 \label{\detokenize{textos/tema4:transmision-de-informacion}}
+Toda la transmisión de información es controlada por la biblioteca, liberando al programador de tareas de control.
 
-\section{Programación de aplicaciones cliente.}
+
+\subsection{Programación de aplicaciones cliente.}
 \label{\detokenize{textos/tema4:programacion-de-aplicaciones-cliente}}
+La clase \sphinxcode{Cliente.java} que se adjunta a continuación presenta un interfaz con dos métodos que permiten enviar correos electrónicos con adjuntos. El código es mejorable pero se ha primado la legibilidad e inteligibilidad del mismo.
 
-\section{Programación de servidores.}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{c+cm}{/* Para poder usar esta clase debes disponer}
+\PYG{c+cm}{del JAR de la biblioteca Apache Commons EMail y}
+\PYG{c+cm}{las extensiones JavaMail así como configurar tu entorno}
+\PYG{c+cm}{para que encuentre correctamente dichas bibliotecas.}
+\PYG{c+cm}{Puedes encontrar el JAR en https://commons.apache.org/email/}
+\PYG{c+cm}{*/}
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{RemitenteCorreo} \PYG{o}{\PYGZob{}}
+    \PYG{k+kd}{private} \PYG{n}{String}          \PYG{n}{servidorSMTP}\PYG{o}{;}
+    \PYG{k+kd}{private} \PYG{n}{String}          \PYG{n}{usuarioRemitente}\PYG{o}{;}
+    \PYG{k+kd}{private} \PYG{n}{String}          \PYG{n}{claveRemitente}\PYG{o}{;}
+    \PYG{k+kd}{private} \PYG{n}{MultiPartEmail}  \PYG{n}{email}\PYG{o}{;}
+
+    \PYG{k+kd}{public} \PYG{n+nf}{RemitenteCorreo}\PYG{o}{(}\PYG{n}{String} \PYG{n}{servidorSMTP}\PYG{o}{,}
+            \PYG{n}{String} \PYG{n}{usuarioRemitente}\PYG{o}{,} \PYG{n}{String} \PYG{n}{claveRemitente}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{servidorSMTP}       \PYG{o}{=}   \PYG{n}{servidorSMTP}\PYG{o}{;}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{usuarioRemitente}   \PYG{o}{=}   \PYG{n}{usuarioRemitente}\PYG{o}{;}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{claveRemitente}     \PYG{o}{=}   \PYG{n}{claveRemitente}\PYG{o}{;}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{email}              \PYG{o}{=}   \PYG{k+kc}{null}\PYG{o}{;}
+    \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del constructor}
+
+    \PYG{c+c1}{//Método usado solo en el interior de la clase}
+    \PYG{k+kd}{private} \PYG{k+kt}{void} \PYG{n+nf}{iniciarConexionEmail}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+        \PYG{n}{email}\PYG{o}{=}\PYG{k}{new} \PYG{n}{MultiPartEmail}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{c+cm}{/*Se indica el servidor del remitente*/}
+        \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{setHostName}\PYG{o}{(}\PYG{n}{servidorSMTP}\PYG{o}{)}\PYG{o}{;}
+        \PYG{c+cm}{/*Habitualmente el puerto 465 se usa para SMTPS,}
+\PYG{c+cm}{        en el que la encriptación se inicia antes de enviar nada*/}
+        \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{setSmtpPort}\PYG{o}{(}\PYG{l+m+mi}{465}\PYG{o}{)}\PYG{o}{;}
+
+        \PYG{c+cm}{/*Se configura la autenticación*/}
+        \PYG{n}{DefaultAuthenticator} \PYG{n}{sistemaAutenticacion}\PYG{o}{;}
+        \PYG{n}{sistemaAutenticacion}\PYG{o}{=}\PYG{k}{new} \PYG{n}{DefaultAuthenticator}\PYG{o}{(}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{usuarioRemitente}\PYG{o}{,}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{claveRemitente} \PYG{o}{)}\PYG{o}{;}
+        \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{setAuthenticator}\PYG{o}{(}\PYG{n}{sistemaAutenticacion}\PYG{o}{)}\PYG{o}{;}
+
+        \PYG{c+cm}{/*Se indica que vamos a usar el cifrado}
+\PYG{c+cm}{        al inicio de la conexión    */}
+        \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{setSSLOnConnect}\PYG{o}{(}\PYG{k+kc}{true}\PYG{o}{)}\PYG{o}{;}
+    \PYG{o}{\PYGZcb{}}
+
+    \PYG{k+kd}{private}  \PYG{k+kt}{void} \PYG{n+nf}{configurarParametrosBasicos} \PYG{o}{(}
+        \PYG{n}{String} \PYG{n}{asunto}\PYG{o}{,} \PYG{n}{String} \PYG{n}{textoEmail}\PYG{o}{,} \PYG{n}{String} \PYG{n}{destinatario}\PYG{o}{,}
+            \PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{destinatariosCC}\PYG{o}{,} \PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{destinatariosBCC}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{EmailException}
+    \PYG{o}{\PYGZob{}}
+        \PYG{c+cm}{/*Se indica el asunto*/}
+        \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{setSubject}\PYG{o}{(}\PYG{n}{asunto}\PYG{o}{)}\PYG{o}{;}
+        \PYG{c+cm}{/*Se indica el remitente*/}
+        \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{setFrom}\PYG{o}{(}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{usuarioRemitente}\PYG{o}{+}\PYG{l+s}{\PYGZdq{}@\PYGZdq{}}\PYG{o}{+}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{servidorSMTP}\PYG{o}{)}\PYG{o}{;}
+        \PYG{c+cm}{/*Se pasa el texto*/}
+        \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{setMsg}\PYG{o}{(}\PYG{n}{textoEmail}\PYG{o}{)}\PYG{o}{;}
+        \PYG{c+cm}{/*Se configura el destinatario principal*/}
+        \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{addTo}\PYG{o}{(}\PYG{n}{destinatario}\PYG{o}{)}\PYG{o}{;}
+        \PYG{c+cm}{/*Y se configuran otros posibles destinatarios*/}
+        \PYG{k}{if} \PYG{o}{(}\PYG{n}{destinatariosCC}\PYG{o}{!}\PYG{o}{=}\PYG{k+kc}{null}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+            \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{addCc}\PYG{o}{(}\PYG{n}{destinatariosCC}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{k}{if} \PYG{o}{(}\PYG{n}{destinatariosBCC}\PYG{o}{!}\PYG{o}{=}\PYG{k+kc}{null}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+            \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{addBcc}\PYG{o}{(}\PYG{n}{destinatariosBCC}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+    \PYG{o}{\PYGZcb{}}
+    \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{enviarMensaje}\PYG{o}{(}\PYG{n}{String} \PYG{n}{asunto}\PYG{o}{,} \PYG{n}{String} \PYG{n}{textoEmail}\PYG{o}{,} \PYG{n}{String} \PYG{n}{destinatario}\PYG{o}{,}
+            \PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{destinatariosCC}\PYG{o}{,} \PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{destinatariosBCC}\PYG{o}{)}
+            \PYG{k+kd}{throws} \PYG{n}{EmailException}
+    \PYG{o}{\PYGZob{}}
+        \PYG{n}{iniciarConexionEmail}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{configurarParametrosBasicos}\PYG{o}{(}\PYG{n}{asunto}\PYG{o}{,} \PYG{n}{textoEmail}\PYG{o}{,}
+                \PYG{n}{destinatario}\PYG{o}{,} \PYG{n}{destinatariosCC}\PYG{o}{,} \PYG{n}{destinatariosBCC}\PYG{o}{)}\PYG{o}{;}
+
+        \PYG{c+cm}{/*Y se envía el mensaje ;) */}
+        \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{send}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+    \PYG{o}{\PYGZcb{}}
+
+    \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{enviarMensajeConAdjuntos}\PYG{o}{(}\PYG{n}{String} \PYG{n}{asunto}\PYG{o}{,} \PYG{n}{String} \PYG{n}{textoEmail}\PYG{o}{,} \PYG{n}{String} \PYG{n}{destinatario}\PYG{o}{,}
+            \PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{destinatariosCC}\PYG{o}{,} \PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{destinatariosBCC}\PYG{o}{,}
+            \PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{listaRutasArchivo}\PYG{o}{)}
+            \PYG{k+kd}{throws} \PYG{n}{EmailException}\PYG{o}{,} \PYG{n}{FileNotFoundException}
+    \PYG{o}{\PYGZob{}}
+        \PYG{c+cm}{/*Se configura lo basico*/}
+        \PYG{n}{iniciarConexionEmail}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{configurarParametrosBasicos}\PYG{o}{(}\PYG{n}{asunto}\PYG{o}{,} \PYG{n}{textoEmail}\PYG{o}{,}
+                \PYG{n}{destinatario}\PYG{o}{,} \PYG{n}{destinatariosCC}\PYG{o}{,} \PYG{n}{destinatariosBCC}\PYG{o}{)}\PYG{o}{;}
+        \PYG{c+cm}{/*Y añadimos los adjuntos*/}
+        \PYG{k}{for} \PYG{o}{(}\PYG{n}{String} \PYG{n}{ruta} \PYG{o}{:} \PYG{n}{listaRutasArchivo}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+            \PYG{n}{File} \PYG{n}{fichero}\PYG{o}{=}\PYG{k}{new} \PYG{n}{File}\PYG{o}{(}\PYG{n}{ruta}\PYG{o}{)}\PYG{o}{;}
+            \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{email}\PYG{o}{.}\PYG{n+na}{attach}\PYG{o}{(}\PYG{n}{fichero}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{c+cm}{/*Y se envía el mensaje ;) */}
+        \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{send}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+    \PYG{o}{\PYGZcb{}}
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+
+\subsection{Programación de servidores.}
 \label{\detokenize{textos/tema4:programacion-de-servidores}}
 
-\section{Implementación de comunicaciones simultáneas.}
+\subsection{Implementación de comunicaciones simultáneas.}
 \label{\detokenize{textos/tema4:implementacion-de-comunicaciones-simultaneas}}
 
-\section{Documentación.}
+\subsection{Documentación.}
 \label{\detokenize{textos/tema4:documentacion}}
 
-\section{Depuración.}
+\subsection{Depuración.}
 \label{\detokenize{textos/tema4:depuracion}}
 
-\section{Monitorización de tiempos de respuesta.}
+\subsection{Monitorización de tiempos de respuesta.}
 \label{\detokenize{textos/tema4:monitorizacion-de-tiempos-de-respuesta}}
 
 \chapter{Utilización de técnicas de programación segura}
-\label{\detokenize{textos/tema5::doc}}\label{\detokenize{textos/tema5:utilizacion-de-tecnicas-de-programacion-segura}}
+\label{\detokenize{textos/tema5:utilizacion-de-tecnicas-de-programacion-segura}}\label{\detokenize{textos/tema5::doc}}
 
 \section{Introducción}
 \label{\detokenize{textos/tema5:introduccion}}
@@ -4033,14 +4205,14 @@ El siguiente código muestra como crear una clase que permita cifrar y descifrar
                         \PYG{o}{(}\PYG{l+s}{\PYGZdq{}Cadena cifrada:\PYGZdq{}}\PYG{o}{+}\PYG{n}{cadCifrada}\PYG{o}{)}\PYG{o}{;}
 
                 \PYG{c+cm}{/* Cogemos la cadCifrada y la desciframos}
-\PYG{c+cm}{                 * con la otra clave}
-\PYG{c+cm}{                 */}
+\PYG{c+cm}{                 * con la otra clave */}
                 \PYG{n}{Key} \PYG{n}{clavePrivada}\PYG{o}{;}
                 \PYG{n}{clavePrivada}\PYG{o}{=}\PYG{n}{gestorCifrado}\PYG{o}{.}\PYG{n+na}{getPrivada}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
                 \PYG{k+kt}{byte}\PYG{o}{[}\PYG{o}{]} \PYG{n}{descifrada}\PYG{o}{=}
                                 \PYG{n}{gestorCifrado}\PYG{o}{.}\PYG{n+na}{descifrar}\PYG{o}{(}
                                                 \PYG{n}{mensajeCifrado}\PYG{o}{,}\PYG{n}{clavePrivada}\PYG{o}{)}\PYG{o}{;}
                 \PYG{n}{String} \PYG{n}{mensajeDescifrado}\PYG{o}{;}
+    \PYG{c+cm}{/* E imprimimos el mensaje*/}
                 \PYG{n}{mensajeDescifrado}\PYG{o}{=}
                                 \PYG{k}{new} \PYG{n}{String}\PYG{o}{(}\PYG{n}{descifrada}\PYG{o}{,} \PYG{l+s}{\PYGZdq{}UTF\PYGZhy{}8\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
                 \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
@@ -4085,6 +4257,18 @@ Ahora cliente y servidor pueden enviar mensajes al otro con la garantía de que 
 En realidad se puede asegurar más el proceso haciendo que en el paso 5 el servidor cifre su propia clave pública con la clave pública del cliente. De esta forma, incluso aunque alguien robara la clave privada del cliente tampoco tendría demasiado, ya que tendría que robar la clave privada del servidor.
 
 
+\section{Infraestructura de clave pública (PKI)}
+\label{\detokenize{textos/tema5:infraestructura-de-clave-publica-pki}}
+Para garantizar la seguridad es necesario que entre un tercer jugador en el intercambio de claves entre clientes y servidores. Este tercer individuo son las \sphinxstyleemphasis{autoridades de certificación} .
+
+\begin{figure}[htbp]
+\centering
+\capstart
+
+\noindent\sphinxincludegraphics{{Paso01}.png}
+\caption{Autoridades de certificación.}\label{\detokenize{textos/tema5:id1}}\end{figure}
+
+
 \section{Programación de aplicaciones con comunicaciones seguras.}
 \label{\detokenize{textos/tema5:programacion-de-aplicaciones-con-comunicaciones-seguras}}
 Por fortuna Java dispone de clases ya prefabricadas que facilitan enormemente el que dos aplicaciones intercambios datos de forma segura a través de una red. Se deben considerar los siguientes puntos:
@@ -4108,7 +4292,7 @@ Aunque no suele hacerse también podría hacerse a la inversa y obligar al clien
 \capstart
 
 \noindent\sphinxincludegraphics{{generacion_clave}.png}
-\caption{Generando la pareja de claves del servidor.}\label{\detokenize{textos/tema5:id1}}\end{figure}
+\caption{Generando la pareja de claves del servidor.}\label{\detokenize{textos/tema5:id2}}\end{figure}
 
 Los pasos desglosados implican ejecutar estos comandos en el servidor:
 
