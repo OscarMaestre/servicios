@@ -463,7 +463,7 @@ Antes de efectuar el firmado se debe disponer de un par de claves generadas con 
 1. Crear la aplicación, que puede estar formada por un conjunto de clases pero que en última instancia tendrá un ``main``.
 2. Empaquetar la aplicación con ``jar cfe Aplicacion.jar com.ies.Aplicacion DirectorioPaquete``. Este comando crea un fichero (``f``) JAR en el cual el punto de entrada (``e``) es la clase ``com.ies.Aplicacion`` (que es la que tendrá el ``main``).
 3. Puede comprobarse que la aplicación dentro del JAR se ejecuta correctamente con ``java -jar Aplicacion.jar``.
-4. Ahora se puede ejecutar ``jarsigner Aplicacion.jar <alias>``.
+4. Ahora se puede ejecutar ``jarsigner -keystore <ruta-almacen> Aplicacion.jar <alias>``.
 
 Con estos pasos se tiene un aplicación firmada que el usuario puede verificar si así lo desea. De hecho, si se extrae el contenido del JAR con ``jar -xf Aplicacion.jar`` se extraen los archivos ``.class`` y un fichero ``META-INF/Manifest`` que se puede abrir con un editor para ver que realmente está firmado.
 
@@ -477,7 +477,7 @@ Verificado de aplicaciones
 Si ahora otro usuario desea ejecutar nuestra aplicación deberá importar nuestro certificado. El proceso de verificado es simple:
 
 1. El usuario importa el certificado.
-2. Ahora que tiene el certificado puede comprobar la aplicación con ``jarsigner -verify Aplicacion.jar <alias_del_programador>``
+2. Ahora que tiene el certificado puede comprobar la aplicación con ``jarsigner -verify -keystore <ruta-almacen> Aplicacion.jar <alias_del_programador>``
 
 El comando deberá responder con algo como ``jar verified``. Sin embargo si no tenemos un certificado firmado por alguna autoridad de certificación (CA) la herramienta se quejará de que algunos criterios de seguridad no se cumplen.
 

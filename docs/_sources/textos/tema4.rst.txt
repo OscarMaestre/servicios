@@ -186,8 +186,6 @@ La clase ``Cliente.java`` que se adjunta a continuación presenta un interfaz co
             iniciarConexionEmail();
             this.configurarParametrosBasicos(asunto, textoEmail, 
                     destinatario, destinatariosCC, destinatariosBCC);
-            
-            /*Y se envía el mensaje ;) */
             email.send();
         }
         

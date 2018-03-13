@@ -457,7 +457,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <li>Crear la aplicación, que puede estar formada por un conjunto de clases pero que en última instancia tendrá un <code class="docutils literal"><span class="pre">main</span></code>.</li>
 <li>Empaquetar la aplicación con <code class="docutils literal"><span class="pre">jar</span> <span class="pre">cfe</span> <span class="pre">Aplicacion.jar</span> <span class="pre">com.ies.Aplicacion</span> <span class="pre">DirectorioPaquete</span></code>. Este comando crea un fichero (<code class="docutils literal"><span class="pre">f</span></code>) JAR en el cual el punto de entrada (<code class="docutils literal"><span class="pre">e</span></code>) es la clase <code class="docutils literal"><span class="pre">com.ies.Aplicacion</span></code> (que es la que tendrá el <code class="docutils literal"><span class="pre">main</span></code>).</li>
 <li>Puede comprobarse que la aplicación dentro del JAR se ejecuta correctamente con <code class="docutils literal"><span class="pre">java</span> <span class="pre">-jar</span> <span class="pre">Aplicacion.jar</span></code>.</li>
-<li>Ahora se puede ejecutar <code class="docutils literal"><span class="pre">jarsigner</span> <span class="pre">Aplicacion.jar</span> <span class="pre">&lt;alias&gt;</span></code>.</li>
+<li>Ahora se puede ejecutar <code class="docutils literal"><span class="pre">jarsigner</span> <span class="pre">-keystore</span> <span class="pre">&lt;ruta-almacen&gt;</span> <span class="pre">Aplicacion.jar</span> <span class="pre">&lt;alias&gt;</span></code>.</li>
 </ol>
 <p>Con estos pasos se tiene un aplicación firmada que el usuario puede verificar si así lo desea. De hecho, si se extrae el contenido del JAR con <code class="docutils literal"><span class="pre">jar</span> <span class="pre">-xf</span> <span class="pre">Aplicacion.jar</span></code> se extraen los archivos <code class="docutils literal"><span class="pre">.class</span></code> y un fichero <code class="docutils literal"><span class="pre">META-INF/Manifest</span></code> que se puede abrir con un editor para ver que realmente está firmado.</p>
 <p>Para que otras personas puedan comprobar que nuestra aplicacion es correcta los programadores deberemos exportar un certificado que los usuarios puedan importar para hacer el verificado. Recordemos que el comando es:</p>
@@ -470,7 +470,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <p>Si ahora otro usuario desea ejecutar nuestra aplicación deberá importar nuestro certificado. El proceso de verificado es simple:</p>
 <ol class="arabic simple">
 <li>El usuario importa el certificado.</li>
-<li>Ahora que tiene el certificado puede comprobar la aplicación con <code class="docutils literal"><span class="pre">jarsigner</span> <span class="pre">-verify</span> <span class="pre">Aplicacion.jar</span> <span class="pre">&lt;alias_del_programador&gt;</span></code></li>
+<li>Ahora que tiene el certificado puede comprobar la aplicación con <code class="docutils literal"><span class="pre">jarsigner</span> <span class="pre">-verify</span> <span class="pre">-keystore</span> <span class="pre">&lt;ruta-almacen&gt;</span> <span class="pre">Aplicacion.jar</span> <span class="pre">&lt;alias_del_programador&gt;</span></code></li>
 </ol>
 <p>El comando deberá responder con algo como <code class="docutils literal"><span class="pre">jar</span> <span class="pre">verified</span></code>. Sin embargo si no tenemos un certificado firmado por alguna autoridad de certificación (CA) la herramienta se quejará de que algunos criterios de seguridad no se cumplen.</p>
 </div>
@@ -561,7 +561,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
