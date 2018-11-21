@@ -1412,7 +1412,11 @@ La estructura general de toda aplicación multihilo es algo similar a lo siguien
 
 Depuración.
 --------------------------------------------------------------------------
+La depuración de programas multihilo debe hacerse exclusivamente trabajando con pruebas de unidad y las comprobaciones de tipos de Java.
 
+* Por un lado, los depuradores solo funcionan vinculándose con el hilo principal ("main") de la aplicación, por lo que si se desea depurar un hilo concreto se tendrá que averiguar el identificador de dicho hilo para poder conectar con él desde el depurador. 
+* Los depuradores "interfieren" con la ejecución de los hilos así que pueden pasar cosas tan curiosas como que un programa *funcione cuando usamos el depurador pero vuelva a fallar al ejecutarlo solo*.
+* Los mensajes de traza pueden aparecer antes o despues de lo esperado, así que en realidad no sabemos cuando se escribió un mensaje en pantalla ni qué operaciones se efectuaron antes o despues.
 
 Ejercicio resuelto
 -------------------------------

@@ -1361,12 +1361,18 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="depuracion">
 <h2>Depuración.<a class="headerlink" href="#depuracion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>La depuración de programas multihilo debe hacerse exclusivamente trabajando con pruebas de unidad y las comprobaciones de tipos de Java.</p>
+<ul class="simple">
+<li>Por un lado, los depuradores solo funcionan vinculándose con el hilo principal («main») de la aplicación, por lo que si se desea depurar un hilo concreto se tendrá que averiguar el identificador de dicho hilo para poder conectar con él desde el depurador.</li>
+<li>Los depuradores «interfieren» con la ejecución de los hilos así que pueden pasar cosas tan curiosas como que un programa <em>funcione cuando usamos el depurador pero vuelva a fallar al ejecutarlo solo</em>.</li>
+<li>Los mensajes de traza pueden aparecer antes o despues de lo esperado, así que en realidad no sabemos cuando se escribió un mensaje en pantalla ni qué operaciones se efectuaron antes o despues.</li>
+</ul>
 </div>
 <div class="section" id="ejercicio-resuelto">
 <h2>Ejercicio resuelto<a class="headerlink" href="#ejercicio-resuelto" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Crear una clase multihilo llamada Empleado que permita cambiar la cantidad de horas trabajadas por parte del empleado y su sueldo permitiendo que haya muchos hilos a la vez que puedan cambiar ambos valores pero de manera que la ejecución dé siempre resultados coherentes.</p>
-<p>En concreto, se desea tener un método <code class="docutils literal notranslate"><span class="pre">incrementarHoras(int</span> <span class="pre">numHoras)</span></code> que acepte números positivos y negativos y que permita actualizar el número de horas trabajadas. También se desea un método ´´incrementarBonus(int bonus)´´ que acepte positivos y negativos y que permita incrementar el bonus salarial del trabajador.</p>
-<p>Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a <code class="docutils literal notranslate"><span class="pre">incrementarHoras(2)</span></code> la ejecución de estos hilos debería reflejar que el empleado ha trabajado 200 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método ´´incrementarBonus(10)´´ el bonus salarial del empleado debería ser de 100 euros.</p>
+<p>En concreto, se desea tener un método <code class="docutils literal notranslate"><span class="pre">incrementarHoras(int</span> <span class="pre">numHoras)</span></code> que acepte números positivos y negativos y que permita actualizar el número de horas trabajadas. También se desea un método <code class="docutils literal notranslate"><span class="pre">incrementarBonus</span> <span class="pre">(int</span> <span class="pre">bonus)</span></code> que acepte positivos y negativos y que permita incrementar el bonus salarial del trabajador.</p>
+<p>Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a <code class="docutils literal notranslate"><span class="pre">incrementarHoras(2)</span></code> la ejecución de estos hilos debería reflejar que el empleado ha trabajado 200 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método <code class="docutils literal notranslate"><span class="pre">incrementarBonus(10)</span></code> el bonus salarial del empleado debería ser de 100 euros.</p>
 </div>
 </div>
 

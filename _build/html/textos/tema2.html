@@ -1361,6 +1361,12 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="depuracion">
 <h2>Depuración.<a class="headerlink" href="#depuracion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>La depuración de programas multihilo debe hacerse exclusivamente trabajando con pruebas de unidad y las comprobaciones de tipos de Java.</p>
+<ul class="simple">
+<li>Por un lado, los depuradores solo funcionan vinculándose con el hilo principal («main») de la aplicación, por lo que si se desea depurar un hilo concreto se tendrá que averiguar el identificador de dicho hilo para poder conectar con él desde el depurador.</li>
+<li>Los depuradores «interfieren» con la ejecución de los hilos así que pueden pasar cosas tan curiosas como que un programa <em>funcione cuando usamos el depurador pero vuelva a fallar al ejecutarlo solo</em>.</li>
+<li>Los mensajes de traza pueden aparecer antes o despues de lo esperado, así que en realidad no sabemos cuando se escribió un mensaje en pantalla ni qué operaciones se efectuaron antes o despues.</li>
+</ul>
 </div>
 <div class="section" id="ejercicio-resuelto">
 <h2>Ejercicio resuelto<a class="headerlink" href="#ejercicio-resuelto" title="Enlazar permanentemente con este título">¶</a></h2>
