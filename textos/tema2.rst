@@ -1418,10 +1418,13 @@ La depuración de programas multihilo debe hacerse exclusivamente trabajando con
 * Los depuradores "interfieren" con la ejecución de los hilos así que pueden pasar cosas tan curiosas como que un programa *funcione cuando usamos el depurador pero vuelva a fallar al ejecutarlo solo*.
 * Los mensajes de traza pueden aparecer antes o despues de lo esperado, así que en realidad no sabemos cuando se escribió un mensaje en pantalla ni qué operaciones se efectuaron antes o despues.
 
-Ejercicio resuelto
--------------------------------
+Ejercicio: empleado "Thread safe"
+----------------------------------
+
+Se dice que un método o clase es "Thread safe" (a prueba de hilos) cuando se ha programado con cuidado para que cualquier persona que lo utilice pueda hacerlo desde múltiples hilos de ejecución sin miedo a que se produzcan resultados indeseados. Evidentemente, la programación de código "Thread-safe" involucra muchísimo más cuidado de lo habitual. En el enunciado siguiente se pide desarrollar una clase que claramente debe ser "Thread safe".
+
 Crear una clase multihilo llamada Empleado que permita cambiar la cantidad de horas trabajadas por parte del empleado y su sueldo permitiendo que haya muchos hilos a la vez que puedan cambiar ambos valores pero de manera que la ejecución dé siempre resultados coherentes.
 
 En concreto, se desea tener un método ``incrementarHoras(int numHoras)`` que acepte números positivos y negativos y que permita actualizar el número de horas trabajadas. También se desea un método ``incrementarBonus (int bonus)`` que acepte positivos y negativos y que permita incrementar el bonus salarial del trabajador.
 
-Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a ``incrementarHoras(2)`` la ejecución de estos hilos debería reflejar que el empleado ha trabajado 200 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método ``incrementarBonus(10)`` el bonus salarial del empleado debería ser de 100 euros.
+Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a ``incrementarHoras(2)`` la ejecución de estos hilos debería reflejar que el empleado ha trabajado 400 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método ``incrementarBonus(10)`` el bonus salarial del empleado debería ser de 1000 euros.
