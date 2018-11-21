@@ -1373,7 +1373,19 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <p>Se dice que un método o clase es «Thread safe» (a prueba de hilos) cuando se ha programado con cuidado para que cualquier persona que lo utilice pueda hacerlo desde múltiples hilos de ejecución sin miedo a que se produzcan resultados indeseados. Evidentemente, la programación de código «Thread-safe» involucra muchísimo más cuidado de lo habitual. En el enunciado siguiente se pide desarrollar una clase que claramente debe ser «Thread safe».</p>
 <p>Crear una clase multihilo llamada Empleado que permita cambiar la cantidad de horas trabajadas por parte del empleado y su sueldo permitiendo que haya muchos hilos a la vez que puedan cambiar ambos valores pero de manera que la ejecución dé siempre resultados coherentes.</p>
 <p>En concreto, se desea tener un método <code class="docutils literal notranslate"><span class="pre">incrementarHoras(int</span> <span class="pre">numHoras)</span></code> que acepte números positivos y negativos y que permita actualizar el número de horas trabajadas. También se desea un método <code class="docutils literal notranslate"><span class="pre">incrementarBonus</span> <span class="pre">(int</span> <span class="pre">bonus)</span></code> que acepte positivos y negativos y que permita incrementar el bonus salarial del trabajador.</p>
-<p>Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a <code class="docutils literal notranslate"><span class="pre">incrementarHoras(2)</span></code> la ejecución de estos hilos debería reflejar que el empleado ha trabajado 200 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método <code class="docutils literal notranslate"><span class="pre">incrementarBonus(10)</span></code> el bonus salarial del empleado debería ser de 100 euros.</p>
+<p>Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a <code class="docutils literal notranslate"><span class="pre">incrementarHoras(2)</span></code> la ejecución de estos hilos debería reflejar que el empleado ha trabajado 400 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método <code class="docutils literal notranslate"><span class="pre">incrementarBonus(10)</span></code> el bonus salarial del empleado debería ser de 1000 euros.</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Empleado</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">bonus</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">horasTrabajadas</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">incrementarHoras</span><span class="o">(</span><span class="kt">int</span> <span class="n">numHoras</span><span class="o">){</span>
+                <span class="n">horasTrabajadas</span><span class="o">+=</span><span class="n">numHoras</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">incrementarBonus</span><span class="o">(</span><span class="kt">int</span> <span class="n">bonusSalarial</span><span class="o">){</span>
+                <span class="n">bonus</span><span class="o">+=</span><span class="n">bonusSalarial</span><span class="o">;</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 

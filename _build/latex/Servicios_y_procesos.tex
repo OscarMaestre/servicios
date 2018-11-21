@@ -2478,7 +2478,21 @@ Crear una clase multihilo llamada Empleado que permita cambiar la cantidad de ho
 
 En concreto, se desea tener un método \sphinxcode{\sphinxupquote{incrementarHoras(int numHoras)}} que acepte números positivos y negativos y que permita actualizar el número de horas trabajadas. También se desea un método \sphinxcode{\sphinxupquote{incrementarBonus (int bonus)}} que acepte positivos y negativos y que permita incrementar el bonus salarial del trabajador.
 
-Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a \sphinxcode{\sphinxupquote{incrementarHoras(2)}} la ejecución de estos hilos debería reflejar que el empleado ha trabajado 200 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método \sphinxcode{\sphinxupquote{incrementarBonus(10)}} el bonus salarial del empleado debería ser de 100 euros.
+Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a \sphinxcode{\sphinxupquote{incrementarHoras(2)}} la ejecución de estos hilos debería reflejar que el empleado ha trabajado 400 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método \sphinxcode{\sphinxupquote{incrementarBonus(10)}} el bonus salarial del empleado debería ser de 1000 euros.
+
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Empleado} \PYG{o}{\PYGZob{}}
+        \PYG{k+kt}{int} \PYG{n}{bonus}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
+        \PYG{k+kt}{int} \PYG{n}{horasTrabajadas}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{void} \PYG{n+nf}{incrementarHoras}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{numHoras}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{horasTrabajadas}\PYG{o}{+}\PYG{o}{=}\PYG{n}{numHoras}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{void} \PYG{n+nf}{incrementarBonus}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{bonusSalarial}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{bonus}\PYG{o}{+}\PYG{o}{=}\PYG{n}{bonusSalarial}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
 
 
 \chapter{Programación de comunicaciones en red}
