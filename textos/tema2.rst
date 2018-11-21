@@ -1412,3 +1412,12 @@ La estructura general de toda aplicación multihilo es algo similar a lo siguien
 
 Depuración.
 --------------------------------------------------------------------------
+
+
+Ejercicio resuelto
+-------------------------------
+Crear una clase multihilo llamada Empleado que permita cambiar la cantidad de horas trabajadas por parte del empleado y su sueldo permitiendo que haya muchos hilos a la vez que puedan cambiar ambos valores pero de manera que la ejecución dé siempre resultados coherentes.
+
+En concreto, se desea tener un método ``incrementarHoras(int numHoras)`` que acepte números positivos y negativos y que permita actualizar el número de horas trabajadas. También se desea un método ``incrementarBonus (int bonus)`` que acepte positivos y negativos y que permita incrementar el bonus salarial del trabajador.
+
+Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a ``incrementarHoras(2)`` la ejecución de estos hilos debería reflejar que el empleado ha trabajado 200 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método ``incrementarBonus(10)`` el bonus salarial del empleado debería ser de 100 euros.
