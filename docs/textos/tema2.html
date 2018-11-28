@@ -403,13 +403,13 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </pre></div>
 </div>
 </div>
-<div class="section" id="problema">
-<h2>Problema<a class="headerlink" href="#problema" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="problema-filosofos">
+<h2>Problema: filósofos<a class="headerlink" href="#problema-filosofos" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>En una mesa hay procesos que simulan el comportamiento de unos filósofos que intentan comer de un plato. Cada filósofo tiene un cubierto a su izquierda y uno a su derecha y para poder comer tiene que conseguir los dos. Si lo consigue, mostrará un mensaje en pantalla que indique «Filosofo 2 comiendo».</p>
 <p>Despues de comer, soltará los cubiertos y esperará al azar un tiempo entre 1000 y 5000 milisegundos, indicando por pantalla «El filósofo 2 está pensando».</p>
 <p>En general todos los objetos de la clase Filósofo está en un bucle infinito dedicándose a comer y a pensar.</p>
 <p>Simular este problema en un programa Java que muestre el progreso de todos sin caer en problemas de sincronización ni de inanición.</p>
-<div class="figure align-center" id="id3" style="width: 50%">
+<div class="figure align-center" id="id2" style="width: 50%">
 <img alt="../_images/Filosofos.png" src="../_images/Filosofos.png" />
 <p class="caption"><span class="caption-text">Esquema de los filósofos</span></p>
 </div>
@@ -595,10 +595,15 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li>Si sale el 0, todo el mundo pierde y la banca se queda con todo el dinero.</li>
 </ul>
 </div>
-<div class="section" id="id1">
-<h2>Problema<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>En una peluquería hay barberos y sillas para los clientes (siempre hay más sillas que clientes). Sin embargo, en esta peluquería no siempre hay trabajo por lo que los barberos duermen cuando no hay clientes a los que afeitar. Un cliente puede llegar a la barbería y encontrar alguna silla libre, en cuyo caso, el cliente se sienta y esperará que algún barbero le afeite. Puede ocurrir que el cliente llegue y no haya sillas libres, en cuyo caso se marcha. Simular el comportamiento de la barbería mediante un programa Java.</p>
-<div class="figure align-center" id="id4" style="width: 50%">
+<div class="section" id="problema-barberos">
+<h2>Problema: barberos<a class="headerlink" href="#problema-barberos" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>En una peluquería hay barberos y sillas para los clientes (siempre hay más sillas que clientes). Sin embargo, en esta peluquería no siempre hay trabajo por lo que los barberos duermen cuando no hay clientes a los que afeitar. Un cliente puede llegar a la barbería y encontrar alguna silla libre, en cuyo caso, el cliente se sienta y esperará que algún barbero le afeite. Puede ocurrir que el cliente llegue y no haya sillas libres, en cuyo caso se marcha. Simular el comportamiento de la barbería mediante un programa Java teniendo en cuenta que:</p>
+<ul class="simple">
+<li>Se generan clientes continuamente, algunos encuentran silla y otros no. Los que no consigan silla desaparecen (terminan su ejecución)</li>
+<li>Puede haber más sillas que barberos y al revés (poner constantes para poder cambiar fácilmente entre ejecuciones).</li>
+<li>Se recuerda que no debe haber inanición, es decir ningún cliente debería quedarse en una silla esperando un tiempo infinito.</li>
+</ul>
+<div class="figure align-center" id="id3" style="width: 50%">
 <img alt="../_images/barberodormilon.png" src="../_images/barberodormilon.png" />
 <p class="caption"><span class="caption-text">Los  barberos dormilones</span></p>
 </div>
@@ -1058,8 +1063,8 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </ol>
 <p>Realizar la simulación en Java de dicha situación.</p>
 <p>Una posible solución sería la siguiente:</p>
-<div class="section" id="id2">
-<h3>Clase cliente<a class="headerlink" href="#id2" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="section" id="id1">
+<h3>Clase cliente<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
@@ -1419,10 +1424,10 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li class="toctree-l2"><a class="reference internal" href="#prioridades-de-los-hilos">Prioridades de los hilos.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gestion-de-prioridades">Gestión de prioridades.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#programacion-de-aplicaciones-multihilo">Programación de aplicaciones multihilo.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#problema">Problema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problema-filosofos">Problema: filósofos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#solucion-completa-al-problema-de-los-filosofos">Solución completa al problema de los filósofos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#problema-simulador-de-casino">Problema: simulador de casino</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Problema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problema-barberos">Problema: barberos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#una-mala-solucion-al-problema-de-los-barberos">Una (mala) solución al problema de los barberos</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#problema-productores-y-consumidores">Problema: productores y consumidores.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#solucion">Solución</a></li>
