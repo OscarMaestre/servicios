@@ -454,35 +454,35 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <h2>Solución completa al problema de los filósofos<a class="headerlink" href="#solucion-completa-al-problema-de-los-filosofos" title="Enlazar permanentemente con este título">¶</a></h2>
 <div class="section" id="gestor-de-recursos-compartidos-palillos">
 <h3>Gestor de recursos compartidos (palillos)<a class="headerlink" href="#gestor-de-recursos-compartidos-palillos" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorPalillos</span> <span class="o">{</span>
-        <span class="cm">/* False significa que no están cogidos*/</span>
-        <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">palillos</span><span class="o">;</span>
-        <span class="kd">public</span> <span class="nf">GestorPalillos</span><span class="o">(</span><span class="kt">int</span> <span class="n">num_filosofos</span><span class="o">){</span>
-                <span class="n">palillos</span><span class="o">=</span><span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">num_filosofos</span><span class="o">];</span>
-                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">palillos</span><span class="o">.</span><span class="na">length</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
-                        <span class="n">palillos</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="kc">false</span><span class="o">;</span>
-                <span class="o">}</span>
-        <span class="o">}</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.iesmaestre.filosofos</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorPalillos</span> <span class="o">{</span>
+        <span class="kt">boolean</span> <span class="n">palilloLibre</span><span class="o">[];</span>
+        <span class="kd">public</span> <span class="nf">GestorPalillos</span><span class="o">(</span><span class="kt">int</span> <span class="n">numPalillos</span><span class="o">){</span>
+                <span class="n">palilloLibre</span><span class="o">=</span><span class="k">new</span>  <span class="kt">boolean</span><span class="o">[</span><span class="n">numPalillos</span><span class="o">];</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">numPalillos</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                        <span class="n">palilloLibre</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span> <span class="c1">//Fin del for</span>
+        <span class="o">}</span> <span class="c1">//Fin del constructor</span>
         <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">boolean</span>
-                <span class="nf">sePuedenCogerAmbosPalillos</span><span class="o">(</span>
-                        <span class="kt">int</span> <span class="n">num1</span><span class="o">,</span><span class="kt">int</span> <span class="n">num2</span><span class="o">){</span>
-                <span class="k">if</span> <span class="o">(</span> <span class="o">(</span><span class="n">palillos</span><span class="o">[</span><span class="n">num1</span><span class="o">]==</span><span class="kc">false</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
-                        <span class="o">(</span><span class="n">palillos</span><span class="o">[</span><span class="n">num2</span><span class="o">]==</span><span class="kc">false</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
-                        <span class="n">palillos</span><span class="o">[</span><span class="n">num1</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
-                        <span class="n">palillos</span><span class="o">[</span><span class="n">num2</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                                <span class="s">&quot;Alguien consiguio los palillos &quot;</span>
-                                <span class="o">+</span><span class="n">num1</span><span class="o">+</span><span class="s">&quot; y &quot;</span><span class="o">+</span><span class="n">num2</span><span class="o">);</span>
-                        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-                <span class="o">}</span>
-                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="nf">intentarCogerPalillos</span><span class="o">(</span><span class="kt">int</span> <span class="n">pos1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pos2</span><span class="o">)</span>
+        <span class="o">{</span>
+                <span class="kt">boolean</span> <span class="n">seConsigue</span><span class="o">=</span><span class="kc">false</span><span class="o">;</span>
+                <span class="k">if</span> <span class="o">(</span>
+                                <span class="o">(</span><span class="n">palilloLibre</span><span class="o">[</span><span class="n">pos1</span><span class="o">])</span>
+                                <span class="o">&amp;&amp;</span>
+                                <span class="o">(</span><span class="n">palilloLibre</span><span class="o">[</span><span class="n">pos2</span><span class="o">])</span> <span class="o">)</span>
+                <span class="o">{</span>
+                        <span class="n">palilloLibre</span><span class="o">[</span><span class="n">pos1</span><span class="o">]=</span><span class="kc">false</span><span class="o">;</span>
+                        <span class="n">palilloLibre</span><span class="o">[</span><span class="n">pos2</span><span class="o">]=</span><span class="kc">false</span><span class="o">;</span>
+                        <span class="n">seConsigue</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span> <span class="c1">//Fin del if</span>
+                <span class="k">return</span> <span class="n">seConsigue</span><span class="o">;</span>
         <span class="o">}</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">soltarPalillos</span><span class="o">(</span><span class="kt">int</span> <span class="n">num1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">num2</span><span class="o">){</span>
-                <span class="n">palillos</span><span class="o">[</span><span class="n">num1</span><span class="o">]=</span><span class="kc">false</span><span class="o">;</span>
-                <span class="n">palillos</span><span class="o">[</span><span class="n">num2</span><span class="o">]=</span><span class="kc">false</span><span class="o">;</span>
-                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                        <span class="s">&quot;Alguien liberó los palillos &quot;</span><span class="o">+</span>
-                        <span class="n">num1</span><span class="o">+</span><span class="s">&quot; y &quot;</span><span class="o">+</span><span class="n">num2</span><span class="o">);</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">liberarPalillos</span><span class="o">(</span><span class="kt">int</span> <span class="n">pos1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pos2</span><span class="o">){</span>
+                <span class="n">palilloLibre</span><span class="o">[</span><span class="n">pos1</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
+                <span class="n">palilloLibre</span><span class="o">[</span><span class="n">pos2</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
         <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -490,55 +490,54 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="simulacion-de-un-filosofo">
 <h3>Simulación de un filósofo<a class="headerlink" href="#simulacion-de-un-filosofo" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Filosofo</span>  <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
-        <span class="kt">int</span> <span class="n">num_palillo_izq</span><span class="o">;</span>
-        <span class="kt">int</span> <span class="n">num_palillo_der</span><span class="o">;</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.iesmaestre.filosofos</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Filosofo</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
         <span class="n">GestorPalillos</span> <span class="n">gestorPalillos</span><span class="o">;</span>
-        <span class="kd">public</span> <span class="nf">Filosofo</span><span class="o">(</span><span class="n">GestorPalillos</span> <span class="n">gp</span><span class="o">,</span>
-                        <span class="kt">int</span> <span class="n">p_izq</span><span class="o">,</span> <span class="kt">int</span> <span class="n">p_der</span><span class="o">){</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">gestorPalillos</span><span class="o">=</span><span class="n">gp</span><span class="o">;</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">num_palillo_der</span><span class="o">=</span><span class="n">p_der</span><span class="o">;</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">num_palillo_izq</span><span class="o">=</span><span class="n">p_izq</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">posPalilloIzq</span><span class="o">,</span><span class="n">posPalilloDer</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nf">Filosofo</span><span class="o">(</span><span class="n">GestorPalillos</span> <span class="n">g</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pIzq</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pDer</span><span class="o">){</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">gestorPalillos</span><span class="o">=</span><span class="n">g</span><span class="o">;</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">posPalilloDer</span><span class="o">=</span><span class="n">pDer</span><span class="o">;</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">posPalilloIzq</span><span class="o">=</span><span class="n">pIzq</span><span class="o">;</span>
         <span class="o">}</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(){</span>
-                <span class="n">String</span> <span class="n">miNombre</span><span class="o">=</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">();</span>
-                <span class="n">Random</span> <span class="n">generador</span><span class="o">=</span><span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
                 <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">){</span>
-                        <span class="cm">/* Comer*/</span>
-                        <span class="cm">/* Intentar coger palillos*/</span>
-                        <span class="k">while</span><span class="o">(!</span><span class="n">gestorPalillos</span><span class="o">.</span><span class="na">sePuedenCogerAmbosPalillos</span>
-                                <span class="o">(</span>
-                                                <span class="n">num_palillo_izq</span><span class="o">,</span>
-                                                <span class="n">num_palillo_der</span>
-                                <span class="o">))</span>
-                        <span class="o">{</span>
+                        <span class="kt">boolean</span> <span class="n">palillosCogidos</span><span class="o">;</span>
+                        <span class="n">palillosCogidos</span><span class="o">=</span>
+                          <span class="k">this</span><span class="o">.</span><span class="na">gestorPalillos</span><span class="o">.</span><span class="na">intentarCogerPalillos</span><span class="o">(</span>
+                                          <span class="n">posPalilloIzq</span><span class="o">,</span> <span class="n">posPalilloDer</span><span class="o">);</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">palillosCogidos</span><span class="o">){</span>
+                                <span class="n">comer</span><span class="o">();</span>
+                                <span class="k">this</span><span class="o">.</span><span class="na">gestorPalillos</span><span class="o">.</span><span class="na">liberarPalillos</span><span class="o">(</span>
+                                                <span class="n">posPalilloIzq</span><span class="o">,</span>
+                                                <span class="n">posPalilloDer</span><span class="o">);</span>
+                                <span class="n">dormir</span><span class="o">();</span>
+                        <span class="o">}</span> <span class="c1">//Fin del if</span>
+                <span class="o">}</span> <span class="c1">//Fin del while true</span>
+        <span class="o">}</span> <span class="c1">//Fin del run()</span>
 
-                        <span class="o">}</span>
-                        <span class="cm">/* Si los coge:*/</span>
-
-                        <span class="kt">int</span> <span class="n">milisegs</span><span class="o">=(</span><span class="mi">1</span><span class="o">+</span><span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">5</span><span class="o">))*</span><span class="mi">1000</span><span class="o">;</span>
-                        <span class="n">esperarTiempoAzar</span><span class="o">(</span><span class="n">miNombre</span><span class="o">,</span> <span class="n">milisegs</span><span class="o">);</span>
-                        <span class="cm">/* Pensando...*/</span>
-                        <span class="c1">//Recordemos soltar los palillos</span>
-                        <span class="n">gestorPalillos</span><span class="o">.</span><span class="na">soltarPalillos</span><span class="o">(</span>
-                                <span class="n">num_palillo_izq</span><span class="o">,</span>
-                                <span class="n">num_palillo_der</span><span class="o">);</span>
-
-                        <span class="n">milisegs</span><span class="o">=(</span><span class="mi">1</span><span class="o">+</span><span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">5</span><span class="o">))*</span><span class="mi">1000</span><span class="o">;</span>
-                        <span class="n">esperarTiempoAzar</span><span class="o">(</span><span class="n">miNombre</span><span class="o">,</span> <span class="n">milisegs</span><span class="o">);</span>
+        <span class="kd">private</span> <span class="kt">void</span> <span class="nf">comer</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Filosofo &quot;</span><span class="o">+</span>
+                                <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span>
+                                <span class="s">&quot; comiendo&quot;</span><span class="o">);</span>
+                <span class="n">esperarTiempoAzar</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="kd">private</span> <span class="kt">void</span> <span class="nf">esperarTiempoAzar</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">Random</span> <span class="n">generador</span><span class="o">=</span><span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">msAzar</span><span class="o">=</span><span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+                <span class="k">try</span> <span class="o">{</span>
+                        <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">msAzar</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Fallo la espera&quot;</span><span class="o">);</span>
                 <span class="o">}</span>
         <span class="o">}</span>
-
-<span class="kd">private</span> <span class="kt">void</span> <span class="nf">esperarTiempoAzar</span><span class="o">(</span><span class="n">String</span> <span class="n">miNombre</span><span class="o">,</span> <span class="kt">int</span> <span class="n">milisegs</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">try</span> <span class="o">{</span>
-                        <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">milisegs</span><span class="o">);</span>
-                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                                <span class="n">miNombre</span><span class="o">+</span>
-                                <span class="s">&quot; interrumpido!!. Saliendo...&quot;</span><span class="o">);</span>
-                        <span class="k">return</span> <span class="o">;</span>
-                <span class="o">}</span>
+        <span class="kd">private</span> <span class="kt">void</span> <span class="nf">dormir</span><span class="o">(){</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Filosofo &quot;</span><span class="o">+</span>
+                                <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span>
+                                <span class="s">&quot; durmiendo (zzzzzz)&quot;</span><span class="o">);</span>
+                <span class="n">esperarTiempoAzar</span><span class="o">();</span>
         <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -546,40 +545,26 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="lanzador-de-hilos">
 <h3>Lanzador de hilos<a class="headerlink" href="#lanzador-de-hilos" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LanzadorFilosofos</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.iesmaestre.filosofos</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-                <span class="kt">int</span> <span class="n">MAX_FILOSOFOS</span><span class="o">=</span><span class="mi">5</span><span class="o">;</span>
-                <span class="n">Filosofo</span><span class="o">[]</span> <span class="n">filosofos</span><span class="o">=</span><span class="k">new</span> <span class="n">Filosofo</span><span class="o">[</span><span class="n">MAX_FILOSOFOS</span><span class="o">];</span>
-                <span class="n">Thread</span><span class="o">[]</span> <span class="n">hilosAsociados</span><span class="o">=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">MAX_FILOSOFOS</span><span class="o">];</span>
-                <span class="n">GestorPalillos</span> <span class="n">gestorCompartido</span><span class="o">=</span>
-                                <span class="k">new</span> <span class="n">GestorPalillos</span><span class="o">(</span><span class="n">MAX_FILOSOFOS</span><span class="o">);</span>
-                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">MAX_FILOSOFOS</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
-                        <span class="k">if</span> <span class="o">(</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="o">){</span>
-                                <span class="n">filosofos</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span>
-                                <span class="k">new</span> <span class="n">Filosofo</span><span class="o">(</span>
-                                                <span class="n">gestorCompartido</span><span class="o">,</span>
-                                                <span class="n">i</span><span class="o">,</span><span class="n">MAX_FILOSOFOS</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
-                        <span class="o">}</span>
-                        <span class="k">else</span> <span class="o">{</span>
-                                <span class="n">filosofos</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="k">new</span> <span class="n">Filosofo</span><span class="o">(</span>
-                                                <span class="n">gestorCompartido</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
-                        <span class="o">}</span>
-                        <span class="n">Thread</span> <span class="n">hilo</span><span class="o">=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">filosofos</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
-                        <span class="n">hilo</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&quot;Filosofo &quot;</span><span class="o">+</span><span class="n">i</span><span class="o">);</span>
-                        <span class="n">hilosAsociados</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="n">hilo</span><span class="o">;</span>
-                        <span class="n">hilo</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">NUM_PROCESOS</span><span class="o">=</span><span class="mi">5</span><span class="o">;</span>
+                <span class="n">Filosofo</span> <span class="n">filosofos</span><span class="o">[]=</span><span class="k">new</span> <span class="n">Filosofo</span><span class="o">[</span><span class="n">NUM_PROCESOS</span><span class="o">];</span>
+                <span class="n">GestorPalillos</span> <span class="n">gestorPalillos</span><span class="o">;</span>
+                <span class="n">gestorPalillos</span><span class="o">=</span><span class="k">new</span> <span class="n">GestorPalillos</span><span class="o">(</span><span class="n">NUM_PROCESOS</span><span class="o">);</span>
+                <span class="n">Thread</span> <span class="n">hilos</span><span class="o">[]=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">NUM_PROCESOS</span><span class="o">];</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">NUM_PROCESOS</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                        <span class="n">filosofos</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="k">new</span> <span class="n">Filosofo</span><span class="o">(</span>
+                                <span class="n">gestorPalillos</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+                        <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">filosofos</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+                        <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
                 <span class="o">}</span>
-                <span class="cm">/* Un poco inútil*/</span>
-                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">MAX_FILOSOFOS</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
-                        <span class="k">try</span> <span class="o">{</span>
-                                <span class="n">hilosAsociados</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
-                        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-                                <span class="c1">// TODO Auto-generated catch block</span>
-                                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-                        <span class="o">}</span>
-                <span class="o">}</span>
-        <span class="o">}</span>
-<span class="o">}</span>
+                <span class="n">filosofos</span><span class="o">[</span><span class="mi">0</span><span class="o">]=</span><span class="k">new</span> <span class="n">Filosofo</span><span class="o">(</span>
+                                <span class="n">gestorPalillos</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+                <span class="n">hilos</span><span class="o">[</span><span class="mi">0</span><span class="o">]=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">filosofos</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+                <span class="n">hilos</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+        <span class="o">}</span> <span class="c1">//Fin del main</span>
+<span class="o">}</span> <span class="c1">//Fin de la clase</span>
 </pre></div>
 </div>
 </div>
@@ -614,13 +599,13 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <div class="section" id="clase-barbero">
 <h3>Clase Barbero<a class="headerlink" href="#clase-barbero" title="Enlazar permanentemente con este título">¶</a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Barbero</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
-        <span class="kd">private</span> <span class="n">String</span>                          <span class="n">nombre</span><span class="o">;</span>
-        <span class="kd">private</span> <span class="n">GestorConcurrencia</span>      <span class="n">gc</span><span class="o">;</span>
-        <span class="kd">private</span> <span class="n">Random</span>                          <span class="n">generador</span><span class="o">;</span>
-        <span class="kd">private</span> <span class="kt">int</span>                                     <span class="n">MAX_ESPERA_SEGS</span><span class="o">=</span><span class="mi">5</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="n">String</span>              <span class="n">nombre</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="n">GestorConcurrencia</span>  <span class="n">gc</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="n">Random</span>              <span class="n">generador</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span>                 <span class="n">MAX_ESPERA_SEGS</span><span class="o">=</span><span class="mi">5</span><span class="o">;</span>
         <span class="kd">public</span> <span class="nf">Barbero</span><span class="o">(</span><span class="n">GestorConcurrencia</span> <span class="n">gc</span><span class="o">,</span><span class="n">String</span> <span class="n">nombre</span><span class="o">){</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">nombre</span>             <span class="o">=</span><span class="n">nombre</span><span class="o">;</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">gc</span>                 <span class="o">=</span><span class="n">gc</span><span class="o">;</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">nombre</span>     <span class="o">=</span><span class="n">nombre</span><span class="o">;</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">gc</span>         <span class="o">=</span><span class="n">gc</span><span class="o">;</span>
                 <span class="k">this</span><span class="o">.</span><span class="na">generador</span>  <span class="o">=</span><span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
         <span class="o">}</span>
 
@@ -806,7 +791,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <div class="section" id="criticas-a-la-solucion-anterior">
 <h3>Críticas a la solución anterior<a class="headerlink" href="#criticas-a-la-solucion-anterior" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>¿Cual es el problema?</p>
-<p>El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final <strong>nunca son atendidos</strong>. Hay que corregir esa asignación para <em>evitar que los procesos sufrán de inanición</em>.</p>
+<p>El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final <strong>nunca son atendidos</strong>. Hay que corregir esa asignación para <em>evitar que los procesos sufran de inanición</em>.</p>
 </div>
 <div class="section" id="metodo-corregido">
 <h3>Método corregido<a class="headerlink" href="#metodo-corregido" title="Enlazar permanentemente con este título">¶</a></h3>

@@ -1452,35 +1452,35 @@ Simular este problema en un programa Java que muestre el progreso de todos sin c
 \label{\detokenize{textos/tema2:gestor-de-recursos-compartidos-palillos}}
 \fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package} \PYG{n+nn}{com.iesmaestre.filosofos}\PYG{o}{;}
+
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{GestorPalillos} \PYG{o}{\PYGZob{}}
-        \PYG{c+cm}{/* False significa que no están cogidos*/}
-        \PYG{k+kd}{private} \PYG{k+kt}{boolean}\PYG{o}{[}\PYG{o}{]} \PYG{n}{palillos}\PYG{o}{;}
-        \PYG{k+kd}{public} \PYG{n+nf}{GestorPalillos}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{num\PYGZus{}filosofos}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{n}{palillos}\PYG{o}{=}\PYG{k}{new} \PYG{k+kt}{boolean}\PYG{o}{[}\PYG{n}{num\PYGZus{}filosofos}\PYG{o}{]}\PYG{o}{;}
-                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}\PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{palillos}\PYG{o}{.}\PYG{n+na}{length}\PYG{o}{;}\PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{n}{palillos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
-                \PYG{o}{\PYGZcb{}}
-        \PYG{o}{\PYGZcb{}}
+        \PYG{k+kt}{boolean} \PYG{n}{palilloLibre}\PYG{o}{[}\PYG{o}{]}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{n+nf}{GestorPalillos}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{numPalillos}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{palilloLibre}\PYG{o}{=}\PYG{k}{new}  \PYG{k+kt}{boolean}\PYG{o}{[}\PYG{n}{numPalillos}\PYG{o}{]}\PYG{o}{;}
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{numPalillos}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del for}
+        \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del constructor}
         \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{boolean}
-                \PYG{n+nf}{sePuedenCogerAmbosPalillos}\PYG{o}{(}
-                        \PYG{k+kt}{int} \PYG{n}{num1}\PYG{o}{,}\PYG{k+kt}{int} \PYG{n}{num2}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{k}{if} \PYG{o}{(} \PYG{o}{(}\PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num1}\PYG{o}{]}\PYG{o}{=}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{)} \PYG{o}{\PYGZam{}}\PYG{o}{\PYGZam{}}
-                        \PYG{o}{(}\PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num2}\PYG{o}{]}\PYG{o}{=}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{)} \PYG{o}{)} \PYG{o}{\PYGZob{}}
-                        \PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num1}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
-                        \PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num2}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
-                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
-                                \PYG{l+s}{\PYGZdq{}Alguien consiguio los palillos \PYGZdq{}}
-                                \PYG{o}{+}\PYG{n}{num1}\PYG{o}{+}\PYG{l+s}{\PYGZdq{} y \PYGZdq{}}\PYG{o}{+}\PYG{n}{num2}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{k}{return} \PYG{k+kc}{true}\PYG{o}{;}
-                \PYG{o}{\PYGZcb{}}
-                \PYG{k}{return} \PYG{k+kc}{false}\PYG{o}{;}
+                \PYG{n+nf}{intentarCogerPalillos}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{pos1}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{pos2}\PYG{o}{)}
+        \PYG{o}{\PYGZob{}}
+                \PYG{k+kt}{boolean} \PYG{n}{seConsigue}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
+                \PYG{k}{if} \PYG{o}{(}
+                                \PYG{o}{(}\PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{pos1}\PYG{o}{]}\PYG{o}{)}
+                                \PYG{o}{\PYGZam{}}\PYG{o}{\PYGZam{}}
+                                \PYG{o}{(}\PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{pos2}\PYG{o}{]}\PYG{o}{)} \PYG{o}{)}
+                \PYG{o}{\PYGZob{}}
+                        \PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{pos1}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
+                        \PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{pos2}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
+                        \PYG{n}{seConsigue}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del if}
+                \PYG{k}{return} \PYG{n}{seConsigue}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{soltarPalillos}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{num1}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{num2}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num1}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
-                \PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num2}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
-                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
-                        \PYG{l+s}{\PYGZdq{}Alguien liberó los palillos \PYGZdq{}}\PYG{o}{+}
-                        \PYG{n}{num1}\PYG{o}{+}\PYG{l+s}{\PYGZdq{} y \PYGZdq{}}\PYG{o}{+}\PYG{n}{num2}\PYG{o}{)}\PYG{o}{;}
+
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{liberarPalillos}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{pos1}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{pos2}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{pos1}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
+                \PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{pos2}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
@@ -1490,55 +1490,54 @@ Simular este problema en un programa Java que muestre el progreso de todos sin c
 \label{\detokenize{textos/tema2:simulacion-de-un-filosofo}}
 \fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package} \PYG{n+nn}{com.iesmaestre.filosofos}\PYG{o}{;}
+
 \PYG{k+kn}{import} \PYG{n+nn}{java.util.Random}\PYG{o}{;}
-\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Filosofo}  \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
-        \PYG{k+kt}{int} \PYG{n}{num\PYGZus{}palillo\PYGZus{}izq}\PYG{o}{;}
-        \PYG{k+kt}{int} \PYG{n}{num\PYGZus{}palillo\PYGZus{}der}\PYG{o}{;}
+
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Filosofo} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
         \PYG{n}{GestorPalillos} \PYG{n}{gestorPalillos}\PYG{o}{;}
-        \PYG{k+kd}{public} \PYG{n+nf}{Filosofo}\PYG{o}{(}\PYG{n}{GestorPalillos} \PYG{n}{gp}\PYG{o}{,}
-                        \PYG{k+kt}{int} \PYG{n}{p\PYGZus{}izq}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{p\PYGZus{}der}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gestorPalillos}\PYG{o}{=}\PYG{n}{gp}\PYG{o}{;}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{num\PYGZus{}palillo\PYGZus{}der}\PYG{o}{=}\PYG{n}{p\PYGZus{}der}\PYG{o}{;}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{num\PYGZus{}palillo\PYGZus{}izq}\PYG{o}{=}\PYG{n}{p\PYGZus{}izq}\PYG{o}{;}
+        \PYG{k+kt}{int} \PYG{n}{posPalilloIzq}\PYG{o}{,}\PYG{n}{posPalilloDer}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{n+nf}{Filosofo}\PYG{o}{(}\PYG{n}{GestorPalillos} \PYG{n}{g}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{pIzq}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{pDer}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gestorPalillos}\PYG{o}{=}\PYG{n}{g}\PYG{o}{;}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{posPalilloDer}\PYG{o}{=}\PYG{n}{pDer}\PYG{o}{;}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{posPalilloIzq}\PYG{o}{=}\PYG{n}{pIzq}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{run}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{n}{String} \PYG{n}{miNombre}\PYG{o}{=}\PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{currentThread}\PYG{o}{(}\PYG{o}{)}\PYG{o}{.}\PYG{n+na}{getName}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                \PYG{n}{Random} \PYG{n}{generador}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Random}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{run}\PYG{o}{(}\PYG{o}{)} \PYG{o}{\PYGZob{}}
                 \PYG{k}{while} \PYG{o}{(}\PYG{k+kc}{true}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{c+cm}{/* Comer*/}
-                        \PYG{c+cm}{/* Intentar coger palillos*/}
-                        \PYG{k}{while}\PYG{o}{(}\PYG{o}{!}\PYG{n}{gestorPalillos}\PYG{o}{.}\PYG{n+na}{sePuedenCogerAmbosPalillos}
-                                \PYG{o}{(}
-                                                \PYG{n}{num\PYGZus{}palillo\PYGZus{}izq}\PYG{o}{,}
-                                                \PYG{n}{num\PYGZus{}palillo\PYGZus{}der}
-                                \PYG{o}{)}\PYG{o}{)}
-                        \PYG{o}{\PYGZob{}}
+                        \PYG{k+kt}{boolean} \PYG{n}{palillosCogidos}\PYG{o}{;}
+                        \PYG{n}{palillosCogidos}\PYG{o}{=}
+                          \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gestorPalillos}\PYG{o}{.}\PYG{n+na}{intentarCogerPalillos}\PYG{o}{(}
+                                          \PYG{n}{posPalilloIzq}\PYG{o}{,} \PYG{n}{posPalilloDer}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{k}{if} \PYG{o}{(}\PYG{n}{palillosCogidos}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                                \PYG{n}{comer}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gestorPalillos}\PYG{o}{.}\PYG{n+na}{liberarPalillos}\PYG{o}{(}
+                                                \PYG{n}{posPalilloIzq}\PYG{o}{,}
+                                                \PYG{n}{posPalilloDer}\PYG{o}{)}\PYG{o}{;}
+                                \PYG{n}{dormir}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del if}
+                \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del while true}
+        \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del run()}
 
-                        \PYG{o}{\PYGZcb{}}
-                        \PYG{c+cm}{/* Si los coge:*/}
-
-                        \PYG{k+kt}{int} \PYG{n}{milisegs}\PYG{o}{=}\PYG{o}{(}\PYG{l+m+mi}{1}\PYG{o}{+}\PYG{n}{generador}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{5}\PYG{o}{)}\PYG{o}{)}\PYG{o}{*}\PYG{l+m+mi}{1000}\PYG{o}{;}
-                        \PYG{n}{esperarTiempoAzar}\PYG{o}{(}\PYG{n}{miNombre}\PYG{o}{,} \PYG{n}{milisegs}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{c+cm}{/* Pensando...*/}
-                        \PYG{c+c1}{//Recordemos soltar los palillos}
-                        \PYG{n}{gestorPalillos}\PYG{o}{.}\PYG{n+na}{soltarPalillos}\PYG{o}{(}
-                                \PYG{n}{num\PYGZus{}palillo\PYGZus{}izq}\PYG{o}{,}
-                                \PYG{n}{num\PYGZus{}palillo\PYGZus{}der}\PYG{o}{)}\PYG{o}{;}
-
-                        \PYG{n}{milisegs}\PYG{o}{=}\PYG{o}{(}\PYG{l+m+mi}{1}\PYG{o}{+}\PYG{n}{generador}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{5}\PYG{o}{)}\PYG{o}{)}\PYG{o}{*}\PYG{l+m+mi}{1000}\PYG{o}{;}
-                        \PYG{n}{esperarTiempoAzar}\PYG{o}{(}\PYG{n}{miNombre}\PYG{o}{,} \PYG{n}{milisegs}\PYG{o}{)}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{k+kt}{void} \PYG{n+nf}{comer}\PYG{o}{(}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Filosofo \PYGZdq{}}\PYG{o}{+}
+                                \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{currentThread}\PYG{o}{(}\PYG{o}{)}\PYG{o}{.}\PYG{n+na}{getName}\PYG{o}{(}\PYG{o}{)}\PYG{o}{+}
+                                \PYG{l+s}{\PYGZdq{} comiendo\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
+                \PYG{n}{esperarTiempoAzar}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{private} \PYG{k+kt}{void} \PYG{n+nf}{esperarTiempoAzar}\PYG{o}{(}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+                \PYG{n}{Random} \PYG{n}{generador}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Random}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{k+kt}{int} \PYG{n}{msAzar}\PYG{o}{=}\PYG{n}{generador}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{3}\PYG{o}{)}\PYG{o}{;}
+                \PYG{k}{try} \PYG{o}{\PYGZob{}}
+                        \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{sleep}\PYG{o}{(}\PYG{n}{msAzar}\PYG{o}{)}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{ex}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Fallo la espera\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
                 \PYG{o}{\PYGZcb{}}
         \PYG{o}{\PYGZcb{}}
-
-\PYG{k+kd}{private} \PYG{k+kt}{void} \PYG{n+nf}{esperarTiempoAzar}\PYG{o}{(}\PYG{n}{String} \PYG{n}{miNombre}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{milisegs}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-                \PYG{k}{try} \PYG{o}{\PYGZob{}}
-                        \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{sleep}\PYG{o}{(}\PYG{n}{milisegs}\PYG{o}{)}\PYG{o}{;}
-                \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{e}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
-                                \PYG{n}{miNombre}\PYG{o}{+}
-                                \PYG{l+s}{\PYGZdq{} interrumpido!!. Saliendo...\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{k}{return} \PYG{o}{;}
-                \PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{private} \PYG{k+kt}{void} \PYG{n+nf}{dormir}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Filosofo \PYGZdq{}}\PYG{o}{+}
+                                \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{currentThread}\PYG{o}{(}\PYG{o}{)}\PYG{o}{.}\PYG{n+na}{getName}\PYG{o}{(}\PYG{o}{)}\PYG{o}{+}
+                                \PYG{l+s}{\PYGZdq{} durmiendo (zzzzzz)\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
+                \PYG{n}{esperarTiempoAzar}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
@@ -1548,40 +1547,26 @@ Simular este problema en un programa Java que muestre el progreso de todos sin c
 \label{\detokenize{textos/tema2:lanzador-de-hilos}}
 \fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{LanzadorFilosofos} \PYG{o}{\PYGZob{}}
+\PYG{k+kn}{package} \PYG{n+nn}{com.iesmaestre.filosofos}\PYG{o}{;}
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Lanzador} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{args}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-                \PYG{k+kt}{int} \PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{o}{;}
-                \PYG{n}{Filosofo}\PYG{o}{[}\PYG{o}{]} \PYG{n}{filosofos}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Filosofo}\PYG{o}{[}\PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{]}\PYG{o}{;}
-                \PYG{n}{Thread}\PYG{o}{[}\PYG{o}{]} \PYG{n}{hilosAsociados}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{[}\PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{]}\PYG{o}{;}
-                \PYG{n}{GestorPalillos} \PYG{n}{gestorCompartido}\PYG{o}{=}
-                                \PYG{k}{new} \PYG{n}{GestorPalillos}\PYG{o}{(}\PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{)}\PYG{o}{;}
-                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{k}{if} \PYG{o}{(}\PYG{n}{i}\PYG{o}{=}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                                \PYG{n}{filosofos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}
-                                \PYG{k}{new} \PYG{n}{Filosofo}\PYG{o}{(}
-                                                \PYG{n}{gestorCompartido}\PYG{o}{,}
-                                                \PYG{n}{i}\PYG{o}{,}\PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}}
-                        \PYG{k}{else} \PYG{o}{\PYGZob{}}
-                                \PYG{n}{filosofos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Filosofo}\PYG{o}{(}
-                                                \PYG{n}{gestorCompartido}\PYG{o}{,} \PYG{n}{i}\PYG{o}{,} \PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}}
-                        \PYG{n}{Thread} \PYG{n}{hilo}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{filosofos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{n}{hilo}\PYG{o}{.}\PYG{n+na}{setName}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Filosofo \PYGZdq{}}\PYG{o}{+}\PYG{n}{i}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{n}{hilosAsociados}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{n}{hilo}\PYG{o}{;}
-                        \PYG{n}{hilo}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{k+kt}{int} \PYG{n}{NUM\PYGZus{}PROCESOS}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{o}{;}
+                \PYG{n}{Filosofo} \PYG{n}{filosofos}\PYG{o}{[}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Filosofo}\PYG{o}{[}\PYG{n}{NUM\PYGZus{}PROCESOS}\PYG{o}{]}\PYG{o}{;}
+                \PYG{n}{GestorPalillos} \PYG{n}{gestorPalillos}\PYG{o}{;}
+                \PYG{n}{gestorPalillos}\PYG{o}{=}\PYG{k}{new} \PYG{n}{GestorPalillos}\PYG{o}{(}\PYG{n}{NUM\PYGZus{}PROCESOS}\PYG{o}{)}\PYG{o}{;}
+                \PYG{n}{Thread} \PYG{n}{hilos}\PYG{o}{[}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{[}\PYG{n}{NUM\PYGZus{}PROCESOS}\PYG{o}{]}\PYG{o}{;}
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{NUM\PYGZus{}PROCESOS}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{filosofos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Filosofo}\PYG{o}{(}
+                                \PYG{n}{gestorPalillos}\PYG{o}{,} \PYG{n}{i}\PYG{o}{,} \PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{n}{hilos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{filosofos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{n}{hilos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
                 \PYG{o}{\PYGZcb{}}
-                \PYG{c+cm}{/* Un poco inútil*/}
-                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{;}\PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{k}{try} \PYG{o}{\PYGZob{}}
-                                \PYG{n}{hilosAsociados}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{join}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{e}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-                                \PYG{c+c1}{// TODO Auto\PYGZhy{}generated catch block}
-                                \PYG{n}{e}\PYG{o}{.}\PYG{n+na}{printStackTrace}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}}
-                \PYG{o}{\PYGZcb{}}
-        \PYG{o}{\PYGZcb{}}
-\PYG{o}{\PYGZcb{}}
+                \PYG{n}{filosofos}\PYG{o}{[}\PYG{l+m+mi}{0}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Filosofo}\PYG{o}{(}
+                                \PYG{n}{gestorPalillos}\PYG{o}{,} \PYG{l+m+mi}{0}\PYG{o}{,} \PYG{l+m+mi}{4}\PYG{o}{)}\PYG{o}{;}
+                \PYG{n}{hilos}\PYG{o}{[}\PYG{l+m+mi}{0}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{filosofos}\PYG{o}{[}\PYG{l+m+mi}{0}\PYG{o}{]}\PYG{o}{)}\PYG{o}{;}
+                \PYG{n}{hilos}\PYG{o}{[}\PYG{l+m+mi}{0}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del main}
+\PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin de la clase}
 \end{sphinxVerbatim}
 
 
@@ -1640,13 +1625,13 @@ Prueba la siguiente solución:
 \fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Barbero} \PYG{k+kd}{implements} \PYG{n}{Runnable} \PYG{o}{\PYGZob{}}
-        \PYG{k+kd}{private} \PYG{n}{String}                          \PYG{n}{nombre}\PYG{o}{;}
-        \PYG{k+kd}{private} \PYG{n}{GestorConcurrencia}      \PYG{n}{gc}\PYG{o}{;}
-        \PYG{k+kd}{private} \PYG{n}{Random}                          \PYG{n}{generador}\PYG{o}{;}
-        \PYG{k+kd}{private} \PYG{k+kt}{int}                                     \PYG{n}{MAX\PYGZus{}ESPERA\PYGZus{}SEGS}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{n}{String}              \PYG{n}{nombre}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{n}{GestorConcurrencia}  \PYG{n}{gc}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{n}{Random}              \PYG{n}{generador}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{k+kt}{int}                 \PYG{n}{MAX\PYGZus{}ESPERA\PYGZus{}SEGS}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{o}{;}
         \PYG{k+kd}{public} \PYG{n+nf}{Barbero}\PYG{o}{(}\PYG{n}{GestorConcurrencia} \PYG{n}{gc}\PYG{o}{,}\PYG{n}{String} \PYG{n}{nombre}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{nombre}             \PYG{o}{=}\PYG{n}{nombre}\PYG{o}{;}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gc}                 \PYG{o}{=}\PYG{n}{gc}\PYG{o}{;}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{nombre}     \PYG{o}{=}\PYG{n}{nombre}\PYG{o}{;}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gc}         \PYG{o}{=}\PYG{n}{gc}\PYG{o}{;}
                 \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{generador}  \PYG{o}{=}\PYG{k}{new} \PYG{n}{Random}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
 
@@ -1839,7 +1824,7 @@ Prueba la siguiente solución:
 \label{\detokenize{textos/tema2:criticas-a-la-solucion-anterior}}
 ¿Cual es el problema?
 
-El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final \sphinxstylestrong{nunca son atendidos}. Hay que corregir esa asignación para \sphinxstyleemphasis{evitar que los procesos sufrán de inanición}.
+El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final \sphinxstylestrong{nunca son atendidos}. Hay que corregir esa asignación para \sphinxstyleemphasis{evitar que los procesos sufran de inanición}.
 
 
 \subsection{Método corregido}

@@ -443,134 +443,119 @@ Gestor de recursos compartidos (palillos)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: java
 
-	public class GestorPalillos {
-		/* False significa que no están cogidos*/
-		private boolean[] palillos;
-		public GestorPalillos(int num_filosofos){
-			palillos=new boolean[num_filosofos];
-			for (int i=0;i<palillos.length;i++){
-				palillos[i]=false;
-			}
-		}
+	package com.iesmaestre.filosofos;
+
+	public class GestorPalillos { 
+		boolean palilloLibre[];
+		public GestorPalillos(int numPalillos){
+			palilloLibre=new  boolean[numPalillos];
+			for (int i=0; i<numPalillos; i++){
+				palilloLibre[i]=true;
+			} //Fin del for
+		} //Fin del constructor
 		public synchronized boolean 
-			sePuedenCogerAmbosPalillos(
-				int num1,int num2){
-			if ( (palillos[num1]==false) &&
-				(palillos[num2]==false) ) {
-				palillos[num1]=true;
-				palillos[num2]=true;
-				System.out.println(
-					"Alguien consiguio los palillos "
-					+num1+" y "+num2);
-				return true;
-			}
-			return false;
+			intentarCogerPalillos(int pos1, int pos2)
+		{
+			boolean seConsigue=false;
+			if (
+					(palilloLibre[pos1]) 
+					&&
+					(palilloLibre[pos2]) )
+			{
+				palilloLibre[pos1]=false;
+				palilloLibre[pos2]=false;
+				seConsigue=true;
+			} //Fin del if
+			return seConsigue;
 		}
-		public void soltarPalillos(int num1, int num2){
-			palillos[num1]=false;
-			palillos[num2]=false;
-			System.out.println(
-				"Alguien liberó los palillos "+
-				num1+" y "+num2);
-		}	
+			
+		public void liberarPalillos(int pos1, int pos2){
+			palilloLibre[pos1]=true;
+			palilloLibre[pos2]=true;
+		}
 	}
+
 	
 Simulación de un filósofo
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: java
 
-			
-	import java.util.Random;
-	public class Filosofo  implements Runnable{
-		int num_palillo_izq;
-		int num_palillo_der;
-		GestorPalillos gestorPalillos;
-		public Filosofo(GestorPalillos gp,
-				int p_izq, int p_der){
-			this.gestorPalillos=gp;
-			this.num_palillo_der=p_der;
-			this.num_palillo_izq=p_izq;
-		}
-		public void run(){
-			String miNombre=Thread.currentThread().getName();
-			Random generador=new Random();
-			while (true){
-				/* Comer*/		
-				/* Intentar coger palillos*/
-				while(!gestorPalillos.sePuedenCogerAmbosPalillos
-					(
-							num_palillo_izq, 
-							num_palillo_der
-					))
-				{
-					
-				}
-				/* Si los coge:*/
-				
-				int milisegs=(1+generador.nextInt(5))*1000;
-				esperarTiempoAzar(miNombre, milisegs);
-				/* Pensando...*/
-				//Recordemos soltar los palillos
-				gestorPalillos.soltarPalillos(
-					num_palillo_izq, 
-					num_palillo_der);
-				
-				milisegs=(1+generador.nextInt(5))*1000;
-				esperarTiempoAzar(miNombre, milisegs);
-			}
-		}
+	package com.iesmaestre.filosofos;
 
-	private void esperarTiempoAzar(String miNombre, int milisegs) {
+	import java.util.Random;
+
+	public class Filosofo implements Runnable{
+		GestorPalillos gestorPalillos;
+		int posPalilloIzq,posPalilloDer;
+		public Filosofo(GestorPalillos g, int pIzq, int pDer){
+			this.gestorPalillos=g;
+			this.posPalilloDer=pDer;
+			this.posPalilloIzq=pIzq;
+		}
+		public void run() {
+			while (true){
+				boolean palillosCogidos;
+				palillosCogidos=
+				  this.gestorPalillos.intentarCogerPalillos(
+						  posPalilloIzq, posPalilloDer);
+				if (palillosCogidos){
+					comer();
+					this.gestorPalillos.liberarPalillos(
+							posPalilloIzq,
+							posPalilloDer);
+					dormir();
+				} //Fin del if
+			} //Fin del while true
+		} //Fin del run()
+
+		private void comer() {
+			System.out.println("Filosofo "+
+					Thread.currentThread().getName()+
+					" comiendo");
+			esperarTiempoAzar();
+		}
+		private void esperarTiempoAzar() {
+			Random generador=new Random();
+			int msAzar=generador.nextInt(3);
 			try {
-				Thread.sleep(milisegs);
-			} catch (InterruptedException e) {
-				System.out.println(
-					miNombre+
-					" interrumpido!!. Saliendo...");
-				return ;
+				Thread.sleep(msAzar);
+			} catch (InterruptedException ex) {
+				System.out.println("Fallo la espera");
 			}
+		}
+		private void dormir(){
+			System.out.println("Filosofo "+
+					Thread.currentThread().getName()+
+					" durmiendo (zzzzzz)");
+			esperarTiempoAzar();
 		}
 	}
+
 
 Lanzador de hilos
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: java
 
-	public class LanzadorFilosofos {
+	package com.iesmaestre.filosofos;
+	public class Lanzador {
 		public static void main(String[] args) {
-			int MAX_FILOSOFOS=5;
-			Filosofo[] filosofos=new Filosofo[MAX_FILOSOFOS];
-			Thread[] hilosAsociados=new Thread[MAX_FILOSOFOS];
-			GestorPalillos gestorCompartido=
-					new GestorPalillos(MAX_FILOSOFOS);
-			for (int i=0; i<MAX_FILOSOFOS; i++){
-				if (i==0){
-					filosofos[i]=
-					new Filosofo(
-							gestorCompartido,
-							i,MAX_FILOSOFOS-1);
-				}
-				else {
-					filosofos[i]=new Filosofo(
-							gestorCompartido, i, i-1);
-				}
-				Thread hilo=new Thread(filosofos[i]);
-				hilo.setName("Filosofo "+i);
-				hilosAsociados[i]=hilo;
-				hilo.start();
+			int NUM_PROCESOS=5;
+			Filosofo filosofos[]=new Filosofo[NUM_PROCESOS];
+			GestorPalillos gestorPalillos;
+			gestorPalillos=new GestorPalillos(NUM_PROCESOS);
+			Thread hilos[]=new Thread[NUM_PROCESOS];
+			for (int i=1; i<NUM_PROCESOS; i++){
+				filosofos[i]=new Filosofo(
+					gestorPalillos, i, i-1);
+				hilos[i]=new Thread(filosofos[i]);
+				hilos[i].start();
 			}
-			/* Un poco inútil*/
-			for (int i=0; i<MAX_FILOSOFOS;i++){
-				try {
-					hilosAsociados[i].join();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
+			filosofos[0]=new Filosofo(
+					gestorPalillos, 0, 4);
+			hilos[0]=new Thread(filosofos[0]);
+			hilos[0].start();
+		} //Fin del main
+	} //Fin de la clase
 	
 Problema: simulador de casino
 -------------------------------
@@ -620,14 +605,14 @@ Clase Barbero
 .. code-block:: java
 
 	public class Barbero implements Runnable {
-		private String 				nombre;
-		private GestorConcurrencia 	gc;
-		private Random				generador;
-		private int					MAX_ESPERA_SEGS=5;
+		private String              nombre;
+		private GestorConcurrencia  gc;
+		private Random              generador;
+		private int                 MAX_ESPERA_SEGS=5;
 		public Barbero(GestorConcurrencia gc,String nombre){
-			this.nombre		=nombre;
-			this.gc			=gc;
-			this.generador	=new Random();
+			this.nombre     =nombre;
+			this.gc         =gc;
+			this.generador  =new Random();
 		}
 	
 		public void esperarTiempoAzar(int max){
@@ -816,7 +801,7 @@ Críticas a la solución anterior
 
 ¿Cual es el problema?
 
-El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final **nunca son atendidos**. Hay que corregir esa asignación para *evitar que los procesos sufrán de inanición*.
+El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final **nunca son atendidos**. Hay que corregir esa asignación para *evitar que los procesos sufran de inanición*.
 
 Método corregido
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
