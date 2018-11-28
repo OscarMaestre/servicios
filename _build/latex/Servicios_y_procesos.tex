@@ -54,7 +54,7 @@
 
 
 \title{Apuntes de Servicios y Procesos}
-\date{21 de noviembre de 2018}
+\date{28 de noviembre de 2018}
 \release{1.3}
 \author{Oscar Gomez}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -1389,8 +1389,8 @@ Se puede aprovechar todavía más rendimiento si en un método marcamos como sec
 \end{sphinxVerbatim}
 
 
-\section{Problema}
-\label{\detokenize{textos/tema2:problema}}
+\section{Problema: filósofos}
+\label{\detokenize{textos/tema2:problema-filosofos}}
 En una mesa hay procesos que simulan el comportamiento de unos filósofos que intentan comer de un plato. Cada filósofo tiene un cubierto a su izquierda y uno a su derecha y para poder comer tiene que conseguir los dos. Si lo consigue, mostrará un mensaje en pantalla que indique «Filosofo 2 comiendo».
 
 Despues de comer, soltará los cubiertos y esperará al azar un tiempo entre 1000 y 5000 milisegundos, indicando por pantalla «El filósofo 2 está pensando».
@@ -1404,7 +1404,7 @@ Simular este problema en un programa Java que muestre el progreso de todos sin c
 \capstart
 
 \noindent\sphinxincludegraphics{{Filosofos}.png}
-\caption{Esquema de los filósofos}\label{\detokenize{textos/tema2:id3}}\end{figure}
+\caption{Esquema de los filósofos}\label{\detokenize{textos/tema2:id2}}\end{figure}
 
 
 \subsection{Boceto de solución}
@@ -1475,7 +1475,7 @@ Simular este problema en un programa Java que muestre el progreso de todos sin c
                 \PYG{o}{\PYGZcb{}}
                 \PYG{k}{return} \PYG{k+kc}{false}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{void} \PYG{n+nf}{soltarPalillos}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{num1}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{num2}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{soltarPalillos}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{num1}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{num2}\PYG{o}{)}\PYG{o}{\PYGZob{}}
                 \PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num1}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
                 \PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num2}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
                 \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
@@ -1607,16 +1607,27 @@ Si sale el 0, todo el mundo pierde y la banca se queda con todo el dinero.
 \end{itemize}
 
 
-\section{Problema}
-\label{\detokenize{textos/tema2:id1}}
-En una peluquería hay barberos y sillas para los clientes (siempre hay más sillas que clientes). Sin embargo, en esta peluquería no siempre hay trabajo por lo que los barberos duermen cuando no hay clientes a los que afeitar. Un cliente puede llegar a la barbería y encontrar alguna silla libre, en cuyo caso, el cliente se sienta y esperará que algún barbero le afeite. Puede ocurrir que el cliente llegue y no haya sillas libres, en cuyo caso se marcha. Simular el comportamiento de la barbería mediante un programa Java.
+\section{Problema: barberos}
+\label{\detokenize{textos/tema2:problema-barberos}}
+En una peluquería hay barberos y sillas para los clientes (siempre hay más sillas que clientes). Sin embargo, en esta peluquería no siempre hay trabajo por lo que los barberos duermen cuando no hay clientes a los que afeitar. Un cliente puede llegar a la barbería y encontrar alguna silla libre, en cuyo caso, el cliente se sienta y esperará que algún barbero le afeite. Puede ocurrir que el cliente llegue y no haya sillas libres, en cuyo caso se marcha. Simular el comportamiento de la barbería mediante un programa Java teniendo en cuenta que:
+\begin{itemize}
+\item {} 
+Se generan clientes continuamente, algunos encuentran silla y otros no. Los que no consigan silla desaparecen (terminan su ejecución)
+
+\item {} 
+Puede haber más sillas que barberos y al revés (poner constantes para poder cambiar fácilmente entre ejecuciones).
+
+\item {} 
+Se recuerda que no debe haber inanición, es decir ningún cliente debería quedarse en una silla esperando un tiempo infinito.
+
+\end{itemize}
 
 \begin{figure}[htbp]
 \centering
 \capstart
 
 \noindent\sphinxincludegraphics{{barberodormilon}.png}
-\caption{Los  barberos dormilones}\label{\detokenize{textos/tema2:id4}}\end{figure}
+\caption{Los  barberos dormilones}\label{\detokenize{textos/tema2:id3}}\end{figure}
 
 
 \section{Una (mala) solución al problema de los barberos}
@@ -2115,7 +2126,7 @@ Una posible solución sería la siguiente:
 
 
 \subsection{Clase cliente}
-\label{\detokenize{textos/tema2:id2}}
+\label{\detokenize{textos/tema2:id1}}
 \fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{package} \PYG{n+nn}{grandesalmacenes}\PYG{o}{;}

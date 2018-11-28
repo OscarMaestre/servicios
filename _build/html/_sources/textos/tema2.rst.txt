@@ -466,7 +466,7 @@ Gestor de recursos compartidos (palillos)
 			}
 			return false;
 		}
-		public synchronized void soltarPalillos(int num1, int num2){
+		public void soltarPalillos(int num1, int num2){
 			palillos[num1]=false;
 			palillos[num2]=false;
 			System.out.println(
