@@ -4,12 +4,20 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Anexos &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -23,22 +31,21 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head><body>
+  </head>
+  <body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <div class="section" id="anexos">
 <h1>Anexos<a class="headerlink" href="#anexos" title="Enlazar permanentemente con este título">¶</a></h1>
 <div class="section" id="la-clase-utilidadesficheros">
-<h2>La clase <code class="docutils literal notranslate"><span class="pre">UtilidadesFicheros</span></code><a class="headerlink" href="#la-clase-utilidadesficheros" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>A continuación se muestra el código completo de la clase <code class="docutils literal notranslate"><span class="pre">UtilidadesFicheros</span></code>:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UtilidadesFicheros</span> <span class="o">{</span>
+<h2>La clase <code class="docutils literal"><span class="pre">UtilidadesFicheros</span></code><a class="headerlink" href="#la-clase-utilidadesficheros" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>A continuación se muestra el código completo de la clase <code class="docutils literal"><span class="pre">UtilidadesFicheros</span></code>:</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UtilidadesFicheros</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kd">static</span> <span class="n">BufferedReader</span> <span class="nf">getBufferedReader</span><span class="o">(</span>
         <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span>
@@ -109,14 +116,14 @@
 <h2>Solución al problema del simulador de Casino<a class="headerlink" href="#solucion-al-problema-del-simulador-de-casino" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Se ha optado por un diseño muy simple y con un acoplamiento muy alto. En pocas palabras hay solo dos clases:</p>
 <ol class="arabic simple">
-<li>La clase <code class="docutils literal notranslate"><span class="pre">Banca</span></code>: ejecuta toda la simulación y acepta apuestas de jugadores. La banca crea los Jugadores (que serán hilos), y luego pasará a ejecutar la simulación, que puede pasar por diversos estados. Algunos métodos de la banca deben ser <code class="docutils literal notranslate"><span class="pre">synchronized</span></code>, ya que todos los hilos Jugador tienen una referencia a la clase <code class="docutils literal notranslate"><span class="pre">Banca</span></code> y por lo tanto <strong>puede haber varios hilos intentando entrar en un cierto método</strong>.</li>
-<li>La clase <code class="docutils literal notranslate"><span class="pre">Jugador</span></code>: no necesita métodos <code class="docutils literal notranslate"><span class="pre">synchronized</span></code>, ya que cada <code class="docutils literal notranslate"><span class="pre">Jugador</span></code> accede solo a su propia información. <em>Sin embargo, si hubiese más de una banca (quizá porque un Jugador jugase a varias ruletas a la vez) la situación sería muy distinta</em>.</li>
-<li>En realidad, la clase <code class="docutils literal notranslate"><span class="pre">Jugador</span></code> es solo una base para poder crear distintos tipos de Jugador que siguen distintas estrategias.</li>
+<li>La clase <code class="docutils literal"><span class="pre">Banca</span></code>: ejecuta toda la simulación y acepta apuestas de jugadores. La banca crea los Jugadores (que serán hilos), y luego pasará a ejecutar la simulación, que puede pasar por diversos estados. Algunos métodos de la banca deben ser <code class="docutils literal"><span class="pre">synchronized</span></code>, ya que todos los hilos Jugador tienen una referencia a la clase <code class="docutils literal"><span class="pre">Banca</span></code> y por lo tanto <strong>puede haber varios hilos intentando entrar en un cierto método</strong>.</li>
+<li>La clase <code class="docutils literal"><span class="pre">Jugador</span></code>: no necesita métodos <code class="docutils literal"><span class="pre">synchronized</span></code>, ya que cada <code class="docutils literal"><span class="pre">Jugador</span></code> accede solo a su propia información. <em>Sin embargo, si hubiese más de una banca (quizá porque un Jugador jugase a varias ruletas a la vez) la situación sería muy distinta</em>.</li>
+<li>En realidad, la clase <code class="docutils literal"><span class="pre">Jugador</span></code> es solo una base para poder crear distintos tipos de Jugador que siguen distintas estrategias.</li>
 </ol>
 <p>En las secciones siguientes se ilustra el código de las distintas clases.</p>
 <div class="section" id="la-clase-banca">
 <h3>La clase Banca<a class="headerlink" href="#la-clase-banca" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Banca</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Banca</span> <span class="o">{</span>
 
     <span class="kd">protected</span> <span class="kt">long</span> <span class="n">saldo</span><span class="o">;</span>
 
@@ -263,7 +270,7 @@
 </div>
 <div class="section" id="la-clase-jugador">
 <h3>La clase Jugador<a class="headerlink" href="#la-clase-jugador" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Jugador</span> <span class="kd">implements</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Jugador</span> <span class="kd">implements</span>
     <span class="n">Runnable</span> <span class="o">{</span>
 
     <span class="kd">protected</span> <span class="kt">long</span> <span class="n">saldo</span><span class="o">;</span>
@@ -355,7 +362,7 @@
 </div>
 <div class="section" id="la-clase-jugadorclasico">
 <h3>La clase JugadorClasico<a class="headerlink" href="#la-clase-jugadorclasico" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JugadorClasico</span> <span class="kd">extends</span> <span class="n">Jugador</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JugadorClasico</span> <span class="kd">extends</span> <span class="n">Jugador</span> <span class="o">{</span>
 
     <span class="kt">int</span> <span class="n">numeroElegido</span><span class="o">;</span>
 
@@ -398,7 +405,7 @@
 </div>
 <div class="section" id="la-clase-jugadorparimpar">
 <h3>La clase JugadorParImpar<a class="headerlink" href="#la-clase-jugadorparimpar" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JugadorParImpar</span> <span class="kd">extends</span> <span class="n">Jugador</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JugadorParImpar</span> <span class="kd">extends</span> <span class="n">Jugador</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="nf">JugadorParImpar</span><span class="o">(</span><span class="kt">long</span> <span class="n">saldoInicial</span><span class="o">,</span>
                            <span class="n">Banca</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
@@ -469,7 +476,7 @@
 </div>
 <div class="section" id="la-clase-jugadormartingala">
 <h3>La clase JugadorMartingala<a class="headerlink" href="#la-clase-jugadormartingala" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JugadorMartingala</span> <span class="kd">extends</span> <span class="n">Jugador</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JugadorMartingala</span> <span class="kd">extends</span> <span class="n">Jugador</span> <span class="o">{</span>
 
     <span class="kd">private</span> <span class="kt">int</span> <span class="n">cantidadAApostar</span><span class="o">;</span>
 
@@ -526,34 +533,25 @@
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">Apuntes de Programación de Servicios y procesos</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navegación</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="tema1.html">Programación multiproceso</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tema2.html">Programación multihilo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tema3.html">Programación de comunicaciones en red</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tema4.html">Generación de servicios en red</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tema5.html">Utilización de técnicas de programación segura</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Anexos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#la-clase-utilidadesficheros">La clase <code class="docutils literal notranslate"><span class="pre">UtilidadesFicheros</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#solucion-al-problema-del-simulador-de-casino">Solución al problema del simulador de Casino</a></li>
+  <h3><a href="../index.html">Tabla de Contenidos</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Anexos</a><ul>
+<li><a class="reference internal" href="#la-clase-utilidadesficheros">La clase <code class="docutils literal"><span class="pre">UtilidadesFicheros</span></code></a></li>
+<li><a class="reference internal" href="#solucion-al-problema-del-simulador-de-casino">Solución al problema del simulador de Casino</a><ul>
+<li><a class="reference internal" href="#la-clase-banca">La clase Banca</a></li>
+<li><a class="reference internal" href="#la-clase-jugador">La clase Jugador</a></li>
+<li><a class="reference internal" href="#la-clase-jugadorclasico">La clase JugadorClasico</a></li>
+<li><a class="reference internal" href="#la-clase-jugadorparimpar">La clase JugadorParImpar</a></li>
+<li><a class="reference internal" href="#la-clase-jugadormartingala">La clase JugadorMartingala</a></li>
 </ul>
 </li>
 </ul>
-
+</li>
+</ul>
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -562,26 +560,23 @@
   </ul></li>
 </ul>
 </div>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/textos/anexos.rst.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Búsqueda rápida</h3>
-    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Ir a" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Ir a" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
@@ -590,8 +585,8 @@
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="../_sources/textos/anexos.rst.txt"

@@ -4,12 +4,20 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Programación multihilo &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -24,14 +32,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head><body>
+  </head>
+  <body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <div class="section" id="programacion-multihilo">
@@ -40,7 +47,7 @@
 <h2>Recursos compartidos por los hilos.<a class="headerlink" href="#recursos-compartidos-por-los-hilos" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Cuando creamos varios objetos de una clase, puede ocurrir que varios hilos de ejecución accedan a un objeto. Es importante recordar que <strong>todos los campos del objeto son compartidos entre todos los hilos</strong>.</p>
 <p>Supongamos una clase como esta:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nf">Empleado</span><span class="o">(){</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nf">Empleado</span><span class="o">(){</span>
         <span class="kt">int</span> <span class="n">numHorasTrabajadas</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
         <span class="kd">public</span> <span class="kt">void</span> <span class="kt">int</span> <span class="nf">incrementarHoras</span><span class="o">(){</span>
                 <span class="n">numHorasTrabajadas</span><span class="o">++;</span>
@@ -48,7 +55,7 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>Si varios hilos ejecutan sin querer el método <code class="docutils literal notranslate"><span class="pre">incrementar</span></code> en teoría debería ocurrir que el número se incrementase tantas veces como procesos. Sin embargo, <strong>es muy probable que eso no ocurra</strong></p>
+<p>Si varios hilos ejecutan sin querer el método <code class="docutils literal"><span class="pre">incrementar</span></code> en teoría debería ocurrir que el número se incrementase tantas veces como procesos. Sin embargo, <strong>es muy probable que eso no ocurra</strong></p>
 </div>
 <div class="section" id="estados-de-un-hilo-cambios-de-estado">
 <h2>Estados de un hilo. Cambios de estado.<a class="headerlink" href="#estados-de-un-hilo-cambios-de-estado" title="Enlazar permanentemente con este título">¶</a></h2>
@@ -67,7 +74,7 @@
 <li>Implementar la interfaz Runnable.</li>
 </ol>
 <p>Los documentos de Java aconsejan el segundo. Lo único que hay que hacer es algo como esto.</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">EjecutorTareaCompleja</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">EjecutorTareaCompleja</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
         <span class="kd">private</span> <span class="n">String</span> <span class="n">nombre</span><span class="o">;</span>
         <span class="kt">int</span> <span class="n">numEjecucion</span><span class="o">;</span>
         <span class="kd">public</span> <span class="nf">EjecutorTareaCompleja</span><span class="o">(</span><span class="n">String</span> <span class="n">nombre</span><span class="o">){</span>
@@ -115,13 +122,13 @@
 <div class="section" id="gestion-de-hilos">
 <h2>Gestión de hilos.<a class="headerlink" href="#gestion-de-hilos" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Con los hilos se pueden efectuar diversas operaciones que sean de utilidad al programador (y al administrador de sistemas a veces).</p>
-<p>Por ejemplo, un hilo puede tener un nombre. Si queremos asignar un nombre a un hilo podemos usar el método <code class="docutils literal notranslate"><span class="pre">setName(&quot;Nombre</span> <span class="pre">que</span> <span class="pre">sea&quot;)</span></code>. También podemos obtener un objeto que represente el hilo de ejecución con <code class="docutils literal notranslate"><span class="pre">currentThread</span></code> que nos devolverá un objeto de la clase <code class="docutils literal notranslate"><span class="pre">Thread</span></code>.</p>
-<p>Otra operación de utilidad al gestionar hilos es indicar la prioridad que queremos darle a un hilo. En realidad esta prioridad es indicativa, el sistema operativo no está obligado a respetarla aunque por lo general lo hacen. Se puede indicar la prioridad con <code class="docutils literal notranslate"><span class="pre">setPriority(10)</span></code>. La máxima prioridad posible es <code class="docutils literal notranslate"><span class="pre">MAX_PRIORITY</span></code>, y la mínima es <code class="docutils literal notranslate"><span class="pre">MIN_PRIORITY</span></code>.</p>
-<p>Cuando lanzamos una operación también podemos usar el método <code class="docutils literal notranslate"><span class="pre">Thread.sleep(numero)</span></code> y poner nuestro hilo «a dormir».</p>
+<p>Por ejemplo, un hilo puede tener un nombre. Si queremos asignar un nombre a un hilo podemos usar el método <code class="docutils literal"><span class="pre">setName(&quot;Nombre</span> <span class="pre">que</span> <span class="pre">sea&quot;)</span></code>. También podemos obtener un objeto que represente el hilo de ejecución con <code class="docutils literal"><span class="pre">currentThread</span></code> que nos devolverá un objeto de la clase <code class="docutils literal"><span class="pre">Thread</span></code>.</p>
+<p>Otra operación de utilidad al gestionar hilos es indicar la prioridad que queremos darle a un hilo. En realidad esta prioridad es indicativa, el sistema operativo no está obligado a respetarla aunque por lo general lo hacen. Se puede indicar la prioridad con <code class="docutils literal"><span class="pre">setPriority(10)</span></code>. La máxima prioridad posible es <code class="docutils literal"><span class="pre">MAX_PRIORITY</span></code>, y la mínima es <code class="docutils literal"><span class="pre">MIN_PRIORITY</span></code>.</p>
+<p>Cuando lanzamos una operación también podemos usar el método <code class="docutils literal"><span class="pre">Thread.sleep(numero)</span></code> y poner nuestro hilo «a dormir».</p>
 <p>Cuando se trabaja con prioridades en hilos <strong>no hay garantías de que un hilo termine cuando esperemos</strong>.</p>
-<p>Podemos terminar un hilo de ejecución llamando al método <code class="docutils literal notranslate"><span class="pre">join</span></code>. Este método devuelve el control al hilo principal que lanzó el hilo secundario con la posibilidad de elegir un tiempo de espera en milisegundos.</p>
+<p>Podemos terminar un hilo de ejecución llamando al método <code class="docutils literal"><span class="pre">join</span></code>. Este método devuelve el control al hilo principal que lanzó el hilo secundario con la posibilidad de elegir un tiempo de espera en milisegundos.</p>
 <p>El siguiente programa ilustra el uso de estos métodos:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">Calculador</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">Calculador</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
         <span class="nd">@Override</span>
         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
                 <span class="kt">int</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
@@ -169,8 +176,8 @@
 </div>
 <p>Ejercicio: crear un programa que lance 10 hilos de ejecución donde a cada hilo se le pasará la base y la altura de un triángulo, y cada hilo ejecutará el cálculo del área de dicho triángulo informando de qué base y qué altura recibió y cual es el área resultado.</p>
 <p>Una posibilidad (quizá incorrecta) sería esta:</p>
-<p>Para implementar la clase <code class="docutils literal notranslate"><span class="pre">CalculadorAreas</span></code></p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">CalculadorAreas</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+<p>Para implementar la clase <code class="docutils literal"><span class="pre">CalculadorAreas</span></code></p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">CalculadorAreas</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
 
     <span class="kt">float</span> <span class="n">base</span><span class="o">,</span> <span class="n">altura</span><span class="o">,</span> <span class="n">area</span><span class="o">;</span>
 
@@ -201,8 +208,8 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>Para implementar la clase <code class="docutils literal notranslate"><span class="pre">AreasEnParalelo</span></code> que lanza los hilos para hacer muchos cálculos de áreas en paralelo usaremos esto:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AreasEnParalelo</span> <span class="o">{</span>
+<p>Para implementar la clase <code class="docutils literal"><span class="pre">AreasEnParalelo</span></code> que lanza los hilos para hacer muchos cálculos de áreas en paralelo usaremos esto:</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AreasEnParalelo</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
     <span class="n">InterruptedException</span> <span class="o">{</span>
@@ -221,7 +228,7 @@
 <span class="o">}</span>
 </pre></div>
 </div>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.ies</span><span class="o">;</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.ies</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
 
@@ -265,36 +272,36 @@
 <div class="section" id="creacion-inicio-y-finalizacion">
 <h2>Creación, inicio y finalización.<a class="headerlink" href="#creacion-inicio-y-finalizacion" title="Enlazar permanentemente con este título">¶</a></h2>
 <ul class="simple">
-<li>Podemos heredar de Thread o implementar <code class="docutils literal notranslate"><span class="pre">Runnable</span></code>. Usaremos el segundo recordando implementar el método <code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">void</span> <span class="pre">run()</span></code>.</li>
+<li>Podemos heredar de Thread o implementar <code class="docutils literal"><span class="pre">Runnable</span></code>. Usaremos el segundo recordando implementar el método <code class="docutils literal"><span class="pre">public</span> <span class="pre">void</span> <span class="pre">run()</span></code>.</li>
 <li>Para crear un hilo asociado a un objeto usaremos algo como:</li>
 </ul>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">Thread</span> <span class="n">hilo</span><span class="o">=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">objetoDeClase</span><span class="o">)</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="n">Thread</span> <span class="n">hilo</span><span class="o">=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">objetoDeClase</span><span class="o">)</span>
 </pre></div>
 </div>
 <p>Lo más habitual es guardar en un vector todos los hilos que hagan algo, y no en un objeto suelto.</p>
 <ul class="simple">
 <li>Cada objeto que tenga un hilo asociado debe iniciarse así:</li>
 </ul>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">hilo</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="n">hilo</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li>Todo programa multihilo tiene un «hilo principal», el cual deberá esperar a que terminen los hilos asociados ejecutando el método <code class="docutils literal notranslate"><span class="pre">join()</span></code>  .</li>
+<li>Todo programa multihilo tiene un «hilo principal», el cual deberá esperar a que terminen los hilos asociados ejecutando el método <code class="docutils literal"><span class="pre">join()</span></code>  .</li>
 </ul>
 </div>
 <div class="section" id="sincronizacion-de-hilos">
 <h2>Sincronización de hilos.<a class="headerlink" href="#sincronizacion-de-hilos" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>Cuando un método acceda a una variable miembro que esté compartida deberemos proteger dicha sección crítica, usando <code class="docutils literal notranslate"><span class="pre">synchronized</span></code>. Se puede poner todo el método <code class="docutils literal notranslate"><span class="pre">synchronized</span></code> o marcar un trozo de código más pequeño.</p>
+<p>Cuando un método acceda a una variable miembro que esté compartida deberemos proteger dicha sección crítica, usando <code class="docutils literal"><span class="pre">synchronized</span></code>. Se puede poner todo el método <code class="docutils literal"><span class="pre">synchronized</span></code> o marcar un trozo de código más pequeño.</p>
 </div>
 <div class="section" id="informacion-entre-hilos">
 <h2>Información entre hilos.<a class="headerlink" href="#informacion-entre-hilos" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Todos los hilos comparten todo, así que obtener información es tan sencillo como consultar un miembro.
-En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="docutils literal notranslate"><span class="pre">sockets</span> <span class="pre">de</span> <span class="pre">red</span></code>, pero se ve en el tema siguiente.</p>
+En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="docutils literal"><span class="pre">sockets</span> <span class="pre">de</span> <span class="pre">red</span></code>, pero se ve en el tema siguiente.</p>
 </div>
 <div class="section" id="prioridades-de-los-hilos">
 <h2>Prioridades de los hilos.<a class="headerlink" href="#prioridades-de-los-hilos" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>Podemos asignar distintas prioridades a los hilos usando los campos estáticos <code class="docutils literal notranslate"><span class="pre">MAX_PRIORITY</span></code> y <code class="docutils literal notranslate"><span class="pre">MIN_PRIORITY</span></code>. Usando valores entre estas dos constantes podemos hacer que un hilo reciba más procesador que otro (se hace en contadas ocasiones).</p>
-<p>Para ello se usa el método <code class="docutils literal notranslate"><span class="pre">setPriority(valor)</span></code></p>
+<p>Podemos asignar distintas prioridades a los hilos usando los campos estáticos <code class="docutils literal"><span class="pre">MAX_PRIORITY</span></code> y <code class="docutils literal"><span class="pre">MIN_PRIORITY</span></code>. Usando valores entre estas dos constantes podemos hacer que un hilo reciba más procesador que otro (se hace en contadas ocasiones).</p>
+<p>Para ello se usa el método <code class="docutils literal"><span class="pre">setPriority(valor)</span></code></p>
 </div>
 <div class="section" id="gestion-de-prioridades">
 <h2>Gestión de prioridades.<a class="headerlink" href="#gestion-de-prioridades" title="Enlazar permanentemente con este título">¶</a></h2>
@@ -303,7 +310,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <div class="section" id="programacion-de-aplicaciones-multihilo">
 <h2>Programación de aplicaciones multihilo.<a class="headerlink" href="#programacion-de-aplicaciones-multihilo" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>La estructura típica de un programa multihilo es esta:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">TareaCompleja</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">TareaCompleja</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
         <span class="nd">@Override</span>
         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
                 <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">100</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
@@ -348,7 +355,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </pre></div>
 </div>
 <p>Supongamos que la tarea es más compleja y que el bucle se ejecuta un número al azar de veces. Esto significaría que nuestro bucle es algo como esto:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">Random</span> <span class="n">generador</span><span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="n">Random</span> <span class="n">generador</span><span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
 <span class="kt">int</span> <span class="n">numAzar</span><span class="o">=(</span><span class="mi">1</span><span class="o">+</span><span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">5</span><span class="o">))*</span><span class="mi">100</span><span class="o">;</span>
 <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">numAzar</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
         <span class="kt">int</span> <span class="n">a</span><span class="o">=</span><span class="n">i</span><span class="o">*</span><span class="mi">3</span><span class="o">;</span>
@@ -357,7 +364,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <p>¿Como podríamos modificar el programa para que podamos saber cuantas multiplicaciones se han hecho en total entre todos los hilos?</p>
 <p>Aquí entra el problema de la sincronización. Supongamos una clase contador muy simple como esta:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">Contador</span><span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">Contador</span><span class="o">{</span>
         <span class="kt">int</span> <span class="n">cuenta</span><span class="o">;</span>
         <span class="kd">public</span> <span class="nf">Contador</span><span class="o">(){</span>
                 <span class="n">cuenta</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
@@ -373,7 +380,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <p>De esta forma podríamos construir un objeto contador y pasárselo a todos los hilos para que en ese único objeto se almacene el recuento final. El problema es que en la programación multihilo <strong>SI EL OBJETO CONTADOR SE COMPARTE ENTRE VARIOS HILOS LA CUENTA FINAL RESULTANTE ES MUY POSIBLE QUE ESTÉ MAL</strong></p>
 <p>Esta clase debería tener protegidas sus secciones críticas</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">Contador</span><span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">Contador</span><span class="o">{</span>
         <span class="kt">int</span> <span class="n">cuenta</span><span class="o">;</span>
         <span class="kd">public</span> <span class="nf">Contador</span><span class="o">(){</span>
                 <span class="n">cuenta</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
@@ -388,7 +395,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </pre></div>
 </div>
 <p>Se puede aprovechar todavía más rendimiento si en un método marcamos como sección crítica (o sincronizada) exclusivamente el código peligroso:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span>  <span class="kt">void</span> <span class="nf">incrementar</span><span class="o">(){</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span>  <span class="kt">void</span> <span class="nf">incrementar</span><span class="o">(){</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Otras cosas&quot;</span><span class="o">);</span>
         <span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">){</span>
                 <span class="n">cuenta</span><span class="o">=</span><span class="n">cuenta</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
@@ -415,7 +422,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="boceto-de-solucion">
 <h3>Boceto de solución<a class="headerlink" href="#boceto-de-solucion" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
 
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Filosofo</span>  <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
@@ -454,7 +461,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <h2>Solución completa al problema de los filósofos<a class="headerlink" href="#solucion-completa-al-problema-de-los-filosofos" title="Enlazar permanentemente con este título">¶</a></h2>
 <div class="section" id="gestor-de-recursos-compartidos-palillos">
 <h3>Gestor de recursos compartidos (palillos)<a class="headerlink" href="#gestor-de-recursos-compartidos-palillos" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.iesmaestre.filosofos</span><span class="o">;</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.iesmaestre.filosofos</span><span class="o">;</span>
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorPalillos</span> <span class="o">{</span>
         <span class="kt">boolean</span> <span class="n">palilloLibre</span><span class="o">[];</span>
@@ -490,7 +497,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="simulacion-de-un-filosofo">
 <h3>Simulación de un filósofo<a class="headerlink" href="#simulacion-de-un-filosofo" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.iesmaestre.filosofos</span><span class="o">;</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.iesmaestre.filosofos</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
 
@@ -545,7 +552,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="lanzador-de-hilos">
 <h3>Lanzador de hilos<a class="headerlink" href="#lanzador-de-hilos" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.iesmaestre.filosofos</span><span class="o">;</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.iesmaestre.filosofos</span><span class="o">;</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
                 <span class="kt">int</span> <span class="n">NUM_PROCESOS</span><span class="o">=</span><span class="mi">5</span><span class="o">;</span>
@@ -598,7 +605,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <p>Prueba la siguiente solución:</p>
 <div class="section" id="clase-barbero">
 <h3>Clase Barbero<a class="headerlink" href="#clase-barbero" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Barbero</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Barbero</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
         <span class="kd">private</span> <span class="n">String</span>              <span class="n">nombre</span><span class="o">;</span>
         <span class="kd">private</span> <span class="n">GestorConcurrencia</span>  <span class="n">gc</span><span class="o">;</span>
         <span class="kd">private</span> <span class="n">Random</span>              <span class="n">generador</span><span class="o">;</span>
@@ -646,7 +653,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="clase-cliente">
 <h3>Clase Cliente<a class="headerlink" href="#clase-cliente" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cliente</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cliente</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
         <span class="n">GestorConcurrencia</span>      <span class="n">gc</span><span class="o">;</span>
         <span class="kd">public</span> <span class="nf">Cliente</span><span class="o">(</span><span class="n">GestorConcurrencia</span> <span class="n">gc</span><span class="o">){</span>
                 <span class="k">this</span><span class="o">.</span><span class="na">gc</span>         <span class="o">=</span><span class="n">gc</span><span class="o">;</span>
@@ -664,7 +671,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="clase-gestorconcurrencia">
 <h3>Clase GestorConcurrencia<a class="headerlink" href="#clase-gestorconcurrencia" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorConcurrencia</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorConcurrencia</span> <span class="o">{</span>
         <span class="cm">/* Vector que indica cuantas sillas hay y</span>
 <span class="cm">         * si están libres o no</span>
 <span class="cm">         */</span>
@@ -747,7 +754,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="clase-lanzador">
 <h3>Clase Lanzador<a class="headerlink" href="#clase-lanzador" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
 
         <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
 
@@ -795,7 +802,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="metodo-corregido">
 <h3>Método corregido<a class="headerlink" href="#metodo-corregido" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">int</span> <span class="nf">atenderAlgunCliente</span><span class="o">(){</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">int</span> <span class="nf">atenderAlgunCliente</span><span class="o">(){</span>
         <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">pasos</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
                         <span class="n">pasos</span><span class="o">&lt;</span><span class="n">clienteEstaAtendido</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
                         <span class="n">pasos</span><span class="o">++)</span>
@@ -840,7 +847,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <h2>Solución<a class="headerlink" href="#solucion" title="Enlazar permanentemente con este título">¶</a></h2>
 <div class="section" id="una-cola-limitada-en-tamano">
 <h3>Una cola limitada en tamaño<a class="headerlink" href="#una-cola-limitada-en-tamano" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ColaLimitada</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ColaLimitada</span> <span class="o">{</span>
         <span class="kt">int</span><span class="o">[]</span> <span class="n">cola</span><span class="o">;</span>
         <span class="kt">int</span> <span class="n">posParaEncolar</span><span class="o">;</span>
         <span class="kd">public</span> <span class="nf">ColaLimitada</span><span class="o">(</span><span class="kt">int</span> <span class="n">numElementos</span><span class="o">){</span>
@@ -888,7 +895,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="un-gestor-de-concurrencia-para-la-cola">
 <h3>Un gestor de concurrencia para la cola<a class="headerlink" href="#un-gestor-de-concurrencia-para-la-cola" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorColasConcurrentes</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorColasConcurrentes</span> <span class="o">{</span>
         <span class="kd">private</span> <span class="n">ColaLimitada</span> <span class="n">colaProtegida</span><span class="o">;</span>
         <span class="kd">public</span> <span class="nf">GestorColasConcurrentes</span><span class="o">(</span><span class="kt">int</span> <span class="n">numElementos</span><span class="o">){</span>
                 <span class="n">colaProtegida</span><span class="o">=</span><span class="k">new</span> <span class="n">ColaLimitada</span><span class="o">(</span><span class="n">numElementos</span><span class="o">);</span>
@@ -906,7 +913,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="la-clase-productor">
 <h3>La clase Productor<a class="headerlink" href="#la-clase-productor" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Productor</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Productor</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
         <span class="kd">private</span> <span class="n">Random</span>                                                  <span class="n">generadorAzar</span><span class="o">;</span>
         <span class="kd">private</span>         <span class="n">GestorColasConcurrentes</span>         <span class="n">gc</span><span class="o">;</span>
         <span class="kd">public</span> <span class="nf">Productor</span><span class="o">(</span><span class="n">GestorColasConcurrentes</span> <span class="n">gc</span><span class="o">){</span>
@@ -934,7 +941,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="la-clase-consumidor">
 <h3>La clase Consumidor<a class="headerlink" href="#la-clase-consumidor" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Consumidor</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Consumidor</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
         <span class="kd">private</span> <span class="n">Random</span>                                                  <span class="n">generadorAzar</span><span class="o">;</span>
         <span class="kd">private</span> <span class="n">GestorColasConcurrentes</span>         <span class="n">gc</span><span class="o">;</span>
 
@@ -962,7 +969,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="un-lanzador">
 <h3>Un lanzador<a class="headerlink" href="#un-lanzador" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">(){</span>
                 <span class="n">ColaLimitada</span> <span class="n">c</span><span class="o">=</span><span class="k">new</span> <span class="n">ColaLimitada</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
                 <span class="k">if</span> <span class="o">(</span><span class="n">c</span><span class="o">.</span><span class="na">sacarPrimero</span><span class="o">()!=</span><span class="mi">0</span><span class="o">){</span>
@@ -1050,7 +1057,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <p>Una posible solución sería la siguiente:</p>
 <div class="section" id="id1">
 <h3>Clase cliente<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
 
@@ -1111,7 +1118,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="clase-almacen">
 <h3>Clase Almacén<a class="headerlink" href="#clase-almacen" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Almacen</span> <span class="o">{</span>
         <span class="kd">private</span> <span class="kt">int</span> <span class="n">numProductos</span><span class="o">;</span>
@@ -1131,7 +1138,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="clase-puerta">
 <h3>Clase Puerta<a class="headerlink" href="#clase-puerta" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">java.util.logging.Level</span><span class="o">;</span>
@@ -1165,7 +1172,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="clase-lanzadora-grandesalmacenes">
 <h3>Clase lanzadora (GrandesAlmacenes)<a class="headerlink" href="#clase-lanzadora-grandesalmacenes" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">GrandesAlmacenes</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
                 <span class="kd">final</span> <span class="kt">int</span> <span class="n">NUM_CLIENTES</span>  <span class="o">=</span> <span class="mi">300</span><span class="o">;</span>
@@ -1213,7 +1220,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </ul>
 <p>Se desea comprobar que tras la ejecución la cuenta tiene exactamente 100 euros, que era la cantidad de la que se disponía al principio. Realizar el programa Java que demuestra dicho hecho.</p>
 <p>En primer lugar la clase Cuenta podría ser así:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cuenta</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cuenta</span> <span class="o">{</span>
 
     <span class="kd">private</span> <span class="kt">int</span> <span class="n">saldo</span><span class="o">;</span>
     <span class="kd">private</span> <span class="kt">int</span> <span class="n">saldoInicial</span><span class="o">;</span>
@@ -1236,7 +1243,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </pre></div>
 </div>
 <p>La clase HiloCliente podría ser así:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HiloCliente</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HiloCliente</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
     <span class="n">Cuenta</span> <span class="n">cuenta</span><span class="o">;</span>
     <span class="kt">int</span> <span class="n">cantidad</span><span class="o">;</span>
 
@@ -1260,7 +1267,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </pre></div>
 </div>
 <p>La clase Lanzador podría ser así:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span><span class="o">{</span>
         <span class="n">Cuenta</span> <span class="n">cuenta</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Cuenta</span> <span class="o">(</span><span class="mi">100</span><span class="o">);</span>
 
@@ -1344,7 +1351,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <h2>Documentación.<a class="headerlink" href="#documentacion" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>La estructura general de toda aplicación multihilo es algo similar a lo siguiente:</p>
 <ul class="simple">
-<li>Habrá tareas que se puedan paralelizar. Dichas tareas heredarán de <code class="docutils literal notranslate"><span class="pre">Runnable</span></code>.</li>
+<li>Habrá tareas que se puedan paralelizar. Dichas tareas heredarán de <code class="docutils literal"><span class="pre">Runnable</span></code>.</li>
 <li>Habrá procesos que pueden ser accedidos por muchos hilos. Estos objetos <strong>deberán usar synchronized</strong></li>
 <li>Habrá que crear los recursos compartidos y crear los hilos. Esta operación se debe hacer en este orden.</li>
 </ul>
@@ -1362,9 +1369,9 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <h2>Ejercicio: empleado «Thread safe»<a class="headerlink" href="#ejercicio-empleado-thread-safe" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Se dice que un método o clase es «Thread safe» (a prueba de hilos) cuando se ha programado con cuidado para que cualquier persona que lo utilice pueda hacerlo desde múltiples hilos de ejecución sin miedo a que se produzcan resultados indeseados. Evidentemente, la programación de código «Thread-safe» involucra muchísimo más cuidado de lo habitual. En el enunciado siguiente se pide desarrollar una clase que claramente debe ser «Thread safe».</p>
 <p>Crear una clase multihilo llamada Empleado que permita cambiar la cantidad de horas trabajadas por parte del empleado y su sueldo permitiendo que haya muchos hilos a la vez que puedan cambiar ambos valores pero de manera que la ejecución dé siempre resultados coherentes.</p>
-<p>En concreto, se desea tener un método <code class="docutils literal notranslate"><span class="pre">incrementarHoras(int</span> <span class="pre">numHoras)</span></code> que acepte números positivos y negativos y que permita actualizar el número de horas trabajadas. También se desea un método <code class="docutils literal notranslate"><span class="pre">incrementarBonus</span> <span class="pre">(int</span> <span class="pre">bonus)</span></code> que acepte positivos y negativos y que permita incrementar el bonus salarial del trabajador.</p>
-<p>Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a <code class="docutils literal notranslate"><span class="pre">incrementarHoras(2)</span></code> la ejecución de estos hilos debería reflejar que el empleado ha trabajado 400 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método <code class="docutils literal notranslate"><span class="pre">incrementarBonus(10)</span></code> el bonus salarial del empleado debería ser de 1000 euros.</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Empleado</span> <span class="o">{</span>
+<p>En concreto, se desea tener un método <code class="docutils literal"><span class="pre">incrementarHoras(int</span> <span class="pre">numHoras)</span></code> que acepte números positivos y negativos y que permita actualizar el número de horas trabajadas. También se desea un método <code class="docutils literal"><span class="pre">incrementarBonus</span> <span class="pre">(int</span> <span class="pre">bonus)</span></code> que acepte positivos y negativos y que permita incrementar el bonus salarial del trabajador.</p>
+<p>Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a <code class="docutils literal"><span class="pre">incrementarHoras(2)</span></code> la ejecución de estos hilos debería reflejar que el empleado ha trabajado 400 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método <code class="docutils literal"><span class="pre">incrementarBonus(10)</span></code> el bonus salarial del empleado debería ser de 1000 euros.</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Empleado</span> <span class="o">{</span>
         <span class="kt">int</span> <span class="n">bonus</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
         <span class="kt">int</span> <span class="n">horasTrabajadas</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
         <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">incrementarHoras</span><span class="o">(</span><span class="kt">int</span> <span class="n">numHoras</span><span class="o">){</span>
@@ -1381,54 +1388,67 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">Apuntes de Programación de Servicios y procesos</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navegación</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="tema1.html">Programación multiproceso</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Programación multihilo</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#recursos-compartidos-por-los-hilos">Recursos compartidos por los hilos.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#estados-de-un-hilo-cambios-de-estado">Estados de un hilo. Cambios de estado.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#elementos-relacionados-con-la-programacion-de-hilos-librerias-y-clases">Elementos relacionados con la programación de hilos. Librerías y clases.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#gestion-de-hilos">Gestión de hilos.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#creacion-inicio-y-finalizacion">Creación, inicio y finalización.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sincronizacion-de-hilos">Sincronización de hilos.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#informacion-entre-hilos">Información entre hilos.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#prioridades-de-los-hilos">Prioridades de los hilos.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#gestion-de-prioridades">Gestión de prioridades.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#programacion-de-aplicaciones-multihilo">Programación de aplicaciones multihilo.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#problema-filosofos">Problema: filósofos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#solucion-completa-al-problema-de-los-filosofos">Solución completa al problema de los filósofos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#problema-simulador-de-casino">Problema: simulador de casino</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#problema-barberos">Problema: barberos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#una-mala-solucion-al-problema-de-los-barberos">Una (mala) solución al problema de los barberos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#problema-productores-y-consumidores">Problema: productores y consumidores.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#solucion">Solución</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ejercicio">Ejercicio</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#simulacion-bancaria">Simulación bancaria</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#documentacion">Documentación.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#depuracion">Depuración.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ejercicio-empleado-thread-safe">Ejercicio: empleado «Thread safe»</a></li>
+  <h3><a href="../index.html">Tabla de Contenidos</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Programación multihilo</a><ul>
+<li><a class="reference internal" href="#recursos-compartidos-por-los-hilos">Recursos compartidos por los hilos.</a></li>
+<li><a class="reference internal" href="#estados-de-un-hilo-cambios-de-estado">Estados de un hilo. Cambios de estado.</a></li>
+<li><a class="reference internal" href="#elementos-relacionados-con-la-programacion-de-hilos-librerias-y-clases">Elementos relacionados con la programación de hilos. Librerías y clases.</a></li>
+<li><a class="reference internal" href="#gestion-de-hilos">Gestión de hilos.</a></li>
+<li><a class="reference internal" href="#creacion-inicio-y-finalizacion">Creación, inicio y finalización.</a></li>
+<li><a class="reference internal" href="#sincronizacion-de-hilos">Sincronización de hilos.</a></li>
+<li><a class="reference internal" href="#informacion-entre-hilos">Información entre hilos.</a></li>
+<li><a class="reference internal" href="#prioridades-de-los-hilos">Prioridades de los hilos.</a></li>
+<li><a class="reference internal" href="#gestion-de-prioridades">Gestión de prioridades.</a></li>
+<li><a class="reference internal" href="#programacion-de-aplicaciones-multihilo">Programación de aplicaciones multihilo.</a></li>
+<li><a class="reference internal" href="#problema-filosofos">Problema: filósofos</a><ul>
+<li><a class="reference internal" href="#boceto-de-solucion">Boceto de solución</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="tema3.html">Programación de comunicaciones en red</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tema4.html">Generación de servicios en red</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tema5.html">Utilización de técnicas de programación segura</a></li>
-<li class="toctree-l1"><a class="reference internal" href="anexos.html">Anexos</a></li>
+<li><a class="reference internal" href="#solucion-completa-al-problema-de-los-filosofos">Solución completa al problema de los filósofos</a><ul>
+<li><a class="reference internal" href="#gestor-de-recursos-compartidos-palillos">Gestor de recursos compartidos (palillos)</a></li>
+<li><a class="reference internal" href="#simulacion-de-un-filosofo">Simulación de un filósofo</a></li>
+<li><a class="reference internal" href="#lanzador-de-hilos">Lanzador de hilos</a></li>
 </ul>
-
+</li>
+<li><a class="reference internal" href="#problema-simulador-de-casino">Problema: simulador de casino</a></li>
+<li><a class="reference internal" href="#problema-barberos">Problema: barberos</a></li>
+<li><a class="reference internal" href="#una-mala-solucion-al-problema-de-los-barberos">Una (mala) solución al problema de los barberos</a><ul>
+<li><a class="reference internal" href="#clase-barbero">Clase Barbero</a></li>
+<li><a class="reference internal" href="#clase-cliente">Clase Cliente</a></li>
+<li><a class="reference internal" href="#clase-gestorconcurrencia">Clase GestorConcurrencia</a></li>
+<li><a class="reference internal" href="#clase-lanzador">Clase Lanzador</a></li>
+<li><a class="reference internal" href="#criticas-a-la-solucion-anterior">Críticas a la solución anterior</a></li>
+<li><a class="reference internal" href="#metodo-corregido">Método corregido</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#problema-productores-y-consumidores">Problema: productores y consumidores.</a></li>
+<li><a class="reference internal" href="#solucion">Solución</a><ul>
+<li><a class="reference internal" href="#una-cola-limitada-en-tamano">Una cola limitada en tamaño</a></li>
+<li><a class="reference internal" href="#un-gestor-de-concurrencia-para-la-cola">Un gestor de concurrencia para la cola</a></li>
+<li><a class="reference internal" href="#la-clase-productor">La clase Productor</a></li>
+<li><a class="reference internal" href="#la-clase-consumidor">La clase Consumidor</a></li>
+<li><a class="reference internal" href="#un-lanzador">Un lanzador</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ejercicio">Ejercicio</a><ul>
+<li><a class="reference internal" href="#id1">Clase cliente</a></li>
+<li><a class="reference internal" href="#clase-almacen">Clase Almacén</a></li>
+<li><a class="reference internal" href="#clase-puerta">Clase Puerta</a></li>
+<li><a class="reference internal" href="#clase-lanzadora-grandesalmacenes">Clase lanzadora (GrandesAlmacenes)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#simulacion-bancaria">Simulación bancaria</a></li>
+<li><a class="reference internal" href="#documentacion">Documentación.</a></li>
+<li><a class="reference internal" href="#depuracion">Depuración.</a></li>
+<li><a class="reference internal" href="#ejercicio-empleado-thread-safe">Ejercicio: empleado «Thread safe»</a></li>
+</ul>
+</li>
+</ul>
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -1438,26 +1458,23 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
   </ul></li>
 </ul>
 </div>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/textos/tema2.rst.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Búsqueda rápida</h3>
-    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Ir a" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Ir a" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
@@ -1466,8 +1483,8 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="../_sources/textos/tema2.rst.txt"
