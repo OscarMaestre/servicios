@@ -212,15 +212,100 @@ Content-Length: 1221
             <span class="n">File</span> <span class="n">fichero</span><span class="o">=</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">ruta</span><span class="o">);</span>
             <span class="k">this</span><span class="o">.</span><span class="na">email</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="n">fichero</span><span class="o">);</span>
         <span class="o">}</span>
-        <span class="cm">/*Y se envía el mensaje ;) */</span>
+        <span class="c1">// Y se envía el mensaje</span>
         <span class="n">email</span><span class="o">.</span><span class="na">send</span><span class="o">();</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="programacion-de-servidores">
-<h3>Programación de servidores.<a class="headerlink" href="#programacion-de-servidores" title="Enlazar permanentemente con este título">¶</a></h3>
+<h2>Programación de servidores.<a class="headerlink" href="#programacion-de-servidores" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Sabemos que un servidor es simplemente un programa. En concreto un programa que ofrece sus servicios a otros programas. Este concepto permite estructurar las aplicaciones utilizando un mecanismo que se conoce como «programación cliente/servidor». En estos programas <strong>se determina un protocolo de comunicaciones</strong> entre cliente y servidor y despues el cliente «pide» operaciones al servidor y este le devuelve resultados. Lo más interesante de este sistema que:</p>
+<ul class="simple">
+<li>El cliente y el servidor pueden estar en sitios distintos y comunicarse a través de protocolos de red.</li>
+<li>El cliente y el servidor <em>pueden estar programados en distintos lenguajes</em></li>
+</ul>
+<p>Supongamos un servidor que ofrece operaciones de cálculo a cualquier programa cliente. Un protocolo de comunicaciones muy simple sería:</p>
+<ul class="simple">
+<li>Cuando el cliente se conecta al servidor envía una primera línea con uno de estos cuatro símbolos: + - * /</li>
+<li>Despues el cliente envía dos números, cada uno en una línea separada.</li>
+<li>Cuando el cliente haya enviado estas 3 líneas debe ponerse en modo de escucha y esperar que el servidor le devuelva un resultado que será un único número en una única línea.</li>
+</ul>
+<p>Aunque para programas pequeños esto funciona perfectamente, existen estándares ya especificados que nos ayudan a construir aplicaciones. A continuación veremos algunos.</p>
+<div class="section" id="soap">
+<h3>SOAP<a class="headerlink" href="#soap" title="Enlazar permanentemente con este título">¶</a></h3>
+</div>
+<div class="section" id="wcf">
+<h3>WCF<a class="headerlink" href="#wcf" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>En el tutorial siguiente se explica como crear un servicio web muy básico que implemente algunas operaciones con cadenas. La construcción de un servicio WCF tiene dos operaciones básicas:</p>
+<ol class="arabic simple">
+<li>Establecer las operaciones que vamos a «ofrecer al exterior». Esto se hará con un <em>interfaz</em> que etiquetaremos con algunos atributos.</li>
+<li>Crear una clase que implemente el interfaz que hayamos decidido en el paso 1.</li>
+</ol>
+<p>Así, por ejemplo, si consideramos que algunas operaciones muy complejas son «convertir una cadena en mayúsculas» e «invertir una cadena» definiremos un interfaz que tenga dos operaciones públicas que reciben una cadena y devuelven una cadena. Despues en el siguiente paso crearemos una clase que implemente ese interfaz.</p>
+<p>En primer lugar crearemos un proyecto en Visual Studio del tipo «Biblioteca de Servicios WCF» y crearemos un proyecto llamado ServicioCadenas. El editor creará dos ficheros, uno para el interfaz y otro para la implementación.</p>
+<div class="figure align-center" id="id1" style="width: 50%">
+<img alt="../_images/wcf1.png" src="../_images/wcf1.png" />
+<p class="caption"><span class="caption-text">Creación de un servicio web.</span></p>
+</div>
+<p>En el fichero de interfaz pondremos este código para definir el interfaz.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Linq</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Runtime.Serialization</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.ServiceModel</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Text</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">ServicioCadenas</span>
+<span class="p">{</span>
+<span class="na">    [ServiceContract]</span>
+    <span class="k">public</span> <span class="k">interface</span> <span class="n">IServicioCadenas</span>
+
+    <span class="p">{</span>
+<span class="na">        [OperationContract]</span>
+        <span class="kt">string</span> <span class="nf">PasarAMayusculas</span><span class="p">(</span><span class="kt">string</span> <span class="n">cadena</span><span class="p">);</span>
+<span class="na">        [OperationContract]</span>
+        <span class="kt">string</span> <span class="nf">Invertir</span><span class="p">(</span><span class="kt">string</span> <span class="n">cadena</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Como puede verse hemos usado diversos atributos:</p>
+<ul class="simple">
+<li>El atributo <code class="docutils literal"><span class="pre">[ServiceContract]</span></code> indica que este interfaz <em>regula el contrato por el que se rige este servicio</em>. Se llama «contrato» al conjunto de operaciones y parámetros que un servidor ofrece.</li>
+<li>El atributo <code class="docutils literal"><span class="pre">[OperationContract]</span></code> indica que el método que hay a continuación es un método que se ofrece al exterior y por lo tanto los clientes podrán invocarlo y deberán hacerlo pasando los parámetros adecuados y deberán recoger un valor del tipo devuelto.</li>
+</ul>
+<p>El siguiente paso es <em>implementar el interfaz definido</em>, es decir añadir una clase que implemente esos métodos. En concreto ahora pondremos este código en el fichero de implementación  (por brevedad se han omitido las sentencias <code class="docutils literal"><span class="pre">using</span></code>):</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="nn">ServicioCadenas</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">ServicioCadenas</span> <span class="p">:</span> <span class="n">IServicioCadenas</span>
+    <span class="p">{</span>
+        <span class="k">public</span> <span class="kt">string</span> <span class="nf">Invertir</span><span class="p">(</span><span class="kt">string</span> <span class="n">cadena</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">char</span><span class="p">[]</span> <span class="n">caracteres</span> <span class="p">=</span> <span class="n">cadena</span><span class="p">.</span><span class="n">ToCharArray</span><span class="p">();</span>
+            <span class="n">Array</span><span class="p">.</span><span class="n">Reverse</span><span class="p">(</span><span class="n">caracteres</span><span class="p">);</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">string</span><span class="p">(</span><span class="n">caracteres</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="kt">string</span> <span class="nf">PasarAMayusculas</span><span class="p">(</span><span class="kt">string</span> <span class="n">cadena</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="n">cadena</span><span class="p">.</span><span class="n">ToUpper</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Advertencia</p>
+<p class="last">Debe recordarse modificar el archivo App.config. Hemos cambiado el nombre de la clase y del interfaz así que deberemos asegurarnos de que los nuevos nombres aparezcan en dicho archivo.</p>
+</div>
+<p>Con este código tan simple y el apoyo de Visual Studio (y las clases WCF) ya se dispone de un servicio. Para probarlo no hace falta implementar un cliente, sino que puede usarse el propio Visual Studio, que implementa una especie de cuadro de diálogo que permite hacer algunas pruebas. Si ejecutamos este código (usando el botón Iniciar o pulsando F5). Al hacerlo veremos esto:</p>
+<div class="figure align-center" id="id2" style="width: 50%">
+<img alt="../_images/wcf2.png" src="../_images/wcf2.png" />
+<p class="caption"><span class="caption-text">Probando el servicio web.</span></p>
+</div>
 </div>
 <div class="section" id="implementacion-de-comunicaciones-simultaneas">
 <h3>Implementación de comunicaciones simultáneas.<a class="headerlink" href="#implementacion-de-comunicaciones-simultaneas" title="Enlazar permanentemente con este título">¶</a></h3>
@@ -256,7 +341,11 @@ Content-Length: 1221
 <li><a class="reference internal" href="#establecimiento-y-finalizacion-de-conexiones">Establecimiento y finalización de conexiones.</a></li>
 <li><a class="reference internal" href="#transmision-de-informacion">Transmisión de información.</a></li>
 <li><a class="reference internal" href="#programacion-de-aplicaciones-cliente">Programación de aplicaciones cliente.</a></li>
-<li><a class="reference internal" href="#programacion-de-servidores">Programación de servidores.</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#programacion-de-servidores">Programación de servidores.</a><ul>
+<li><a class="reference internal" href="#soap">SOAP</a></li>
+<li><a class="reference internal" href="#wcf">WCF</a></li>
 <li><a class="reference internal" href="#implementacion-de-comunicaciones-simultaneas">Implementación de comunicaciones simultáneas.</a></li>
 <li><a class="reference internal" href="#documentacion">Documentación.</a></li>
 <li><a class="reference internal" href="#depuracion">Depuración.</a></li>
@@ -302,7 +391,11 @@ Content-Length: 1221
       &copy;2016, Oscar Gomez.
       
       |
+<<<<<<< HEAD
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.2</a>
+=======
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+>>>>>>> 7c5f3e3cd62fe3f372f515257aa73a430d48e307
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

@@ -5,23 +5,17 @@
    \let\sphinxpxdimen\pdfpxdimen\else\newdimen\sphinxpxdimen
 \fi \sphinxpxdimen=.75bp\relax
 
+\PassOptionsToPackage{warn}{textcomp}
 \usepackage[utf8]{inputenc}
 \ifdefined\DeclareUnicodeCharacter
- \ifdefined\DeclareUnicodeCharacterAsOptional
-  \DeclareUnicodeCharacter{"00A0}{\nobreakspace}
-  \DeclareUnicodeCharacter{"2500}{\sphinxunichar{2500}}
-  \DeclareUnicodeCharacter{"2502}{\sphinxunichar{2502}}
-  \DeclareUnicodeCharacter{"2514}{\sphinxunichar{2514}}
-  \DeclareUnicodeCharacter{"251C}{\sphinxunichar{251C}}
-  \DeclareUnicodeCharacter{"2572}{\textbackslash}
- \else
-  \DeclareUnicodeCharacter{00A0}{\nobreakspace}
-  \DeclareUnicodeCharacter{2500}{\sphinxunichar{2500}}
-  \DeclareUnicodeCharacter{2502}{\sphinxunichar{2502}}
-  \DeclareUnicodeCharacter{2514}{\sphinxunichar{2514}}
-  \DeclareUnicodeCharacter{251C}{\sphinxunichar{251C}}
-  \DeclareUnicodeCharacter{2572}{\textbackslash}
- \fi
+% support both utf8 and utf8x syntaxes
+\edef\sphinxdqmaybe{\ifdefined\DeclareUnicodeCharacterAsOptional\string"\fi}
+  \DeclareUnicodeCharacter{\sphinxdqmaybe00A0}{\nobreakspace}
+  \DeclareUnicodeCharacter{\sphinxdqmaybe2500}{\sphinxunichar{2500}}
+  \DeclareUnicodeCharacter{\sphinxdqmaybe2502}{\sphinxunichar{2502}}
+  \DeclareUnicodeCharacter{\sphinxdqmaybe2514}{\sphinxunichar{2514}}
+  \DeclareUnicodeCharacter{\sphinxdqmaybe251C}{\sphinxunichar{251C}}
+  \DeclareUnicodeCharacter{\sphinxdqmaybe2572}{\textbackslash}
 \fi
 \usepackage{cmap}
 \usepackage[T1]{fontenc}
@@ -29,8 +23,11 @@
 \usepackage{babel}
 \usepackage{times}
 \usepackage[Sonny]{fncychap}
-\usepackage[dontkeepoldnames]{sphinx}
+\ChNameVar{\Large\normalfont\sffamily}
+\ChTitleVar{\Large\normalfont\sffamily}
+\usepackage{sphinx}
 
+\fvset{fontsize=\small}
 \usepackage{geometry}
 
 % Include hyperref last.
@@ -44,8 +41,11 @@
 \addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
 \addto\captionsspanish{\renewcommand{\literalblockname}{Lista}}
 
-\addto\captionsspanish{\renewcommand{\literalblockcontinuedname}{continued from previous page}}
-\addto\captionsspanish{\renewcommand{\literalblockcontinuesname}{continues on next page}}
+\addto\captionsspanish{\renewcommand{\literalblockcontinuedname}{proviene de la página anterior}}
+\addto\captionsspanish{\renewcommand{\literalblockcontinuesname}{continué en la próxima página}}
+\addto\captionsspanish{\renewcommand{\sphinxnonalphabeticalgroupname}{Non-alphabetical}}
+\addto\captionsspanish{\renewcommand{\sphinxsymbolsname}{Símbolos}}
+\addto\captionsspanish{\renewcommand{\sphinxnumbersname}{Numbers}}
 
 \addto\extrasspanish{\def\pageautorefname{página}}
 
@@ -54,23 +54,30 @@
 
 
 \title{Apuntes de Servicios y Procesos}
-\date{08 de marzo de 2018}
+\date{28 de noviembre de 2018}
 \release{1.3}
 \author{Oscar Gomez}
 \newcommand{\sphinxlogo}{\vbox{}}
 \renewcommand{\releasename}{Versión}
 \makeindex
-
 \begin{document}
-\ifnum\catcode`\"=\active\shorthandoff{"}\fi
+
+\ifdefined\shorthandoff
+  \ifnum\catcode`\=\string=\active\shorthandoff{=}\fi
+  \ifnum\catcode`\"=\active\shorthandoff{"}\fi
+\fi
+
+\pagestyle{empty}
 \maketitle
+\pagestyle{plain}
 \sphinxtableofcontents
+\pagestyle{normal}
 \phantomsection\label{\detokenize{index::doc}}
 
 
 
 \chapter{Programación multiproceso}
-\label{\detokenize{textos/tema1:programacion-multiproceso}}\label{\detokenize{textos/tema1::doc}}\label{\detokenize{textos/tema1:programacion-de-servicios-y-procesos}}
+\label{\detokenize{textos/tema1:programacion-multiproceso}}\label{\detokenize{textos/tema1::doc}}
 
 \section{Ejecutables. Procesos. Servicios.}
 \label{\detokenize{textos/tema1:ejecutables-procesos-servicios}}
@@ -81,11 +88,11 @@ Un ejecutable es un archivo con la estructura necesaria para que el sistema oper
 
 Se pueden utilizar «desensambladores» para averiguar la secuencia de instrucciones que hay en un EXE. Incluso existen desensambladores en línea como \sphinxurl{http://onlinedisassembler.com}
 
-Sin embargo, Java genera ficheros .JAR o .CLASS. Estos ficheros \sphinxstyleemphasis{no son ejecutables} sino que son archivos que el intérprete de JAVA (el archivo \sphinxcode{java.exe}) leerá y ejecutará.
+Sin embargo, Java genera ficheros .JAR o .CLASS. Estos ficheros \sphinxstyleemphasis{no son ejecutables} sino que son archivos que el intérprete de JAVA (el archivo \sphinxcode{\sphinxupquote{java.exe}}) leerá y ejecutará.
 
 El intérprete toma el programa y lo traduce a instrucciones del microprocesador en el que estemos, que puede ser x86 o un x64 o lo que sea. Ese proceso se hace «al instante» o JIT (Just-In-Time).
 
-Un archivo .CLASS puede desensamblarse utilizando el comando \sphinxcode{javap -c \textless{}archivo.class\textgreater{}} . Cuando se hace así, se obtiene un listado de «instrucciones» que no se corresponden con las instrucciones del microprocesador, sino con «instrucciones virtuales de Java». El intérprte Java (el archivo \sphinxcode{java.exe}) traducirá en el momento del arranque dichas instrucciones virtuales Java a instrucciones reales del microprocesador.
+Un archivo .CLASS puede desensamblarse utilizando el comando \sphinxcode{\sphinxupquote{javap -c \textless{}archivo.class\textgreater{}}} . Cuando se hace así, se obtiene un listado de «instrucciones» que no se corresponden con las instrucciones del microprocesador, sino con «instrucciones virtuales de Java». El intérprte Java (el archivo \sphinxcode{\sphinxupquote{java.exe}}) traducirá en el momento del arranque dichas instrucciones virtuales Java a instrucciones reales del microprocesador.
 
 Este último aspecto es el esgrimido por Java para defender que su ejecución puede ser más rápida que la de un EXE, ya que Java puede averiguar en qué microprocesador se está ejecutando y así generar el código más óptimo posible.
 
@@ -151,6 +158,7 @@ En Java es posible crear procesos utilizando algunas clases que el entorno ofrec
 
 El ejemplo siguiente muestra como lanzar un proceso de Acrobat Reader:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{LanzadorProcesos} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{ejecutar}\PYG{o}{(}\PYG{n}{String} \PYG{n}{ruta}\PYG{o}{)}\PYG{o}{\PYGZob{}}
@@ -183,12 +191,13 @@ Supongamos que necesitamos crear un programa que aproveche al máximo el número
 
 Enunciado: crear una clase Java que sea capaz de sumar todos los números comprendidos entre dos valores incluyendo ambos valores.
 
-Para resolverlo crearemos una clase \sphinxcode{Sumador} que tenga un método que acepte dos números \sphinxcode{n1} y \sphinxcode{n2} y que devuelva la suma de todo el intervalor.
+Para resolverlo crearemos una clase \sphinxcode{\sphinxupquote{Sumador}} que tenga un método que acepte dos números \sphinxcode{\sphinxupquote{n1}} y \sphinxcode{\sphinxupquote{n2}} y que devuelva la suma de todo el intervalor.
 
-Además, incluiremos un método \sphinxcode{main} que ejecute la operación de suma tomando los números de la línea de comandos (es decir, se pasan como argumentos al main).
+Además, incluiremos un método \sphinxcode{\sphinxupquote{main}} que ejecute la operación de suma tomando los números de la línea de comandos (es decir, se pasan como argumentos al main).
 
 El código de dicha clase podría ser algo así:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{package} \PYG{n+nn}{com.ies}\PYG{o}{;}
 
@@ -219,8 +228,9 @@ Para ejecutar este programa desde dentro de Eclipse es necesario indicar que des
 \noindent\sphinxincludegraphics{{configuraciones}.png}
 \caption{Modificando los argumentos del programa}\label{\detokenize{textos/tema1:id1}}\end{figure}
 
-Una vez hecha la prueba de la clase sumador, le quitamos el main, y crearemos una clase que sea capaz de lanzar varios procesos. La clase \sphinxcode{Sumador} se quedará así:
+Una vez hecha la prueba de la clase sumador, le quitamos el main, y crearemos una clase que sea capaz de lanzar varios procesos. La clase \sphinxcode{\sphinxupquote{Sumador}} se quedará así:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Sumador} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kt}{int} \PYG{n+nf}{sumar}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{n1}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{n2}\PYG{o}{)}\PYG{o}{\PYGZob{}}
@@ -235,6 +245,7 @@ Una vez hecha la prueba de la clase sumador, le quitamos el main, y crearemos un
 
 Y ahora tendremos una clase que lanza procesos de esta forma:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{package} \PYG{n+nn}{com.ies}\PYG{o}{;}
 
@@ -270,6 +281,7 @@ Las operaciones multiproceso pueden implicar que sea necesario comunicar informa
 
 En el ejemplo, el segundo proceso suele sobreescribir el resultado del primero, así que modificaremos el código del lanzador para que cada proceso use su propio fichero de resultados.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Lanzador} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{lanzarSumador}\PYG{o}{(}\PYG{n}{Integer} \PYG{n}{n1}\PYG{o}{,}
@@ -301,7 +313,7 @@ En el ejemplo, el segundo proceso suele sobreescribir el resultado del primero, 
 
 Cuando se lanza un programa desde Eclipse no ocurre lo mismo que cuando se lanza desde Windows. Eclipse trabaja con unos directorios predefinidos y puede ser necesario indicar a nuestro programa cual es la ruta donde hay que buscar algo.
 
-Usando el método \sphinxcode{.directory(new File("c:\textbackslash{}\textbackslash{}dir\textbackslash{}\textbackslash{}))} se puede indicar a Java donde está el archivo que se desea ejecutar.
+Usando el método \sphinxcode{\sphinxupquote{.directory(new File("c:\textbackslash{}\textbackslash{}dir\textbackslash{}\textbackslash{}))}} se puede indicar a Java donde está el archivo que se desea ejecutar.
 
 
 \section{Ejercicio}
@@ -310,6 +322,7 @@ Crear un programa que permita parametrizar el lanzamiento de sumadores, que vuel
 
 En el listado siguiente se muestra la clase Sumador
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{package} \PYG{n+nn}{es.ies.multiproceso}\PYG{o}{;}
 
@@ -345,6 +358,7 @@ En el listado siguiente se muestra la clase Sumador
 
 En el listado siguiente se muestra la clase Main
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Main} \PYG{o}{\PYGZob{}}
 
@@ -441,13 +455,14 @@ Crear un programa que sea capaz de contar cuantas vocales hay en un fichero. El 
 
 \subsection{Operaciones con ficheros}
 \label{\detokenize{textos/tema1:operaciones-con-ficheros}}
-Tanto en este ejercicio como en muchos otros vamos a necesitar realizar ciertas operaciones con ficheros. Para aumentar nuestra productividad utilizaremos una clase llamada \sphinxcode{UtilidadesFicheros} que nos permita realizar ciertas tareas como las siguientes:
+Tanto en este ejercicio como en muchos otros vamos a necesitar realizar ciertas operaciones con ficheros. Para aumentar nuestra productividad utilizaremos una clase llamada \sphinxcode{\sphinxupquote{UtilidadesFicheros}} que nos permita realizar ciertas tareas como las siguientes:
 \begin{itemize}
 \item {} 
-Obtener un objeto \sphinxcode{BufferedReader} a partir de un nombre de fichero de tipo \sphinxcode{String}. Llamaremos a este método \sphinxcode{getBufferedReader} y lo utilizaremos para poder manejar un fichero mediante una clase de muy alto nivel que nos facilita la lectura de ficheros. En el listado adjunto se puede consultar dicho método.
+Obtener un objeto \sphinxcode{\sphinxupquote{BufferedReader}} a partir de un nombre de fichero de tipo \sphinxcode{\sphinxupquote{String}}. Llamaremos a este método \sphinxcode{\sphinxupquote{getBufferedReader}} y lo utilizaremos para poder manejar un fichero mediante una clase de muy alto nivel que nos facilita la lectura de ficheros. En el listado adjunto se puede consultar dicho método.
 
 \end{itemize}
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{n}{BufferedReader} \PYG{n+nf}{getBufferedReader}\PYG{o}{(}
     \PYG{n}{String} \PYG{n}{nombreFichero}\PYG{o}{)} \PYG{k+kd}{throws}
@@ -461,10 +476,11 @@ Obtener un objeto \sphinxcode{BufferedReader} a partir de un nombre de fichero d
 \end{sphinxVerbatim}
 \begin{itemize}
 \item {} 
-De la misma forma crearemos un método \sphinxcode{getPrintWriter} que nos devuelva un objeto de la clase \sphinxcode{PrintWriter} para poder realizar fácilmente operaciones de escritura en ficheros. En el listado adjunto se muestra el código.
+De la misma forma crearemos un método \sphinxcode{\sphinxupquote{getPrintWriter}} que nos devuelva un objeto de la clase \sphinxcode{\sphinxupquote{PrintWriter}} para poder realizar fácilmente operaciones de escritura en ficheros. En el listado adjunto se muestra el código.
 
 \end{itemize}
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{n}{PrintWriter} \PYG{n+nf}{getPrintWriter}\PYG{o}{(}
     \PYG{n}{String} \PYG{n}{nombreFichero}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{IOException} \PYG{o}{\PYGZob{}}
@@ -478,10 +494,11 @@ De la misma forma crearemos un método \sphinxcode{getPrintWriter} que nos devue
 \end{sphinxVerbatim}
 \begin{itemize}
 \item {} 
-Aunque nos estamos anticipando, puede ser útil tener un método que dado un nombre de fichero nos devuelva un \sphinxcode{ArrayList\textless{}String\textgreater{}} con todas las líneas que hay en el fichero. \sphinxstylestrong{En este ejercicio no lo usaremos}. Este método podría implementarse así:
+Aunque nos estamos anticipando, puede ser útil tener un método que dado un nombre de fichero nos devuelva un \sphinxcode{\sphinxupquote{ArrayList\textless{}String\textgreater{}}} con todas las líneas que hay en el fichero. \sphinxstylestrong{En este ejercicio no lo usaremos}. Este método podría implementarse así:
 
 \end{itemize}
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{n}{ArrayList}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}} \PYG{n+nf}{getLineasFichero}\PYG{o}{(}
     \PYG{n}{String} \PYG{n}{nombreFichero}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{IOException} \PYG{o}{\PYGZob{}}
@@ -502,10 +519,11 @@ Aunque nos estamos anticipando, puede ser útil tener un método que dado un nom
 
 \subsection{Procesado de ficheros}
 \label{\detokenize{textos/tema1:procesado-de-ficheros}}
-Necesitaremos una clase \sphinxcode{ProcesadorFichero} que nos permita procesar los ficheros de la forma pedida. Antes de crear un programa multiproceso empezaremos por crear una clase simple que nos resuelva este problema.
+Necesitaremos una clase \sphinxcode{\sphinxupquote{ProcesadorFichero}} que nos permita procesar los ficheros de la forma pedida. Antes de crear un programa multiproceso empezaremos por crear una clase simple que nos resuelva este problema.
 
-Dicha clase tendrá un método \sphinxcode{hacerRecuento} que resuelva el problema de contar el número de apariciones en un fichero dejando el total de apariciones en un fichero de salida distintos. En el código adjunto podemos ver como podría implementarse dicho método.
+Dicha clase tendrá un método \sphinxcode{\sphinxupquote{hacerRecuento}} que resuelva el problema de contar el número de apariciones en un fichero dejando el total de apariciones en un fichero de salida distintos. En el código adjunto podemos ver como podría implementarse dicho método.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{n}{ArrayList}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}} \PYG{n+nf}{getLineasFichero}\PYG{o}{(}
     \PYG{n}{String} \PYG{n}{nombreFichero}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{IOException} \PYG{o}{\PYGZob{}}
@@ -523,21 +541,25 @@ Dicha clase tendrá un método \sphinxcode{hacerRecuento} que resuelva el proble
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
-La clase \sphinxcode{ProcesadorFichero} será lanzada desde otra clase que llamaremos \sphinxcode{Lanzador}. Nuestra \sphinxcode{ProcesadorFichero} recogerá en su método \sphinxcode{main} los siguientes parámetros:
+La clase \sphinxcode{\sphinxupquote{ProcesadorFichero}} será lanzada desde otra clase que llamaremos \sphinxcode{\sphinxupquote{Lanzador}}. Nuestra \sphinxcode{\sphinxupquote{ProcesadorFichero}} recogerá en su método \sphinxcode{\sphinxupquote{main}} los siguientes parámetros:
 \begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
 \item {} 
-El nombre del fichero a procesar. Lo llamaremos \sphinxcode{nombreFicheroEntrada} y estará en la posición 0 de los argumentos.
+El nombre del fichero a procesar. Lo llamaremos \sphinxcode{\sphinxupquote{nombreFicheroEntrada}} y estará en la posición 0 de los argumentos.
 
 \item {} 
-La letra de la que hay que hacer el recuento de apariciones. La llamaremos \sphinxcode{letra} y estará en la posición 1.
+La letra de la que hay que hacer el recuento de apariciones. La llamaremos \sphinxcode{\sphinxupquote{letra}} y estará en la posición 1.
 
 \item {} 
-El nombre del fichero donde se dejarán los resultados. Lo llamaremos \sphinxcode{nombreFicheroResultado} y estará en la posición 1 de los argumentos.
+El nombre del fichero donde se dejarán los resultados. Lo llamaremos \sphinxcode{\sphinxupquote{nombreFicheroResultado}} y estará en la posición 1 de los argumentos.
 
 \end{enumerate}
 
 El código del main se muestra a continuación.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+cm}{/**}
 \PYG{c+cm}{	 * Dado un fichero pasado como argumento, contará cuantas}
@@ -559,27 +581,31 @@ El código del main se muestra a continuación.
 
 \section{Lanzamiento de los procesos}
 \label{\detokenize{textos/tema1:lanzamiento-de-los-procesos}}
-La clase \sphinxcode{Lanzador} tendrá un método \sphinxcode{main} que se encargará de varias cosas:
+La clase \sphinxcode{\sphinxupquote{Lanzador}} tendrá un método \sphinxcode{\sphinxupquote{main}} que se encargará de varias cosas:
 \begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
 \item {} 
-Recoger el primer parámetro (\sphinxcode{args{[}0{]}}), que contendrá el fichero a procesar.
+Recoger el primer parámetro (\sphinxcode{\sphinxupquote{args{[}0{]}}}), que contendrá el fichero a procesar.
 
 \item {} 
-Recoger el segundo parámetro, que contendrá el directorio de \sphinxcode{CLASSPATH} donde habrá que buscar la clase \sphinxcode{UtilidadesFicheros}.
+Recoger el segundo parámetro, que contendrá el directorio de \sphinxcode{\sphinxupquote{CLASSPATH}} donde habrá que buscar la clase \sphinxcode{\sphinxupquote{UtilidadesFicheros}}.
 
 \item {} 
-Recoger el tercer parámetro, que contendrá el directorio donde habrá que buscar la clase \sphinxcode{ProcesadorFicheros}.
+Recoger el tercer parámetro, que contendrá el directorio donde habrá que buscar la clase \sphinxcode{\sphinxupquote{ProcesadorFicheros}}.
 
 \item {} 
-Una vez recogidos los parámetros, se lanzarán los procesos utilizando la clase \sphinxcode{ProcessBuilder}.
+Una vez recogidos los parámetros, se lanzarán los procesos utilizando la clase \sphinxcode{\sphinxupquote{ProcessBuilder}}.
 
 \item {} 
 Los procesos se ejecutarán y después recogeremos los resultados de los ficheros.
 
 \end{enumerate}
 
-En el código siguiente puede verse el método \sphinxcode{main} de esta clase \sphinxcode{Lanzador}. La recogida de resultados se deja como ejercicio:
+En el código siguiente puede verse el método \sphinxcode{\sphinxupquote{main}} de esta clase \sphinxcode{\sphinxupquote{Lanzador}}. La recogida de resultados se deja como ejercicio:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{args}\PYG{o}{)} \PYG{k+kd}{throws}
 \PYG{n}{IOException}\PYG{o}{,} \PYG{n}{InterruptedException} \PYG{o}{\PYGZob{}}
@@ -619,19 +645,19 @@ En el código siguiente puede verse el método \sphinxcode{main} de esta clase \
 Se desea crear un programa que procese ficheros aprovechando el paralelismo de la máquina. Se tienen cinco ficheros con los siguientes nombres:
 \begin{itemize}
 \item {} 
-\sphinxcode{informatica.txt}
+\sphinxcode{\sphinxupquote{informatica.txt}}
 
 \item {} 
-\sphinxcode{gerencia.txt}
+\sphinxcode{\sphinxupquote{gerencia.txt}}
 
 \item {} 
-\sphinxcode{contabilidad.txt}
+\sphinxcode{\sphinxupquote{contabilidad.txt}}
 
 \item {} 
-\sphinxcode{comercio.txt}
+\sphinxcode{\sphinxupquote{comercio.txt}}
 
 \item {} 
-\sphinxcode{rrhh.txt}
+\sphinxcode{\sphinxupquote{rrhh.txt}}
 
 \end{itemize}
 
@@ -640,12 +666,13 @@ En cada fichero hay una lista de cantidades enteras que representa las contabili
 
 \subsection{Solución al ejercicio propuesto (I)}
 \label{\detokenize{textos/tema1:solucion-al-ejercicio-propuesto-i}}
-Este ejercicio es bastante parecido al anterior, con la salvedad de que ahora necesitaremos sumar cantidades en lugar de buscar elementos. Por lo demás,  también generaremos un fichero de resultados por cada fichero de datos y los llamaremos igual pero añadiendo la extensión «.res». Es decir, la suma de las cantidades de \sphinxcode{informatica.txt} se dejará en \sphinxcode{informatica.txt.res}.
+Este ejercicio es bastante parecido al anterior, con la salvedad de que ahora necesitaremos sumar cantidades en lugar de buscar elementos. Por lo demás,  también generaremos un fichero de resultados por cada fichero de datos y los llamaremos igual pero añadiendo la extensión «.res». Es decir, la suma de las cantidades de \sphinxcode{\sphinxupquote{informatica.txt}} se dejará en \sphinxcode{\sphinxupquote{informatica.txt.res}}.
 
-Una vez generados todos los fichero \sphinxcode{Resultado} tendremos que sumar todas las cantidades de estos ficheros. Su estructura es muy simple, todos contienen una única línea con una cantidad. Dado que esta operación de sumar cantidades almacenadas en distintos ficheros es una operación muy habitual, añadiremos un método a \sphinxcode{UtilidadesFicheros} que se encargue de hacer esta operación. Obsérvese que usaremos tipos de datos \sphinxcode{long} y no \sphinxcode{int} dado que no sabemos como de grandes serán las cantidades a procesar.
+Una vez generados todos los fichero \sphinxcode{\sphinxupquote{Resultado}} tendremos que sumar todas las cantidades de estos ficheros. Su estructura es muy simple, todos contienen una única línea con una cantidad. Dado que esta operación de sumar cantidades almacenadas en distintos ficheros es una operación muy habitual, añadiremos un método a \sphinxcode{\sphinxupquote{UtilidadesFicheros}} que se encargue de hacer esta operación. Obsérvese que usaremos tipos de datos \sphinxcode{\sphinxupquote{long}} y no \sphinxcode{\sphinxupquote{int}} dado que no sabemos como de grandes serán las cantidades a procesar.
 
 A continuación se muestra el código de este método.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+c1}{//Fin de getLineasFichero}
 \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{long} \PYG{n+nf}{getSuma}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]}
@@ -675,10 +702,11 @@ A continuación se muestra el código de este método.
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
-Una vez creado este método que usaremos al final, pasemos a crear una clase \sphinxcode{ProcesadorContabilidad} que leerá un fichero, sumará las cantidades y las dejará en el fichero de resultados. Esta clase solo tendrá un método \sphinxcode{main} que realizará esta tarea.
+Una vez creado este método que usaremos al final, pasemos a crear una clase \sphinxcode{\sphinxupquote{ProcesadorContabilidad}} que leerá un fichero, sumará las cantidades y las dejará en el fichero de resultados. Esta clase solo tendrá un método \sphinxcode{\sphinxupquote{main}} que realizará esta tarea.
 
-Como nuestro programa está formado por varias clases que están dispersas por distintos directorios, nuestro \sphinxcode{main} tomará el \sphinxcode{CLASSPATH} de los argumentos.
+Como nuestro programa está formado por varias clases que están dispersas por distintos directorios, nuestro \sphinxcode{\sphinxupquote{main}} tomará el \sphinxcode{\sphinxupquote{CLASSPATH}} de los argumentos.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{args}\PYG{o}{)} \PYG{k+kd}{throws}
 \PYG{n}{IOException} \PYG{o}{\PYGZob{}}
@@ -710,8 +738,9 @@ Como nuestro programa está formado por varias clases que están dispersas por d
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
-Por último, solo queda crear la clase \sphinxcode{Lanzador} que recogerá los nombres de fichero que hay que sumar y lanzará un proceso de la clase \sphinxcode{ProcesadorContabilidad} para cada uno de ellos. Por último, sumará todos los resultados y los dejará en un fichero que llamaremos (por ejemplo) \sphinxcode{Resultado\_global.txt}
+Por último, solo queda crear la clase \sphinxcode{\sphinxupquote{Lanzador}} que recogerá los nombres de fichero que hay que sumar y lanzará un proceso de la clase \sphinxcode{\sphinxupquote{ProcesadorContabilidad}} para cada uno de ellos. Por último, sumará todos los resultados y los dejará en un fichero que llamaremos (por ejemplo) \sphinxcode{\sphinxupquote{Resultado\_global.txt}}
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{args}\PYG{o}{)} \PYG{k+kd}{throws}
 \PYG{n}{IOException} \PYG{o}{\PYGZob{}}
@@ -763,27 +792,28 @@ En Windows toda la gestión de procesos se realiza desde el «Administrador de t
 
 \section{Comandos para la gestión de procesos en sistemas libres y propietarios.}
 \label{\detokenize{textos/tema1:comandos-para-la-gestion-de-procesos-en-sistemas-libres-y-propietarios}}
-En sistemas Windows, no existen apenas comandos para gestionar procesos. Puede obligarse al sistema operativo a arrancar la aplicación asociada a un archivo con el comando \sphinxcode{START}. Es decir, si se ejecuta lo siguiente:
+En sistemas Windows, no existen apenas comandos para gestionar procesos. Puede obligarse al sistema operativo a arrancar la aplicación asociada a un archivo con el comando \sphinxcode{\sphinxupquote{START}}. Es decir, si se ejecuta lo siguiente:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{START} \PYG{n}{documento}\PYG{o}{.}\PYG{n}{pdf}
 \end{sphinxVerbatim}
 
-se abrirá el visor de archivos PDF el cual cargará automáticamente el fichero \sphinxcode{documento.pdf}
+se abrirá el visor de archivos PDF el cual cargará automáticamente el fichero \sphinxcode{\sphinxupquote{documento.pdf}}
 
 En GNU/Linux se puede utilizar un terminal de consola para la gestión de procesos, lo que implica que no solo se pueden arrancar procesos si no tambien detenerlos, reanudarlos, terminarlos y modificar su prioridad de ejecución.
 \begin{itemize}
 \item {} 
-Para arrancar un proceso, simplemente tenemos que escribir el nombre del comando correspondiente. Desde GNU/Linux se pueden controlar los servicios que se ejecutan con un comando llamado \sphinxcode{service}. Por ejemplo, se puede usar \sphinxcode{sudo service apache2 stop} para parar el servidor web y \sphinxcode{sudo service apache2 start} para volver a ponerlo en marcha. También se puede reiniciar un servicio (tal vez para que relea un fichero de configuración que hemos cambiado) con \sphinxcode{sudo service apache2 restart}.
+Para arrancar un proceso, simplemente tenemos que escribir el nombre del comando correspondiente. Desde GNU/Linux se pueden controlar los servicios que se ejecutan con un comando llamado \sphinxcode{\sphinxupquote{service}}. Por ejemplo, se puede usar \sphinxcode{\sphinxupquote{sudo service apache2 stop}} para parar el servidor web y \sphinxcode{\sphinxupquote{sudo service apache2 start}} para volver a ponerlo en marcha. También se puede reiniciar un servicio (tal vez para que relea un fichero de configuración que hemos cambiado) con \sphinxcode{\sphinxupquote{sudo service apache2 restart}}.
 
 \item {} 
-Se puede detener y/o terminar un proceso con el comando \sphinxcode{kill}. Se puede usar este comando para \sphinxstylestrong{terminar un proceso} sin guardar nada usando \sphinxcode{kill -SIGKILL \textless{}numproceso\textgreater{}} o \sphinxcode{kill -9 \textless{}numproceso\textgreater{}}. Se puede pausar un proceso con \sphinxcode{kill -SIGSTOP \textless{}numproceso\textgreater{}} y rearrancarlo con \sphinxcode{kill -SIGCONT}
+Se puede detener y/o terminar un proceso con el comando \sphinxcode{\sphinxupquote{kill}}. Se puede usar este comando para \sphinxstylestrong{terminar un proceso} sin guardar nada usando \sphinxcode{\sphinxupquote{kill -SIGKILL \textless{}numproceso\textgreater{}}} o \sphinxcode{\sphinxupquote{kill -9 \textless{}numproceso\textgreater{}}}. Se puede pausar un proceso con \sphinxcode{\sphinxupquote{kill -SIGSTOP \textless{}numproceso\textgreater{}}} y rearrancarlo con \sphinxcode{\sphinxupquote{kill -SIGCONT}}
 
 \item {} 
-Se puede enviar un proceso a segundo plano con comandos como \sphinxcode{bg} o al arrancar el proceso escribir el nombre del comando terminado en \sphinxcode{\&}.
+Se puede enviar un proceso a segundo plano con comandos como \sphinxcode{\sphinxupquote{bg}} o al arrancar el proceso escribir el nombre del comando terminado en \sphinxcode{\sphinxupquote{\&}}.
 
 \item {} 
-Se puede devolver un proceso a primer plano con el comando \sphinxcode{fg}.
+Se puede devolver un proceso a primer plano con el comando \sphinxcode{\sphinxupquote{fg}}.
 
 \end{itemize}
 
@@ -800,13 +830,14 @@ Y por el contrario, si pensamos que un programa no es muy necesario podemos quit
 
 \end{itemize}
 
-El comando \sphinxcode{nice} permite indicar prioridades entre -20 y 19. El -20 implica que un proceso reciba la \sphinxstylestrong{máxima prioridad}, y el 19 supone asignar la \sphinxstylestrong{mínima prioridad}
+El comando \sphinxcode{\sphinxupquote{nice}} permite indicar prioridades entre -20 y 19. El -20 implica que un proceso reciba la \sphinxstylestrong{máxima prioridad}, y el 19 supone asignar la \sphinxstylestrong{mínima prioridad}
 
 
 \section{Sincronización entre procesos.}
 \label{\detokenize{textos/tema1:sincronizacion-entre-procesos}}
 Cuando se lanza más de un proceso de una misma sección de código no se sabe qué proceso ejecutará qué instrucción en un cierto momento, lo que es muy peligroso:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{,}\PYG{n}{j}\PYG{o}{;}
 \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
@@ -844,8 +875,9 @@ Bloques de memoria compartida.
 
 En realidad algunos de estos mecanismos se utilizan más para intercomunicar procesos, aunque para los programadores Java la forma de resolver el problema de la «sección crítica» es más simple.
 
-En Java, si el programador piensa que un trozo de código es peligroso puede ponerle la palabra clave \sphinxcode{synchronized} y la máquina virtual Java protege el código automáticamente.
+En Java, si el programador piensa que un trozo de código es peligroso puede ponerle la palabra clave \sphinxcode{\sphinxupquote{synchronized}} y la máquina virtual Java protege el código automáticamente.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
     \PYG{c+cm}{/* La máquina virtual Java evitará que más de un proceso/hilo acceda a este método*/}
     \PYG{k+kd}{synchronized}
@@ -879,6 +911,9 @@ Cualquiera puede crear sus propias anotaciones simplemente definiéndolas como u
 \label{\detokenize{textos/tema1:depuracion}}
 ¿Como se depura un programa multiproceso/multihilo? Por desgracia puede ser muy difícil:
 \begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
 \item {} 
 No todos los depuradores son capaces.
 
@@ -886,20 +921,20 @@ No todos los depuradores son capaces.
 A veces cuando un depurador interviene en un proceso puede ocurrir que el resto de procesos consigan ejecutarse en el orden correcto y dar lugar a que el programa parezca que funciona bien.
 
 \item {} 
-Un error muy típico es la \sphinxcode{NullPointerException}, que en muchos casos se deben a la utilización de referencias Java no inicializadas o incluso a la devolución de valores NULL que luego no se comprueban en alguna parte del código.
+Un error muy típico es la \sphinxcode{\sphinxupquote{NullPointerException}}, que en muchos casos se deben a la utilización de referencias Java no inicializadas o incluso a la devolución de valores NULL que luego no se comprueban en alguna parte del código.
 
 \item {} 
-Se puede usar el método \sphinxcode{redirectError} pasándole un objeto de tipo \sphinxcode{File} para que los mensajes de error vayan a un fichero.
+Se puede usar el método \sphinxcode{\sphinxupquote{redirectError}} pasándole un objeto de tipo \sphinxcode{\sphinxupquote{File}} para que los mensajes de error vayan a un fichero.
 
 \item {} 
-Se debe recordar que la «visión» que tiene Eclipse del sistema puede ser \sphinxstylestrong{muy diferente} de la visión que tiene el proceso lanzado. Un problema muy común es que el proceso lanzado no encuentre clases, lo que obligará a indicar el \sphinxcode{CLASSPATH}.
+Se debe recordar que la «visión» que tiene Eclipse del sistema puede ser \sphinxstylestrong{muy diferente} de la visión que tiene el proceso lanzado. Un problema muy común es que el proceso lanzado no encuentre clases, lo que obligará a indicar el \sphinxcode{\sphinxupquote{CLASSPATH}}.
 
 \item {} 
 Un buen método para determinar errores consiste en utilizar el entorno de consola para lanzar comandos para ver «como es el sistema» que ve un proceso fuera de Eclipse (o de cualquier otro entorno).
 
 \end{enumerate}
 
-En general todos los fallos en un programa multiproceso vienen derivado de no usar \sphinxcode{synchronized} de la forma correcta.
+En general todos los fallos en un programa multiproceso vienen derivado de no usar \sphinxcode{\sphinxupquote{synchronized}} de la forma correcta.
 
 
 \section{Examen}
@@ -908,7 +943,7 @@ Fecha por determinar
 
 
 \chapter{Programación multihilo}
-\label{\detokenize{textos/tema2::doc}}\label{\detokenize{textos/tema2:programacion-multihilo}}
+\label{\detokenize{textos/tema2:programacion-multihilo}}\label{\detokenize{textos/tema2::doc}}
 
 \section{Recursos compartidos por los hilos.}
 \label{\detokenize{textos/tema2:recursos-compartidos-por-los-hilos}}
@@ -916,6 +951,7 @@ Cuando creamos varios objetos de una clase, puede ocurrir que varios hilos de ej
 
 Supongamos una clase como esta:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nf}{Empleado}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
         \PYG{k+kt}{int} \PYG{n}{numHorasTrabajadas}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
@@ -925,7 +961,7 @@ Supongamos una clase como esta:
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
-Si varios hilos ejecutan sin querer el método \sphinxcode{incrementar} en teoría debería ocurrir que el número se incrementase tantas veces como procesos. Sin embargo, \sphinxstylestrong{es muy probable que eso no ocurra}
+Si varios hilos ejecutan sin querer el método \sphinxcode{\sphinxupquote{incrementar}} en teoría debería ocurrir que el número se incrementase tantas veces como procesos. Sin embargo, \sphinxstylestrong{es muy probable que eso no ocurra}
 
 
 \section{Estados de un hilo. Cambios de estado.}
@@ -947,6 +983,9 @@ Inanición. Ningún proceso consigue hacer ninguna tarea útil y por lo tanto ha
 \label{\detokenize{textos/tema2:elementos-relacionados-con-la-programacion-de-hilos-librerias-y-clases}}
 Para crear programas multihilo en Java se pueden hacer dos cosas:
 \begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
 \item {} 
 Heredar de la clase Thread.
 
@@ -957,6 +996,7 @@ Implementar la interfaz Runnable.
 
 Los documentos de Java aconsejan el segundo. Lo único que hay que hacer es algo como esto.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{class} \PYG{n+nc}{EjecutorTareaCompleja} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
         \PYG{k+kd}{private} \PYG{n}{String} \PYG{n}{nombre}\PYG{o}{;}
@@ -1007,18 +1047,19 @@ Este código tiene un problema \sphinxstylestrong{muy grave} y es que no se cont
 \label{\detokenize{textos/tema2:gestion-de-hilos}}
 Con los hilos se pueden efectuar diversas operaciones que sean de utilidad al programador (y al administrador de sistemas a veces).
 
-Por ejemplo, un hilo puede tener un nombre. Si queremos asignar un nombre a un hilo podemos usar el método \sphinxcode{setName("Nombre que sea")}. También podemos obtener un objeto que represente el hilo de ejecución con \sphinxcode{currentThread} que nos devolverá un objeto de la clase \sphinxcode{Thread}.
+Por ejemplo, un hilo puede tener un nombre. Si queremos asignar un nombre a un hilo podemos usar el método \sphinxcode{\sphinxupquote{setName("Nombre que sea")}}. También podemos obtener un objeto que represente el hilo de ejecución con \sphinxcode{\sphinxupquote{currentThread}} que nos devolverá un objeto de la clase \sphinxcode{\sphinxupquote{Thread}}.
 
-Otra operación de utilidad al gestionar hilos es indicar la prioridad que queremos darle a un hilo. En realidad esta prioridad es indicativa, el sistema operativo no está obligado a respetarla aunque por lo general lo hacen. Se puede indicar la prioridad con \sphinxcode{setPriority(10)}. La máxima prioridad posible es \sphinxcode{MAX\_PRIORITY}, y la mínima es \sphinxcode{MIN\_PRIORITY}.
+Otra operación de utilidad al gestionar hilos es indicar la prioridad que queremos darle a un hilo. En realidad esta prioridad es indicativa, el sistema operativo no está obligado a respetarla aunque por lo general lo hacen. Se puede indicar la prioridad con \sphinxcode{\sphinxupquote{setPriority(10)}}. La máxima prioridad posible es \sphinxcode{\sphinxupquote{MAX\_PRIORITY}}, y la mínima es \sphinxcode{\sphinxupquote{MIN\_PRIORITY}}.
 
-Cuando lanzamos una operación también podemos usar el método \sphinxcode{Thread.sleep(numero)} y poner nuestro hilo «a dormir».
+Cuando lanzamos una operación también podemos usar el método \sphinxcode{\sphinxupquote{Thread.sleep(numero)}} y poner nuestro hilo «a dormir».
 
 Cuando se trabaja con prioridades en hilos \sphinxstylestrong{no hay garantías de que un hilo termine cuando esperemos}.
 
-Podemos terminar un hilo de ejecución llamando al método \sphinxcode{join}. Este método devuelve el control al hilo principal que lanzó el hilo secundario con la posibilidad de elegir un tiempo de espera en milisegundos.
+Podemos terminar un hilo de ejecución llamando al método \sphinxcode{\sphinxupquote{join}}. Este método devuelve el control al hilo principal que lanzó el hilo secundario con la posibilidad de elegir un tiempo de espera en milisegundos.
 
 El siguiente programa ilustra el uso de estos métodos:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{class} \PYG{n+nc}{Calculador} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
         \PYG{n+nd}{@Override}
@@ -1070,8 +1111,9 @@ Ejercicio: crear un programa que lance 10 hilos de ejecución donde a cada hilo 
 
 Una posibilidad (quizá incorrecta) sería esta:
 
-Para implementar la clase \sphinxcode{CalculadorAreas}
+Para implementar la clase \sphinxcode{\sphinxupquote{CalculadorAreas}}
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{class} \PYG{n+nc}{CalculadorAreas} \PYG{k+kd}{implements} \PYG{n}{Runnable} \PYG{o}{\PYGZob{}}
 
@@ -1104,8 +1146,9 @@ Para implementar la clase \sphinxcode{CalculadorAreas}
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
-Para implementar la clase \sphinxcode{AreasEnParalelo} que lanza los hilos para hacer muchos cálculos de áreas en paralelo usaremos esto:
+Para implementar la clase \sphinxcode{\sphinxupquote{AreasEnParalelo}} que lanza los hilos para hacer muchos cálculos de áreas en paralelo usaremos esto:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{AreasEnParalelo} \PYG{o}{\PYGZob{}}
 
@@ -1126,6 +1169,7 @@ Para implementar la clase \sphinxcode{AreasEnParalelo} que lanza los hilos para 
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{package} \PYG{n+nn}{com.ies}\PYG{o}{;}
 
@@ -1172,13 +1216,14 @@ Las secciones siguientes sirven como resumen de como crear una aplicación multi
 \section{Creación, inicio y finalización.}
 \label{\detokenize{textos/tema2:creacion-inicio-y-finalizacion}}\begin{itemize}
 \item {} 
-Podemos heredar de Thread o implementar \sphinxcode{Runnable}. Usaremos el segundo recordando implementar el método \sphinxcode{public void run()}.
+Podemos heredar de Thread o implementar \sphinxcode{\sphinxupquote{Runnable}}. Usaremos el segundo recordando implementar el método \sphinxcode{\sphinxupquote{public void run()}}.
 
 \item {} 
 Para crear un hilo asociado a un objeto usaremos algo como:
 
 \end{itemize}
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{Thread} \PYG{n}{hilo}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{objetoDeClase}\PYG{o}{)}
 \end{sphinxVerbatim}
@@ -1190,32 +1235,33 @@ Cada objeto que tenga un hilo asociado debe iniciarse así:
 
 \end{itemize}
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{hilo}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
 \end{sphinxVerbatim}
 \begin{itemize}
 \item {} 
-Todo programa multihilo tiene un «hilo principal», el cual deberá esperar a que terminen los hilos asociados ejecutando el método \sphinxcode{join()}  .
+Todo programa multihilo tiene un «hilo principal», el cual deberá esperar a que terminen los hilos asociados ejecutando el método \sphinxcode{\sphinxupquote{join()}}  .
 
 \end{itemize}
 
 
 \section{Sincronización de hilos.}
 \label{\detokenize{textos/tema2:sincronizacion-de-hilos}}
-Cuando un método acceda a una variable miembro que esté compartida deberemos proteger dicha sección crítica, usando \sphinxcode{synchronized}. Se puede poner todo el método \sphinxcode{synchronized} o marcar un trozo de código más pequeño.
+Cuando un método acceda a una variable miembro que esté compartida deberemos proteger dicha sección crítica, usando \sphinxcode{\sphinxupquote{synchronized}}. Se puede poner todo el método \sphinxcode{\sphinxupquote{synchronized}} o marcar un trozo de código más pequeño.
 
 
 \section{Información entre hilos.}
 \label{\detokenize{textos/tema2:informacion-entre-hilos}}
 Todos los hilos comparten todo, así que obtener información es tan sencillo como consultar un miembro.
-En realidad podemos comunicar los hilos con otro mecanismo llamado \sphinxcode{sockets de red}, pero se ve en el tema siguiente.
+En realidad podemos comunicar los hilos con otro mecanismo llamado \sphinxcode{\sphinxupquote{sockets de red}}, pero se ve en el tema siguiente.
 
 
 \section{Prioridades de los hilos.}
 \label{\detokenize{textos/tema2:prioridades-de-los-hilos}}
-Podemos asignar distintas prioridades a los hilos usando los campos estáticos \sphinxcode{MAX\_PRIORITY} y \sphinxcode{MIN\_PRIORITY}. Usando valores entre estas dos constantes podemos hacer que un hilo reciba más procesador que otro (se hace en contadas ocasiones).
+Podemos asignar distintas prioridades a los hilos usando los campos estáticos \sphinxcode{\sphinxupquote{MAX\_PRIORITY}} y \sphinxcode{\sphinxupquote{MIN\_PRIORITY}}. Usando valores entre estas dos constantes podemos hacer que un hilo reciba más procesador que otro (se hace en contadas ocasiones).
 
-Para ello se usa el método \sphinxcode{setPriority(valor)}
+Para ello se usa el método \sphinxcode{\sphinxupquote{setPriority(valor)}}
 
 
 \section{Gestión de prioridades.}
@@ -1227,6 +1273,7 @@ En realidad un sistema operativo no está obligado a respetar las prioridades, s
 \label{\detokenize{textos/tema2:programacion-de-aplicaciones-multihilo}}
 La estructura típica de un programa multihilo es esta:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{class} \PYG{n+nc}{TareaCompleja} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
         \PYG{n+nd}{@Override}
@@ -1274,6 +1321,7 @@ La estructura típica de un programa multihilo es esta:
 
 Supongamos que la tarea es más compleja y que el bucle se ejecuta un número al azar de veces. Esto significaría que nuestro bucle es algo como esto:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{Random} \PYG{n}{generador}\PYG{o}{=} \PYG{k}{new} \PYG{n}{Random}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
 \PYG{k+kt}{int} \PYG{n}{numAzar}\PYG{o}{=}\PYG{o}{(}\PYG{l+m+mi}{1}\PYG{o}{+}\PYG{n}{generador}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{5}\PYG{o}{)}\PYG{o}{)}\PYG{o}{*}\PYG{l+m+mi}{100}\PYG{o}{;}
@@ -1286,6 +1334,7 @@ Supongamos que la tarea es más compleja y que el bucle se ejecuta un número al
 
 Aquí entra el problema de la sincronización. Supongamos una clase contador muy simple como esta:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{class} \PYG{n+nc}{Contador}\PYG{o}{\PYGZob{}}
         \PYG{k+kt}{int} \PYG{n}{cuenta}\PYG{o}{;}
@@ -1305,6 +1354,7 @@ De esta forma podríamos construir un objeto contador y pasárselo a todos los h
 
 Esta clase debería tener protegidas sus secciones críticas
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{class} \PYG{n+nc}{Contador}\PYG{o}{\PYGZob{}}
         \PYG{k+kt}{int} \PYG{n}{cuenta}\PYG{o}{;}
@@ -1322,6 +1372,7 @@ Esta clase debería tener protegidas sus secciones críticas
 
 Se puede aprovechar todavía más rendimiento si en un método marcamos como sección crítica (o sincronizada) exclusivamente el código peligroso:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public}  \PYG{k+kt}{void} \PYG{n+nf}{incrementar}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
         \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Otras cosas\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
@@ -1338,8 +1389,8 @@ Se puede aprovechar todavía más rendimiento si en un método marcamos como sec
 \end{sphinxVerbatim}
 
 
-\section{Problema}
-\label{\detokenize{textos/tema2:problema}}
+\section{Problema: filósofos}
+\label{\detokenize{textos/tema2:problema-filosofos}}
 En una mesa hay procesos que simulan el comportamiento de unos filósofos que intentan comer de un plato. Cada filósofo tiene un cubierto a su izquierda y uno a su derecha y para poder comer tiene que conseguir los dos. Si lo consigue, mostrará un mensaje en pantalla que indique «Filosofo 2 comiendo».
 
 Despues de comer, soltará los cubiertos y esperará al azar un tiempo entre 1000 y 5000 milisegundos, indicando por pantalla «El filósofo 2 está pensando».
@@ -1353,11 +1404,12 @@ Simular este problema en un programa Java que muestre el progreso de todos sin c
 \capstart
 
 \noindent\sphinxincludegraphics{{Filosofos}.png}
-\caption{Esquema de los filósofos}\label{\detokenize{textos/tema2:id3}}\end{figure}
+\caption{Esquema de los filósofos}\label{\detokenize{textos/tema2:id2}}\end{figure}
 
 
 \subsection{Boceto de solución}
 \label{\detokenize{textos/tema2:boceto-de-solucion}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{import} \PYG{n+nn}{java.util.Random}\PYG{o}{;}
 
@@ -1398,36 +1450,37 @@ Simular este problema en un programa Java que muestre el progreso de todos sin c
 
 \subsection{Gestor de recursos compartidos (palillos)}
 \label{\detokenize{textos/tema2:gestor-de-recursos-compartidos-palillos}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package} \PYG{n+nn}{com.iesmaestre.filosofos}\PYG{o}{;}
+
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{GestorPalillos} \PYG{o}{\PYGZob{}}
-        \PYG{c+cm}{/* False significa que no están cogidos*/}
-        \PYG{k+kd}{private} \PYG{k+kt}{boolean}\PYG{o}{[}\PYG{o}{]} \PYG{n}{palillos}\PYG{o}{;}
-        \PYG{k+kd}{public} \PYG{n+nf}{GestorPalillos}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{num\PYGZus{}filosofos}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{n}{palillos}\PYG{o}{=}\PYG{k}{new} \PYG{k+kt}{boolean}\PYG{o}{[}\PYG{n}{num\PYGZus{}filosofos}\PYG{o}{]}\PYG{o}{;}
-                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}\PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{palillos}\PYG{o}{.}\PYG{n+na}{length}\PYG{o}{;}\PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{n}{palillos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
-                \PYG{o}{\PYGZcb{}}
-        \PYG{o}{\PYGZcb{}}
+        \PYG{k+kt}{boolean} \PYG{n}{palilloLibre}\PYG{o}{[}\PYG{o}{]}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{n+nf}{GestorPalillos}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{numPalillos}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{palilloLibre}\PYG{o}{=}\PYG{k}{new}  \PYG{k+kt}{boolean}\PYG{o}{[}\PYG{n}{numPalillos}\PYG{o}{]}\PYG{o}{;}
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{numPalillos}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del for}
+        \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del constructor}
         \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{boolean}
-                \PYG{n+nf}{sePuedenCogerAmbosPalillos}\PYG{o}{(}
-                        \PYG{k+kt}{int} \PYG{n}{num1}\PYG{o}{,}\PYG{k+kt}{int} \PYG{n}{num2}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{k}{if} \PYG{o}{(} \PYG{o}{(}\PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num1}\PYG{o}{]}\PYG{o}{=}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{)} \PYG{o}{\PYGZam{}}\PYG{o}{\PYGZam{}}
-                        \PYG{o}{(}\PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num2}\PYG{o}{]}\PYG{o}{=}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{)} \PYG{o}{)} \PYG{o}{\PYGZob{}}
-                        \PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num1}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
-                        \PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num2}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
-                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
-                                \PYG{l+s}{\PYGZdq{}Alguien consiguio los palillos \PYGZdq{}}
-                                \PYG{o}{+}\PYG{n}{num1}\PYG{o}{+}\PYG{l+s}{\PYGZdq{} y \PYGZdq{}}\PYG{o}{+}\PYG{n}{num2}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{k}{return} \PYG{k+kc}{true}\PYG{o}{;}
-                \PYG{o}{\PYGZcb{}}
-                \PYG{k}{return} \PYG{k+kc}{false}\PYG{o}{;}
+                \PYG{n+nf}{intentarCogerPalillos}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{pos1}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{pos2}\PYG{o}{)}
+        \PYG{o}{\PYGZob{}}
+                \PYG{k+kt}{boolean} \PYG{n}{seConsigue}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
+                \PYG{k}{if} \PYG{o}{(}
+                                \PYG{o}{(}\PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{pos1}\PYG{o}{]}\PYG{o}{)}
+                                \PYG{o}{\PYGZam{}}\PYG{o}{\PYGZam{}}
+                                \PYG{o}{(}\PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{pos2}\PYG{o}{]}\PYG{o}{)} \PYG{o}{)}
+                \PYG{o}{\PYGZob{}}
+                        \PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{pos1}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
+                        \PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{pos2}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
+                        \PYG{n}{seConsigue}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del if}
+                \PYG{k}{return} \PYG{n}{seConsigue}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{void} \PYG{n+nf}{soltarPalillos}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{num1}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{num2}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num1}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
-                \PYG{n}{palillos}\PYG{o}{[}\PYG{n}{num2}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
-                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
-                        \PYG{l+s}{\PYGZdq{}Alguien liberó los palillos \PYGZdq{}}\PYG{o}{+}
-                        \PYG{n}{num1}\PYG{o}{+}\PYG{l+s}{\PYGZdq{} y \PYGZdq{}}\PYG{o}{+}\PYG{n}{num2}\PYG{o}{)}\PYG{o}{;}
+
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{liberarPalillos}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{pos1}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{pos2}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{pos1}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
+                \PYG{n}{palilloLibre}\PYG{o}{[}\PYG{n}{pos2}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
@@ -1435,56 +1488,56 @@ Simular este problema en un programa Java que muestre el progreso de todos sin c
 
 \subsection{Simulación de un filósofo}
 \label{\detokenize{textos/tema2:simulacion-de-un-filosofo}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package} \PYG{n+nn}{com.iesmaestre.filosofos}\PYG{o}{;}
+
 \PYG{k+kn}{import} \PYG{n+nn}{java.util.Random}\PYG{o}{;}
-\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Filosofo}  \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
-        \PYG{k+kt}{int} \PYG{n}{num\PYGZus{}palillo\PYGZus{}izq}\PYG{o}{;}
-        \PYG{k+kt}{int} \PYG{n}{num\PYGZus{}palillo\PYGZus{}der}\PYG{o}{;}
+
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Filosofo} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
         \PYG{n}{GestorPalillos} \PYG{n}{gestorPalillos}\PYG{o}{;}
-        \PYG{k+kd}{public} \PYG{n+nf}{Filosofo}\PYG{o}{(}\PYG{n}{GestorPalillos} \PYG{n}{gp}\PYG{o}{,}
-                        \PYG{k+kt}{int} \PYG{n}{p\PYGZus{}izq}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{p\PYGZus{}der}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gestorPalillos}\PYG{o}{=}\PYG{n}{gp}\PYG{o}{;}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{num\PYGZus{}palillo\PYGZus{}der}\PYG{o}{=}\PYG{n}{p\PYGZus{}der}\PYG{o}{;}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{num\PYGZus{}palillo\PYGZus{}izq}\PYG{o}{=}\PYG{n}{p\PYGZus{}izq}\PYG{o}{;}
+        \PYG{k+kt}{int} \PYG{n}{posPalilloIzq}\PYG{o}{,}\PYG{n}{posPalilloDer}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{n+nf}{Filosofo}\PYG{o}{(}\PYG{n}{GestorPalillos} \PYG{n}{g}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{pIzq}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{pDer}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gestorPalillos}\PYG{o}{=}\PYG{n}{g}\PYG{o}{;}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{posPalilloDer}\PYG{o}{=}\PYG{n}{pDer}\PYG{o}{;}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{posPalilloIzq}\PYG{o}{=}\PYG{n}{pIzq}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{run}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{n}{String} \PYG{n}{miNombre}\PYG{o}{=}\PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{currentThread}\PYG{o}{(}\PYG{o}{)}\PYG{o}{.}\PYG{n+na}{getName}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                \PYG{n}{Random} \PYG{n}{generador}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Random}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{run}\PYG{o}{(}\PYG{o}{)} \PYG{o}{\PYGZob{}}
                 \PYG{k}{while} \PYG{o}{(}\PYG{k+kc}{true}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{c+cm}{/* Comer*/}
-                        \PYG{c+cm}{/* Intentar coger palillos*/}
-                        \PYG{k}{while}\PYG{o}{(}\PYG{o}{!}\PYG{n}{gestorPalillos}\PYG{o}{.}\PYG{n+na}{sePuedenCogerAmbosPalillos}
-                                \PYG{o}{(}
-                                                \PYG{n}{num\PYGZus{}palillo\PYGZus{}izq}\PYG{o}{,}
-                                                \PYG{n}{num\PYGZus{}palillo\PYGZus{}der}
-                                \PYG{o}{)}\PYG{o}{)}
-                        \PYG{o}{\PYGZob{}}
+                        \PYG{k+kt}{boolean} \PYG{n}{palillosCogidos}\PYG{o}{;}
+                        \PYG{n}{palillosCogidos}\PYG{o}{=}
+                          \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gestorPalillos}\PYG{o}{.}\PYG{n+na}{intentarCogerPalillos}\PYG{o}{(}
+                                          \PYG{n}{posPalilloIzq}\PYG{o}{,} \PYG{n}{posPalilloDer}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{k}{if} \PYG{o}{(}\PYG{n}{palillosCogidos}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                                \PYG{n}{comer}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gestorPalillos}\PYG{o}{.}\PYG{n+na}{liberarPalillos}\PYG{o}{(}
+                                                \PYG{n}{posPalilloIzq}\PYG{o}{,}
+                                                \PYG{n}{posPalilloDer}\PYG{o}{)}\PYG{o}{;}
+                                \PYG{n}{dormir}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del if}
+                \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del while true}
+        \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del run()}
 
-                        \PYG{o}{\PYGZcb{}}
-                        \PYG{c+cm}{/* Si los coge:*/}
-
-                        \PYG{k+kt}{int} \PYG{n}{milisegs}\PYG{o}{=}\PYG{o}{(}\PYG{l+m+mi}{1}\PYG{o}{+}\PYG{n}{generador}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{5}\PYG{o}{)}\PYG{o}{)}\PYG{o}{*}\PYG{l+m+mi}{1000}\PYG{o}{;}
-                        \PYG{n}{esperarTiempoAzar}\PYG{o}{(}\PYG{n}{miNombre}\PYG{o}{,} \PYG{n}{milisegs}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{c+cm}{/* Pensando...*/}
-                        \PYG{c+c1}{//Recordemos soltar los palillos}
-                        \PYG{n}{gestorPalillos}\PYG{o}{.}\PYG{n+na}{soltarPalillos}\PYG{o}{(}
-                                \PYG{n}{num\PYGZus{}palillo\PYGZus{}izq}\PYG{o}{,}
-                                \PYG{n}{num\PYGZus{}palillo\PYGZus{}der}\PYG{o}{)}\PYG{o}{;}
-
-                        \PYG{n}{milisegs}\PYG{o}{=}\PYG{o}{(}\PYG{l+m+mi}{1}\PYG{o}{+}\PYG{n}{generador}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{5}\PYG{o}{)}\PYG{o}{)}\PYG{o}{*}\PYG{l+m+mi}{1000}\PYG{o}{;}
-                        \PYG{n}{esperarTiempoAzar}\PYG{o}{(}\PYG{n}{miNombre}\PYG{o}{,} \PYG{n}{milisegs}\PYG{o}{)}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{k+kt}{void} \PYG{n+nf}{comer}\PYG{o}{(}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Filosofo \PYGZdq{}}\PYG{o}{+}
+                                \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{currentThread}\PYG{o}{(}\PYG{o}{)}\PYG{o}{.}\PYG{n+na}{getName}\PYG{o}{(}\PYG{o}{)}\PYG{o}{+}
+                                \PYG{l+s}{\PYGZdq{} comiendo\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
+                \PYG{n}{esperarTiempoAzar}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{private} \PYG{k+kt}{void} \PYG{n+nf}{esperarTiempoAzar}\PYG{o}{(}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+                \PYG{n}{Random} \PYG{n}{generador}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Random}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{k+kt}{int} \PYG{n}{msAzar}\PYG{o}{=}\PYG{n}{generador}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{3}\PYG{o}{)}\PYG{o}{;}
+                \PYG{k}{try} \PYG{o}{\PYGZob{}}
+                        \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{sleep}\PYG{o}{(}\PYG{n}{msAzar}\PYG{o}{)}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{ex}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Fallo la espera\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
                 \PYG{o}{\PYGZcb{}}
         \PYG{o}{\PYGZcb{}}
-
-\PYG{k+kd}{private} \PYG{k+kt}{void} \PYG{n+nf}{esperarTiempoAzar}\PYG{o}{(}\PYG{n}{String} \PYG{n}{miNombre}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{milisegs}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-                \PYG{k}{try} \PYG{o}{\PYGZob{}}
-                        \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{sleep}\PYG{o}{(}\PYG{n}{milisegs}\PYG{o}{)}\PYG{o}{;}
-                \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{e}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
-                                \PYG{n}{miNombre}\PYG{o}{+}
-                                \PYG{l+s}{\PYGZdq{} interrumpido!!. Saliendo...\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{k}{return} \PYG{o}{;}
-                \PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{private} \PYG{k+kt}{void} \PYG{n+nf}{dormir}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Filosofo \PYGZdq{}}\PYG{o}{+}
+                                \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{currentThread}\PYG{o}{(}\PYG{o}{)}\PYG{o}{.}\PYG{n+na}{getName}\PYG{o}{(}\PYG{o}{)}\PYG{o}{+}
+                                \PYG{l+s}{\PYGZdq{} durmiendo (zzzzzz)\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
+                \PYG{n}{esperarTiempoAzar}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
@@ -1492,41 +1545,28 @@ Simular este problema en un programa Java que muestre el progreso de todos sin c
 
 \subsection{Lanzador de hilos}
 \label{\detokenize{textos/tema2:lanzador-de-hilos}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{LanzadorFilosofos} \PYG{o}{\PYGZob{}}
+\PYG{k+kn}{package} \PYG{n+nn}{com.iesmaestre.filosofos}\PYG{o}{;}
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Lanzador} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{args}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-                \PYG{k+kt}{int} \PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{o}{;}
-                \PYG{n}{Filosofo}\PYG{o}{[}\PYG{o}{]} \PYG{n}{filosofos}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Filosofo}\PYG{o}{[}\PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{]}\PYG{o}{;}
-                \PYG{n}{Thread}\PYG{o}{[}\PYG{o}{]} \PYG{n}{hilosAsociados}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{[}\PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{]}\PYG{o}{;}
-                \PYG{n}{GestorPalillos} \PYG{n}{gestorCompartido}\PYG{o}{=}
-                                \PYG{k}{new} \PYG{n}{GestorPalillos}\PYG{o}{(}\PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{)}\PYG{o}{;}
-                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{k}{if} \PYG{o}{(}\PYG{n}{i}\PYG{o}{=}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                                \PYG{n}{filosofos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}
-                                \PYG{k}{new} \PYG{n}{Filosofo}\PYG{o}{(}
-                                                \PYG{n}{gestorCompartido}\PYG{o}{,}
-                                                \PYG{n}{i}\PYG{o}{,}\PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}}
-                        \PYG{k}{else} \PYG{o}{\PYGZob{}}
-                                \PYG{n}{filosofos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Filosofo}\PYG{o}{(}
-                                                \PYG{n}{gestorCompartido}\PYG{o}{,} \PYG{n}{i}\PYG{o}{,} \PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}}
-                        \PYG{n}{Thread} \PYG{n}{hilo}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{filosofos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{n}{hilo}\PYG{o}{.}\PYG{n+na}{setName}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Filosofo \PYGZdq{}}\PYG{o}{+}\PYG{n}{i}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{n}{hilosAsociados}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{n}{hilo}\PYG{o}{;}
-                        \PYG{n}{hilo}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{k+kt}{int} \PYG{n}{NUM\PYGZus{}PROCESOS}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{o}{;}
+                \PYG{n}{Filosofo} \PYG{n}{filosofos}\PYG{o}{[}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Filosofo}\PYG{o}{[}\PYG{n}{NUM\PYGZus{}PROCESOS}\PYG{o}{]}\PYG{o}{;}
+                \PYG{n}{GestorPalillos} \PYG{n}{gestorPalillos}\PYG{o}{;}
+                \PYG{n}{gestorPalillos}\PYG{o}{=}\PYG{k}{new} \PYG{n}{GestorPalillos}\PYG{o}{(}\PYG{n}{NUM\PYGZus{}PROCESOS}\PYG{o}{)}\PYG{o}{;}
+                \PYG{n}{Thread} \PYG{n}{hilos}\PYG{o}{[}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{[}\PYG{n}{NUM\PYGZus{}PROCESOS}\PYG{o}{]}\PYG{o}{;}
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{NUM\PYGZus{}PROCESOS}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{filosofos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Filosofo}\PYG{o}{(}
+                                \PYG{n}{gestorPalillos}\PYG{o}{,} \PYG{n}{i}\PYG{o}{,} \PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{n}{hilos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{filosofos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{n}{hilos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
                 \PYG{o}{\PYGZcb{}}
-                \PYG{c+cm}{/* Un poco inútil*/}
-                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}FILOSOFOS}\PYG{o}{;}\PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{k}{try} \PYG{o}{\PYGZob{}}
-                                \PYG{n}{hilosAsociados}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{join}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{e}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-                                \PYG{c+c1}{// TODO Auto\PYGZhy{}generated catch block}
-                                \PYG{n}{e}\PYG{o}{.}\PYG{n+na}{printStackTrace}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}}
-                \PYG{o}{\PYGZcb{}}
-        \PYG{o}{\PYGZcb{}}
-\PYG{o}{\PYGZcb{}}
+                \PYG{n}{filosofos}\PYG{o}{[}\PYG{l+m+mi}{0}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Filosofo}\PYG{o}{(}
+                                \PYG{n}{gestorPalillos}\PYG{o}{,} \PYG{l+m+mi}{0}\PYG{o}{,} \PYG{l+m+mi}{4}\PYG{o}{)}\PYG{o}{;}
+                \PYG{n}{hilos}\PYG{o}{[}\PYG{l+m+mi}{0}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{filosofos}\PYG{o}{[}\PYG{l+m+mi}{0}\PYG{o}{]}\PYG{o}{)}\PYG{o}{;}
+                \PYG{n}{hilos}\PYG{o}{[}\PYG{l+m+mi}{0}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del main}
+\PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin de la clase}
 \end{sphinxVerbatim}
 
 
@@ -1552,16 +1592,27 @@ Si sale el 0, todo el mundo pierde y la banca se queda con todo el dinero.
 \end{itemize}
 
 
-\section{Problema}
-\label{\detokenize{textos/tema2:id1}}
-En una peluquería hay barberos y sillas para los clientes (siempre hay más sillas que clientes). Sin embargo, en esta peluquería no siempre hay trabajo por lo que los barberos duermen cuando no hay clientes a los que afeitar. Un cliente puede llegar a la barbería y encontrar alguna silla libre, en cuyo caso, el cliente se sienta y esperará que algún barbero le afeite. Puede ocurrir que el cliente llegue y no haya sillas libres, en cuyo caso se marcha. Simular el comportamiento de la barbería mediante un programa Java.
+\section{Problema: barberos}
+\label{\detokenize{textos/tema2:problema-barberos}}
+En una peluquería hay barberos y sillas para los clientes (siempre hay más sillas que clientes). Sin embargo, en esta peluquería no siempre hay trabajo por lo que los barberos duermen cuando no hay clientes a los que afeitar. Un cliente puede llegar a la barbería y encontrar alguna silla libre, en cuyo caso, el cliente se sienta y esperará que algún barbero le afeite. Puede ocurrir que el cliente llegue y no haya sillas libres, en cuyo caso se marcha. Simular el comportamiento de la barbería mediante un programa Java teniendo en cuenta que:
+\begin{itemize}
+\item {} 
+Se generan clientes continuamente, algunos encuentran silla y otros no. Los que no consigan silla desaparecen (terminan su ejecución)
+
+\item {} 
+Puede haber más sillas que barberos y al revés (poner constantes para poder cambiar fácilmente entre ejecuciones).
+
+\item {} 
+Se recuerda que no debe haber inanición, es decir ningún cliente debería quedarse en una silla esperando un tiempo infinito.
+
+\end{itemize}
 
 \begin{figure}[htbp]
 \centering
 \capstart
 
 \noindent\sphinxincludegraphics{{barberodormilon}.png}
-\caption{Los  barberos dormilones}\label{\detokenize{textos/tema2:id4}}\end{figure}
+\caption{Los  barberos dormilones}\label{\detokenize{textos/tema2:id3}}\end{figure}
 
 
 \section{Una (mala) solución al problema de los barberos}
@@ -1571,15 +1622,16 @@ Prueba la siguiente solución:
 
 \subsection{Clase Barbero}
 \label{\detokenize{textos/tema2:clase-barbero}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Barbero} \PYG{k+kd}{implements} \PYG{n}{Runnable} \PYG{o}{\PYGZob{}}
-        \PYG{k+kd}{private} \PYG{n}{String}                          \PYG{n}{nombre}\PYG{o}{;}
-        \PYG{k+kd}{private} \PYG{n}{GestorConcurrencia}      \PYG{n}{gc}\PYG{o}{;}
-        \PYG{k+kd}{private} \PYG{n}{Random}                          \PYG{n}{generador}\PYG{o}{;}
-        \PYG{k+kd}{private} \PYG{k+kt}{int}                                     \PYG{n}{MAX\PYGZus{}ESPERA\PYGZus{}SEGS}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{n}{String}              \PYG{n}{nombre}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{n}{GestorConcurrencia}  \PYG{n}{gc}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{n}{Random}              \PYG{n}{generador}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{k+kt}{int}                 \PYG{n}{MAX\PYGZus{}ESPERA\PYGZus{}SEGS}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{o}{;}
         \PYG{k+kd}{public} \PYG{n+nf}{Barbero}\PYG{o}{(}\PYG{n}{GestorConcurrencia} \PYG{n}{gc}\PYG{o}{,}\PYG{n}{String} \PYG{n}{nombre}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{nombre}             \PYG{o}{=}\PYG{n}{nombre}\PYG{o}{;}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gc}                 \PYG{o}{=}\PYG{n}{gc}\PYG{o}{;}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{nombre}     \PYG{o}{=}\PYG{n}{nombre}\PYG{o}{;}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gc}         \PYG{o}{=}\PYG{n}{gc}\PYG{o}{;}
                 \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{generador}  \PYG{o}{=}\PYG{k}{new} \PYG{n}{Random}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
 
@@ -1620,6 +1672,7 @@ Prueba la siguiente solución:
 
 \subsection{Clase Cliente}
 \label{\detokenize{textos/tema2:clase-cliente}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Cliente} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
         \PYG{n}{GestorConcurrencia}      \PYG{n}{gc}\PYG{o}{;}
@@ -1639,6 +1692,7 @@ Prueba la siguiente solución:
 
 \subsection{Clase GestorConcurrencia}
 \label{\detokenize{textos/tema2:clase-gestorconcurrencia}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{GestorConcurrencia} \PYG{o}{\PYGZob{}}
         \PYG{c+cm}{/* Vector que indica cuantas sillas hay y}
@@ -1723,6 +1777,7 @@ Prueba la siguiente solución:
 
 \subsection{Clase Lanzador}
 \label{\detokenize{textos/tema2:clase-lanzador}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Lanzador} \PYG{o}{\PYGZob{}}
 
@@ -1769,11 +1824,12 @@ Prueba la siguiente solución:
 \label{\detokenize{textos/tema2:criticas-a-la-solucion-anterior}}
 ¿Cual es el problema?
 
-El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final \sphinxstylestrong{nunca son atendidos}. Hay que corregir esa asignación para \sphinxstyleemphasis{evitar que los procesos sufrán de inanición}.
+El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final \sphinxstylestrong{nunca son atendidos}. Hay que corregir esa asignación para \sphinxstyleemphasis{evitar que los procesos sufran de inanición}.
 
 
 \subsection{Método corregido}
 \label{\detokenize{textos/tema2:metodo-corregido}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{int} \PYG{n+nf}{atenderAlgunCliente}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
         \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{pasos}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
@@ -1824,6 +1880,7 @@ Crear un programa que simule el comportamiento de estos procesos evitando proble
 
 \subsection{Una cola limitada en tamaño}
 \label{\detokenize{textos/tema2:una-cola-limitada-en-tamano}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{ColaLimitada} \PYG{o}{\PYGZob{}}
         \PYG{k+kt}{int}\PYG{o}{[}\PYG{o}{]} \PYG{n}{cola}\PYG{o}{;}
@@ -1873,6 +1930,7 @@ Crear un programa que simule el comportamiento de estos procesos evitando proble
 
 \subsection{Un gestor de concurrencia para la cola}
 \label{\detokenize{textos/tema2:un-gestor-de-concurrencia-para-la-cola}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{GestorColasConcurrentes} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{private} \PYG{n}{ColaLimitada} \PYG{n}{colaProtegida}\PYG{o}{;}
@@ -1892,6 +1950,7 @@ Crear un programa que simule el comportamiento de estos procesos evitando proble
 
 \subsection{La clase Productor}
 \label{\detokenize{textos/tema2:la-clase-productor}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Productor} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
         \PYG{k+kd}{private} \PYG{n}{Random}                                                  \PYG{n}{generadorAzar}\PYG{o}{;}
@@ -1921,6 +1980,7 @@ Crear un programa que simule el comportamiento de estos procesos evitando proble
 
 \subsection{La clase Consumidor}
 \label{\detokenize{textos/tema2:la-clase-consumidor}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Consumidor} \PYG{k+kd}{implements} \PYG{n}{Runnable} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{private} \PYG{n}{Random}                                                  \PYG{n}{generadorAzar}\PYG{o}{;}
@@ -1950,6 +2010,7 @@ Crear un programa que simule el comportamiento de estos procesos evitando proble
 
 \subsection{Un lanzador}
 \label{\detokenize{textos/tema2:un-lanzador}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Lanzador} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{test}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
@@ -2033,6 +2094,9 @@ Por la puerta solo cabe una persona, pero la paciencia de los clientes es limita
 
 Cuando se consigue entrar por la puerta el cliente puede encontrarse con dos situaciones:
 \begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
 \item {} 
 Quedan productos: el cliente cogerá uno y se marchará.
 
@@ -2047,7 +2111,8 @@ Una posible solución sería la siguiente:
 
 
 \subsection{Clase cliente}
-\label{\detokenize{textos/tema2:id2}}
+\label{\detokenize{textos/tema2:id1}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{package} \PYG{n+nn}{grandesalmacenes}\PYG{o}{;}
 
@@ -2110,6 +2175,7 @@ Una posible solución sería la siguiente:
 
 \subsection{Clase Almacén}
 \label{\detokenize{textos/tema2:clase-almacen}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{package} \PYG{n+nn}{grandesalmacenes}\PYG{o}{;}
 
@@ -2131,6 +2197,7 @@ Una posible solución sería la siguiente:
 
 \subsection{Clase Puerta}
 \label{\detokenize{textos/tema2:clase-puerta}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{package} \PYG{n+nn}{grandesalmacenes}\PYG{o}{;}
 
@@ -2166,6 +2233,7 @@ Una posible solución sería la siguiente:
 
 \subsection{Clase lanzadora (GrandesAlmacenes)}
 \label{\detokenize{textos/tema2:clase-lanzadora-grandesalmacenes}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{package} \PYG{n+nn}{grandesalmacenes}\PYG{o}{;}
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{GrandesAlmacenes} \PYG{o}{\PYGZob{}}
@@ -2231,6 +2299,7 @@ Se desea comprobar que tras la ejecución la cuenta tiene exactamente 100 euros,
 
 En primer lugar la clase Cuenta podría ser así:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Cuenta} \PYG{o}{\PYGZob{}}
 
@@ -2256,6 +2325,7 @@ En primer lugar la clase Cuenta podría ser así:
 
 La clase HiloCliente podría ser así:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{HiloCliente} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
     \PYG{n}{Cuenta} \PYG{n}{cuenta}\PYG{o}{;}
@@ -2282,6 +2352,7 @@ La clase HiloCliente podría ser así:
 
 La clase Lanzador podría ser así:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Lanzador} \PYG{o}{\PYGZob{}}
     \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{args}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{InterruptedException}\PYG{o}{\PYGZob{}}
@@ -2368,7 +2439,7 @@ La clase Lanzador podría ser así:
 La estructura general de toda aplicación multihilo es algo similar a lo siguiente:
 \begin{itemize}
 \item {} 
-Habrá tareas que se puedan paralelizar. Dichas tareas heredarán de \sphinxcode{Runnable}.
+Habrá tareas que se puedan paralelizar. Dichas tareas heredarán de \sphinxcode{\sphinxupquote{Runnable}}.
 
 \item {} 
 Habrá procesos que pueden ser accedidos por muchos hilos. Estos objetos \sphinxstylestrong{deberán usar synchronized}
@@ -2381,6 +2452,44 @@ Habrá que crear los recursos compartidos y crear los hilos. Esta operación se 
 
 \section{Depuración.}
 \label{\detokenize{textos/tema2:depuracion}}
+La depuración de programas multihilo debe hacerse exclusivamente trabajando con pruebas de unidad y las comprobaciones de tipos de Java.
+\begin{itemize}
+\item {} 
+Por un lado, los depuradores solo funcionan vinculándose con el hilo principal («main») de la aplicación, por lo que si se desea depurar un hilo concreto se tendrá que averiguar el identificador de dicho hilo para poder conectar con él desde el depurador.
+
+\item {} 
+Los depuradores «interfieren» con la ejecución de los hilos así que pueden pasar cosas tan curiosas como que un programa \sphinxstyleemphasis{funcione cuando usamos el depurador pero vuelva a fallar al ejecutarlo solo}.
+
+\item {} 
+Los mensajes de traza pueden aparecer antes o despues de lo esperado, así que en realidad no sabemos cuando se escribió un mensaje en pantalla ni qué operaciones se efectuaron antes o despues.
+
+\end{itemize}
+
+
+\section{Ejercicio: empleado «Thread safe»}
+\label{\detokenize{textos/tema2:ejercicio-empleado-thread-safe}}
+Se dice que un método o clase es «Thread safe» (a prueba de hilos) cuando se ha programado con cuidado para que cualquier persona que lo utilice pueda hacerlo desde múltiples hilos de ejecución sin miedo a que se produzcan resultados indeseados. Evidentemente, la programación de código «Thread-safe» involucra muchísimo más cuidado de lo habitual. En el enunciado siguiente se pide desarrollar una clase que claramente debe ser «Thread safe».
+
+Crear una clase multihilo llamada Empleado que permita cambiar la cantidad de horas trabajadas por parte del empleado y su sueldo permitiendo que haya muchos hilos a la vez que puedan cambiar ambos valores pero de manera que la ejecución dé siempre resultados coherentes.
+
+En concreto, se desea tener un método \sphinxcode{\sphinxupquote{incrementarHoras(int numHoras)}} que acepte números positivos y negativos y que permita actualizar el número de horas trabajadas. También se desea un método \sphinxcode{\sphinxupquote{incrementarBonus (int bonus)}} que acepte positivos y negativos y que permita incrementar el bonus salarial del trabajador.
+
+Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a \sphinxcode{\sphinxupquote{incrementarHoras(2)}} la ejecución de estos hilos debería reflejar que el empleado ha trabajado 400 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método \sphinxcode{\sphinxupquote{incrementarBonus(10)}} el bonus salarial del empleado debería ser de 1000 euros.
+
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Empleado} \PYG{o}{\PYGZob{}}
+        \PYG{k+kt}{int} \PYG{n}{bonus}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
+        \PYG{k+kt}{int} \PYG{n}{horasTrabajadas}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{void} \PYG{n+nf}{incrementarHoras}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{numHoras}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{horasTrabajadas}\PYG{o}{+}\PYG{o}{=}\PYG{n}{numHoras}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{void} \PYG{n+nf}{incrementarBonus}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{bonusSalarial}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{bonus}\PYG{o}{+}\PYG{o}{=}\PYG{n}{bonusSalarial}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
 
 \chapter{Programación de comunicaciones en red}
 \label{\detokenize{textos/tema3:programacion-de-comunicaciones-en-red}}\label{\detokenize{textos/tema3::doc}}
@@ -2390,7 +2499,7 @@ Habrá que crear los recursos compartidos y crear los hilos. Esta operación se 
 En Java toda la comunicación vista en primer curso de DAM consiste en dos cosas
 \begin{itemize}
 \item {} 
-Entrada/salida por consola: con las clases \sphinxcode{System.in} o \sphinxcode{System.out}.
+Entrada/salida por consola: con las clases \sphinxcode{\sphinxupquote{System.in}} o \sphinxcode{\sphinxupquote{System.out}}.
 
 \item {} 
 Lectura/escritura en ficheros: con las clases File y similares.
@@ -2416,6 +2525,7 @@ Un factor fundamental en los servidores es que tienen que ser capaces de procesa
 
 Su arquitectura típica es la siguiente:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k}{while} \PYG{o}{(}\PYG{k+kc}{true}\PYG{o}{)}\PYG{o}{\PYGZob{}}
         \PYG{n}{peticion}\PYG{o}{=}\PYG{n}{esperarPeticion}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
@@ -2430,7 +2540,7 @@ Su arquitectura típica es la siguiente:
 
 \subsection{InputStreams y OutputStreams}
 \label{\detokenize{textos/tema3:inputstreams-y-outputstreams}}
-Manejan bytes a secas. Por ejemplo, si queremos leer un fichero byte a byte usaremos \sphinxcode{FileInputStream} y si queremos escribir usaremos \sphinxcode{FileOutputStream}.
+Manejan bytes a secas. Por ejemplo, si queremos leer un fichero byte a byte usaremos \sphinxcode{\sphinxupquote{FileInputStream}} y si queremos escribir usaremos \sphinxcode{\sphinxupquote{FileOutputStream}}.
 
 Son operaciones a muy bajo nivel que usaremos muy pocas veces (por ejemplo, solo si quisiéramos cambiar el primer byte de un archivo). En general usaremos otras clases más cómodas de usar.
 
@@ -2439,19 +2549,20 @@ Son operaciones a muy bajo nivel que usaremos muy pocas veces (por ejemplo, solo
 \label{\detokenize{textos/tema3:readers-y-writers}}
 En lugar de manejar \sphinxstyleemphasis{bytes} manejan \sphinxstyleemphasis{caracteres} (recordemos que hoy en día y con Unicode una letra como la \sphinxstyleemphasis{ñ} en realidad podría ocupar más de un byte).
 
-Así, cuando queramos leer letras de un archivo usaremos clases como \sphinxcode{FileReader} y \sphinxcode{FileWriter}.
+Así, cuando queramos leer letras de un archivo usaremos clases como \sphinxcode{\sphinxupquote{FileReader}} y \sphinxcode{\sphinxupquote{FileWriter}}.
 
-Las clases \sphinxcode{Readers} y \sphinxcode{Writers} en realidad se apoyan sobre las \sphinxcode{InputStreams} y \sphinxcode{OutputStreams}.
+Las clases \sphinxcode{\sphinxupquote{Readers}} y \sphinxcode{\sphinxupquote{Writers}} en realidad se apoyan sobre las \sphinxcode{\sphinxupquote{InputStreams}} y \sphinxcode{\sphinxupquote{OutputStreams}}.
 
-A veces nos interesará mezclar conceptos y por ejemplo poder tener una clase que use caracteres cuando a lo mejor Java nos ha dado una clase que usa bytes. Así, por ejemplo \sphinxcode{InputStreamReader} puede coger un objeto que lea bytes y nos devolverá caracteres. De la misma forma \sphinxcode{OutputStreamWriter} coge letras y devuelve los bytes que la componen.
+A veces nos interesará mezclar conceptos y por ejemplo poder tener una clase que use caracteres cuando a lo mejor Java nos ha dado una clase que usa bytes. Así, por ejemplo \sphinxcode{\sphinxupquote{InputStreamReader}} puede coger un objeto que lea bytes y nos devolverá caracteres. De la misma forma \sphinxcode{\sphinxupquote{OutputStreamWriter}} coge letras y devuelve los bytes que la componen.
 
 
-\subsection{\sphinxstyleliteralintitle{BufferedReaders} y \sphinxstyleliteralintitle{PrintWriters}}
+\subsection{\sphinxstyleliteralintitle{\sphinxupquote{BufferedReaders}} y \sphinxstyleliteralintitle{\sphinxupquote{PrintWriters}}}
 \label{\detokenize{textos/tema3:bufferedreaders-y-printwriters}}
-Cuando trabajamos con caracteres (que recordemos pueden tener varios bytes) normalmente no trabajamos de uno en uno. Es más frecuente usar \sphinxstylestrong{líneas} que se leen y escriben de una sola vez. Así por ejemplo, la clase \sphinxcode{PrintWriter} tiene un método \sphinxcode{print(ln)} que puede imprimir elementos complejos como \sphinxcode{floats} o cadenas largas.
+Cuando trabajamos con caracteres (que recordemos pueden tener varios bytes) normalmente no trabajamos de uno en uno. Es más frecuente usar \sphinxstylestrong{líneas} que se leen y escriben de una sola vez. Así por ejemplo, la clase \sphinxcode{\sphinxupquote{PrintWriter}} tiene un método \sphinxcode{\sphinxupquote{print(ln)}} que puede imprimir elementos complejos como \sphinxcode{\sphinxupquote{floats}} o cadenas largas.
 
 Además, Java ofrece clases que gestionan automáticamente los \sphinxstyleemphasis{buffers} por nosotros lo que nos da más comodidad y eficiencia. Por ello es muy habitual hacer cosas como esta:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{lectorEficiente} \PYG{o}{=} \PYG{k}{new}
         \PYG{n}{BufferedReader}\PYG{o}{(}\PYG{k}{new} \PYG{n}{FileReader}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}fich1.txt\PYGZdq{}}\PYG{o}{)}\PYG{o}{)}\PYG{o}{;}
@@ -2459,26 +2570,27 @@ Además, Java ofrece clases que gestionan automáticamente los \sphinxstyleempha
         \PYG{n}{BufferedWriter}\PYG{o}{(}\PYG{k}{new} \PYG{n}{FileWriter}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}fich2.txt\PYGZdq{}}\PYG{o}{)}\PYG{o}{)}\PYG{o}{;}
 \end{sphinxVerbatim}
 
-En el primer caso creamos un objeto \sphinxcode{FileReader} que es capaz de leer caracteres de \sphinxcode{fich1.txt}. Como esto nos parece poco práctico creamos otro objeto a partir del primero de tipo \sphinxcode{BufferedReader} que nos permitirá leer bloques enteros de texto.
+En el primer caso creamos un objeto \sphinxcode{\sphinxupquote{FileReader}} que es capaz de leer caracteres de \sphinxcode{\sphinxupquote{fich1.txt}}. Como esto nos parece poco práctico creamos otro objeto a partir del primero de tipo \sphinxcode{\sphinxupquote{BufferedReader}} que nos permitirá leer bloques enteros de texto.
 
-De hecho, si se comprueba la ayuda de la clase \sphinxcode{FileReader} se verá que solo hay un método \sphinxcode{read} que devuelve un \sphinxcode{int}, es decir el siguiente \sphinxstylestrong{carácter} disponible, lo que hace que el método sea muy incómodo. Sin embargo \sphinxcode{BufferedReader} nos resuelve esta incomodidad permitiéndonos trabajar con líneas.
+De hecho, si se comprueba la ayuda de la clase \sphinxcode{\sphinxupquote{FileReader}} se verá que solo hay un método \sphinxcode{\sphinxupquote{read}} que devuelve un \sphinxcode{\sphinxupquote{int}}, es decir el siguiente \sphinxstylestrong{carácter} disponible, lo que hace que el método sea muy incómodo. Sin embargo \sphinxcode{\sphinxupquote{BufferedReader}} nos resuelve esta incomodidad permitiéndonos trabajar con líneas.
 
 
 \section{Elementos de programación de aplicaciones en red. Librerías.}
 \label{\detokenize{textos/tema3:elementos-de-programacion-de-aplicaciones-en-red-librerias}}
-En Java toda la infraestructura de clases para trabajar con redes está en el paquete \sphinxcode{java.net}.
+En Java toda la infraestructura de clases para trabajar con redes está en el paquete \sphinxcode{\sphinxupquote{java.net}}.
 
-En muchos casos nuestros programas empezarán con la sentencia \sphinxcode{import java.net.*} pero muchos entornos (como Eclipse) son capaces de importar automáticamente las clases necesarias.
+En muchos casos nuestros programas empezarán con la sentencia \sphinxcode{\sphinxupquote{import java.net.*}} pero muchos entornos (como Eclipse) son capaces de importar automáticamente las clases necesarias.
 
 
 \subsection{La clase URL}
 \label{\detokenize{textos/tema3:la-clase-url}}
-La clase URL permite gestionar accesos a URLs del tipo \sphinxcode{http://marca.com/fichero.html} y descargar cosas con bastante sencillez.
+La clase URL permite gestionar accesos a URLs del tipo \sphinxcode{\sphinxupquote{http://marca.com/fichero.html}} y descargar cosas con bastante sencillez.
 
-Al crear un objeto URL se debe capturar la excepción \sphinxcode{MalformedURLException} que sucede cuando hay algún error en la URL, como por ejemplo escribir \sphinxcode{htp://marca.com} en lugar de \sphinxcode{http://marca.com} (obsérvese que el primero tiene un sola t en http en lugar de dos).
+Al crear un objeto URL se debe capturar la excepción \sphinxcode{\sphinxupquote{MalformedURLException}} que sucede cuando hay algún error en la URL, como por ejemplo escribir \sphinxcode{\sphinxupquote{htp://marca.com}} en lugar de \sphinxcode{\sphinxupquote{http://marca.com}} (obsérvese que el primero tiene un sola t en http en lugar de dos).
 
-La clase URL nos ofrece un método \sphinxcode{openStream} que nos devuelve un flujo básico de bytes. Podemos crear objetos más sofisticados para leer bloques como muestra el programa siguiente:
+La clase URL nos ofrece un método \sphinxcode{\sphinxupquote{openStream}} que nos devuelve un flujo básico de bytes. Podemos crear objetos más sofisticados para leer bloques como muestra el programa siguiente:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{GestorDescargas} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{descargarArchivo}\PYG{o}{(}
@@ -2586,13 +2698,14 @@ Un \sphinxstyleemphasis{socket} es un objeto Java que nos permite contactar con 
 
 Existe otro tipo de sockets, los \sphinxstyleemphasis{ServerSocket}. Se utilizan para crear programas que acepten conexiones o peticiones.
 
-Todos los objetos mencionados en este tema están en el paquete \sphinxcode{java.net}.
+Todos los objetos mencionados en este tema están en el paquete \sphinxcode{\sphinxupquote{java.net}}.
 
 
 \section{Creación de sockets.}
 \label{\detokenize{textos/tema3:creacion-de-sockets}}
 En el siguiente código puede verse el proceso básico de creación de un socket. En los párrafos siguientes explicaremos el significado de los bloques de código.:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Conector} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{args}\PYG{o}{)} \PYG{o}{\PYGZob{}}
@@ -2620,8 +2733,9 @@ En el siguiente código puede verse el proceso básico de creación de un socket
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
-Para poder crear un socket primero necesitamos una dirección con la que contactar. Toda dirección está formada por dirección IP (o DNS) y un puerto. En nuestro caso intentaremos contactar con \sphinxcode{www.google.com:80}.
+Para poder crear un socket primero necesitamos una dirección con la que contactar. Toda dirección está formada por dirección IP (o DNS) y un puerto. En nuestro caso intentaremos contactar con \sphinxcode{\sphinxupquote{www.google.com:80}}.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{String} \PYG{n}{destino}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}www.google.com\PYGZdq{}}\PYG{o}{;}
 \PYG{k+kt}{int} \PYG{n}{puertoDestino}\PYG{o}{=}\PYG{l+m+mi}{80}\PYG{o}{;}
@@ -2634,7 +2748,7 @@ Para poder crear un socket primero necesitamos una dirección con la que contact
 
 \section{Enlazado y establecimiento de conexiones.}
 \label{\detokenize{textos/tema3:enlazado-y-establecimiento-de-conexiones}}
-El paso crítico para iniciar la comunicación es llamar al método \sphinxcode{connect}. Este método puede disparar una excepción del tipo \sphinxcode{IOException} que puede significar dos cosas:
+El paso crítico para iniciar la comunicación es llamar al método \sphinxcode{\sphinxupquote{connect}}. Este método puede disparar una excepción del tipo \sphinxcode{\sphinxupquote{IOException}} que puede significar dos cosas:
 \begin{itemize}
 \item {} 
 La conexión no se pudo establecer.
@@ -2646,6 +2760,7 @@ Aunque la conexión se estableció no fue posible leer o escribir datos.
 
 Así, la conexión debería realizarse así:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k}{try} \PYG{o}{\PYGZob{}}
         \PYG{n}{socket}\PYG{o}{.}\PYG{n+na}{connect}\PYG{o}{(}\PYG{n}{direccion}\PYG{o}{)}\PYG{o}{;}
@@ -2667,13 +2782,14 @@ Así, la conexión debería realizarse así:
 
 \section{Utilización de sockets para la transmisión y recepción de información.}
 \label{\detokenize{textos/tema3:utilizacion-de-sockets-para-la-transmision-y-recepcion-de-informacion}}
-La clase \sphinxcode{Socket} tiene dos métodos llamados \sphinxcode{getInputStream} y \sphinxcode{getOutputSream} que nos permiten obtener \sphinxstyleemphasis{flujos orientados a bytes}. Recordemos que es posible crear nuestros propios flujos, con más métodos que ofrecen más comodidad.
+La clase \sphinxcode{\sphinxupquote{Socket}} tiene dos métodos llamados \sphinxcode{\sphinxupquote{getInputStream}} y \sphinxcode{\sphinxupquote{getOutputSream}} que nos permiten obtener \sphinxstyleemphasis{flujos orientados a bytes}. Recordemos que es posible crear nuestros propios flujos, con más métodos que ofrecen más comodidad.
 
 
 \subsection{El ejemplo completo}
 \label{\detokenize{textos/tema3:el-ejemplo-completo}}
 Podemos contactar con un programa cualquiera escrito en cualquier lenguaje y enviar las peticiones de acuerdo a un protocolo. Nuestro programa podrá leer las respuestas independientemente de como fuera el servidor.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Conector} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{args}\PYG{o}{)} \PYG{o}{\PYGZob{}}
@@ -2747,8 +2863,11 @@ Si tenemos que programar los dos tendremos que empezar por \sphinxstylestrong{de
 
 En el ejemplo siguiente puede verse un ejemplo para Python 3 que implementa un servidor de cálculo. El servidor tiene un protocolo muy rígido (demasiado) que consiste en lo siguiente:
 \begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
 \item {} 
-El servidor espera que primero envíen la operación que puede ser \sphinxcode{+} o \sphinxcode{-}. La operación debe terminar con un fin de línea UNIX (\sphinxcode{\textbackslash{}n})
+El servidor espera que primero envíen la operación que puede ser \sphinxcode{\sphinxupquote{+}} o \sphinxcode{\sphinxupquote{-}}. La operación debe terminar con un fin de línea UNIX (\sphinxcode{\sphinxupquote{\textbackslash{}n}})
 
 \item {} 
 Despues acepta un número de dos cifras (ni una ni tres) terminado en un fín de línea UNIX.
@@ -2758,6 +2877,7 @@ Despues acepta un segundo número de dos cifras terminado en un fin de línea UN
 
 \end{enumerate}
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{import} \PYG{n+nn}{socketserver}
 \PYG{n}{TAM\PYGZus{}MAXIMO\PYGZus{}PARAMETROS}\PYG{o}{=}\PYG{l+m+mi}{64}
@@ -2802,6 +2922,7 @@ Despues acepta un segundo número de dos cifras terminado en un fin de línea UN
 
 La comunicación Java con el servidor sería algo así:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kt}{byte}\PYG{o}{[}\PYG{o}{]} \PYG{n}{bSuma}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}+\PYGZbs{}n\PYGZdq{}}\PYG{o}{.}\PYG{n+na}{getBytes}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
 \PYG{k+kt}{byte}\PYG{o}{[}\PYG{o}{]} \PYG{n}{bOp1}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}42\PYGZbs{}n\PYGZdq{}}\PYG{o}{.}\PYG{n+na}{getBytes}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
@@ -2831,7 +2952,7 @@ La comunicación Java con el servidor sería algo así:
 Supongamos que se nos pide crear un servidor de operaciones de cálculo que sea menos estricto que el anterior:
 \begin{itemize}
 \item {} 
-Cualquier parámetro que envíe el usuario debe ir terminado en un fin de línea UNIX (\sphinxcode{\textbackslash{}n}).
+Cualquier parámetro que envíe el usuario debe ir terminado en un fin de línea UNIX (\sphinxcode{\sphinxupquote{\textbackslash{}n}}).
 
 \item {} 
 El usuario enviará primero un símbolo «+», «-«, «*» o «/».
@@ -2849,6 +2970,7 @@ Cuando el servidor haya recogido todos los parámetros contestará al cliente co
 
 Antes de empezar crear el código que permita procesar estos parámetros complejos.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{ServidorCalculo} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kt}{int} \PYG{n+nf}{extraerNumero}\PYG{o}{(}\PYG{n}{String} \PYG{n}{linea}\PYG{o}{)}\PYG{o}{\PYGZob{}}
@@ -2884,6 +3006,7 @@ Antes de empezar crear el código que permita procesar estos parámetros complej
 
 Así, el código completo del servidor sería:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{ServidorCalculo} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kt}{int} \PYG{n+nf}{extraerNumero}\PYG{o}{(}\PYG{n}{String} \PYG{n}{linea}\PYG{o}{)}\PYG{o}{\PYGZob{}}
@@ -2953,6 +3076,7 @@ Así, el código completo del servidor sería:
 
 Y el cliente sería:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{ClienteCalculo} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{n}{BufferedReader} \PYG{n+nf}{getFlujo}\PYG{o}{(}\PYG{n}{InputStream} \PYG{n}{is}\PYG{o}{)}\PYG{o}{\PYGZob{}}
@@ -2994,6 +3118,7 @@ En el caso de aplicaciones que necesiten aceptar varias conexiones \sphinxstyles
 
 Ahora el servidor será así:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k}{while} \PYG{o}{(}\PYG{k+kc}{true}\PYG{o}{)}\PYG{o}{\PYGZob{}}
         \PYG{n}{Socket} \PYG{n}{conexion}\PYG{o}{=}\PYG{n}{socketEscucha}\PYG{o}{.}\PYG{n+na}{accept}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
@@ -3006,6 +3131,7 @@ Ahora el servidor será así:
 
 Pero ahora tendremos una clase Petición como esta:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Peticion} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
         \PYG{n}{BufferedReader} \PYG{n}{bfr}\PYG{o}{;}
@@ -3095,6 +3221,7 @@ Se debe aceptar que un cliente que ya tenga un socket abierto envíe todas las p
 \label{\detokenize{textos/tema3:una-clase-protocolo}}
 Dado que los protocolos pueden ser variables puede ser útil encapsular el comportamiento del protocolo en una pequeña clase separada:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Protocolo} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{private} \PYG{k+kd}{final} \PYG{n}{String} \PYG{n}{terminador}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZbs{}n\PYGZdq{}}\PYG{o}{;}
@@ -3117,6 +3244,7 @@ Dado que los protocolos pueden ser variables puede ser útil encapsular el compo
 \label{\detokenize{textos/tema3:una-clase-con-funciones-de-utilidad}}
 Algunas operaciones son muy sencillas, pero muy engorrosas. Alargan el código innecesariamente y lo hacen más difícil de entender. Si además se realizan a menudo puede ser interesante empaquetar toda la funcionalidad en una clase.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Utilidades} \PYG{o}{\PYGZob{}}
         \PYG{c+cm}{/* Obtiene un flujo de escritura}
@@ -3144,6 +3272,7 @@ Algunas operaciones son muy sencillas, pero muy engorrosas. Alargan el código i
 
 \subsection{La clase Petición}
 \label{\detokenize{textos/tema3:la-clase-peticion}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Peticion} \PYG{k+kd}{implements} \PYG{n}{Runnable} \PYG{o}{\PYGZob{}}
         \PYG{n}{Socket} \PYG{n}{conexionParaAtender}\PYG{o}{;}
@@ -3195,6 +3324,7 @@ Algunas operaciones son muy sencillas, pero muy engorrosas. Alargan el código i
 
 \subsection{La clase Servidor}
 \label{\detokenize{textos/tema3:la-clase-servidor}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{ServidorOrdenacion} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{escuchar}\PYG{o}{(}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{IOException}\PYG{o}{\PYGZob{}}
@@ -3234,6 +3364,7 @@ Algunas operaciones son muy sencillas, pero muy engorrosas. Alargan el código i
 
 \subsection{La clase Cliente}
 \label{\detokenize{textos/tema3:la-clase-cliente}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Cliente} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{ordenar}\PYG{o}{(}\PYG{n}{String} \PYG{n}{s1}\PYG{o}{,} \PYG{n}{String} \PYG{n}{s2}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{IOException}\PYG{o}{\PYGZob{}}
@@ -3284,6 +3415,7 @@ Finalmente la empresa va a necesitar una versión mejorada del servidor que perm
 
 En el servidor se añade este código extra a la hora de comprobar el protocolo:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k}{if} \PYG{o}{(}\PYG{n}{numVersion}\PYG{o}{=}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{o}{)}\PYG{o}{\PYGZob{}}
         \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Llegó un v2\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
@@ -3306,7 +3438,7 @@ En el servidor se añade este código extra a la hora de comprobar el protocolo:
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
-Y finalmente solo habría que implementar un método en la petición que reciba un vector de \sphinxcode{String} (las palabras) y devuelva el mismo vector pero ordenado.
+Y finalmente solo habría que implementar un método en la petición que reciba un vector de \sphinxcode{\sphinxupquote{String}} (las palabras) y devuelva el mismo vector pero ordenado.
 
 
 \section{Ejercicios}
@@ -3359,6 +3491,7 @@ Entonces el servidor luego enviará
 \label{\detokenize{textos/tema3:solucion-a-las-sumas-de-verificacion}}
 El código siguiente ilustra la clase que hace sumas de verificación.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Sumador} \PYG{o}{\PYGZob{}}
 
@@ -3374,6 +3507,7 @@ El código siguiente ilustra la clase que hace sumas de verificación.
 
 A continuación se muestra el servidor.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Servidor} \PYG{o}{\PYGZob{}}
 
@@ -3410,6 +3544,7 @@ A continuación se muestra el servidor.
 
 Y a  continuación el cliente:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Cliente} \PYG{o}{\PYGZob{}}
 
@@ -3495,6 +3630,7 @@ Por otro lado, incluso probando en máquinas distintas pueden obtenerse fallos p
 
 \subsection{Solución al servidor}
 \label{\detokenize{textos/tema3:solucion-al-servidor}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Servidor} \PYG{o}{\PYGZob{}}
 
@@ -3535,6 +3671,7 @@ Por otro lado, incluso probando en máquinas distintas pueden obtenerse fallos p
 
 \subsection{Solución HiloConexion}
 \label{\detokenize{textos/tema3:solucion-hiloconexion}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{HiloConexion} \PYG{k+kd}{implements} \PYG{n}{Runnable} \PYG{o}{\PYGZob{}}
 
@@ -3574,6 +3711,7 @@ Por otro lado, incluso probando en máquinas distintas pueden obtenerse fallos p
 
 \subsection{Solución Cliente}
 \label{\detokenize{textos/tema3:solucion-cliente}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Cliente} \PYG{k+kd}{implements} \PYG{n}{Runnable} \PYG{o}{\PYGZob{}}
 
@@ -3679,6 +3817,7 @@ Por otro lado, incluso probando en máquinas distintas pueden obtenerse fallos p
 
 \subsection{Solución LanzadorClientes}
 \label{\detokenize{textos/tema3:solucion-lanzadorclientes}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{LanzadorClientes} \PYG{o}{\PYGZob{}}
 
@@ -3754,7 +3893,7 @@ Por otro lado, incluso probando en máquinas distintas pueden obtenerse fallos p
 
 
 \chapter{Generación de servicios en red}
-\label{\detokenize{textos/tema4::doc}}\label{\detokenize{textos/tema4:generacion-de-servicios-en-red}}
+\label{\detokenize{textos/tema4:generacion-de-servicios-en-red}}\label{\detokenize{textos/tema4::doc}}
 Una vez vistas las comunicaciones en Java a través de sockets podemos utilizar dicho conocimiento para dar un paso más allá y acceder a servicios de red habituales. En las siguientes secciones desglosamos el funcionamiento de los protocoles y proporcionamos algunas clases básicas para realizar dichos accesos.
 
 
@@ -3782,6 +3921,7 @@ Desde mayo de 2015, HTTP va por su versión 2.0 que incluye mejoras en la latenc
 
 HTTP es un protocolo basado en texto.  A modo de ejemplo se incluye a continuación un ejemplo de petición (copiada de Wikipedia):
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 GET /index.html HTTP/1.1
 Host: www.example.com
@@ -3793,6 +3933,7 @@ Connection: keep\PYGZhy{}alive
 
 Y a continuación se muestra una respuesta (ejemplo copiado también de Wikipedia):
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 HTTP/1.1 200 OK
 Date: Fri, 31 Dec 2003 23:59:59 GMT
@@ -3855,19 +3996,19 @@ La biblioteca Apache Commons Email. Es una biblioteca de libre distribución que
 
 \subsection{Utilización de objetos predefinidos.}
 \label{\detokenize{textos/tema4:utilizacion-de-objetos-predefinidos}}
-El objeto fundamental es la clase \sphinxcode{Email}, proporcionado por Apache Commons Email. Esta clase no tiene propiedades de interés y no está orientada a eventos, sin embargo tiene algunos métodos interesantes que además son bastante autoexplicativos.
+El objeto fundamental es la clase \sphinxcode{\sphinxupquote{Email}}, proporcionado por Apache Commons Email. Esta clase no tiene propiedades de interés y no está orientada a eventos, sin embargo tiene algunos métodos interesantes que además son bastante autoexplicativos.
 \begin{itemize}
 \item {} 
-El método \sphinxcode{setHostname} permite configurar el servidor SMTP de nuestro proveedor de correo.
+El método \sphinxcode{\sphinxupquote{setHostname}} permite configurar el servidor SMTP de nuestro proveedor de correo.
 
 \item {} 
-El método \sphinxcode{setSmtpPort} permite indicar el número de puerto en el que el servidor de correo escucha. Para conexiones SMTPS (SMTP seguro) el puerto es el 465.
+El método \sphinxcode{\sphinxupquote{setSmtpPort}} permite indicar el número de puerto en el que el servidor de correo escucha. Para conexiones SMTPS (SMTP seguro) el puerto es el 465.
 
 \item {} 
-El método \sphinxcode{setAuthenticator} permite indicar el objeto que se encargará de configurar la autenticación. Suele usar un objeto básico de la clase \sphinxcode{DefaultAuthenticator}.
+El método \sphinxcode{\sphinxupquote{setAuthenticator}} permite indicar el objeto que se encargará de configurar la autenticación. Suele usar un objeto básico de la clase \sphinxcode{\sphinxupquote{DefaultAuthenticator}}.
 
 \item {} 
-El método \sphinxcode{setSslOnConect} se usa para indicar si se establece una conexión SSL (o TLS) en el momento de conectar
+El método \sphinxcode{\sphinxupquote{setSslOnConect}} se usa para indicar si se establece una conexión SSL (o TLS) en el momento de conectar
 
 \end{itemize}
 
@@ -3884,8 +4025,9 @@ Toda la transmisión de información es controlada por la biblioteca, liberando 
 
 \subsection{Programación de aplicaciones cliente.}
 \label{\detokenize{textos/tema4:programacion-de-aplicaciones-cliente}}
-La clase \sphinxcode{Cliente.java} que se adjunta a continuación presenta un interfaz con dos métodos que permiten enviar correos electrónicos con adjuntos. El código es mejorable pero se ha primado la legibilidad e inteligibilidad del mismo.
+La clase \sphinxcode{\sphinxupquote{Cliente.java}} que se adjunta a continuación presenta un interfaz con dos métodos que permiten enviar correos electrónicos con adjuntos. El código es mejorable pero se ha primado la legibilidad e inteligibilidad del mismo.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+cm}{/* Para poder usar esta clase debes disponer}
 \PYG{c+cm}{del JAR de la biblioteca Apache Commons EMail y}
@@ -3955,8 +4097,6 @@ La clase \sphinxcode{Cliente.java} que se adjunta a continuación presenta un in
         \PYG{n}{iniciarConexionEmail}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
         \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{configurarParametrosBasicos}\PYG{o}{(}\PYG{n}{asunto}\PYG{o}{,} \PYG{n}{textoEmail}\PYG{o}{,}
                 \PYG{n}{destinatario}\PYG{o}{,} \PYG{n}{destinatariosCC}\PYG{o}{,} \PYG{n}{destinatariosBCC}\PYG{o}{)}\PYG{o}{;}
-
-        \PYG{c+cm}{/*Y se envía el mensaje ;) */}
         \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{send}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
     \PYG{o}{\PYGZcb{}}
 
@@ -4012,6 +4152,7 @@ Para enviar mensajes cifrados se necesita algún mecanismo o algoritmo para conv
 
 El esquema general de todos los métodos es tener código como el siguiente:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{n}{String} \PYG{n+nf}{cifrar} \PYG{o}{(}\PYG{n}{String} \PYG{n}{texto}\PYG{o}{,} \PYG{n}{String} \PYG{n}{clave}\PYG{o}{)}
 \PYG{o}{\PYGZob{}}
@@ -4041,6 +4182,7 @@ El descifrado simplemente implicaría el método inverso. Si el desplazamiento e
 
 Esta clase implementa un sistema de rotado básico para poder efectuar
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Cifrador} \PYG{o}{\PYGZob{}}
         \PYG{k+kd}{private} \PYG{n}{String} \PYG{n}{alfabeto}\PYG{o}{=}
@@ -4126,6 +4268,7 @@ En este curso usaremos el cifrado asimétrico RSA.
 \label{\detokenize{textos/tema5:encriptacion-de-informacion}}
 El siguiente código muestra como crear una clase que permita cifrar y descifrar textos.
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{GestorCifrado} \PYG{o}{\PYGZob{}}
         \PYG{n}{KeyPair} \PYG{n}{claves}\PYG{o}{;}
@@ -4223,8 +4366,8 @@ El siguiente código muestra como crear una clase que permita cifrar y descifrar
 \end{sphinxVerbatim}
 
 \begin{sphinxadmonition}{warning}{Advertencia:}
-Los objetos que cifran y descifran en Java utilizan estrictamente objetos \sphinxcode{byte{[}{]}}, que
-son los que debemos manejar siempre. Las conversiones a \sphinxcode{String} las hacemos nosotros para poder visualizar resultados.
+Los objetos que cifran y descifran en Java utilizan estrictamente objetos \sphinxcode{\sphinxupquote{byte{[}{]}}}, que
+son los que debemos manejar siempre. Las conversiones a \sphinxcode{\sphinxupquote{String}} las hacemos nosotros para poder visualizar resultados.
 \end{sphinxadmonition}
 
 
@@ -4234,6 +4377,9 @@ En general, ahora que ya conocemos sockets, el uso de servidores y clientes y el
 
 En general, todo protocolo que queramos implementar dará estos pasos.
 \begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
 \item {} 
 Todo cliente genera su pareja de claves.
 
@@ -4274,7 +4420,7 @@ Para garantizar la seguridad es necesario que entre un tercer jugador en el inte
 Por fortuna Java dispone de clases ya prefabricadas que facilitan enormemente el que dos aplicaciones intercambios datos de forma segura a través de una red. Se deben considerar los siguientes puntos:
 \begin{itemize}
 \item {} 
-El servidor debe tener su propio certificado. Si no lo tenemos, se puede generar primero una pareja de claves con la herramienta \sphinxcode{keytool}, como se muestra en la figura adjunta. La herramienta guardará la pareja de claves en un almacén (el cual tiene su propia clave). Despues generaremos un certificado a partir de esa pareja con \sphinxcode{keytool -export -file certificadoservidor.cer -keystore almacenclaves}.
+El servidor debe tener su propio certificado. Si no lo tenemos, se puede generar primero una pareja de claves con la herramienta \sphinxcode{\sphinxupquote{keytool}}, como se muestra en la figura adjunta. La herramienta guardará la pareja de claves en un almacén (el cual tiene su propia clave). Despues generaremos un certificado a partir de esa pareja con \sphinxcode{\sphinxupquote{keytool -export -file certificadoservidor.cer -keystore almacenclaves}}.
 
 \item {} 
 El código del servidor necesitará indicar el fichero donde se almacenan las claves y la clave para acceder a ese almacén.
@@ -4296,6 +4442,7 @@ Aunque no suele hacerse también podría hacerse a la inversa y obligar al clien
 
 Los pasos desglosados implican ejecutar estos comandos en el servidor:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+c1}{\PYGZsh{} El servidor genera una pareja de claves que se almacena en un}
 \PYG{c+c1}{\PYGZsh{}fichero llamado \PYGZdq{}clavesservidor\PYGZdq{}. Dentro del fichero se indica}
@@ -4313,6 +4460,7 @@ Los pasos desglosados implican ejecutar estos comandos en el servidor:
 
 En el cliente daremos estos pasos:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+c1}{\PYGZsh{}Se genera una pareja de claves (en realidad no nos hace falta solo}
 \PYG{c+c1}{\PYGZsh{}queremos tener un almacén de claves.}
@@ -4325,22 +4473,26 @@ En el cliente daremos estos pasos:
 
 Una vez creados los ficheros iniciales se deben dar los siguientes pasos en Java (servidor y cliente van por separado):
 \begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
 \item {} 
-El servidor debe cargar su almacén de claves (el fichero \sphinxcode{clavesservidor})
+El servidor debe cargar su almacén de claves (el fichero \sphinxcode{\sphinxupquote{clavesservidor}})
 
 \item {} 
-Ese almacén (cargado en un objeto Java llamado \sphinxcode{KeyStore}), se usará para crear un gestor de claves (objeto \sphinxcode{KeyManager}), el cual se obtiene a partir de una «fábrica» llamada \sphinxcode{KeyManagerFactory}.
+Ese almacén (cargado en un objeto Java llamado \sphinxcode{\sphinxupquote{KeyStore}}), se usará para crear un gestor de claves (objeto \sphinxcode{\sphinxupquote{KeyManager}}), el cual se obtiene a partir de una «fábrica» llamada \sphinxcode{\sphinxupquote{KeyManagerFactory}}.
 
 \item {} 
-Se creará un contexto SSL (objeto \sphinxcode{SSLContext}) a partir de la fábrica comentada.
+Se creará un contexto SSL (objeto \sphinxcode{\sphinxupquote{SSLContext}}) a partir de la fábrica comentada.
 
 \item {} 
-El objeto \sphinxcode{SSLContext} permitirá crear una fábrica de sockets que será la que finalmente nos permita tener un \sphinxcode{SSLServerSocket}, es decir un socket de servidor que usará cifrado.
+El objeto \sphinxcode{\sphinxupquote{SSLContext}} permitirá crear una fábrica de sockets que será la que finalmente nos permita tener un \sphinxcode{\sphinxupquote{SSLServerSocket}}, es decir un socket de servidor que usará cifrado.
 
 \end{enumerate}
 
 El código Java del servidor sería algo así:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{n+nf}{OtroServidor} \PYG{o}{(}\PYG{n}{String} \PYG{n}{rutaAlmacen}\PYG{o}{,} \PYG{n}{String} \PYG{n}{claveAlmacen}\PYG{o}{)}\PYG{o}{\PYGZob{}}
             \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{rutaAlmacen}\PYG{o}{=}\PYG{n}{rutaAlmacen}\PYG{o}{;}
@@ -4407,22 +4559,26 @@ El código Java del servidor sería algo así:
 
 En el cliente se tienen que dar algunos pasos parecidos:
 \begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
 \item {} 
 En primer lugar se carga el almacén de claves del cliente (que contiene el certificado del servidor y que es la clave para poder «autenticar» el servidor)
 
 \item {} 
-El almacén del cliente se usará para crear un «gestor de confianza» (\sphinxcode{TrustManager}) que Java usará para determinar si puede confiar o no en una conexión. Usaremos un \sphinxcode{TrustManagerFactory} que usará el almacén del cliente para crear objetos que puedan gestionar la confianza.
+El almacén del cliente se usará para crear un «gestor de confianza» (\sphinxcode{\sphinxupquote{TrustManager}}) que Java usará para determinar si puede confiar o no en una conexión. Usaremos un \sphinxcode{\sphinxupquote{TrustManagerFactory}} que usará el almacén del cliente para crear objetos que puedan gestionar la confianza.
 
 \item {} 
-Se creará un contexto SSL (\sphinxcode{SSLContext}) que se basará en los \sphinxcode{TrustManager} que pueda crear la fábrica.
+Se creará un contexto SSL (\sphinxcode{\sphinxupquote{SSLContext}}) que se basará en los \sphinxcode{\sphinxupquote{TrustManager}} que pueda crear la fábrica.
 
 \item {} 
-A partir del contexto SSL el cliente ya puede crear un socket seguro (\sphinxcode{SSLSocket}) que puede usar para conectar con el servidor de forma segura.
+A partir del contexto SSL el cliente ya puede crear un socket seguro (\sphinxcode{\sphinxupquote{SSLSocket}}) que puede usar para conectar con el servidor de forma segura.
 
 \end{enumerate}
 
 El código del cliente sería algo así:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{OtroCliente} \PYG{o}{\PYGZob{}}
     \PYG{n}{String} \PYG{n}{almacen}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}/home/usuario/clavescliente\PYGZdq{}}\PYG{o}{;}
@@ -4497,26 +4653,30 @@ El código del cliente sería algo así:
 \label{\detokenize{textos/tema5:firmado-de-aplicaciones}}
 Utilizando la criptografía de clave pública es posible «firmar» aplicaciones. El firmado es un mecanismo que permite al usuario de una aplicación el verificar que la aplicación no ha sido alterada desde que el programador la creó (virus o programas malignos, personal descontento con la empresa, etc…).
 
-Antes de efectuar el firmado se debe disponer de un par de claves generadas con la herramienta \sphinxcode{keytool} mencionada anteriormente. Supongamos que el almacén de claves está creado y que en él hay uno o varios \sphinxstyleemphasis{alias} creados. El proceso de firmado es el siguiente:
+Antes de efectuar el firmado se debe disponer de un par de claves generadas con la herramienta \sphinxcode{\sphinxupquote{keytool}} mencionada anteriormente. Supongamos que el almacén de claves está creado y que en él hay uno o varios \sphinxstyleemphasis{alias} creados. El proceso de firmado es el siguiente:
 \begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
 \item {} 
-Crear la aplicación, que puede estar formada por un conjunto de clases pero que en última instancia tendrá un \sphinxcode{main}.
+Crear la aplicación, que puede estar formada por un conjunto de clases pero que en última instancia tendrá un \sphinxcode{\sphinxupquote{main}}.
 
 \item {} 
-Empaquetar la aplicación con \sphinxcode{jar cfe Aplicacion.jar com.ies.Aplicacion DirectorioPaquete}. Este comando crea un fichero (\sphinxcode{f}) JAR en el cual el punto de entrada (\sphinxcode{e}) es la clase \sphinxcode{com.ies.Aplicacion} (que es la que tendrá el \sphinxcode{main}).
+Empaquetar la aplicación con \sphinxcode{\sphinxupquote{jar cfe Aplicacion.jar com.ies.Aplicacion DirectorioPaquete}}. Este comando crea un fichero (\sphinxcode{\sphinxupquote{f}}) JAR en el cual el punto de entrada (\sphinxcode{\sphinxupquote{e}}) es la clase \sphinxcode{\sphinxupquote{com.ies.Aplicacion}} (que es la que tendrá el \sphinxcode{\sphinxupquote{main}}).
 
 \item {} 
-Puede comprobarse que la aplicación dentro del JAR se ejecuta correctamente con \sphinxcode{java -jar Aplicacion.jar}.
+Puede comprobarse que la aplicación dentro del JAR se ejecuta correctamente con \sphinxcode{\sphinxupquote{java -jar Aplicacion.jar}}.
 
 \item {} 
-Ahora se puede ejecutar \sphinxcode{jarsigner Aplicacion.jar \textless{}alias\textgreater{}}.
+Ahora se puede ejecutar \sphinxcode{\sphinxupquote{jarsigner -keystore \textless{}ruta-almacen\textgreater{} Aplicacion.jar \textless{}alias\textgreater{}}}.
 
 \end{enumerate}
 
-Con estos pasos se tiene un aplicación firmada que el usuario puede verificar si así lo desea. De hecho, si se extrae el contenido del JAR con \sphinxcode{jar -xf Aplicacion.jar} se extraen los archivos \sphinxcode{.class} y un fichero \sphinxcode{META-INF/Manifest} que se puede abrir con un editor para ver que realmente está firmado.
+Con estos pasos se tiene un aplicación firmada que el usuario puede verificar si así lo desea. De hecho, si se extrae el contenido del JAR con \sphinxcode{\sphinxupquote{jar -xf Aplicacion.jar}} se extraen los archivos \sphinxcode{\sphinxupquote{.class}} y un fichero \sphinxcode{\sphinxupquote{META-INF/Manifest}} que se puede abrir con un editor para ver que realmente está firmado.
 
 Para que otras personas puedan comprobar que nuestra aplicacion es correcta los programadores deberemos exportar un certificado que los usuarios puedan importar para hacer el verificado. Recordemos que el comando es:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{keytool} \PYG{o}{\PYGZhy{}}\PYG{n}{exportcert} \PYG{o}{\PYGZhy{}}\PYG{n}{keystore} \PYG{o}{.}\PYG{o}{.}\PYGZbs{}\PYG{n}{Almacen}\PYG{o}{.}\PYG{n}{store} \PYG{o}{\PYGZhy{}}\PYG{n}{file} \PYG{n}{Programador}\PYG{o}{.}\PYG{n}{cer} \PYG{o}{\PYGZhy{}}\PYG{n}{alias} \PYG{n}{Programador}
 \end{sphinxVerbatim}
@@ -4526,20 +4686,23 @@ Para que otras personas puedan comprobar que nuestra aplicacion es correcta los 
 \label{\detokenize{textos/tema5:verificado-de-aplicaciones}}
 Si ahora otro usuario desea ejecutar nuestra aplicación deberá importar nuestro certificado. El proceso de verificado es simple:
 \begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
 \item {} 
 El usuario importa el certificado.
 
 \item {} 
-Ahora que tiene el certificado puede comprobar la aplicación con \sphinxcode{jarsigner -verify Aplicacion.jar \textless{}alias\_del\_programador\textgreater{}}
+Ahora que tiene el certificado puede comprobar la aplicación con \sphinxcode{\sphinxupquote{jarsigner -verify -keystore \textless{}ruta-almacen\textgreater{} Aplicacion.jar \textless{}alias\_del\_programador\textgreater{}}}
 
 \end{enumerate}
 
-El comando deberá responder con algo como \sphinxcode{jar verified}. Sin embargo si no tenemos un certificado firmado por alguna autoridad de certificación (CA) la herramienta se quejará de que algunos criterios de seguridad no se cumplen.
+El comando deberá responder con algo como \sphinxcode{\sphinxupquote{jar verified}}. Sin embargo si no tenemos un certificado firmado por alguna autoridad de certificación (CA) la herramienta se quejará de que algunos criterios de seguridad no se cumplen.
 
 
 \section{Ejercicio}
 \label{\detokenize{textos/tema5:ejercicio}}
-Intenta extraer el archivo JAR y reemplaza el \sphinxcode{.class} por alguna otra clase. Vuelve a crear el archivo .JAR y vuelve a intentar verificarlo, ¿qué ocurre?
+Intenta extraer el archivo JAR y reemplaza el \sphinxcode{\sphinxupquote{.class}} por alguna otra clase. Vuelve a crear el archivo .JAR y vuelve a intentar verificarlo, ¿qué ocurre?
 
 
 \section{Recordatorio}
@@ -4553,7 +4716,7 @@ Java incluye un mecanismo para definir \sphinxstyleemphasis{políticas de seguri
 
 Cabe destacar que \sphinxstylestrong{todo lo que se menciona aquí no funciona si el usuario tiene acceso al sistema y puede ejecutar el intérprete de Java sin restricciones}. Es decir, se necesita el trabajo de un administrador de sistemas para restringir la manera en la que el usuario ejecuta el código.
 
-Supongamos entonces que estamos en un entorno seguro donde los programas Java se ejecutan utilizando un gestor de seguridad, es decir, se lanzan ejecutando \sphinxcode{java -Djava.security.manager Clase}. En principio, los programas no podrán hacer muchas cosas, como por ejemplo, conectarse a Internet o leer un fichero que no esté en el mismo directorio de la clase.
+Supongamos entonces que estamos en un entorno seguro donde los programas Java se ejecutan utilizando un gestor de seguridad, es decir, se lanzan ejecutando \sphinxcode{\sphinxupquote{java -Djava.security.manager Clase}}. En principio, los programas no podrán hacer muchas cosas, como por ejemplo, conectarse a Internet o leer un fichero que no esté en el mismo directorio de la clase.
 
 
 \section{Programación de mecanismos de control de acceso.}
@@ -4565,10 +4728,11 @@ Supongamos entonces que estamos en un entorno seguro donde los programas Java se
 \chapter{Anexos}
 \label{\detokenize{textos/anexos:anexos}}\label{\detokenize{textos/anexos::doc}}
 
-\section{La clase \sphinxstyleliteralintitle{UtilidadesFicheros}}
+\section{La clase \sphinxstyleliteralintitle{\sphinxupquote{UtilidadesFicheros}}}
 \label{\detokenize{textos/anexos:la-clase-utilidadesficheros}}
-A continuación se muestra el código completo de la clase \sphinxcode{UtilidadesFicheros}:
+A continuación se muestra el código completo de la clase \sphinxcode{\sphinxupquote{UtilidadesFicheros}}:
 
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{UtilidadesFicheros} \PYG{o}{\PYGZob{}}
 
@@ -4641,14 +4805,17 @@ A continuación se muestra el código completo de la clase \sphinxcode{Utilidade
 \label{\detokenize{textos/anexos:solucion-al-problema-del-simulador-de-casino}}
 Se ha optado por un diseño muy simple y con un acoplamiento muy alto. En pocas palabras hay solo dos clases:
 \begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
 \item {} 
-La clase \sphinxcode{Banca}: ejecuta toda la simulación y acepta apuestas de jugadores. La banca crea los Jugadores (que serán hilos), y luego pasará a ejecutar la simulación, que puede pasar por diversos estados. Algunos métodos de la banca deben ser \sphinxcode{synchronized}, ya que todos los hilos Jugador tienen una referencia a la clase \sphinxcode{Banca} y por lo tanto \sphinxstylestrong{puede haber varios hilos intentando entrar en un cierto método}.
+La clase \sphinxcode{\sphinxupquote{Banca}}: ejecuta toda la simulación y acepta apuestas de jugadores. La banca crea los Jugadores (que serán hilos), y luego pasará a ejecutar la simulación, que puede pasar por diversos estados. Algunos métodos de la banca deben ser \sphinxcode{\sphinxupquote{synchronized}}, ya que todos los hilos Jugador tienen una referencia a la clase \sphinxcode{\sphinxupquote{Banca}} y por lo tanto \sphinxstylestrong{puede haber varios hilos intentando entrar en un cierto método}.
 
 \item {} 
-La clase \sphinxcode{Jugador}: no necesita métodos \sphinxcode{synchronized}, ya que cada \sphinxcode{Jugador} accede solo a su propia información. \sphinxstyleemphasis{Sin embargo, si hubiese más de una banca (quizá porque un Jugador jugase a varias ruletas a la vez) la situación sería muy distinta}.
+La clase \sphinxcode{\sphinxupquote{Jugador}}: no necesita métodos \sphinxcode{\sphinxupquote{synchronized}}, ya que cada \sphinxcode{\sphinxupquote{Jugador}} accede solo a su propia información. \sphinxstyleemphasis{Sin embargo, si hubiese más de una banca (quizá porque un Jugador jugase a varias ruletas a la vez) la situación sería muy distinta}.
 
 \item {} 
-En realidad, la clase \sphinxcode{Jugador} es solo una base para poder crear distintos tipos de Jugador que siguen distintas estrategias.
+En realidad, la clase \sphinxcode{\sphinxupquote{Jugador}} es solo una base para poder crear distintos tipos de Jugador que siguen distintas estrategias.
 
 \end{enumerate}
 
@@ -4657,6 +4824,7 @@ En las secciones siguientes se ilustra el código de las distintas clases.
 
 \subsection{La clase Banca}
 \label{\detokenize{textos/anexos:la-clase-banca}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Banca} \PYG{o}{\PYGZob{}}
 
@@ -4805,6 +4973,7 @@ En las secciones siguientes se ilustra el código de las distintas clases.
 
 \subsection{La clase Jugador}
 \label{\detokenize{textos/anexos:la-clase-jugador}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{abstract} \PYG{k+kd}{class} \PYG{n+nc}{Jugador} \PYG{k+kd}{implements}
     \PYG{n}{Runnable} \PYG{o}{\PYGZob{}}
@@ -4898,6 +5067,7 @@ En las secciones siguientes se ilustra el código de las distintas clases.
 
 \subsection{La clase JugadorClasico}
 \label{\detokenize{textos/anexos:la-clase-jugadorclasico}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{JugadorClasico} \PYG{k+kd}{extends} \PYG{n}{Jugador} \PYG{o}{\PYGZob{}}
 
@@ -4942,6 +5112,7 @@ En las secciones siguientes se ilustra el código de las distintas clases.
 
 \subsection{La clase JugadorParImpar}
 \label{\detokenize{textos/anexos:la-clase-jugadorparimpar}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{JugadorParImpar} \PYG{k+kd}{extends} \PYG{n}{Jugador} \PYG{o}{\PYGZob{}}
 
@@ -5014,6 +5185,7 @@ En las secciones siguientes se ilustra el código de las distintas clases.
 
 \subsection{La clase JugadorMartingala}
 \label{\detokenize{textos/anexos:la-clase-jugadormartingala}}
+\fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{JugadorMartingala} \PYG{k+kd}{extends} \PYG{n}{Jugador} \PYG{o}{\PYGZob{}}
 

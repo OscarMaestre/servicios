@@ -401,13 +401,13 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </pre></div>
 </div>
 </div>
-<div class="section" id="problema">
-<h2>Problema<a class="headerlink" href="#problema" title="Enlazar permanentemente con este título">¶</a></h2>
+<div class="section" id="problema-filosofos">
+<h2>Problema: filósofos<a class="headerlink" href="#problema-filosofos" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>En una mesa hay procesos que simulan el comportamiento de unos filósofos que intentan comer de un plato. Cada filósofo tiene un cubierto a su izquierda y uno a su derecha y para poder comer tiene que conseguir los dos. Si lo consigue, mostrará un mensaje en pantalla que indique «Filosofo 2 comiendo».</p>
 <p>Despues de comer, soltará los cubiertos y esperará al azar un tiempo entre 1000 y 5000 milisegundos, indicando por pantalla «El filósofo 2 está pensando».</p>
 <p>En general todos los objetos de la clase Filósofo está en un bucle infinito dedicándose a comer y a pensar.</p>
 <p>Simular este problema en un programa Java que muestre el progreso de todos sin caer en problemas de sincronización ni de inanición.</p>
-<div class="figure align-center" id="id3" style="width: 50%">
+<div class="figure align-center" id="id2" style="width: 50%">
 <img alt="../_images/Filosofos.png" src="../_images/Filosofos.png" />
 <p class="caption"><span class="caption-text">Esquema de los filósofos</span></p>
 </div>
@@ -452,6 +452,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <h2>Solución completa al problema de los filósofos<a class="headerlink" href="#solucion-completa-al-problema-de-los-filosofos" title="Enlazar permanentemente con este título">¶</a></h2>
 <div class="section" id="gestor-de-recursos-compartidos-palillos">
 <h3>Gestor de recursos compartidos (palillos)<a class="headerlink" href="#gestor-de-recursos-compartidos-palillos" title="Enlazar permanentemente con este título">¶</a></h3>
+<<<<<<< HEAD
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorPalillos</span> <span class="o">{</span>
         <span class="cm">/* False significa que no están cogidos*/</span>
         <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">palillos</span><span class="o">;</span>
@@ -461,26 +462,37 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
                         <span class="n">palillos</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="kc">false</span><span class="o">;</span>
                 <span class="o">}</span>
         <span class="o">}</span>
+=======
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.iesmaestre.filosofos</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorPalillos</span> <span class="o">{</span>
+        <span class="kt">boolean</span> <span class="n">palilloLibre</span><span class="o">[];</span>
+        <span class="kd">public</span> <span class="nf">GestorPalillos</span><span class="o">(</span><span class="kt">int</span> <span class="n">numPalillos</span><span class="o">){</span>
+                <span class="n">palilloLibre</span><span class="o">=</span><span class="k">new</span>  <span class="kt">boolean</span><span class="o">[</span><span class="n">numPalillos</span><span class="o">];</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">numPalillos</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                        <span class="n">palilloLibre</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span> <span class="c1">//Fin del for</span>
+        <span class="o">}</span> <span class="c1">//Fin del constructor</span>
+>>>>>>> 7c5f3e3cd62fe3f372f515257aa73a430d48e307
         <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">boolean</span>
-                <span class="nf">sePuedenCogerAmbosPalillos</span><span class="o">(</span>
-                        <span class="kt">int</span> <span class="n">num1</span><span class="o">,</span><span class="kt">int</span> <span class="n">num2</span><span class="o">){</span>
-                <span class="k">if</span> <span class="o">(</span> <span class="o">(</span><span class="n">palillos</span><span class="o">[</span><span class="n">num1</span><span class="o">]==</span><span class="kc">false</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
-                        <span class="o">(</span><span class="n">palillos</span><span class="o">[</span><span class="n">num2</span><span class="o">]==</span><span class="kc">false</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
-                        <span class="n">palillos</span><span class="o">[</span><span class="n">num1</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
-                        <span class="n">palillos</span><span class="o">[</span><span class="n">num2</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                                <span class="s">&quot;Alguien consiguio los palillos &quot;</span>
-                                <span class="o">+</span><span class="n">num1</span><span class="o">+</span><span class="s">&quot; y &quot;</span><span class="o">+</span><span class="n">num2</span><span class="o">);</span>
-                        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-                <span class="o">}</span>
-                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="nf">intentarCogerPalillos</span><span class="o">(</span><span class="kt">int</span> <span class="n">pos1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pos2</span><span class="o">)</span>
+        <span class="o">{</span>
+                <span class="kt">boolean</span> <span class="n">seConsigue</span><span class="o">=</span><span class="kc">false</span><span class="o">;</span>
+                <span class="k">if</span> <span class="o">(</span>
+                                <span class="o">(</span><span class="n">palilloLibre</span><span class="o">[</span><span class="n">pos1</span><span class="o">])</span>
+                                <span class="o">&amp;&amp;</span>
+                                <span class="o">(</span><span class="n">palilloLibre</span><span class="o">[</span><span class="n">pos2</span><span class="o">])</span> <span class="o">)</span>
+                <span class="o">{</span>
+                        <span class="n">palilloLibre</span><span class="o">[</span><span class="n">pos1</span><span class="o">]=</span><span class="kc">false</span><span class="o">;</span>
+                        <span class="n">palilloLibre</span><span class="o">[</span><span class="n">pos2</span><span class="o">]=</span><span class="kc">false</span><span class="o">;</span>
+                        <span class="n">seConsigue</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span> <span class="c1">//Fin del if</span>
+                <span class="k">return</span> <span class="n">seConsigue</span><span class="o">;</span>
         <span class="o">}</span>
-        <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">soltarPalillos</span><span class="o">(</span><span class="kt">int</span> <span class="n">num1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">num2</span><span class="o">){</span>
-                <span class="n">palillos</span><span class="o">[</span><span class="n">num1</span><span class="o">]=</span><span class="kc">false</span><span class="o">;</span>
-                <span class="n">palillos</span><span class="o">[</span><span class="n">num2</span><span class="o">]=</span><span class="kc">false</span><span class="o">;</span>
-                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                        <span class="s">&quot;Alguien liberó los palillos &quot;</span><span class="o">+</span>
-                        <span class="n">num1</span><span class="o">+</span><span class="s">&quot; y &quot;</span><span class="o">+</span><span class="n">num2</span><span class="o">);</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">liberarPalillos</span><span class="o">(</span><span class="kt">int</span> <span class="n">pos1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pos2</span><span class="o">){</span>
+                <span class="n">palilloLibre</span><span class="o">[</span><span class="n">pos1</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
+                <span class="n">palilloLibre</span><span class="o">[</span><span class="n">pos2</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
         <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -488,6 +500,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="simulacion-de-un-filosofo">
 <h3>Simulación de un filósofo<a class="headerlink" href="#simulacion-de-un-filosofo" title="Enlazar permanentemente con este título">¶</a></h3>
+<<<<<<< HEAD
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Filosofo</span>  <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
         <span class="kt">int</span> <span class="n">num_palillo_izq</span><span class="o">;</span>
@@ -514,29 +527,56 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 
                         <span class="o">}</span>
                         <span class="cm">/* Si los coge:*/</span>
+=======
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.iesmaestre.filosofos</span><span class="o">;</span>
+>>>>>>> 7c5f3e3cd62fe3f372f515257aa73a430d48e307
 
-                        <span class="kt">int</span> <span class="n">milisegs</span><span class="o">=(</span><span class="mi">1</span><span class="o">+</span><span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">5</span><span class="o">))*</span><span class="mi">1000</span><span class="o">;</span>
-                        <span class="n">esperarTiempoAzar</span><span class="o">(</span><span class="n">miNombre</span><span class="o">,</span> <span class="n">milisegs</span><span class="o">);</span>
-                        <span class="cm">/* Pensando...*/</span>
-                        <span class="c1">//Recordemos soltar los palillos</span>
-                        <span class="n">gestorPalillos</span><span class="o">.</span><span class="na">soltarPalillos</span><span class="o">(</span>
-                                <span class="n">num_palillo_izq</span><span class="o">,</span>
-                                <span class="n">num_palillo_der</span><span class="o">);</span>
+<span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
 
-                        <span class="n">milisegs</span><span class="o">=(</span><span class="mi">1</span><span class="o">+</span><span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">5</span><span class="o">))*</span><span class="mi">1000</span><span class="o">;</span>
-                        <span class="n">esperarTiempoAzar</span><span class="o">(</span><span class="n">miNombre</span><span class="o">,</span> <span class="n">milisegs</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Filosofo</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+        <span class="n">GestorPalillos</span> <span class="n">gestorPalillos</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">posPalilloIzq</span><span class="o">,</span><span class="n">posPalilloDer</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nf">Filosofo</span><span class="o">(</span><span class="n">GestorPalillos</span> <span class="n">g</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pIzq</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pDer</span><span class="o">){</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">gestorPalillos</span><span class="o">=</span><span class="n">g</span><span class="o">;</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">posPalilloDer</span><span class="o">=</span><span class="n">pDer</span><span class="o">;</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">posPalilloIzq</span><span class="o">=</span><span class="n">pIzq</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">){</span>
+                        <span class="kt">boolean</span> <span class="n">palillosCogidos</span><span class="o">;</span>
+                        <span class="n">palillosCogidos</span><span class="o">=</span>
+                          <span class="k">this</span><span class="o">.</span><span class="na">gestorPalillos</span><span class="o">.</span><span class="na">intentarCogerPalillos</span><span class="o">(</span>
+                                          <span class="n">posPalilloIzq</span><span class="o">,</span> <span class="n">posPalilloDer</span><span class="o">);</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">palillosCogidos</span><span class="o">){</span>
+                                <span class="n">comer</span><span class="o">();</span>
+                                <span class="k">this</span><span class="o">.</span><span class="na">gestorPalillos</span><span class="o">.</span><span class="na">liberarPalillos</span><span class="o">(</span>
+                                                <span class="n">posPalilloIzq</span><span class="o">,</span>
+                                                <span class="n">posPalilloDer</span><span class="o">);</span>
+                                <span class="n">dormir</span><span class="o">();</span>
+                        <span class="o">}</span> <span class="c1">//Fin del if</span>
+                <span class="o">}</span> <span class="c1">//Fin del while true</span>
+        <span class="o">}</span> <span class="c1">//Fin del run()</span>
+
+        <span class="kd">private</span> <span class="kt">void</span> <span class="nf">comer</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Filosofo &quot;</span><span class="o">+</span>
+                                <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span>
+                                <span class="s">&quot; comiendo&quot;</span><span class="o">);</span>
+                <span class="n">esperarTiempoAzar</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="kd">private</span> <span class="kt">void</span> <span class="nf">esperarTiempoAzar</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">Random</span> <span class="n">generador</span><span class="o">=</span><span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">msAzar</span><span class="o">=</span><span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+                <span class="k">try</span> <span class="o">{</span>
+                        <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">msAzar</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Fallo la espera&quot;</span><span class="o">);</span>
                 <span class="o">}</span>
         <span class="o">}</span>
-
-<span class="kd">private</span> <span class="kt">void</span> <span class="nf">esperarTiempoAzar</span><span class="o">(</span><span class="n">String</span> <span class="n">miNombre</span><span class="o">,</span> <span class="kt">int</span> <span class="n">milisegs</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">try</span> <span class="o">{</span>
-                        <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">milisegs</span><span class="o">);</span>
-                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                                <span class="n">miNombre</span><span class="o">+</span>
-                                <span class="s">&quot; interrumpido!!. Saliendo...&quot;</span><span class="o">);</span>
-                        <span class="k">return</span> <span class="o">;</span>
-                <span class="o">}</span>
+        <span class="kd">private</span> <span class="kt">void</span> <span class="nf">dormir</span><span class="o">(){</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Filosofo &quot;</span><span class="o">+</span>
+                                <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span>
+                                <span class="s">&quot; durmiendo (zzzzzz)&quot;</span><span class="o">);</span>
+                <span class="n">esperarTiempoAzar</span><span class="o">();</span>
         <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -544,40 +584,30 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="lanzador-de-hilos">
 <h3>Lanzador de hilos<a class="headerlink" href="#lanzador-de-hilos" title="Enlazar permanentemente con este título">¶</a></h3>
+<<<<<<< HEAD
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LanzadorFilosofos</span> <span class="o">{</span>
+=======
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.iesmaestre.filosofos</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
+>>>>>>> 7c5f3e3cd62fe3f372f515257aa73a430d48e307
         <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-                <span class="kt">int</span> <span class="n">MAX_FILOSOFOS</span><span class="o">=</span><span class="mi">5</span><span class="o">;</span>
-                <span class="n">Filosofo</span><span class="o">[]</span> <span class="n">filosofos</span><span class="o">=</span><span class="k">new</span> <span class="n">Filosofo</span><span class="o">[</span><span class="n">MAX_FILOSOFOS</span><span class="o">];</span>
-                <span class="n">Thread</span><span class="o">[]</span> <span class="n">hilosAsociados</span><span class="o">=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">MAX_FILOSOFOS</span><span class="o">];</span>
-                <span class="n">GestorPalillos</span> <span class="n">gestorCompartido</span><span class="o">=</span>
-                                <span class="k">new</span> <span class="n">GestorPalillos</span><span class="o">(</span><span class="n">MAX_FILOSOFOS</span><span class="o">);</span>
-                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">MAX_FILOSOFOS</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
-                        <span class="k">if</span> <span class="o">(</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="o">){</span>
-                                <span class="n">filosofos</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span>
-                                <span class="k">new</span> <span class="n">Filosofo</span><span class="o">(</span>
-                                                <span class="n">gestorCompartido</span><span class="o">,</span>
-                                                <span class="n">i</span><span class="o">,</span><span class="n">MAX_FILOSOFOS</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
-                        <span class="o">}</span>
-                        <span class="k">else</span> <span class="o">{</span>
-                                <span class="n">filosofos</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="k">new</span> <span class="n">Filosofo</span><span class="o">(</span>
-                                                <span class="n">gestorCompartido</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
-                        <span class="o">}</span>
-                        <span class="n">Thread</span> <span class="n">hilo</span><span class="o">=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">filosofos</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
-                        <span class="n">hilo</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&quot;Filosofo &quot;</span><span class="o">+</span><span class="n">i</span><span class="o">);</span>
-                        <span class="n">hilosAsociados</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="n">hilo</span><span class="o">;</span>
-                        <span class="n">hilo</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+                <span class="kt">int</span> <span class="n">NUM_PROCESOS</span><span class="o">=</span><span class="mi">5</span><span class="o">;</span>
+                <span class="n">Filosofo</span> <span class="n">filosofos</span><span class="o">[]=</span><span class="k">new</span> <span class="n">Filosofo</span><span class="o">[</span><span class="n">NUM_PROCESOS</span><span class="o">];</span>
+                <span class="n">GestorPalillos</span> <span class="n">gestorPalillos</span><span class="o">;</span>
+                <span class="n">gestorPalillos</span><span class="o">=</span><span class="k">new</span> <span class="n">GestorPalillos</span><span class="o">(</span><span class="n">NUM_PROCESOS</span><span class="o">);</span>
+                <span class="n">Thread</span> <span class="n">hilos</span><span class="o">[]=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">NUM_PROCESOS</span><span class="o">];</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">NUM_PROCESOS</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                        <span class="n">filosofos</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="k">new</span> <span class="n">Filosofo</span><span class="o">(</span>
+                                <span class="n">gestorPalillos</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+                        <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">filosofos</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+                        <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
                 <span class="o">}</span>
-                <span class="cm">/* Un poco inútil*/</span>
-                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">MAX_FILOSOFOS</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
-                        <span class="k">try</span> <span class="o">{</span>
-                                <span class="n">hilosAsociados</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
-                        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-                                <span class="c1">// TODO Auto-generated catch block</span>
-                                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-                        <span class="o">}</span>
-                <span class="o">}</span>
-        <span class="o">}</span>
-<span class="o">}</span>
+                <span class="n">filosofos</span><span class="o">[</span><span class="mi">0</span><span class="o">]=</span><span class="k">new</span> <span class="n">Filosofo</span><span class="o">(</span>
+                                <span class="n">gestorPalillos</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+                <span class="n">hilos</span><span class="o">[</span><span class="mi">0</span><span class="o">]=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">filosofos</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+                <span class="n">hilos</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+        <span class="o">}</span> <span class="c1">//Fin del main</span>
+<span class="o">}</span> <span class="c1">//Fin de la clase</span>
 </pre></div>
 </div>
 </div>
@@ -593,10 +623,15 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li>Si sale el 0, todo el mundo pierde y la banca se queda con todo el dinero.</li>
 </ul>
 </div>
-<div class="section" id="id1">
-<h2>Problema<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>En una peluquería hay barberos y sillas para los clientes (siempre hay más sillas que clientes). Sin embargo, en esta peluquería no siempre hay trabajo por lo que los barberos duermen cuando no hay clientes a los que afeitar. Un cliente puede llegar a la barbería y encontrar alguna silla libre, en cuyo caso, el cliente se sienta y esperará que algún barbero le afeite. Puede ocurrir que el cliente llegue y no haya sillas libres, en cuyo caso se marcha. Simular el comportamiento de la barbería mediante un programa Java.</p>
-<div class="figure align-center" id="id4" style="width: 50%">
+<div class="section" id="problema-barberos">
+<h2>Problema: barberos<a class="headerlink" href="#problema-barberos" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>En una peluquería hay barberos y sillas para los clientes (siempre hay más sillas que clientes). Sin embargo, en esta peluquería no siempre hay trabajo por lo que los barberos duermen cuando no hay clientes a los que afeitar. Un cliente puede llegar a la barbería y encontrar alguna silla libre, en cuyo caso, el cliente se sienta y esperará que algún barbero le afeite. Puede ocurrir que el cliente llegue y no haya sillas libres, en cuyo caso se marcha. Simular el comportamiento de la barbería mediante un programa Java teniendo en cuenta que:</p>
+<ul class="simple">
+<li>Se generan clientes continuamente, algunos encuentran silla y otros no. Los que no consigan silla desaparecen (terminan su ejecución)</li>
+<li>Puede haber más sillas que barberos y al revés (poner constantes para poder cambiar fácilmente entre ejecuciones).</li>
+<li>Se recuerda que no debe haber inanición, es decir ningún cliente debería quedarse en una silla esperando un tiempo infinito.</li>
+</ul>
+<div class="figure align-center" id="id3" style="width: 50%">
 <img alt="../_images/barberodormilon.png" src="../_images/barberodormilon.png" />
 <p class="caption"><span class="caption-text">Los  barberos dormilones</span></p>
 </div>
@@ -606,14 +641,22 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <p>Prueba la siguiente solución:</p>
 <div class="section" id="clase-barbero">
 <h3>Clase Barbero<a class="headerlink" href="#clase-barbero" title="Enlazar permanentemente con este título">¶</a></h3>
+<<<<<<< HEAD
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Barbero</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
         <span class="kd">private</span> <span class="n">String</span>                          <span class="n">nombre</span><span class="o">;</span>
         <span class="kd">private</span> <span class="n">GestorConcurrencia</span>      <span class="n">gc</span><span class="o">;</span>
         <span class="kd">private</span> <span class="n">Random</span>                          <span class="n">generador</span><span class="o">;</span>
         <span class="kd">private</span> <span class="kt">int</span>                                     <span class="n">MAX_ESPERA_SEGS</span><span class="o">=</span><span class="mi">5</span><span class="o">;</span>
+=======
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Barbero</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="n">String</span>              <span class="n">nombre</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="n">GestorConcurrencia</span>  <span class="n">gc</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="n">Random</span>              <span class="n">generador</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span>                 <span class="n">MAX_ESPERA_SEGS</span><span class="o">=</span><span class="mi">5</span><span class="o">;</span>
+>>>>>>> 7c5f3e3cd62fe3f372f515257aa73a430d48e307
         <span class="kd">public</span> <span class="nf">Barbero</span><span class="o">(</span><span class="n">GestorConcurrencia</span> <span class="n">gc</span><span class="o">,</span><span class="n">String</span> <span class="n">nombre</span><span class="o">){</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">nombre</span>             <span class="o">=</span><span class="n">nombre</span><span class="o">;</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">gc</span>                 <span class="o">=</span><span class="n">gc</span><span class="o">;</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">nombre</span>     <span class="o">=</span><span class="n">nombre</span><span class="o">;</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">gc</span>         <span class="o">=</span><span class="n">gc</span><span class="o">;</span>
                 <span class="k">this</span><span class="o">.</span><span class="na">generador</span>  <span class="o">=</span><span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
         <span class="o">}</span>
 
@@ -799,7 +842,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <div class="section" id="criticas-a-la-solucion-anterior">
 <h3>Críticas a la solución anterior<a class="headerlink" href="#criticas-a-la-solucion-anterior" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>¿Cual es el problema?</p>
-<p>El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final <strong>nunca son atendidos</strong>. Hay que corregir esa asignación para <em>evitar que los procesos sufrán de inanición</em>.</p>
+<p>El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final <strong>nunca son atendidos</strong>. Hay que corregir esa asignación para <em>evitar que los procesos sufran de inanición</em>.</p>
 </div>
 <div class="section" id="metodo-corregido">
 <h3>Método corregido<a class="headerlink" href="#metodo-corregido" title="Enlazar permanentemente con este título">¶</a></h3>
@@ -1056,9 +1099,15 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </ol>
 <p>Realizar la simulación en Java de dicha situación.</p>
 <p>Una posible solución sería la siguiente:</p>
+<<<<<<< HEAD
 <div class="section" id="id2">
 <h3>Clase cliente<a class="headerlink" href="#id2" title="Enlazar permanentemente con este título">¶</a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
+=======
+<div class="section" id="id1">
+<h3>Clase cliente<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
+>>>>>>> 7c5f3e3cd62fe3f372f515257aa73a430d48e307
 
 <span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
 
@@ -1359,6 +1408,31 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="depuracion">
 <h2>Depuración.<a class="headerlink" href="#depuracion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>La depuración de programas multihilo debe hacerse exclusivamente trabajando con pruebas de unidad y las comprobaciones de tipos de Java.</p>
+<ul class="simple">
+<li>Por un lado, los depuradores solo funcionan vinculándose con el hilo principal («main») de la aplicación, por lo que si se desea depurar un hilo concreto se tendrá que averiguar el identificador de dicho hilo para poder conectar con él desde el depurador.</li>
+<li>Los depuradores «interfieren» con la ejecución de los hilos así que pueden pasar cosas tan curiosas como que un programa <em>funcione cuando usamos el depurador pero vuelva a fallar al ejecutarlo solo</em>.</li>
+<li>Los mensajes de traza pueden aparecer antes o despues de lo esperado, así que en realidad no sabemos cuando se escribió un mensaje en pantalla ni qué operaciones se efectuaron antes o despues.</li>
+</ul>
+</div>
+<div class="section" id="ejercicio-empleado-thread-safe">
+<h2>Ejercicio: empleado «Thread safe»<a class="headerlink" href="#ejercicio-empleado-thread-safe" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Se dice que un método o clase es «Thread safe» (a prueba de hilos) cuando se ha programado con cuidado para que cualquier persona que lo utilice pueda hacerlo desde múltiples hilos de ejecución sin miedo a que se produzcan resultados indeseados. Evidentemente, la programación de código «Thread-safe» involucra muchísimo más cuidado de lo habitual. En el enunciado siguiente se pide desarrollar una clase que claramente debe ser «Thread safe».</p>
+<p>Crear una clase multihilo llamada Empleado que permita cambiar la cantidad de horas trabajadas por parte del empleado y su sueldo permitiendo que haya muchos hilos a la vez que puedan cambiar ambos valores pero de manera que la ejecución dé siempre resultados coherentes.</p>
+<p>En concreto, se desea tener un método <code class="docutils literal"><span class="pre">incrementarHoras(int</span> <span class="pre">numHoras)</span></code> que acepte números positivos y negativos y que permita actualizar el número de horas trabajadas. También se desea un método <code class="docutils literal"><span class="pre">incrementarBonus</span> <span class="pre">(int</span> <span class="pre">bonus)</span></code> que acepte positivos y negativos y que permita incrementar el bonus salarial del trabajador.</p>
+<p>Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a <code class="docutils literal"><span class="pre">incrementarHoras(2)</span></code> la ejecución de estos hilos debería reflejar que el empleado ha trabajado 400 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método <code class="docutils literal"><span class="pre">incrementarBonus(10)</span></code> el bonus salarial del empleado debería ser de 1000 euros.</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Empleado</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">bonus</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">horasTrabajadas</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">incrementarHoras</span><span class="o">(</span><span class="kt">int</span> <span class="n">numHoras</span><span class="o">){</span>
+                <span class="n">horasTrabajadas</span><span class="o">+=</span><span class="n">numHoras</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">incrementarBonus</span><span class="o">(</span><span class="kt">int</span> <span class="n">bonusSalarial</span><span class="o">){</span>
+                <span class="n">bonus</span><span class="o">+=</span><span class="n">bonusSalarial</span><span class="o">;</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -1381,7 +1455,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li><a class="reference internal" href="#prioridades-de-los-hilos">Prioridades de los hilos.</a></li>
 <li><a class="reference internal" href="#gestion-de-prioridades">Gestión de prioridades.</a></li>
 <li><a class="reference internal" href="#programacion-de-aplicaciones-multihilo">Programación de aplicaciones multihilo.</a></li>
-<li><a class="reference internal" href="#problema">Problema</a><ul>
+<li><a class="reference internal" href="#problema-filosofos">Problema: filósofos</a><ul>
 <li><a class="reference internal" href="#boceto-de-solucion">Boceto de solución</a></li>
 </ul>
 </li>
@@ -1392,7 +1466,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </ul>
 </li>
 <li><a class="reference internal" href="#problema-simulador-de-casino">Problema: simulador de casino</a></li>
-<li><a class="reference internal" href="#id1">Problema</a></li>
+<li><a class="reference internal" href="#problema-barberos">Problema: barberos</a></li>
 <li><a class="reference internal" href="#una-mala-solucion-al-problema-de-los-barberos">Una (mala) solución al problema de los barberos</a><ul>
 <li><a class="reference internal" href="#clase-barbero">Clase Barbero</a></li>
 <li><a class="reference internal" href="#clase-cliente">Clase Cliente</a></li>
@@ -1412,7 +1486,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </ul>
 </li>
 <li><a class="reference internal" href="#ejercicio">Ejercicio</a><ul>
-<li><a class="reference internal" href="#id2">Clase cliente</a></li>
+<li><a class="reference internal" href="#id1">Clase cliente</a></li>
 <li><a class="reference internal" href="#clase-almacen">Clase Almacén</a></li>
 <li><a class="reference internal" href="#clase-puerta">Clase Puerta</a></li>
 <li><a class="reference internal" href="#clase-lanzadora-grandesalmacenes">Clase lanzadora (GrandesAlmacenes)</a></li>
@@ -1421,6 +1495,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li><a class="reference internal" href="#simulacion-bancaria">Simulación bancaria</a></li>
 <li><a class="reference internal" href="#documentacion">Documentación.</a></li>
 <li><a class="reference internal" href="#depuracion">Depuración.</a></li>
+<li><a class="reference internal" href="#ejercicio-empleado-thread-safe">Ejercicio: empleado «Thread safe»</a></li>
 </ul>
 </li>
 </ul>
@@ -1460,7 +1535,11 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
       &copy;2016, Oscar Gomez.
       
       |
+<<<<<<< HEAD
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.2</a>
+=======
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+>>>>>>> 7c5f3e3cd62fe3f372f515257aa73a430d48e307
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

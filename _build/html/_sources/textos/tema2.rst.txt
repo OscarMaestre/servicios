@@ -378,7 +378,7 @@ Se puede aprovechar todavía más rendimiento si en un método marcamos como sec
 		}	
 	}
 
-Problema
+Problema: filósofos
 ------------------------------------------------------
 
 En una mesa hay procesos que simulan el comportamiento de unos filósofos que intentan comer de un plato. Cada filósofo tiene un cubierto a su izquierda y uno a su derecha y para poder comer tiene que conseguir los dos. Si lo consigue, mostrará un mensaje en pantalla que indique "Filosofo 2 comiendo".
@@ -443,134 +443,119 @@ Gestor de recursos compartidos (palillos)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: java
 
-	public class GestorPalillos {
-		/* False significa que no están cogidos*/
-		private boolean[] palillos;
-		public GestorPalillos(int num_filosofos){
-			palillos=new boolean[num_filosofos];
-			for (int i=0;i<palillos.length;i++){
-				palillos[i]=false;
-			}
-		}
+	package com.iesmaestre.filosofos;
+
+	public class GestorPalillos { 
+		boolean palilloLibre[];
+		public GestorPalillos(int numPalillos){
+			palilloLibre=new  boolean[numPalillos];
+			for (int i=0; i<numPalillos; i++){
+				palilloLibre[i]=true;
+			} //Fin del for
+		} //Fin del constructor
 		public synchronized boolean 
-			sePuedenCogerAmbosPalillos(
-				int num1,int num2){
-			if ( (palillos[num1]==false) &&
-				(palillos[num2]==false) ) {
-				palillos[num1]=true;
-				palillos[num2]=true;
-				System.out.println(
-					"Alguien consiguio los palillos "
-					+num1+" y "+num2);
-				return true;
-			}
-			return false;
+			intentarCogerPalillos(int pos1, int pos2)
+		{
+			boolean seConsigue=false;
+			if (
+					(palilloLibre[pos1]) 
+					&&
+					(palilloLibre[pos2]) )
+			{
+				palilloLibre[pos1]=false;
+				palilloLibre[pos2]=false;
+				seConsigue=true;
+			} //Fin del if
+			return seConsigue;
 		}
-		public synchronized void soltarPalillos(int num1, int num2){
-			palillos[num1]=false;
-			palillos[num2]=false;
-			System.out.println(
-				"Alguien liberó los palillos "+
-				num1+" y "+num2);
-		}	
+			
+		public void liberarPalillos(int pos1, int pos2){
+			palilloLibre[pos1]=true;
+			palilloLibre[pos2]=true;
+		}
 	}
+
 	
 Simulación de un filósofo
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: java
 
-			
-	import java.util.Random;
-	public class Filosofo  implements Runnable{
-		int num_palillo_izq;
-		int num_palillo_der;
-		GestorPalillos gestorPalillos;
-		public Filosofo(GestorPalillos gp,
-				int p_izq, int p_der){
-			this.gestorPalillos=gp;
-			this.num_palillo_der=p_der;
-			this.num_palillo_izq=p_izq;
-		}
-		public void run(){
-			String miNombre=Thread.currentThread().getName();
-			Random generador=new Random();
-			while (true){
-				/* Comer*/		
-				/* Intentar coger palillos*/
-				while(!gestorPalillos.sePuedenCogerAmbosPalillos
-					(
-							num_palillo_izq, 
-							num_palillo_der
-					))
-				{
-					
-				}
-				/* Si los coge:*/
-				
-				int milisegs=(1+generador.nextInt(5))*1000;
-				esperarTiempoAzar(miNombre, milisegs);
-				/* Pensando...*/
-				//Recordemos soltar los palillos
-				gestorPalillos.soltarPalillos(
-					num_palillo_izq, 
-					num_palillo_der);
-				
-				milisegs=(1+generador.nextInt(5))*1000;
-				esperarTiempoAzar(miNombre, milisegs);
-			}
-		}
+	package com.iesmaestre.filosofos;
 
-	private void esperarTiempoAzar(String miNombre, int milisegs) {
+	import java.util.Random;
+
+	public class Filosofo implements Runnable{
+		GestorPalillos gestorPalillos;
+		int posPalilloIzq,posPalilloDer;
+		public Filosofo(GestorPalillos g, int pIzq, int pDer){
+			this.gestorPalillos=g;
+			this.posPalilloDer=pDer;
+			this.posPalilloIzq=pIzq;
+		}
+		public void run() {
+			while (true){
+				boolean palillosCogidos;
+				palillosCogidos=
+				  this.gestorPalillos.intentarCogerPalillos(
+						  posPalilloIzq, posPalilloDer);
+				if (palillosCogidos){
+					comer();
+					this.gestorPalillos.liberarPalillos(
+							posPalilloIzq,
+							posPalilloDer);
+					dormir();
+				} //Fin del if
+			} //Fin del while true
+		} //Fin del run()
+
+		private void comer() {
+			System.out.println("Filosofo "+
+					Thread.currentThread().getName()+
+					" comiendo");
+			esperarTiempoAzar();
+		}
+		private void esperarTiempoAzar() {
+			Random generador=new Random();
+			int msAzar=generador.nextInt(3);
 			try {
-				Thread.sleep(milisegs);
-			} catch (InterruptedException e) {
-				System.out.println(
-					miNombre+
-					" interrumpido!!. Saliendo...");
-				return ;
+				Thread.sleep(msAzar);
+			} catch (InterruptedException ex) {
+				System.out.println("Fallo la espera");
 			}
+		}
+		private void dormir(){
+			System.out.println("Filosofo "+
+					Thread.currentThread().getName()+
+					" durmiendo (zzzzzz)");
+			esperarTiempoAzar();
 		}
 	}
+
 
 Lanzador de hilos
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: java
 
-	public class LanzadorFilosofos {
+	package com.iesmaestre.filosofos;
+	public class Lanzador {
 		public static void main(String[] args) {
-			int MAX_FILOSOFOS=5;
-			Filosofo[] filosofos=new Filosofo[MAX_FILOSOFOS];
-			Thread[] hilosAsociados=new Thread[MAX_FILOSOFOS];
-			GestorPalillos gestorCompartido=
-					new GestorPalillos(MAX_FILOSOFOS);
-			for (int i=0; i<MAX_FILOSOFOS; i++){
-				if (i==0){
-					filosofos[i]=
-					new Filosofo(
-							gestorCompartido,
-							i,MAX_FILOSOFOS-1);
-				}
-				else {
-					filosofos[i]=new Filosofo(
-							gestorCompartido, i, i-1);
-				}
-				Thread hilo=new Thread(filosofos[i]);
-				hilo.setName("Filosofo "+i);
-				hilosAsociados[i]=hilo;
-				hilo.start();
+			int NUM_PROCESOS=5;
+			Filosofo filosofos[]=new Filosofo[NUM_PROCESOS];
+			GestorPalillos gestorPalillos;
+			gestorPalillos=new GestorPalillos(NUM_PROCESOS);
+			Thread hilos[]=new Thread[NUM_PROCESOS];
+			for (int i=1; i<NUM_PROCESOS; i++){
+				filosofos[i]=new Filosofo(
+					gestorPalillos, i, i-1);
+				hilos[i]=new Thread(filosofos[i]);
+				hilos[i].start();
 			}
-			/* Un poco inútil*/
-			for (int i=0; i<MAX_FILOSOFOS;i++){
-				try {
-					hilosAsociados[i].join();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
+			filosofos[0]=new Filosofo(
+					gestorPalillos, 0, 4);
+			hilos[0]=new Thread(filosofos[0]);
+			hilos[0].start();
+		} //Fin del main
+	} //Fin de la clase
 	
 Problema: simulador de casino
 -------------------------------
@@ -594,10 +579,14 @@ Se desea simular los posibles beneficios de diversas estrategias de juego en un 
 
 	
 	
-Problema
+Problema: barberos
 ------------------------------------------------------
 
-En una peluquería hay barberos y sillas para los clientes (siempre hay más sillas que clientes). Sin embargo, en esta peluquería no siempre hay trabajo por lo que los barberos duermen cuando no hay clientes a los que afeitar. Un cliente puede llegar a la barbería y encontrar alguna silla libre, en cuyo caso, el cliente se sienta y esperará que algún barbero le afeite. Puede ocurrir que el cliente llegue y no haya sillas libres, en cuyo caso se marcha. Simular el comportamiento de la barbería mediante un programa Java.
+En una peluquería hay barberos y sillas para los clientes (siempre hay más sillas que clientes). Sin embargo, en esta peluquería no siempre hay trabajo por lo que los barberos duermen cuando no hay clientes a los que afeitar. Un cliente puede llegar a la barbería y encontrar alguna silla libre, en cuyo caso, el cliente se sienta y esperará que algún barbero le afeite. Puede ocurrir que el cliente llegue y no haya sillas libres, en cuyo caso se marcha. Simular el comportamiento de la barbería mediante un programa Java teniendo en cuenta que:
+
+* Se generan clientes continuamente, algunos encuentran silla y otros no. Los que no consigan silla desaparecen (terminan su ejecución)
+* Puede haber más sillas que barberos y al revés (poner constantes para poder cambiar fácilmente entre ejecuciones).
+* Se recuerda que no debe haber inanición, es decir ningún cliente debería quedarse en una silla esperando un tiempo infinito.
 
 .. figure:: ../imagenes/barberodormilon.png
    :figwidth: 50%  
@@ -616,14 +605,14 @@ Clase Barbero
 .. code-block:: java
 
 	public class Barbero implements Runnable {
-		private String 				nombre;
-		private GestorConcurrencia 	gc;
-		private Random				generador;
-		private int					MAX_ESPERA_SEGS=5;
+		private String              nombre;
+		private GestorConcurrencia  gc;
+		private Random              generador;
+		private int                 MAX_ESPERA_SEGS=5;
 		public Barbero(GestorConcurrencia gc,String nombre){
-			this.nombre		=nombre;
-			this.gc			=gc;
-			this.generador	=new Random();
+			this.nombre     =nombre;
+			this.gc         =gc;
+			this.generador  =new Random();
 		}
 	
 		public void esperarTiempoAzar(int max){
@@ -812,7 +801,7 @@ Críticas a la solución anterior
 
 ¿Cual es el problema?
 
-El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final **nunca son atendidos**. Hay que corregir esa asignación para *evitar que los procesos sufrán de inanición*.
+El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final **nunca son atendidos**. Hay que corregir esa asignación para *evitar que los procesos sufran de inanición*.
 
 Método corregido
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1412,3 +1401,32 @@ La estructura general de toda aplicación multihilo es algo similar a lo siguien
 
 Depuración.
 --------------------------------------------------------------------------
+La depuración de programas multihilo debe hacerse exclusivamente trabajando con pruebas de unidad y las comprobaciones de tipos de Java.
+
+* Por un lado, los depuradores solo funcionan vinculándose con el hilo principal ("main") de la aplicación, por lo que si se desea depurar un hilo concreto se tendrá que averiguar el identificador de dicho hilo para poder conectar con él desde el depurador. 
+* Los depuradores "interfieren" con la ejecución de los hilos así que pueden pasar cosas tan curiosas como que un programa *funcione cuando usamos el depurador pero vuelva a fallar al ejecutarlo solo*.
+* Los mensajes de traza pueden aparecer antes o despues de lo esperado, así que en realidad no sabemos cuando se escribió un mensaje en pantalla ni qué operaciones se efectuaron antes o despues.
+
+Ejercicio: empleado "Thread safe"
+----------------------------------
+
+Se dice que un método o clase es "Thread safe" (a prueba de hilos) cuando se ha programado con cuidado para que cualquier persona que lo utilice pueda hacerlo desde múltiples hilos de ejecución sin miedo a que se produzcan resultados indeseados. Evidentemente, la programación de código "Thread-safe" involucra muchísimo más cuidado de lo habitual. En el enunciado siguiente se pide desarrollar una clase que claramente debe ser "Thread safe".
+
+Crear una clase multihilo llamada Empleado que permita cambiar la cantidad de horas trabajadas por parte del empleado y su sueldo permitiendo que haya muchos hilos a la vez que puedan cambiar ambos valores pero de manera que la ejecución dé siempre resultados coherentes.
+
+En concreto, se desea tener un método ``incrementarHoras(int numHoras)`` que acepte números positivos y negativos y que permita actualizar el número de horas trabajadas. También se desea un método ``incrementarBonus (int bonus)`` que acepte positivos y negativos y que permita incrementar el bonus salarial del trabajador.
+
+Si por ejemplo lanzamos 10 hilos con 20 ejecuciones cada uno y todos ellos llaman a ``incrementarHoras(2)`` la ejecución de estos hilos debería reflejar que el empleado ha trabajado 400 horas este mes. De la misma manera, si hay 10 hilos que ejecuta cada uno 10 veces el método ``incrementarBonus(10)`` el bonus salarial del empleado debería ser de 1000 euros.
+
+.. code-block:: java
+
+	public class Empleado {
+		int bonus=0;
+		int horasTrabajadas=0;
+		public synchronized void incrementarHoras(int numHoras){
+			horasTrabajadas+=numHoras;
+		}
+		public synchronized void incrementarBonus(int bonusSalarial){
+			bonus+=bonusSalarial;
+		}
+	}
