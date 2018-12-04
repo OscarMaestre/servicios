@@ -10,4 +10,5 @@ Programacion de servicios y procesos
    textos/tema3
    textos/tema4
    textos/tema5
+   textos/tema6
    textos/anexos

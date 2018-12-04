@@ -4,27 +4,19 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Utilización de técnicas de programación segura &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
     <link rel="search" title="Búsqueda" href="../search.html" />
-    <link rel="next" title="Anexos" href="anexos.html" />
+    <link rel="next" title="Servicios web" href="tema6.html" />
     <link rel="prev" title="Generación de servicios en red" href="tema4.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -32,8 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -52,7 +43,7 @@
 <h2>Prácticas de programación segura.<a class="headerlink" href="#practicas-de-programacion-segura" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Para enviar mensajes cifrados se necesita algún mecanismo o algoritmo para convertir un texto normal en uno más difícil de comprender.</p>
 <p>El esquema general de todos los métodos es tener código como el siguiente:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="n">String</span> <span class="nf">cifrar</span> <span class="o">(</span><span class="n">String</span> <span class="n">texto</span><span class="o">,</span> <span class="n">String</span> <span class="n">clave</span><span class="o">)</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="n">String</span> <span class="nf">cifrar</span> <span class="o">(</span><span class="n">String</span> <span class="n">texto</span><span class="o">,</span> <span class="n">String</span> <span class="n">clave</span><span class="o">)</span>
 <span class="o">{</span>
 <span class="o">}</span>
 
@@ -72,7 +63,7 @@ BCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789-A</p>
 IPMBNVÑEP</div></blockquote>
 <p>El descifrado simplemente implicaría el método inverso. Si el desplazamiento es un valor distinto de 1, lo único que hay que hacer es construir el alfabeto rotado tantas veces como el desplazamiento</p>
 <p>Esta clase implementa un sistema de rotado básico para poder efectuar</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cifrador</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cifrador</span> <span class="o">{</span>
         <span class="kd">private</span> <span class="n">String</span> <span class="n">alfabeto</span><span class="o">=</span>
                         <span class="s">&quot;ABCDEFGHIJKLMNÑOPQRSTUVWXYZ&quot;</span><span class="o">+</span>
                         <span class="s">&quot;0123456789 &quot;</span><span class="o">;</span>
@@ -140,7 +131,7 @@ IPMBNVÑEP</div></blockquote>
 <div class="section" id="encriptacion-de-informacion">
 <h2>Encriptación de información.<a class="headerlink" href="#encriptacion-de-informacion" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>El siguiente código muestra como crear una clase que permita cifrar y descifrar textos.</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorCifrado</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorCifrado</span> <span class="o">{</span>
         <span class="n">KeyPair</span> <span class="n">claves</span><span class="o">;</span>
         <span class="n">KeyPairGenerator</span> <span class="n">generadorClaves</span><span class="o">;</span>
         <span class="n">Cipher</span> <span class="n">cifrador</span><span class="o">;</span>
@@ -237,8 +228,8 @@ IPMBNVÑEP</div></blockquote>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Advertencia</p>
-<p class="last">Los objetos que cifran y descifran en Java utilizan estrictamente objetos <code class="docutils literal"><span class="pre">byte[]</span></code>, que
-son los que debemos manejar siempre. Las conversiones a <code class="docutils literal"><span class="pre">String</span></code> las hacemos nosotros para poder visualizar resultados.</p>
+<p class="last">Los objetos que cifran y descifran en Java utilizan estrictamente objetos <code class="docutils literal notranslate"><span class="pre">byte[]</span></code>, que
+son los que debemos manejar siempre. Las conversiones a <code class="docutils literal notranslate"><span class="pre">String</span></code> las hacemos nosotros para poder visualizar resultados.</p>
 </div>
 </div>
 <div class="section" id="protocolos-seguros-de-comunicaciones">
@@ -267,7 +258,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <h2>Programación de aplicaciones con comunicaciones seguras.<a class="headerlink" href="#programacion-de-aplicaciones-con-comunicaciones-seguras" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Por fortuna Java dispone de clases ya prefabricadas que facilitan enormemente el que dos aplicaciones intercambios datos de forma segura a través de una red. Se deben considerar los siguientes puntos:</p>
 <ul class="simple">
-<li>El servidor debe tener su propio certificado. Si no lo tenemos, se puede generar primero una pareja de claves con la herramienta <code class="docutils literal"><span class="pre">keytool</span></code>, como se muestra en la figura adjunta. La herramienta guardará la pareja de claves en un almacén (el cual tiene su propia clave). Despues generaremos un certificado a partir de esa pareja con <code class="docutils literal"><span class="pre">keytool</span> <span class="pre">-export</span> <span class="pre">-file</span> <span class="pre">certificadoservidor.cer</span> <span class="pre">-keystore</span> <span class="pre">almacenclaves</span></code>.</li>
+<li>El servidor debe tener su propio certificado. Si no lo tenemos, se puede generar primero una pareja de claves con la herramienta <code class="docutils literal notranslate"><span class="pre">keytool</span></code>, como se muestra en la figura adjunta. La herramienta guardará la pareja de claves en un almacén (el cual tiene su propia clave). Despues generaremos un certificado a partir de esa pareja con <code class="docutils literal notranslate"><span class="pre">keytool</span> <span class="pre">-export</span> <span class="pre">-file</span> <span class="pre">certificadoservidor.cer</span> <span class="pre">-keystore</span> <span class="pre">almacenclaves</span></code>.</li>
 <li>El código del servidor necesitará indicar el fichero donde se almacenan las claves y la clave para acceder a ese almacén.</li>
 <li>El cliente necesita indicar que confía en el certificado del servidor. Dicho certificado del servidor puede estar guardado (por ejemplo) en el almacén de claves del cliente.</li>
 <li>Aunque no suele hacerse también podría hacerse a la inversa y obligar al cliente a tener un certificado que el servidor pudiera importar, lo que aumentaría la seguridad.</li>
@@ -277,7 +268,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <p class="caption"><span class="caption-text">Generando la pareja de claves del servidor.</span></p>
 </div>
 <p>Los pasos desglosados implican ejecutar estos comandos en el servidor:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># El servidor genera una pareja de claves que se almacena en un</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># El servidor genera una pareja de claves que se almacena en un</span>
 <span class="c1">#fichero llamado &quot;clavesservidor&quot;. Dentro del fichero se indica</span>
 <span class="c1">#un alias para poder referirnos a esa clave fácilmente</span>
 <span class="n">keytool</span> <span class="o">-</span><span class="n">genkeypair</span> <span class="o">-</span><span class="n">keyalg</span> <span class="n">RSA</span>
@@ -292,7 +283,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 </pre></div>
 </div>
 <p>En el cliente daremos estos pasos:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Se genera una pareja de claves (en realidad no nos hace falta solo</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Se genera una pareja de claves (en realidad no nos hace falta solo</span>
 <span class="c1">#queremos tener un almacén de claves.</span>
 <span class="n">keytool</span> <span class="o">-</span><span class="n">genkeypair</span> <span class="o">-</span><span class="n">keyalg</span> <span class="n">RSA</span> <span class="o">-</span><span class="n">alias</span> <span class="n">cliente</span> <span class="o">-</span><span class="n">keystore</span> <span class="n">clavescliente</span>
 
@@ -303,13 +294,13 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 </div>
 <p>Una vez creados los ficheros iniciales se deben dar los siguientes pasos en Java (servidor y cliente van por separado):</p>
 <ol class="arabic simple">
-<li>El servidor debe cargar su almacén de claves (el fichero <code class="docutils literal"><span class="pre">clavesservidor</span></code>)</li>
-<li>Ese almacén (cargado en un objeto Java llamado <code class="docutils literal"><span class="pre">KeyStore</span></code>), se usará para crear un gestor de claves (objeto <code class="docutils literal"><span class="pre">KeyManager</span></code>), el cual se obtiene a partir de una «fábrica» llamada <code class="docutils literal"><span class="pre">KeyManagerFactory</span></code>.</li>
-<li>Se creará un contexto SSL (objeto <code class="docutils literal"><span class="pre">SSLContext</span></code>) a partir de la fábrica comentada.</li>
-<li>El objeto <code class="docutils literal"><span class="pre">SSLContext</span></code> permitirá crear una fábrica de sockets que será la que finalmente nos permita tener un <code class="docutils literal"><span class="pre">SSLServerSocket</span></code>, es decir un socket de servidor que usará cifrado.</li>
+<li>El servidor debe cargar su almacén de claves (el fichero <code class="docutils literal notranslate"><span class="pre">clavesservidor</span></code>)</li>
+<li>Ese almacén (cargado en un objeto Java llamado <code class="docutils literal notranslate"><span class="pre">KeyStore</span></code>), se usará para crear un gestor de claves (objeto <code class="docutils literal notranslate"><span class="pre">KeyManager</span></code>), el cual se obtiene a partir de una «fábrica» llamada <code class="docutils literal notranslate"><span class="pre">KeyManagerFactory</span></code>.</li>
+<li>Se creará un contexto SSL (objeto <code class="docutils literal notranslate"><span class="pre">SSLContext</span></code>) a partir de la fábrica comentada.</li>
+<li>El objeto <code class="docutils literal notranslate"><span class="pre">SSLContext</span></code> permitirá crear una fábrica de sockets que será la que finalmente nos permita tener un <code class="docutils literal notranslate"><span class="pre">SSLServerSocket</span></code>, es decir un socket de servidor que usará cifrado.</li>
 </ol>
 <p>El código Java del servidor sería algo así:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="nf">OtroServidor</span> <span class="o">(</span><span class="n">String</span> <span class="n">rutaAlmacen</span><span class="o">,</span> <span class="n">String</span> <span class="n">claveAlmacen</span><span class="o">){</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="nf">OtroServidor</span> <span class="o">(</span><span class="n">String</span> <span class="n">rutaAlmacen</span><span class="o">,</span> <span class="n">String</span> <span class="n">claveAlmacen</span><span class="o">){</span>
             <span class="k">this</span><span class="o">.</span><span class="na">rutaAlmacen</span><span class="o">=</span><span class="n">rutaAlmacen</span><span class="o">;</span>
             <span class="k">this</span><span class="o">.</span><span class="na">claveAlmacen</span><span class="o">=</span><span class="n">claveAlmacen</span><span class="o">;</span>
     <span class="o">}</span>
@@ -375,12 +366,12 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <p>En el cliente se tienen que dar algunos pasos parecidos:</p>
 <ol class="arabic simple">
 <li>En primer lugar se carga el almacén de claves del cliente (que contiene el certificado del servidor y que es la clave para poder «autenticar» el servidor)</li>
-<li>El almacén del cliente se usará para crear un «gestor de confianza» (<code class="docutils literal"><span class="pre">TrustManager</span></code>) que Java usará para determinar si puede confiar o no en una conexión. Usaremos un <code class="docutils literal"><span class="pre">TrustManagerFactory</span></code> que usará el almacén del cliente para crear objetos que puedan gestionar la confianza.</li>
-<li>Se creará un contexto SSL (<code class="docutils literal"><span class="pre">SSLContext</span></code>) que se basará en los <code class="docutils literal"><span class="pre">TrustManager</span></code> que pueda crear la fábrica.</li>
-<li>A partir del contexto SSL el cliente ya puede crear un socket seguro (<code class="docutils literal"><span class="pre">SSLSocket</span></code>) que puede usar para conectar con el servidor de forma segura.</li>
+<li>El almacén del cliente se usará para crear un «gestor de confianza» (<code class="docutils literal notranslate"><span class="pre">TrustManager</span></code>) que Java usará para determinar si puede confiar o no en una conexión. Usaremos un <code class="docutils literal notranslate"><span class="pre">TrustManagerFactory</span></code> que usará el almacén del cliente para crear objetos que puedan gestionar la confianza.</li>
+<li>Se creará un contexto SSL (<code class="docutils literal notranslate"><span class="pre">SSLContext</span></code>) que se basará en los <code class="docutils literal notranslate"><span class="pre">TrustManager</span></code> que pueda crear la fábrica.</li>
+<li>A partir del contexto SSL el cliente ya puede crear un socket seguro (<code class="docutils literal notranslate"><span class="pre">SSLSocket</span></code>) que puede usar para conectar con el servidor de forma segura.</li>
 </ol>
 <p>El código del cliente sería algo así:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OtroCliente</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OtroCliente</span> <span class="o">{</span>
     <span class="n">String</span> <span class="n">almacen</span><span class="o">=</span><span class="s">&quot;/home/usuario/clavescliente&quot;</span><span class="o">;</span>
     <span class="n">String</span> <span class="n">clave</span><span class="o">=</span><span class="s">&quot;abcdabcd&quot;</span><span class="o">;</span>
     <span class="n">SSLSocket</span> <span class="n">conexion</span><span class="o">;</span>
@@ -452,16 +443,16 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <div class="section" id="firmado-de-aplicaciones">
 <h2>Firmado de aplicaciones<a class="headerlink" href="#firmado-de-aplicaciones" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Utilizando la criptografía de clave pública es posible «firmar» aplicaciones. El firmado es un mecanismo que permite al usuario de una aplicación el verificar que la aplicación no ha sido alterada desde que el programador la creó (virus o programas malignos, personal descontento con la empresa, etc…).</p>
-<p>Antes de efectuar el firmado se debe disponer de un par de claves generadas con la herramienta <code class="docutils literal"><span class="pre">keytool</span></code> mencionada anteriormente. Supongamos que el almacén de claves está creado y que en él hay uno o varios <em>alias</em> creados. El proceso de firmado es el siguiente:</p>
+<p>Antes de efectuar el firmado se debe disponer de un par de claves generadas con la herramienta <code class="docutils literal notranslate"><span class="pre">keytool</span></code> mencionada anteriormente. Supongamos que el almacén de claves está creado y que en él hay uno o varios <em>alias</em> creados. El proceso de firmado es el siguiente:</p>
 <ol class="arabic simple">
-<li>Crear la aplicación, que puede estar formada por un conjunto de clases pero que en última instancia tendrá un <code class="docutils literal"><span class="pre">main</span></code>.</li>
-<li>Empaquetar la aplicación con <code class="docutils literal"><span class="pre">jar</span> <span class="pre">cfe</span> <span class="pre">Aplicacion.jar</span> <span class="pre">com.ies.Aplicacion</span> <span class="pre">DirectorioPaquete</span></code>. Este comando crea un fichero (<code class="docutils literal"><span class="pre">f</span></code>) JAR en el cual el punto de entrada (<code class="docutils literal"><span class="pre">e</span></code>) es la clase <code class="docutils literal"><span class="pre">com.ies.Aplicacion</span></code> (que es la que tendrá el <code class="docutils literal"><span class="pre">main</span></code>).</li>
-<li>Puede comprobarse que la aplicación dentro del JAR se ejecuta correctamente con <code class="docutils literal"><span class="pre">java</span> <span class="pre">-jar</span> <span class="pre">Aplicacion.jar</span></code>.</li>
-<li>Ahora se puede ejecutar <code class="docutils literal"><span class="pre">jarsigner</span> <span class="pre">-keystore</span> <span class="pre">&lt;ruta-almacen&gt;</span> <span class="pre">Aplicacion.jar</span> <span class="pre">&lt;alias&gt;</span></code>.</li>
+<li>Crear la aplicación, que puede estar formada por un conjunto de clases pero que en última instancia tendrá un <code class="docutils literal notranslate"><span class="pre">main</span></code>.</li>
+<li>Empaquetar la aplicación con <code class="docutils literal notranslate"><span class="pre">jar</span> <span class="pre">cfe</span> <span class="pre">Aplicacion.jar</span> <span class="pre">com.ies.Aplicacion</span> <span class="pre">DirectorioPaquete</span></code>. Este comando crea un fichero (<code class="docutils literal notranslate"><span class="pre">f</span></code>) JAR en el cual el punto de entrada (<code class="docutils literal notranslate"><span class="pre">e</span></code>) es la clase <code class="docutils literal notranslate"><span class="pre">com.ies.Aplicacion</span></code> (que es la que tendrá el <code class="docutils literal notranslate"><span class="pre">main</span></code>).</li>
+<li>Puede comprobarse que la aplicación dentro del JAR se ejecuta correctamente con <code class="docutils literal notranslate"><span class="pre">java</span> <span class="pre">-jar</span> <span class="pre">Aplicacion.jar</span></code>.</li>
+<li>Ahora se puede ejecutar <code class="docutils literal notranslate"><span class="pre">jarsigner</span> <span class="pre">-keystore</span> <span class="pre">&lt;ruta-almacen&gt;</span> <span class="pre">Aplicacion.jar</span> <span class="pre">&lt;alias&gt;</span></code>.</li>
 </ol>
-<p>Con estos pasos se tiene un aplicación firmada que el usuario puede verificar si así lo desea. De hecho, si se extrae el contenido del JAR con <code class="docutils literal"><span class="pre">jar</span> <span class="pre">-xf</span> <span class="pre">Aplicacion.jar</span></code> se extraen los archivos <code class="docutils literal"><span class="pre">.class</span></code> y un fichero <code class="docutils literal"><span class="pre">META-INF/Manifest</span></code> que se puede abrir con un editor para ver que realmente está firmado.</p>
+<p>Con estos pasos se tiene un aplicación firmada que el usuario puede verificar si así lo desea. De hecho, si se extrae el contenido del JAR con <code class="docutils literal notranslate"><span class="pre">jar</span> <span class="pre">-xf</span> <span class="pre">Aplicacion.jar</span></code> se extraen los archivos <code class="docutils literal notranslate"><span class="pre">.class</span></code> y un fichero <code class="docutils literal notranslate"><span class="pre">META-INF/Manifest</span></code> que se puede abrir con un editor para ver que realmente está firmado.</p>
 <p>Para que otras personas puedan comprobar que nuestra aplicacion es correcta los programadores deberemos exportar un certificado que los usuarios puedan importar para hacer el verificado. Recordemos que el comando es:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">keytool</span> <span class="o">-</span><span class="n">exportcert</span> <span class="o">-</span><span class="n">keystore</span> <span class="o">..</span>\<span class="n">Almacen</span><span class="o">.</span><span class="n">store</span> <span class="o">-</span><span class="n">file</span> <span class="n">Programador</span><span class="o">.</span><span class="n">cer</span> <span class="o">-</span><span class="n">alias</span> <span class="n">Programador</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">keytool</span> <span class="o">-</span><span class="n">exportcert</span> <span class="o">-</span><span class="n">keystore</span> <span class="o">..</span>\<span class="n">Almacen</span><span class="o">.</span><span class="n">store</span> <span class="o">-</span><span class="n">file</span> <span class="n">Programador</span><span class="o">.</span><span class="n">cer</span> <span class="o">-</span><span class="n">alias</span> <span class="n">Programador</span>
 </pre></div>
 </div>
 </div>
@@ -470,13 +461,13 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <p>Si ahora otro usuario desea ejecutar nuestra aplicación deberá importar nuestro certificado. El proceso de verificado es simple:</p>
 <ol class="arabic simple">
 <li>El usuario importa el certificado.</li>
-<li>Ahora que tiene el certificado puede comprobar la aplicación con <code class="docutils literal"><span class="pre">jarsigner</span> <span class="pre">-verify</span> <span class="pre">-keystore</span> <span class="pre">&lt;ruta-almacen&gt;</span> <span class="pre">Aplicacion.jar</span> <span class="pre">&lt;alias_del_programador&gt;</span></code></li>
+<li>Ahora que tiene el certificado puede comprobar la aplicación con <code class="docutils literal notranslate"><span class="pre">jarsigner</span> <span class="pre">-verify</span> <span class="pre">-keystore</span> <span class="pre">&lt;ruta-almacen&gt;</span> <span class="pre">Aplicacion.jar</span> <span class="pre">&lt;alias_del_programador&gt;</span></code></li>
 </ol>
-<p>El comando deberá responder con algo como <code class="docutils literal"><span class="pre">jar</span> <span class="pre">verified</span></code>. Sin embargo si no tenemos un certificado firmado por alguna autoridad de certificación (CA) la herramienta se quejará de que algunos criterios de seguridad no se cumplen.</p>
+<p>El comando deberá responder con algo como <code class="docutils literal notranslate"><span class="pre">jar</span> <span class="pre">verified</span></code>. Sin embargo si no tenemos un certificado firmado por alguna autoridad de certificación (CA) la herramienta se quejará de que algunos criterios de seguridad no se cumplen.</p>
 </div>
 <div class="section" id="ejercicio">
 <h2>Ejercicio<a class="headerlink" href="#ejercicio" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>Intenta extraer el archivo JAR y reemplaza el <code class="docutils literal"><span class="pre">.class</span></code> por alguna otra clase. Vuelve a crear el archivo .JAR y vuelve a intentar verificarlo, ¿qué ocurre?</p>
+<p>Intenta extraer el archivo JAR y reemplaza el <code class="docutils literal notranslate"><span class="pre">.class</span></code> por alguna otra clase. Vuelve a crear el archivo .JAR y vuelve a intentar verificarlo, ¿qué ocurre?</p>
 </div>
 <div class="section" id="recordatorio">
 <h2>Recordatorio<a class="headerlink" href="#recordatorio" title="Enlazar permanentemente con este título">¶</a></h2>
@@ -486,7 +477,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <h2>Política de seguridad.<a class="headerlink" href="#politica-de-seguridad" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Java incluye un mecanismo para definir <em>políticas de seguridad</em>. La definición oficial de Java para una política es <em>objeto que especifica qué permisos están disponibles para el código en función de su origen y del usuario con el que se ejecutan</em>. Este origen puede ser los diversos directorios del sistema operativo o incluso direcciones URL.</p>
 <p>Cabe destacar que <strong>todo lo que se menciona aquí no funciona si el usuario tiene acceso al sistema y puede ejecutar el intérprete de Java sin restricciones</strong>. Es decir, se necesita el trabajo de un administrador de sistemas para restringir la manera en la que el usuario ejecuta el código.</p>
-<p>Supongamos entonces que estamos en un entorno seguro donde los programas Java se ejecutan utilizando un gestor de seguridad, es decir, se lanzan ejecutando <code class="docutils literal"><span class="pre">java</span> <span class="pre">-Djava.security.manager</span> <span class="pre">Clase</span></code>. En principio, los programas no podrán hacer muchas cosas, como por ejemplo, conectarse a Internet o leer un fichero que no esté en el mismo directorio de la clase.</p>
+<p>Supongamos entonces que estamos en un entorno seguro donde los programas Java se ejecutan utilizando un gestor de seguridad, es decir, se lanzan ejecutando <code class="docutils literal notranslate"><span class="pre">java</span> <span class="pre">-Djava.security.manager</span> <span class="pre">Clase</span></code>. En principio, los programas no podrán hacer muchas cosas, como por ejemplo, conectarse a Internet o leer un fichero que no esté en el mismo directorio de la clase.</p>
 </div>
 <div class="section" id="programacion-de-mecanismos-de-control-de-acceso">
 <h2>Programación de mecanismos de control de acceso.<a class="headerlink" href="#programacion-de-mecanismos-de-control-de-acceso" title="Enlazar permanentemente con este título">¶</a></h2>
@@ -532,7 +523,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
       <li>Previous: <a href="tema4.html" title="capítulo anterior">Generación de servicios en red</a></li>
-      <li>Next: <a href="anexos.html" title="próximo capítulo">Anexos</a></li>
+      <li>Next: <a href="tema6.html" title="próximo capítulo">Servicios web</a></li>
   </ul></li>
 </ul>
 </div>
@@ -545,12 +536,14 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Ir a" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -561,7 +554,7 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
