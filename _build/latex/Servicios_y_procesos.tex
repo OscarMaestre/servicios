@@ -54,7 +54,7 @@
 
 
 \title{Apuntes de Servicios y Procesos}
-\date{28 de noviembre de 2018}
+\date{05 de diciembre de 2018}
 \release{1.3}
 \author{Oscar Gomez}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -1404,7 +1404,7 @@ Simular este problema en un programa Java que muestre el progreso de todos sin c
 \capstart
 
 \noindent\sphinxincludegraphics{{Filosofos}.png}
-\caption{Esquema de los filósofos}\label{\detokenize{textos/tema2:id2}}\end{figure}
+\caption{Esquema de los filósofos}\label{\detokenize{textos/tema2:id5}}\end{figure}
 
 
 \subsection{Boceto de solución}
@@ -1612,7 +1612,7 @@ Se recuerda que no debe haber inanición, es decir ningún cliente debería qued
 \capstart
 
 \noindent\sphinxincludegraphics{{barberodormilon}.png}
-\caption{Los  barberos dormilones}\label{\detokenize{textos/tema2:id3}}\end{figure}
+\caption{Los  barberos dormilones}\label{\detokenize{textos/tema2:id6}}\end{figure}
 
 
 \section{Una (mala) solución al problema de los barberos}
@@ -1827,40 +1827,183 @@ Prueba la siguiente solución:
 El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final \sphinxstylestrong{nunca son atendidos}. Hay que corregir esa asignación para \sphinxstyleemphasis{evitar que los procesos sufran de inanición}.
 
 
-\subsection{Método corregido}
-\label{\detokenize{textos/tema2:metodo-corregido}}
+\subsection{Clase cliente}
+\label{\detokenize{textos/tema2:id1}}
 \fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{int} \PYG{n+nf}{atenderAlgunCliente}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-        \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{pasos}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
-                        \PYG{n}{pasos}\PYG{o}{\PYGZlt{}}\PYG{n}{clienteEstaAtendido}\PYG{o}{.}\PYG{n+na}{length}\PYG{o}{;}
-                        \PYG{n}{pasos}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}
-        \PYG{o}{\PYGZob{}}
-                \PYG{k}{if} \PYG{o}{(}
-                                \PYG{n}{clienteEstaAtendido}
-                                \PYG{o}{[}\PYG{n}{numUltimaSillaExaminada}\PYG{o}{]}
-                                                \PYG{o}{=}\PYG{o}{=} \PYG{k+kc}{false}
-                                                \PYG{o}{)}
-                \PYG{o}{\PYGZob{}}
-                        \PYG{c+cm}{/*Atendemos a ese cliente*/}
-                        \PYG{n}{clienteEstaAtendido}
-                                \PYG{o}{[}\PYG{n}{numUltimaSillaExaminada}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
-                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
-                                        \PYG{l+s}{\PYGZdq{}Afeitando cliente en silla \PYGZdq{}}\PYG{o}{+}
-                                                        \PYG{n}{numUltimaSillaExaminada}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{k}{return} \PYG{n}{numUltimaSillaExaminada}\PYG{o}{;}
-                \PYG{o}{\PYGZcb{}} \PYG{k}{else} \PYG{o}{\PYGZob{}}
-                        \PYG{n}{numUltimaSillaExaminada}\PYG{o}{=}
-                                        \PYG{o}{(}\PYG{n}{numUltimaSillaExaminada}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{\PYGZpc{}}
-                                        \PYG{n}{clienteEstaAtendido}\PYG{o}{.}\PYG{n+na}{length}\PYG{o}{;}
-                \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del else}
-        \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del for}
-        \PYG{c+cm}{/* Si llegamos aquí hemos dado toda}
-\PYG{c+cm}{         * una vuelta al vector y no había nadie sin}
-\PYG{c+cm}{         * atender devolver \PYGZhy{}1}
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Cliente}  \PYG{o}{\PYGZob{}}
+        \PYG{n}{GestorSillas} \PYG{n}{gestorSillas}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{n+nf}{Cliente}\PYG{o}{(}\PYG{n}{GestorSillas} \PYG{n}{g}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gestorSillas} \PYG{o}{=} \PYG{n}{g}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{entrarEnBarberia}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k+kt}{int} \PYG{n}{posSillaLibre} \PYG{o}{=} \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gestorSillas}\PYG{o}{.}\PYG{n+na}{getPosSillaLibre}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{k}{if} \PYG{o}{(}\PYG{n}{posSillaLibre}\PYG{o}{=}\PYG{o}{=}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}No habia sillas libres, me marcho\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{k}{return} \PYG{o}{;}
+                \PYG{o}{\PYGZcb{}}
+                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Me siento en la silla:\PYGZdq{}}\PYG{o}{+}\PYG{n}{posSillaLibre}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+
+\subsection{Clase Barbero}
+\label{\detokenize{textos/tema2:id2}}
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Barbero} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
+        \PYG{n}{GestorSillas} \PYG{n}{gestorSillas}\PYG{o}{;}
+        \PYG{k+kt}{boolean} \PYG{n}{barberiaAbierta}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{n+nf}{Barbero} \PYG{o}{(}\PYG{n}{GestorSillas} \PYG{n}{g}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{gestorSillas}\PYG{o}{=}\PYG{n}{g}\PYG{o}{;}
+                \PYG{n}{barberiaAbierta}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{cerrarBarberia}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{barberiaAbierta}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{n+nd}{@Override}
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{run}\PYG{o}{(}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+           \PYG{k}{while}\PYG{o}{(}\PYG{n}{barberiaAbierta}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                   \PYG{k+kt}{int} \PYG{n}{posSillaClienteSinAtender}\PYG{o}{;}
+                   \PYG{n}{posSillaClienteSinAtender}\PYG{o}{=}
+                                   \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gestorSillas}\PYG{o}{.}\PYG{n+na}{getSiguienteCliente}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                   \PYG{k}{if} \PYG{o}{(}\PYG{n}{posSillaClienteSinAtender}\PYG{o}{=}\PYG{o}{=}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                           \PYG{n}{esperarTiempoAzar}\PYG{o}{(}\PYG{l+m+mi}{3}\PYG{o}{)}\PYG{o}{;}
+                   \PYG{o}{\PYGZcb{}} \PYG{k}{else} \PYG{o}{\PYGZob{}}
+                           \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Barbero atendiendo silla:\PYGZdq{}} \PYG{o}{+}
+                                           \PYG{n}{posSillaClienteSinAtender}\PYG{o}{)}\PYG{o}{;}
+                           \PYG{n}{esperarTiempoAzar}\PYG{o}{(}\PYG{l+m+mi}{3}\PYG{o}{)}\PYG{o}{;}
+                           \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gestorSillas}\PYG{o}{.}\PYG{n+na}{liberarSilla}\PYG{o}{(}\PYG{n}{posSillaClienteSinAtender}\PYG{o}{)}\PYG{o}{;}
+                   \PYG{o}{\PYGZcb{}}
+           \PYG{o}{\PYGZcb{}}
+        \PYG{o}{\PYGZcb{}}
+
+        \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{esperarTiempoAzar}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{max}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{Random} \PYG{n}{generador}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Random}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{c+cm}{/* Se calculan unos milisegundos al azar*/}
+                \PYG{k+kt}{int} \PYG{n}{msgs}\PYG{o}{=}\PYG{o}{(}\PYG{l+m+mi}{1}\PYG{o}{+}\PYG{n}{generador}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{n}{max}\PYG{o}{)}\PYG{o}{)}\PYG{o}{*}\PYG{l+m+mi}{1000}\PYG{o}{;}
+                \PYG{k}{try} \PYG{o}{\PYGZob{}}
+                                \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{currentThread}\PYG{o}{(}\PYG{o}{)}\PYG{o}{.}\PYG{n+na}{sleep}\PYG{o}{(}\PYG{n}{msgs}\PYG{o}{)}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{e}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+                                \PYG{c+c1}{// TODO Auto\PYGZhy{}generated catch block}
+                                \PYG{n}{e}\PYG{o}{.}\PYG{n+na}{printStackTrace}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}}
+        \PYG{o}{\PYGZcb{}}
+
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+
+\subsection{Clase GestorSillas}
+\label{\detokenize{textos/tema2:clase-gestorsillas}}
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{GestorSillas} \PYG{o}{\PYGZob{}}
+        \PYG{k+kd}{private} \PYG{k+kt}{int} \PYG{n}{MAX\PYGZus{}SILLAS}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{k+kt}{boolean}\PYG{o}{[}\PYG{o}{]} \PYG{n}{estaSillaLibre}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{k+kt}{boolean}\PYG{o}{[}\PYG{o}{]} \PYG{n}{clienteEstaAtendido}\PYG{o}{;}
+        \PYG{k+kd}{private} \PYG{k+kt}{int} \PYG{n}{siguienteClienteParaAtender}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
+        \PYG{n}{GestorSillas}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{num}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{MAX\PYGZus{}SILLAS}\PYG{o}{=}\PYG{n}{num}\PYG{o}{;}
+                \PYG{n}{estaSillaLibre}\PYG{o}{=}\PYG{k}{new} \PYG{k+kt}{boolean}\PYG{o}{[}\PYG{n}{MAX\PYGZus{}SILLAS}\PYG{o}{]}\PYG{o}{;}
+                \PYG{n}{clienteEstaAtendido}\PYG{o}{=}\PYG{k}{new} \PYG{k+kt}{boolean}\PYG{o}{[}\PYG{n}{MAX\PYGZus{}SILLAS}\PYG{o}{]}\PYG{o}{;}
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}SILLAS}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{estaSillaLibre}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}       \PYG{o}{=} \PYG{k+kc}{true}\PYG{o}{;}
+                        \PYG{n}{clienteEstaAtendido}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}  \PYG{o}{=} \PYG{k+kc}{false}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{c+cm}{/**}
+\PYG{c+cm}{         * Nos dice el numero de silla que está libre}
+\PYG{c+cm}{         * @return Devuelve una posición o \PYGZhy{}1 si está}
+\PYG{c+cm}{         * todo ocupado}
 \PYG{c+cm}{         */}
-        \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{;}
-\PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del método}
+        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{int} \PYG{n+nf}{getPosSillaLibre}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k+kt}{int} \PYG{n}{posSilla}\PYG{o}{=}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{;}
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{pos}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{pos}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}SILLAS}\PYG{o}{;}\PYG{n}{pos}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{k}{if} \PYG{o}{(}\PYG{n}{estaSillaLibre}\PYG{o}{[}\PYG{n}{pos}\PYG{o}{]}\PYG{o}{=}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                                \PYG{n}{estaSillaLibre}\PYG{o}{[}\PYG{n}{pos}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
+                                \PYG{k}{return} \PYG{n}{pos}\PYG{o}{;}
+                        \PYG{o}{\PYGZcb{}}
+                \PYG{o}{\PYGZcb{}}
+                \PYG{k}{return} \PYG{n}{posSilla}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{liberarSilla}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{pos}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{estaSillaLibre}\PYG{o}{[}\PYG{n}{pos}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
+                \PYG{n}{clienteEstaAtendido}\PYG{o}{[}\PYG{n}{pos}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{int} \PYG{n+nf}{getSiguienteCliente}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k+kt}{int} \PYG{n}{pos}\PYG{o}{=}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{;}
+                \PYG{k+kt}{boolean} \PYG{n}{salir}\PYG{o}{;}
+                \PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{;}
+                \PYG{n}{salir}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{;}
+                \PYG{n}{i}\PYG{o}{=}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{siguienteClienteParaAtender}\PYG{o}{;}
+                \PYG{k}{while}\PYG{o}{(}\PYG{o}{!}\PYG{n}{salir}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{k}{if} \PYG{o}{(}
+                                        \PYG{o}{(}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{estaSillaLibre}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{)} \PYG{o}{\PYGZam{}}\PYG{o}{\PYGZam{}}
+                                        \PYG{o}{(}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{clienteEstaAtendido}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{)}
+                        \PYG{o}{)}
+                        \PYG{o}{\PYGZob{}}
+                                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{clienteEstaAtendido}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
+                                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{siguienteClienteParaAtender}\PYG{o}{=} \PYG{o}{(}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{o}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{MAX\PYGZus{}SILLAS}\PYG{o}{;}
+                                \PYG{k}{return} \PYG{n}{i}\PYG{o}{;}
+
+                        \PYG{o}{\PYGZcb{}}
+                        \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{;}
+                        \PYG{k}{if} \PYG{o}{(}\PYG{n}{i}\PYG{o}{=}\PYG{o}{=}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{MAX\PYGZus{}SILLAS}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                                \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
+                        \PYG{o}{\PYGZcb{}}
+                        \PYG{k}{if} \PYG{o}{(}\PYG{n}{i}\PYG{o}{=}\PYG{o}{=}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{siguienteClienteParaAtender}\PYG{o}{)} \PYG{n}{salir}\PYG{o}{=}\PYG{k+kc}{true}\PYG{o}{;}
+
+                \PYG{o}{\PYGZcb{}}
+
+                \PYG{k}{return} \PYG{n}{pos}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+
+\subsection{Clase Lanzador}
+\label{\detokenize{textos/tema2:id3}}
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Lanzador} \PYG{o}{\PYGZob{}}
+
+        \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{args}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{InterruptedException} \PYG{o}{\PYGZob{}}
+                \PYG{k+kt}{int} \PYG{n}{MAX\PYGZus{}BARBEROS} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{o}{;}
+                \PYG{k+kt}{int} \PYG{n}{MAX\PYGZus{}SILLAS}   \PYG{o}{=} \PYG{l+m+mi}{3}\PYG{o}{;}
+                \PYG{k+kt}{int} \PYG{n}{MAX\PYGZus{}CLIENTES} \PYG{o}{=} \PYG{l+m+mi}{1000}\PYG{o}{;}
+                \PYG{n}{Barbero}\PYG{o}{[}\PYG{o}{]} \PYG{n}{barberos}\PYG{o}{;}
+                \PYG{n}{Thread}\PYG{o}{[}\PYG{o}{]}  \PYG{n}{hilos}\PYG{o}{;}
+
+                \PYG{n}{barberos}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Barbero}\PYG{o}{[}\PYG{n}{MAX\PYGZus{}BARBEROS}\PYG{o}{]}\PYG{o}{;}
+                \PYG{n}{hilos}   \PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread} \PYG{o}{[}\PYG{n}{MAX\PYGZus{}BARBEROS}\PYG{o}{]}\PYG{o}{;}
+
+                \PYG{n}{GestorSillas} \PYG{n}{gestorSillas}\PYG{o}{=}\PYG{k}{new} \PYG{n}{GestorSillas}\PYG{o}{(}\PYG{n}{MAX\PYGZus{}SILLAS}\PYG{o}{)}\PYG{o}{;}
+
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}BARBEROS}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{barberos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Barbero}\PYG{o}{(}\PYG{n}{gestorSillas}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{n}{hilos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}   \PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{barberos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{)}\PYG{o}{;}
+
+                        \PYG{n}{hilos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del for}
+
+
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}} \PYG{n}{MAX\PYGZus{}CLIENTES}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{Cliente} \PYG{n}{c}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Cliente}\PYG{o}{(}\PYG{n}{gestorSillas}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{n}{c}\PYG{o}{.}\PYG{n+na}{entrarEnBarberia}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}}
+                \PYG{n}{Barbero}\PYG{o}{.}\PYG{n+na}{esperarTiempoAzar}\PYG{o}{(}\PYG{l+m+mi}{30}\PYG{o}{)}\PYG{o}{;}
+                \PYG{c+cm}{/* La jornada ha terminado, \PYGZdq{}cerramos\PYGZdq{} los barberos*/}
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}BARBEROS}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{barberos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{cerrarBarberia}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{n}{hilos}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{join}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}}
+                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Barberia cerrada.\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin del main}
+\PYG{o}{\PYGZcb{}} \PYG{c+c1}{//Fin de la clase}
 \end{sphinxVerbatim}
 
 
@@ -2111,7 +2254,7 @@ Una posible solución sería la siguiente:
 
 
 \subsection{Clase cliente}
-\label{\detokenize{textos/tema2:id1}}
+\label{\detokenize{textos/tema2:id4}}
 \fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{package} \PYG{n+nn}{grandesalmacenes}\PYG{o}{;}
@@ -4114,15 +4257,143 @@ La clase \sphinxcode{\sphinxupquote{Cliente.java}} que se adjunta a continuació
             \PYG{n}{File} \PYG{n}{fichero}\PYG{o}{=}\PYG{k}{new} \PYG{n}{File}\PYG{o}{(}\PYG{n}{ruta}\PYG{o}{)}\PYG{o}{;}
             \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{email}\PYG{o}{.}\PYG{n+na}{attach}\PYG{o}{(}\PYG{n}{fichero}\PYG{o}{)}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
-        \PYG{c+cm}{/*Y se envía el mensaje ;) */}
+        \PYG{c+c1}{// Y se envía el mensaje}
         \PYG{n}{email}\PYG{o}{.}\PYG{n+na}{send}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
     \PYG{o}{\PYGZcb{}}
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
 
-\subsection{Programación de servidores.}
+\section{Programación de servidores.}
 \label{\detokenize{textos/tema4:programacion-de-servidores}}
+Sabemos que un servidor es simplemente un programa. En concreto un programa que ofrece sus servicios a otros programas. Este concepto permite estructurar las aplicaciones utilizando un mecanismo que se conoce como «programación cliente/servidor». En estos programas \sphinxstylestrong{se determina un protocolo de comunicaciones} entre cliente y servidor y despues el cliente «pide» operaciones al servidor y este le devuelve resultados. Lo más interesante de este sistema que:
+\begin{itemize}
+\item {} 
+El cliente y el servidor pueden estar en sitios distintos y comunicarse a través de protocolos de red.
+
+\item {} 
+El cliente y el servidor \sphinxstyleemphasis{pueden estar programados en distintos lenguajes}
+
+\end{itemize}
+
+Supongamos un servidor que ofrece operaciones de cálculo a cualquier programa cliente. Un protocolo de comunicaciones muy simple sería:
+\begin{itemize}
+\item {} 
+Cuando el cliente se conecta al servidor envía una primera línea con uno de estos cuatro símbolos: + - * /
+
+\item {} 
+Despues el cliente envía dos números, cada uno en una línea separada.
+
+\item {} 
+Cuando el cliente haya enviado estas 3 líneas debe ponerse en modo de escucha y esperar que el servidor le devuelva un resultado que será un único número en una única línea.
+
+\end{itemize}
+
+Aunque para programas pequeños esto funciona perfectamente, existen estándares ya especificados que nos ayudan a construir aplicaciones. A continuación veremos algunos.
+
+
+\subsection{SOAP}
+\label{\detokenize{textos/tema4:soap}}
+
+\subsection{WCF}
+\label{\detokenize{textos/tema4:wcf}}
+En el tutorial siguiente se explica como crear un servicio web muy básico que implemente algunas operaciones con cadenas. La construcción de un servicio WCF tiene dos operaciones básicas:
+\begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
+\item {} 
+Establecer las operaciones que vamos a «ofrecer al exterior». Esto se hará con un \sphinxstyleemphasis{interfaz} que etiquetaremos con algunos atributos.
+
+\item {} 
+Crear una clase que implemente el interfaz que hayamos decidido en el paso 1.
+
+\end{enumerate}
+
+Así, por ejemplo, si consideramos que algunas operaciones muy complejas son «convertir una cadena en mayúsculas» e «invertir una cadena» definiremos un interfaz que tenga dos operaciones públicas que reciben una cadena y devuelven una cadena. Despues en el siguiente paso crearemos una clase que implemente ese interfaz.
+
+En primer lugar crearemos un proyecto en Visual Studio del tipo «Biblioteca de Servicios WCF» y crearemos un proyecto llamado ServicioCadenas. El editor creará dos ficheros, uno para el interfaz y otro para la implementación.
+
+\begin{figure}[htbp]
+\centering
+\capstart
+
+\noindent\sphinxincludegraphics{{wcf1}.png}
+\caption{Creación de un servicio web.}\label{\detokenize{textos/tema4:id1}}\end{figure}
+
+En el fichero de interfaz pondremos este código para definir el interfaz.
+
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{using} \PYG{n+nn}{System}\PYG{p}{;}
+\PYG{k}{using} \PYG{n+nn}{System.Collections.Generic}\PYG{p}{;}
+\PYG{k}{using} \PYG{n+nn}{System.Linq}\PYG{p}{;}
+\PYG{k}{using} \PYG{n+nn}{System.Runtime.Serialization}\PYG{p}{;}
+\PYG{k}{using} \PYG{n+nn}{System.ServiceModel}\PYG{p}{;}
+\PYG{k}{using} \PYG{n+nn}{System.Text}\PYG{p}{;}
+
+\PYG{k}{namespace} \PYG{n+nn}{ServicioCadenas}
+\PYG{p}{\PYGZob{}}
+\PYG{n+na}{    [ServiceContract]}
+    \PYG{k}{public} \PYG{k}{interface} \PYG{n}{IServicioCadenas}
+
+    \PYG{p}{\PYGZob{}}
+\PYG{n+na}{        [OperationContract]}
+        \PYG{k+kt}{string} \PYG{n+nf}{PasarAMayusculas}\PYG{p}{(}\PYG{k+kt}{string} \PYG{n}{cadena}\PYG{p}{)}\PYG{p}{;}
+\PYG{n+na}{        [OperationContract]}
+        \PYG{k+kt}{string} \PYG{n+nf}{Invertir}\PYG{p}{(}\PYG{k+kt}{string} \PYG{n}{cadena}\PYG{p}{)}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+Como puede verse hemos usado diversos atributos:
+\begin{itemize}
+\item {} 
+El atributo \sphinxcode{\sphinxupquote{{[}ServiceContract{]}}} indica que este interfaz \sphinxstyleemphasis{regula el contrato por el que se rige este servicio}. Se llama «contrato» al conjunto de operaciones y parámetros que un servidor ofrece.
+
+\item {} 
+El atributo \sphinxcode{\sphinxupquote{{[}OperationContract{]}}} indica que el método que hay a continuación es un método que se ofrece al exterior y por lo tanto los clientes podrán invocarlo y deberán hacerlo pasando los parámetros adecuados y deberán recoger un valor del tipo devuelto.
+
+\end{itemize}
+
+El siguiente paso es \sphinxstyleemphasis{implementar el interfaz definido}, es decir añadir una clase que implemente esos métodos. En concreto ahora pondremos este código en el fichero de implementación  (por brevedad se han omitido las sentencias \sphinxcode{\sphinxupquote{using}}):
+
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{namespace} \PYG{n+nn}{ServicioCadenas}
+\PYG{p}{\PYGZob{}}
+    \PYG{k}{public} \PYG{k}{class} \PYG{n+nc}{ServicioCadenas} \PYG{p}{:} \PYG{n}{IServicioCadenas}
+    \PYG{p}{\PYGZob{}}
+        \PYG{k}{public} \PYG{k+kt}{string} \PYG{n+nf}{Invertir}\PYG{p}{(}\PYG{k+kt}{string} \PYG{n}{cadena}\PYG{p}{)}
+        \PYG{p}{\PYGZob{}}
+            \PYG{k+kt}{char}\PYG{p}{[}\PYG{p}{]} \PYG{n}{caracteres} \PYG{p}{=} \PYG{n}{cadena}\PYG{p}{.}\PYG{n}{ToCharArray}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+            \PYG{n}{Array}\PYG{p}{.}\PYG{n}{Reverse}\PYG{p}{(}\PYG{n}{caracteres}\PYG{p}{)}\PYG{p}{;}
+            \PYG{k}{return} \PYG{k}{new} \PYG{n+nf}{string}\PYG{p}{(}\PYG{n}{caracteres}\PYG{p}{)}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{public} \PYG{k+kt}{string} \PYG{n+nf}{PasarAMayusculas}\PYG{p}{(}\PYG{k+kt}{string} \PYG{n}{cadena}\PYG{p}{)}
+        \PYG{p}{\PYGZob{}}
+            \PYG{k}{return} \PYG{n}{cadena}\PYG{p}{.}\PYG{n}{ToUpper}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+\begin{sphinxadmonition}{warning}{Advertencia:}
+Debe recordarse modificar el archivo App.config. Hemos cambiado el nombre de la clase y del interfaz así que deberemos asegurarnos de que los nuevos nombres aparezcan en dicho archivo.
+\end{sphinxadmonition}
+
+Con este código tan simple y el apoyo de Visual Studio (y las clases WCF) ya se dispone de un servicio. Para probarlo no hace falta implementar un cliente, sino que puede usarse el propio Visual Studio, que implementa una especie de cuadro de diálogo que permite hacer algunas pruebas. Si ejecutamos este código (usando el botón Iniciar o pulsando F5). Al hacerlo veremos esto:
+
+\begin{figure}[htbp]
+\centering
+\capstart
+
+\noindent\sphinxincludegraphics{{wcf2}.png}
+\caption{Probando el servicio web.}\label{\detokenize{textos/tema4:id2}}\end{figure}
+
+Como puede verse en la figura, hemos elegido un método y hemos puesto algún valor en la cadena. Al invocar el servicio, el método se ejecuta correctamente y obtenemos el resultado esperado. Además, en la ventana podemos ver la referencia URL del servicio \sphinxstylestrong{que podremos usar en otro ordenador por remoto que sea}
+
 
 \subsection{Implementación de comunicaciones simultáneas.}
 \label{\detokenize{textos/tema4:implementacion-de-comunicaciones-simultaneas}}

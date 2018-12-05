@@ -312,6 +312,7 @@ Con este código tan simple y el apoyo de Visual Studio (y las clases WCF) ya se
    
    Probando el servicio web.
 
+Como puede verse en la figura, hemos elegido un método y hemos puesto algún valor en la cadena. Al invocar el servicio, el método se ejecuta correctamente y obtenemos el resultado esperado. Además, en la ventana podemos ver la referencia URL del servicio **que podremos usar en otro ordenador por remoto que sea**
 
 Implementación de comunicaciones simultáneas.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

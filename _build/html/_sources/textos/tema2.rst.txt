@@ -803,42 +803,191 @@ Críticas a la solución anterior
 
 El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final **nunca son atendidos**. Hay que corregir esa asignación para *evitar que los procesos sufran de inanición*.
 
-Método corregido
+Clase cliente
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
-	public synchronized int atenderAlgunCliente(){
-		for (int pasos=0; 
-				pasos<clienteEstaAtendido.length; 
-				pasos++)
-		{
-			if (
-					clienteEstaAtendido
-					[numUltimaSillaExaminada]
-							== false
-							)
-			{
-				/*Atendemos a ese cliente*/
-				clienteEstaAtendido
-					[numUltimaSillaExaminada]=true;
-				System.out.println(
-						"Afeitando cliente en silla "+
-								numUltimaSillaExaminada);
-				return numUltimaSillaExaminada;
-			} else {
-				numUltimaSillaExaminada=
-						(numUltimaSillaExaminada+1)%
-						clienteEstaAtendido.length;
-			} //Fin del else
-		} //Fin del for		
-		/* Si llegamos aquí hemos dado toda
-		 * una vuelta al vector y no había nadie sin
-		 * atender devolver -1
-		 */
-		return -1;
-	} //Fin del método
+	public class Cliente  {
+		GestorSillas gestorSillas;
+		public Cliente(GestorSillas g){
+			this.gestorSillas = g;
+		}
+		public void entrarEnBarberia(){
+			int posSillaLibre = this.gestorSillas.getPosSillaLibre();
+			if (posSillaLibre==-1){
+				System.out.println("No habia sillas libres, me marcho");
+				return ;
+			}
+			System.out.println("Me siento en la silla:"+posSillaLibre);
+		}
+	}
+
+Clase Barbero
+~~~~~~~~~~~~~~~~~~
+
+
+.. code-block:: java
+
+
+	public class Barbero implements Runnable{
+		GestorSillas gestorSillas;
+		boolean barberiaAbierta;
+		public Barbero (GestorSillas g){
+			gestorSillas=g;
+			barberiaAbierta=true;
+		}
 		
+		public void cerrarBarberia(){
+			this.barberiaAbierta=false;
+		}
+		@Override
+		public void run() {
+		   while(barberiaAbierta){
+			   int posSillaClienteSinAtender;
+			   posSillaClienteSinAtender=
+					   this.gestorSillas.getSiguienteCliente();
+			   if (posSillaClienteSinAtender==-1){
+				   esperarTiempoAzar(3);
+			   } else {
+				   System.out.println("Barbero atendiendo silla:" +
+						   posSillaClienteSinAtender);
+				   esperarTiempoAzar(3);
+				   this.gestorSillas.liberarSilla(posSillaClienteSinAtender);
+			   }
+		   }
+		}
+		
+		public static void esperarTiempoAzar(int max){
+			Random generador=new Random();
+			/* Se calculan unos milisegundos al azar*/
+			int msgs=(1+generador.nextInt(max))*1000;
+			try {
+					Thread.currentThread().sleep(msgs);
+			} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+			}
+		}
+		
+	}
+
+
+Clase GestorSillas
+~~~~~~~~~~~~~~~~~~
+
+
+.. code-block:: java
+
+	public class GestorSillas {
+		private int MAX_SILLAS;
+		private boolean[] estaSillaLibre;
+		private boolean[] clienteEstaAtendido;
+		private int siguienteClienteParaAtender=0;
+		GestorSillas(int num){
+			MAX_SILLAS=num;
+			estaSillaLibre=new boolean[MAX_SILLAS];
+			clienteEstaAtendido=new boolean[MAX_SILLAS];
+			for (int i=0; i<MAX_SILLAS; i++){
+				estaSillaLibre[i]       = true;
+				clienteEstaAtendido[i]  = false;
+			}
+		}
+		/**
+		 * Nos dice el numero de silla que está libre
+		 * @return Devuelve una posición o -1 si está
+		 * todo ocupado
+		 */
+		public synchronized int getPosSillaLibre(){
+			int posSilla=-1;
+			for (int pos=0; pos<MAX_SILLAS;pos++){
+				if (estaSillaLibre[pos]==true){
+					estaSillaLibre[pos]=false;
+					return pos;
+				}
+			}
+			return posSilla;
+		}
+		
+		public void liberarSilla(int pos){
+			estaSillaLibre[pos]=true;
+			clienteEstaAtendido[pos]=false;
+		}
+		public synchronized int getSiguienteCliente(){
+			int pos=-1;
+			boolean salir;
+			int i;
+			salir=false;
+			i=this.siguienteClienteParaAtender;
+			while(!salir){
+				if (
+						(this.estaSillaLibre[i]==false) &&
+						(this.clienteEstaAtendido[i]==false)
+				)
+				{
+					this.clienteEstaAtendido[i]=true;
+					this.siguienteClienteParaAtender= (i+1) % MAX_SILLAS;
+					return i;
+					
+				}
+				i++;
+				if (i==this.MAX_SILLAS){
+					i=0;
+				}
+				if (i==this.siguienteClienteParaAtender) salir=true;
+				
+			}
+					
+			return pos;
+		}
+	}
+
+
+Clase Lanzador
+~~~~~~~~~~~~~~~~~~
+
+
+.. code-block:: java
+
+
+	public class Lanzador {
+
+		public static void main(String[] args) throws InterruptedException {
+			int MAX_BARBEROS = 2;
+			int MAX_SILLAS   = 3;
+			int MAX_CLIENTES = 1000;
+			Barbero[] barberos;
+			Thread[]  hilos;
+			
+			barberos=new Barbero[MAX_BARBEROS];
+			hilos   =new Thread [MAX_BARBEROS];
+			
+			GestorSillas gestorSillas=new GestorSillas(MAX_SILLAS);
+			
+			for (int i=0; i<MAX_BARBEROS; i++){
+				barberos[i]=new Barbero(gestorSillas);
+				hilos[i]   =new Thread(barberos[i]);
+				
+				hilos[i].start();
+			} //Fin del for
+			
+			
+			for (int i=0; i< MAX_CLIENTES; i++){
+				Cliente c=new Cliente(gestorSillas);
+				c.entrarEnBarberia();
+			}
+			Barbero.esperarTiempoAzar(30);
+			/* La jornada ha terminado, "cerramos" los barberos*/
+			for (int i=0; i<MAX_BARBEROS; i++){
+				barberos[i].cerrarBarberia();
+				hilos[i].join();
+			}
+			System.out.println("Barberia cerrada.");
+		} //Fin del main
+	} //Fin de la clase
+
+
+	
 
 Problema: productores y consumidores.
 ------------------------------------------------------

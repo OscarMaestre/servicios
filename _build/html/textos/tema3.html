@@ -4,20 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Programación de comunicaciones en red &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -32,13 +24,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="programacion-de-comunicaciones-en-red">
@@ -47,7 +40,7 @@
 <h2>Comunicación entre aplicaciones.<a class="headerlink" href="#comunicacion-entre-aplicaciones" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>En Java toda la comunicación vista en primer curso de DAM consiste en dos cosas</p>
 <ul class="simple">
-<li>Entrada/salida por consola: con las clases <code class="docutils literal"><span class="pre">System.in</span></code> o <code class="docutils literal"><span class="pre">System.out</span></code>.</li>
+<li>Entrada/salida por consola: con las clases <code class="docutils literal notranslate"><span class="pre">System.in</span></code> o <code class="docutils literal notranslate"><span class="pre">System.out</span></code>.</li>
 <li>Lectura/escritura en ficheros: con las clases File y similares.</li>
 </ul>
 <p>Se puede avanzar un paso más utilizando Java para enviar datos a través de Internet a otro programa Java remoto, que es lo que haremos en este capítulo.</p>
@@ -61,7 +54,7 @@
 </ul>
 <p>Un factor fundamental en los servidores es que tienen que ser capaces de procesar varias peticiones a la vez: <strong>deben ser multihilo</strong>.</p>
 <p>Su arquitectura típica es la siguiente:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">){</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">){</span>
         <span class="n">peticion</span><span class="o">=</span><span class="n">esperarPeticion</span><span class="o">();</span>
         <span class="n">hiloAsociado</span><span class="o">=</span><span class="k">new</span> <span class="n">Hilo</span><span class="o">();</span>
         <span class="n">hiloAsociado</span><span class="o">.</span><span class="na">atender</span><span class="o">(</span><span class="n">peticion</span><span class="o">);</span>
@@ -73,40 +66,40 @@
 <h2>Recordatorio de los flujos en Java<a class="headerlink" href="#recordatorio-de-los-flujos-en-java" title="Enlazar permanentemente con este título">¶</a></h2>
 <div class="section" id="inputstreams-y-outputstreams">
 <h3>InputStreams y OutputStreams<a class="headerlink" href="#inputstreams-y-outputstreams" title="Enlazar permanentemente con este título">¶</a></h3>
-<p>Manejan bytes a secas. Por ejemplo, si queremos leer un fichero byte a byte usaremos <code class="docutils literal"><span class="pre">FileInputStream</span></code> y si queremos escribir usaremos <code class="docutils literal"><span class="pre">FileOutputStream</span></code>.</p>
+<p>Manejan bytes a secas. Por ejemplo, si queremos leer un fichero byte a byte usaremos <code class="docutils literal notranslate"><span class="pre">FileInputStream</span></code> y si queremos escribir usaremos <code class="docutils literal notranslate"><span class="pre">FileOutputStream</span></code>.</p>
 <p>Son operaciones a muy bajo nivel que usaremos muy pocas veces (por ejemplo, solo si quisiéramos cambiar el primer byte de un archivo). En general usaremos otras clases más cómodas de usar.</p>
 </div>
 <div class="section" id="readers-y-writers">
 <h3>Readers y Writers<a class="headerlink" href="#readers-y-writers" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>En lugar de manejar <em>bytes</em> manejan <em>caracteres</em> (recordemos que hoy en día y con Unicode una letra como la <em>ñ</em> en realidad podría ocupar más de un byte).</p>
-<p>Así, cuando queramos leer letras de un archivo usaremos clases como <code class="docutils literal"><span class="pre">FileReader</span></code> y <code class="docutils literal"><span class="pre">FileWriter</span></code>.</p>
-<p>Las clases <code class="docutils literal"><span class="pre">Readers</span></code> y <code class="docutils literal"><span class="pre">Writers</span></code> en realidad se apoyan sobre las <code class="docutils literal"><span class="pre">InputStreams</span></code> y <code class="docutils literal"><span class="pre">OutputStreams</span></code>.</p>
-<p>A veces nos interesará mezclar conceptos y por ejemplo poder tener una clase que use caracteres cuando a lo mejor Java nos ha dado una clase que usa bytes. Así, por ejemplo <code class="docutils literal"><span class="pre">InputStreamReader</span></code> puede coger un objeto que lea bytes y nos devolverá caracteres. De la misma forma <code class="docutils literal"><span class="pre">OutputStreamWriter</span></code> coge letras y devuelve los bytes que la componen.</p>
+<p>Así, cuando queramos leer letras de un archivo usaremos clases como <code class="docutils literal notranslate"><span class="pre">FileReader</span></code> y <code class="docutils literal notranslate"><span class="pre">FileWriter</span></code>.</p>
+<p>Las clases <code class="docutils literal notranslate"><span class="pre">Readers</span></code> y <code class="docutils literal notranslate"><span class="pre">Writers</span></code> en realidad se apoyan sobre las <code class="docutils literal notranslate"><span class="pre">InputStreams</span></code> y <code class="docutils literal notranslate"><span class="pre">OutputStreams</span></code>.</p>
+<p>A veces nos interesará mezclar conceptos y por ejemplo poder tener una clase que use caracteres cuando a lo mejor Java nos ha dado una clase que usa bytes. Así, por ejemplo <code class="docutils literal notranslate"><span class="pre">InputStreamReader</span></code> puede coger un objeto que lea bytes y nos devolverá caracteres. De la misma forma <code class="docutils literal notranslate"><span class="pre">OutputStreamWriter</span></code> coge letras y devuelve los bytes que la componen.</p>
 </div>
 <div class="section" id="bufferedreaders-y-printwriters">
-<h3><code class="docutils literal"><span class="pre">BufferedReaders</span></code> y <code class="docutils literal"><span class="pre">PrintWriters</span></code><a class="headerlink" href="#bufferedreaders-y-printwriters" title="Enlazar permanentemente con este título">¶</a></h3>
-<p>Cuando trabajamos con caracteres (que recordemos pueden tener varios bytes) normalmente no trabajamos de uno en uno. Es más frecuente usar <strong>líneas</strong> que se leen y escriben de una sola vez. Así por ejemplo, la clase <code class="docutils literal"><span class="pre">PrintWriter</span></code> tiene un método <code class="docutils literal"><span class="pre">print(ln)</span></code> que puede imprimir elementos complejos como <code class="docutils literal"><span class="pre">floats</span></code> o cadenas largas.</p>
+<h3><code class="docutils literal notranslate"><span class="pre">BufferedReaders</span></code> y <code class="docutils literal notranslate"><span class="pre">PrintWriters</span></code><a class="headerlink" href="#bufferedreaders-y-printwriters" title="Enlazar permanentemente con este título">¶</a></h3>
+<p>Cuando trabajamos con caracteres (que recordemos pueden tener varios bytes) normalmente no trabajamos de uno en uno. Es más frecuente usar <strong>líneas</strong> que se leen y escriben de una sola vez. Así por ejemplo, la clase <code class="docutils literal notranslate"><span class="pre">PrintWriter</span></code> tiene un método <code class="docutils literal notranslate"><span class="pre">print(ln)</span></code> que puede imprimir elementos complejos como <code class="docutils literal notranslate"><span class="pre">floats</span></code> o cadenas largas.</p>
 <p>Además, Java ofrece clases que gestionan automáticamente los <em>buffers</em> por nosotros lo que nos da más comodidad y eficiencia. Por ello es muy habitual hacer cosas como esta:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="n">lectorEficiente</span> <span class="o">=</span> <span class="k">new</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">lectorEficiente</span> <span class="o">=</span> <span class="k">new</span>
         <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="s">&quot;fich1.txt&quot;</span><span class="o">));</span>
 <span class="n">escritorEficiente</span> <span class="o">=</span> <span class="k">new</span>
         <span class="n">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="s">&quot;fich2.txt&quot;</span><span class="o">));</span>
 </pre></div>
 </div>
-<p>En el primer caso creamos un objeto <code class="docutils literal"><span class="pre">FileReader</span></code> que es capaz de leer caracteres de <code class="docutils literal"><span class="pre">fich1.txt</span></code>. Como esto nos parece poco práctico creamos otro objeto a partir del primero de tipo <code class="docutils literal"><span class="pre">BufferedReader</span></code> que nos permitirá leer bloques enteros de texto.</p>
-<p>De hecho, si se comprueba la ayuda de la clase <code class="docutils literal"><span class="pre">FileReader</span></code> se verá que solo hay un método <code class="docutils literal"><span class="pre">read</span></code> que devuelve un <code class="docutils literal"><span class="pre">int</span></code>, es decir el siguiente <strong>carácter</strong> disponible, lo que hace que el método sea muy incómodo. Sin embargo <code class="docutils literal"><span class="pre">BufferedReader</span></code> nos resuelve esta incomodidad permitiéndonos trabajar con líneas.</p>
+<p>En el primer caso creamos un objeto <code class="docutils literal notranslate"><span class="pre">FileReader</span></code> que es capaz de leer caracteres de <code class="docutils literal notranslate"><span class="pre">fich1.txt</span></code>. Como esto nos parece poco práctico creamos otro objeto a partir del primero de tipo <code class="docutils literal notranslate"><span class="pre">BufferedReader</span></code> que nos permitirá leer bloques enteros de texto.</p>
+<p>De hecho, si se comprueba la ayuda de la clase <code class="docutils literal notranslate"><span class="pre">FileReader</span></code> se verá que solo hay un método <code class="docutils literal notranslate"><span class="pre">read</span></code> que devuelve un <code class="docutils literal notranslate"><span class="pre">int</span></code>, es decir el siguiente <strong>carácter</strong> disponible, lo que hace que el método sea muy incómodo. Sin embargo <code class="docutils literal notranslate"><span class="pre">BufferedReader</span></code> nos resuelve esta incomodidad permitiéndonos trabajar con líneas.</p>
 </div>
 </div>
 <div class="section" id="elementos-de-programacion-de-aplicaciones-en-red-librerias">
 <h2>Elementos de programación de aplicaciones en red. Librerías.<a class="headerlink" href="#elementos-de-programacion-de-aplicaciones-en-red-librerias" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>En Java toda la infraestructura de clases para trabajar con redes está en el paquete <code class="docutils literal"><span class="pre">java.net</span></code>.</p>
-<p>En muchos casos nuestros programas empezarán con la sentencia <code class="docutils literal"><span class="pre">import</span> <span class="pre">java.net.*</span></code> pero muchos entornos (como Eclipse) son capaces de importar automáticamente las clases necesarias.</p>
+<p>En Java toda la infraestructura de clases para trabajar con redes está en el paquete <code class="docutils literal notranslate"><span class="pre">java.net</span></code>.</p>
+<p>En muchos casos nuestros programas empezarán con la sentencia <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">java.net.*</span></code> pero muchos entornos (como Eclipse) son capaces de importar automáticamente las clases necesarias.</p>
 <div class="section" id="la-clase-url">
 <h3>La clase URL<a class="headerlink" href="#la-clase-url" title="Enlazar permanentemente con este título">¶</a></h3>
-<p>La clase URL permite gestionar accesos a URLs del tipo <code class="docutils literal"><span class="pre">http://marca.com/fichero.html</span></code> y descargar cosas con bastante sencillez.</p>
-<p>Al crear un objeto URL se debe capturar la excepción <code class="docutils literal"><span class="pre">MalformedURLException</span></code> que sucede cuando hay algún error en la URL, como por ejemplo escribir <code class="docutils literal"><span class="pre">htp://marca.com</span></code> en lugar de <code class="docutils literal"><span class="pre">http://marca.com</span></code> (obsérvese que el primero tiene un sola t en http en lugar de dos).</p>
-<p>La clase URL nos ofrece un método <code class="docutils literal"><span class="pre">openStream</span></code> que nos devuelve un flujo básico de bytes. Podemos crear objetos más sofisticados para leer bloques como muestra el programa siguiente:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorDescargas</span> <span class="o">{</span>
+<p>La clase URL permite gestionar accesos a URLs del tipo <code class="docutils literal notranslate"><span class="pre">http://marca.com/fichero.html</span></code> y descargar cosas con bastante sencillez.</p>
+<p>Al crear un objeto URL se debe capturar la excepción <code class="docutils literal notranslate"><span class="pre">MalformedURLException</span></code> que sucede cuando hay algún error en la URL, como por ejemplo escribir <code class="docutils literal notranslate"><span class="pre">htp://marca.com</span></code> en lugar de <code class="docutils literal notranslate"><span class="pre">http://marca.com</span></code> (obsérvese que el primero tiene un sola t en http en lugar de dos).</p>
+<p>La clase URL nos ofrece un método <code class="docutils literal notranslate"><span class="pre">openStream</span></code> que nos devuelve un flujo básico de bytes. Podemos crear objetos más sofisticados para leer bloques como muestra el programa siguiente:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorDescargas</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">descargarArchivo</span><span class="o">(</span>
                         <span class="n">String</span> <span class="n">url_descargar</span><span class="o">,</span>
                         <span class="n">String</span> <span class="n">nombreArchivo</span><span class="o">){</span>
@@ -188,12 +181,12 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <h2>Sockets.<a class="headerlink" href="#sockets" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Un <em>socket</em> es un objeto Java que nos permite contactar con un programa o servidor remoto. Dicho objeto nos proporcionará flujos de entrada y/o salida y podremos comunicarnos con dicho programa.</p>
 <p>Existe otro tipo de sockets, los <em>ServerSocket</em>. Se utilizan para crear programas que acepten conexiones o peticiones.</p>
-<p>Todos los objetos mencionados en este tema están en el paquete <code class="docutils literal"><span class="pre">java.net</span></code>.</p>
+<p>Todos los objetos mencionados en este tema están en el paquete <code class="docutils literal notranslate"><span class="pre">java.net</span></code>.</p>
 </div>
 <div class="section" id="creacion-de-sockets">
 <h2>Creación de sockets.<a class="headerlink" href="#creacion-de-sockets" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>En el siguiente código puede verse el proceso básico de creación de un socket. En los párrafos siguientes explicaremos el significado de los bloques de código.:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Conector</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Conector</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
                 <span class="n">String</span> <span class="n">destino</span><span class="o">=</span><span class="s">&quot;www.google.com&quot;</span><span class="o">;</span>
                 <span class="kt">int</span> <span class="n">puertoDestino</span><span class="o">=</span><span class="mi">80</span><span class="o">;</span>
@@ -219,8 +212,8 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>Para poder crear un socket primero necesitamos una dirección con la que contactar. Toda dirección está formada por dirección IP (o DNS) y un puerto. En nuestro caso intentaremos contactar con <code class="docutils literal"><span class="pre">www.google.com:80</span></code>.</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="n">String</span> <span class="n">destino</span><span class="o">=</span><span class="s">&quot;www.google.com&quot;</span><span class="o">;</span>
+<p>Para poder crear un socket primero necesitamos una dirección con la que contactar. Toda dirección está formada por dirección IP (o DNS) y un puerto. En nuestro caso intentaremos contactar con <code class="docutils literal notranslate"><span class="pre">www.google.com:80</span></code>.</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">String</span> <span class="n">destino</span><span class="o">=</span><span class="s">&quot;www.google.com&quot;</span><span class="o">;</span>
 <span class="kt">int</span> <span class="n">puertoDestino</span><span class="o">=</span><span class="mi">80</span><span class="o">;</span>
 <span class="n">Socket</span> <span class="n">socket</span><span class="o">=</span><span class="k">new</span> <span class="n">Socket</span><span class="o">();</span>
 <span class="n">InetSocketAddress</span> <span class="n">direccion</span><span class="o">=</span><span class="k">new</span>
@@ -231,13 +224,13 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </div>
 <div class="section" id="enlazado-y-establecimiento-de-conexiones">
 <h2>Enlazado y establecimiento de conexiones.<a class="headerlink" href="#enlazado-y-establecimiento-de-conexiones" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>El paso crítico para iniciar la comunicación es llamar al método <code class="docutils literal"><span class="pre">connect</span></code>. Este método puede disparar una excepción del tipo <code class="docutils literal"><span class="pre">IOException</span></code> que puede significar dos cosas:</p>
+<p>El paso crítico para iniciar la comunicación es llamar al método <code class="docutils literal notranslate"><span class="pre">connect</span></code>. Este método puede disparar una excepción del tipo <code class="docutils literal notranslate"><span class="pre">IOException</span></code> que puede significar dos cosas:</p>
 <ul class="simple">
 <li>La conexión no se pudo establecer.</li>
 <li>Aunque la conexión se estableció no fue posible leer o escribir datos.</li>
 </ul>
 <p>Así, la conexión debería realizarse así:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="k">try</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="k">try</span> <span class="o">{</span>
         <span class="n">socket</span><span class="o">.</span><span class="na">connect</span><span class="o">(</span><span class="n">direccion</span><span class="o">);</span>
         <span class="c1">//Si llegamos aquí es que la conexión</span>
         <span class="c1">//sí se hizo.</span>
@@ -257,11 +250,11 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </div>
 <div class="section" id="utilizacion-de-sockets-para-la-transmision-y-recepcion-de-informacion">
 <h2>Utilización de sockets para la transmisión y recepción de información.<a class="headerlink" href="#utilizacion-de-sockets-para-la-transmision-y-recepcion-de-informacion" title="Enlazar permanentemente con este título">¶</a></h2>
-<p>La clase <code class="docutils literal"><span class="pre">Socket</span></code> tiene dos métodos llamados <code class="docutils literal"><span class="pre">getInputStream</span></code> y <code class="docutils literal"><span class="pre">getOutputSream</span></code> que nos permiten obtener <em>flujos orientados a bytes</em>. Recordemos que es posible crear nuestros propios flujos, con más métodos que ofrecen más comodidad.</p>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">Socket</span></code> tiene dos métodos llamados <code class="docutils literal notranslate"><span class="pre">getInputStream</span></code> y <code class="docutils literal notranslate"><span class="pre">getOutputSream</span></code> que nos permiten obtener <em>flujos orientados a bytes</em>. Recordemos que es posible crear nuestros propios flujos, con más métodos que ofrecen más comodidad.</p>
 <div class="section" id="el-ejemplo-completo">
 <h3>El ejemplo completo<a class="headerlink" href="#el-ejemplo-completo" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Podemos contactar con un programa cualquiera escrito en cualquier lenguaje y enviar las peticiones de acuerdo a un protocolo. Nuestro programa podrá leer las respuestas independientemente de como fuera el servidor.</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Conector</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Conector</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
                 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Iniciando...&quot;</span><span class="o">);</span>
                 <span class="n">String</span> <span class="n">destino</span><span class="o">=</span><span class="s">&quot;10.8.0.253&quot;</span><span class="o">;</span>
@@ -327,11 +320,11 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </ul>
 <p>En el ejemplo siguiente puede verse un ejemplo para Python 3 que implementa un servidor de cálculo. El servidor tiene un protocolo muy rígido (demasiado) que consiste en lo siguiente:</p>
 <ol class="arabic simple">
-<li>El servidor espera que primero envíen la operación que puede ser <code class="docutils literal"><span class="pre">+</span></code> o <code class="docutils literal"><span class="pre">-</span></code>. La operación debe terminar con un fin de línea UNIX (<code class="docutils literal"><span class="pre">\n</span></code>)</li>
+<li>El servidor espera que primero envíen la operación que puede ser <code class="docutils literal notranslate"><span class="pre">+</span></code> o <code class="docutils literal notranslate"><span class="pre">-</span></code>. La operación debe terminar con un fin de línea UNIX (<code class="docutils literal notranslate"><span class="pre">\n</span></code>)</li>
 <li>Despues acepta un número de dos cifras (ni una ni tres) terminado en un fín de línea UNIX.</li>
 <li>Despues acepta un segundo número de dos cifras terminado en un fin de línea UNIX.</li>
 </ol>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">socketserver</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">socketserver</span>
 <span class="n">TAM_MAXIMO_PARAMETROS</span><span class="o">=</span><span class="mi">64</span>
 <span class="n">PUERTO</span><span class="o">=</span><span class="mi">9876</span>
 <span class="k">class</span> <span class="nc">GestorConexion</span><span class="p">(</span>
@@ -373,7 +366,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </pre></div>
 </div>
 <p>La comunicación Java con el servidor sería algo así:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kt">byte</span><span class="o">[]</span> <span class="n">bSuma</span><span class="o">=</span><span class="s">&quot;+\n&quot;</span><span class="o">.</span><span class="na">getBytes</span><span class="o">();</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kt">byte</span><span class="o">[]</span> <span class="n">bSuma</span><span class="o">=</span><span class="s">&quot;+\n&quot;</span><span class="o">.</span><span class="na">getBytes</span><span class="o">();</span>
 <span class="kt">byte</span><span class="o">[]</span> <span class="n">bOp1</span><span class="o">=</span><span class="s">&quot;42\n&quot;</span><span class="o">.</span><span class="na">getBytes</span><span class="o">();</span>
 <span class="kt">byte</span><span class="o">[]</span> <span class="n">bOp2</span><span class="o">=</span><span class="s">&quot;34\n&quot;</span><span class="o">.</span><span class="na">getBytes</span><span class="o">();</span>
 
@@ -399,14 +392,14 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <h3>Ejemplo de servidor Java<a class="headerlink" href="#ejemplo-de-servidor-java" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Supongamos que se nos pide crear un servidor de operaciones de cálculo que sea menos estricto que el anterior:</p>
 <ul class="simple">
-<li>Cualquier parámetro que envíe el usuario debe ir terminado en un fin de línea UNIX (<code class="docutils literal"><span class="pre">\n</span></code>).</li>
+<li>Cualquier parámetro que envíe el usuario debe ir terminado en un fin de línea UNIX (<code class="docutils literal notranslate"><span class="pre">\n</span></code>).</li>
 <li>El usuario enviará primero un símbolo «+», «-«, «*» o «/».</li>
 <li>Despues se puede enviar un positivo de 1 a 8 cifras. El usuario podría equivocarse y enviar en vez de «3762» algo como «37a62». En ese caso se asume que el parámetro es 0.</li>
 <li>Despues se envía un segundo positivo de 1 a 8 cifras igual que el anterior.</li>
 <li>Cuando el servidor haya recogido todos los parámetros contestará al cliente con un positivo de 1 a 16 cifras.</li>
 </ul>
 <p>Antes de empezar crear el código que permita procesar estos parámetros complejos.</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServidorCalculo</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServidorCalculo</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kt">int</span> <span class="nf">extraerNumero</span><span class="o">(</span><span class="n">String</span> <span class="n">linea</span><span class="o">){</span>
                 <span class="cm">/* 1. Comprobar si es un número</span>
 <span class="cm">                 * 2. Ver si el número es correcto (32a75)</span>
@@ -439,7 +432,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </pre></div>
 </div>
 <p>Así, el código completo del servidor sería:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServidorCalculo</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServidorCalculo</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kt">int</span> <span class="nf">extraerNumero</span><span class="o">(</span><span class="n">String</span> <span class="n">linea</span><span class="o">){</span>
                 <span class="cm">/* 1. Comprobar si es un número</span>
 <span class="cm">                 * 2. Ver si el número es correcto (32a75)</span>
@@ -506,7 +499,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </pre></div>
 </div>
 <p>Y el cliente sería:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClienteCalculo</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClienteCalculo</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kd">static</span> <span class="n">BufferedReader</span> <span class="nf">getFlujo</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">is</span><span class="o">){</span>
                 <span class="n">InputStreamReader</span> <span class="n">isr</span><span class="o">=</span>
                                 <span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">is</span><span class="o">);</span>
@@ -545,7 +538,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <h2>Utilización de hilos en la programación de aplicaciones en red.<a class="headerlink" href="#utilizacion-de-hilos-en-la-programacion-de-aplicaciones-en-red" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>En el caso de aplicaciones que necesiten aceptar varias conexiones <strong>habrá que mover todo el código de gestión de peticiones a una clase que implemente Runnable</strong></p>
 <p>Ahora el servidor será así:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">){</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">){</span>
         <span class="n">Socket</span> <span class="n">conexion</span><span class="o">=</span><span class="n">socketEscucha</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Conexion recibida&quot;</span><span class="o">);</span>
         <span class="n">Peticion</span> <span class="n">p</span><span class="o">=</span><span class="k">new</span> <span class="n">Peticion</span><span class="o">(</span><span class="n">conexion</span><span class="o">);</span>
@@ -555,7 +548,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </pre></div>
 </div>
 <p>Pero ahora tendremos una clase Petición como esta:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Peticion</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Peticion</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
         <span class="n">BufferedReader</span> <span class="n">bfr</span><span class="o">;</span>
         <span class="n">PrintWriter</span> <span class="n">pw</span><span class="o">;</span>
         <span class="n">Socket</span> <span class="n">socket</span><span class="o">;</span>
@@ -633,7 +626,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <div class="section" id="una-clase-protocolo">
 <h3>Una clase Protocolo<a class="headerlink" href="#una-clase-protocolo" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Dado que los protocolos pueden ser variables puede ser útil encapsular el comportamiento del protocolo en una pequeña clase separada:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Protocolo</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Protocolo</span> <span class="o">{</span>
         <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">terminador</span><span class="o">=</span><span class="s">&quot;\n&quot;</span><span class="o">;</span>
         <span class="kd">public</span> <span class="n">String</span> <span class="nf">getMensajeVersion</span><span class="o">(</span><span class="kt">int</span> <span class="n">version</span><span class="o">){</span>
                 <span class="n">Integer</span> <span class="n">i</span><span class="o">=</span><span class="n">version</span><span class="o">;</span>
@@ -653,7 +646,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <div class="section" id="una-clase-con-funciones-de-utilidad">
 <h3>Una clase con funciones de utilidad<a class="headerlink" href="#una-clase-con-funciones-de-utilidad" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Algunas operaciones son muy sencillas, pero muy engorrosas. Alargan el código innecesariamente y lo hacen más difícil de entender. Si además se realizan a menudo puede ser interesante empaquetar toda la funcionalidad en una clase.</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Utilidades</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Utilidades</span> <span class="o">{</span>
         <span class="cm">/* Obtiene un flujo de escritura</span>
 <span class="cm">        a partir de un socket*/</span>
         <span class="kd">public</span> <span class="n">PrintWriter</span> <span class="nf">getFlujoEscritura</span>
@@ -679,7 +672,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </div>
 <div class="section" id="la-clase-peticion">
 <h3>La clase Petición<a class="headerlink" href="#la-clase-peticion" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Peticion</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Peticion</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
         <span class="n">Socket</span> <span class="n">conexionParaAtender</span><span class="o">;</span>
 
         <span class="kd">public</span> <span class="nf">Peticion</span> <span class="o">(</span> <span class="n">Socket</span> <span class="n">s</span> <span class="o">){</span>
@@ -729,7 +722,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </div>
 <div class="section" id="la-clase-servidor">
 <h3>La clase Servidor<a class="headerlink" href="#la-clase-servidor" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServidorOrdenacion</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServidorOrdenacion</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">escuchar</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">{</span>
                 <span class="n">ServerSocket</span> <span class="n">socket</span><span class="o">;</span>
                 <span class="k">try</span><span class="o">{</span>
@@ -767,7 +760,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </div>
 <div class="section" id="la-clase-cliente">
 <h3>La clase Cliente<a class="headerlink" href="#la-clase-cliente" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cliente</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cliente</span> <span class="o">{</span>
         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">ordenar</span><span class="o">(</span><span class="n">String</span> <span class="n">s1</span><span class="o">,</span> <span class="n">String</span> <span class="n">s2</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">{</span>
                 <span class="n">InetSocketAddress</span> <span class="n">direccion</span><span class="o">=</span>
                                 <span class="k">new</span> <span class="n">InetSocketAddress</span><span class="o">(</span><span class="s">&quot;10.13.0.20&quot;</span><span class="o">,</span> <span class="mi">9876</span><span class="o">);</span>
@@ -814,7 +807,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <h3>Ampliación<a class="headerlink" href="#ampliacion" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Finalmente la empresa va a necesitar una versión mejorada del servidor que permita a otros cliente enviar un número de palabras y luego las palabras. Se desea hacer todo sin romper la compatibilidad con los clientes viejos. Mostrar el código Java del servidor y del cliente.</p>
 <p>En el servidor se añade este código extra a la hora de comprobar el protocolo:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="o">(</span><span class="n">numVersion</span><span class="o">==</span><span class="mi">2</span><span class="o">){</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="o">(</span><span class="n">numVersion</span><span class="o">==</span><span class="mi">2</span><span class="o">){</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Llegó un v2&quot;</span><span class="o">);</span>
         <span class="n">String</span> <span class="n">lineaCantidadPalabras</span><span class="o">=</span>
         <span class="n">flujoLectura</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
@@ -835,7 +828,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <span class="o">}</span>
 </pre></div>
 </div>
-<p>Y finalmente solo habría que implementar un método en la petición que reciba un vector de <code class="docutils literal"><span class="pre">String</span></code> (las palabras) y devuelva el mismo vector pero ordenado.</p>
+<p>Y finalmente solo habría que implementar un método en la petición que reciba un vector de <code class="docutils literal notranslate"><span class="pre">String</span></code> (las palabras) y devuelva el mismo vector pero ordenado.</p>
 </div>
 </div>
 <div class="section" id="ejercicios">
@@ -865,7 +858,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 <div class="section" id="solucion-a-las-sumas-de-verificacion">
 <h3>Solución a las sumas de verificación<a class="headerlink" href="#solucion-a-las-sumas-de-verificacion" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>El código siguiente ilustra la clase que hace sumas de verificación.</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sumador</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sumador</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">sumaSimple</span><span class="o">(</span><span class="n">String</span> <span class="n">cad</span><span class="o">)</span> <span class="o">{</span>
         <span class="kt">int</span> <span class="n">suma</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
@@ -878,7 +871,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </pre></div>
 </div>
 <p>A continuación se muestra el servidor.</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Servidor</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Servidor</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">servir</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">ServerSocket</span> <span class="n">serverSocket</span><span class="o">;</span>
@@ -912,7 +905,7 @@ Antes de usar un puerto en una aplicación comercial deberíamos consultar la li
 </pre></div>
 </div>
 <p>Y a  continuación el cliente:</p>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cliente</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cliente</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">verificarCadenas</span><span class="o">(</span><span class="n">BufferedReader</span> <span class="n">bfr</span><span class="o">,</span>
                                  <span class="n">PrintWriter</span> <span class="n">pw</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
@@ -981,7 +974,7 @@ partes:</p>
 </div>
 <div class="section" id="solucion-al-servidor">
 <h3>Solución al servidor<a class="headerlink" href="#solucion-al-servidor" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Servidor</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Servidor</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">servir</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Servidor activo!&quot;</span><span class="o">);</span>
@@ -1020,7 +1013,7 @@ partes:</p>
 </div>
 <div class="section" id="solucion-hiloconexion">
 <h3>Solución HiloConexion<a class="headerlink" href="#solucion-hiloconexion" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HiloConexion</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HiloConexion</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
 
     <span class="n">BufferedReader</span> <span class="n">bfr</span><span class="o">;</span>
 
@@ -1058,7 +1051,7 @@ partes:</p>
 </div>
 <div class="section" id="solucion-cliente">
 <h3>Solución Cliente<a class="headerlink" href="#solucion-cliente" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cliente</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cliente</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
 
     <span class="n">Socket</span> <span class="n">conexion</span><span class="o">;</span>
 
@@ -1162,7 +1155,7 @@ partes:</p>
 </div>
 <div class="section" id="solucion-lanzadorclientes">
 <h3>Solución LanzadorClientes<a class="headerlink" href="#solucion-lanzadorclientes" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LanzadorClientes</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LanzadorClientes</span> <span class="o">{</span>
 
     <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">servidorAtendioClientes</span><span class="o">(</span>
         <span class="kt">int</span> <span class="n">numClientes</span><span class="o">)</span> <span class="o">{</span>
@@ -1240,63 +1233,45 @@ partes:</p>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Tabla de Contenidos</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Programación de comunicaciones en red</a><ul>
-<li><a class="reference internal" href="#comunicacion-entre-aplicaciones">Comunicación entre aplicaciones.</a></li>
-<li><a class="reference internal" href="#roles-cliente-y-servidor">Roles cliente y servidor.</a></li>
-<li><a class="reference internal" href="#recordatorio-de-los-flujos-en-java">Recordatorio de los flujos en Java</a><ul>
-<li><a class="reference internal" href="#inputstreams-y-outputstreams">InputStreams y OutputStreams</a></li>
-<li><a class="reference internal" href="#readers-y-writers">Readers y Writers</a></li>
-<li><a class="reference internal" href="#bufferedreaders-y-printwriters"><code class="docutils literal"><span class="pre">BufferedReaders</span></code> y <code class="docutils literal"><span class="pre">PrintWriters</span></code></a></li>
+<h1 class="logo"><a href="../index.html">Apuntes de Programación de Servicios y procesos</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tema1.html">Programación multiproceso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema2.html">Programación multihilo</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Programación de comunicaciones en red</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#comunicacion-entre-aplicaciones">Comunicación entre aplicaciones.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#roles-cliente-y-servidor">Roles cliente y servidor.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#recordatorio-de-los-flujos-en-java">Recordatorio de los flujos en Java</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#elementos-de-programacion-de-aplicaciones-en-red-librerias">Elementos de programación de aplicaciones en red. Librerías.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#repaso-de-redes">Repaso de redes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#funciones-y-objetos-de-las-librerias">Funciones y objetos de las librerías.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sockets">Sockets.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creacion-de-sockets">Creación de sockets.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#enlazado-y-establecimiento-de-conexiones">Enlazado y establecimiento de conexiones.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utilizacion-de-sockets-para-la-transmision-y-recepcion-de-informacion">Utilización de sockets para la transmisión y recepción de información.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#programacion-de-aplicaciones-cliente-y-servidor">Programación de aplicaciones cliente y servidor.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utilizacion-de-hilos-en-la-programacion-de-aplicaciones-en-red">Utilización de hilos en la programación de aplicaciones en red.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ejercicios">Ejercicios</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#elementos-de-programacion-de-aplicaciones-en-red-librerias">Elementos de programación de aplicaciones en red. Librerías.</a><ul>
-<li><a class="reference internal" href="#la-clase-url">La clase URL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema4.html">Generación de servicios en red</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema5.html">Utilización de técnicas de programación segura</a></li>
+<li class="toctree-l1"><a class="reference internal" href="anexos.html">Anexos</a></li>
 </ul>
-</li>
-<li><a class="reference internal" href="#repaso-de-redes">Repaso de redes</a></li>
-<li><a class="reference internal" href="#funciones-y-objetos-de-las-librerias">Funciones y objetos de las librerías.</a></li>
-<li><a class="reference internal" href="#sockets">Sockets.</a></li>
-<li><a class="reference internal" href="#creacion-de-sockets">Creación de sockets.</a></li>
-<li><a class="reference internal" href="#enlazado-y-establecimiento-de-conexiones">Enlazado y establecimiento de conexiones.</a></li>
-<li><a class="reference internal" href="#utilizacion-de-sockets-para-la-transmision-y-recepcion-de-informacion">Utilización de sockets para la transmisión y recepción de información.</a><ul>
-<li><a class="reference internal" href="#el-ejemplo-completo">El ejemplo completo</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#programacion-de-aplicaciones-cliente-y-servidor">Programación de aplicaciones cliente y servidor.</a><ul>
-<li><a class="reference internal" href="#ejemplo-de-servidor-java">Ejemplo de servidor Java</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#utilizacion-de-hilos-en-la-programacion-de-aplicaciones-en-red">Utilización de hilos en la programación de aplicaciones en red.</a><ul>
-<li><a class="reference internal" href="#ejercicio-servicio-de-ordenacion">Ejercicio: servicio de ordenación</a></li>
-<li><a class="reference internal" href="#una-clase-protocolo">Una clase Protocolo</a></li>
-<li><a class="reference internal" href="#una-clase-con-funciones-de-utilidad">Una clase con funciones de utilidad</a></li>
-<li><a class="reference internal" href="#la-clase-peticion">La clase Petición</a></li>
-<li><a class="reference internal" href="#la-clase-servidor">La clase Servidor</a></li>
-<li><a class="reference internal" href="#la-clase-cliente">La clase Cliente</a></li>
-<li><a class="reference internal" href="#ampliacion">Ampliación</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#ejercicios">Ejercicios</a><ul>
-<li><a class="reference internal" href="#sumas-de-verificacion">Sumas de verificación</a></li>
-<li><a class="reference internal" href="#solucion-a-las-sumas-de-verificacion">Solución a las sumas de verificación</a></li>
-<li><a class="reference internal" href="#servidor-de-bases-de-datos">Servidor de bases de datos</a></li>
-<li><a class="reference internal" href="#servidor-de-eco">Servidor de eco</a></li>
-<li><a class="reference internal" href="#comentarios-generales-a-la-solucion">Comentarios generales a la solución</a></li>
-<li><a class="reference internal" href="#solucion-al-servidor">Solución al servidor</a></li>
-<li><a class="reference internal" href="#solucion-hiloconexion">Solución HiloConexion</a></li>
-<li><a class="reference internal" href="#solucion-cliente">Solución Cliente</a></li>
-<li><a class="reference internal" href="#solucion-lanzadorclientes">Solución LanzadorClientes</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -1306,23 +1281,26 @@ partes:</p>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>Esta página</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/textos/tema3.rst.txt"
-            rel="nofollow">Mostrar el código</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Ir a" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -1331,8 +1309,8 @@ partes:</p>
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/textos/tema3.rst.txt"

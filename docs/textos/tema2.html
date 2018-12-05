@@ -409,7 +409,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <p>Despues de comer, soltará los cubiertos y esperará al azar un tiempo entre 1000 y 5000 milisegundos, indicando por pantalla «El filósofo 2 está pensando».</p>
 <p>En general todos los objetos de la clase Filósofo está en un bucle infinito dedicándose a comer y a pensar.</p>
 <p>Simular este problema en un programa Java que muestre el progreso de todos sin caer en problemas de sincronización ni de inanición.</p>
-<div class="figure align-center" id="id2" style="width: 50%">
+<div class="figure align-center" id="id5" style="width: 50%">
 <img alt="../_images/Filosofos.png" src="../_images/Filosofos.png" />
 <p class="caption"><span class="caption-text">Esquema de los filósofos</span></p>
 </div>
@@ -588,7 +588,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li>Puede haber más sillas que barberos y al revés (poner constantes para poder cambiar fácilmente entre ejecuciones).</li>
 <li>Se recuerda que no debe haber inanición, es decir ningún cliente debería quedarse en una silla esperando un tiempo infinito.</li>
 </ul>
-<div class="figure align-center" id="id3" style="width: 50%">
+<div class="figure align-center" id="id6" style="width: 50%">
 <img alt="../_images/barberodormilon.png" src="../_images/barberodormilon.png" />
 <p class="caption"><span class="caption-text">Los  barberos dormilones</span></p>
 </div>
@@ -793,38 +793,175 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <p>¿Cual es el problema?</p>
 <p>El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final <strong>nunca son atendidos</strong>. Hay que corregir esa asignación para <em>evitar que los procesos sufran de inanición</em>.</p>
 </div>
-<div class="section" id="metodo-corregido">
-<h3>Método corregido<a class="headerlink" href="#metodo-corregido" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">int</span> <span class="nf">atenderAlgunCliente</span><span class="o">(){</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">pasos</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-                        <span class="n">pasos</span><span class="o">&lt;</span><span class="n">clienteEstaAtendido</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
-                        <span class="n">pasos</span><span class="o">++)</span>
-        <span class="o">{</span>
-                <span class="k">if</span> <span class="o">(</span>
-                                <span class="n">clienteEstaAtendido</span>
-                                <span class="o">[</span><span class="n">numUltimaSillaExaminada</span><span class="o">]</span>
-                                                <span class="o">==</span> <span class="kc">false</span>
-                                                <span class="o">)</span>
-                <span class="o">{</span>
-                        <span class="cm">/*Atendemos a ese cliente*/</span>
-                        <span class="n">clienteEstaAtendido</span>
-                                <span class="o">[</span><span class="n">numUltimaSillaExaminada</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                                        <span class="s">&quot;Afeitando cliente en silla &quot;</span><span class="o">+</span>
-                                                        <span class="n">numUltimaSillaExaminada</span><span class="o">);</span>
-                        <span class="k">return</span> <span class="n">numUltimaSillaExaminada</span><span class="o">;</span>
-                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                        <span class="n">numUltimaSillaExaminada</span><span class="o">=</span>
-                                        <span class="o">(</span><span class="n">numUltimaSillaExaminada</span><span class="o">+</span><span class="mi">1</span><span class="o">)%</span>
-                                        <span class="n">clienteEstaAtendido</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
-                <span class="o">}</span> <span class="c1">//Fin del else</span>
-        <span class="o">}</span> <span class="c1">//Fin del for</span>
-        <span class="cm">/* Si llegamos aquí hemos dado toda</span>
-<span class="cm">         * una vuelta al vector y no había nadie sin</span>
-<span class="cm">         * atender devolver -1</span>
+<div class="section" id="id1">
+<h3>Clase cliente<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cliente</span>  <span class="o">{</span>
+        <span class="n">GestorSillas</span> <span class="n">gestorSillas</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nf">Cliente</span><span class="o">(</span><span class="n">GestorSillas</span> <span class="n">g</span><span class="o">){</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">gestorSillas</span> <span class="o">=</span> <span class="n">g</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">entrarEnBarberia</span><span class="o">(){</span>
+                <span class="kt">int</span> <span class="n">posSillaLibre</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">gestorSillas</span><span class="o">.</span><span class="na">getPosSillaLibre</span><span class="o">();</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">posSillaLibre</span><span class="o">==-</span><span class="mi">1</span><span class="o">){</span>
+                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;No habia sillas libres, me marcho&quot;</span><span class="o">);</span>
+                        <span class="k">return</span> <span class="o">;</span>
+                <span class="o">}</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Me siento en la silla:&quot;</span><span class="o">+</span><span class="n">posSillaLibre</span><span class="o">);</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Clase Barbero<a class="headerlink" href="#id2" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Barbero</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+        <span class="n">GestorSillas</span> <span class="n">gestorSillas</span><span class="o">;</span>
+        <span class="kt">boolean</span> <span class="n">barberiaAbierta</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nf">Barbero</span> <span class="o">(</span><span class="n">GestorSillas</span> <span class="n">g</span><span class="o">){</span>
+                <span class="n">gestorSillas</span><span class="o">=</span><span class="n">g</span><span class="o">;</span>
+                <span class="n">barberiaAbierta</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cerrarBarberia</span><span class="o">(){</span>
+                <span class="k">this</span><span class="o">.</span><span class="na">barberiaAbierta</span><span class="o">=</span><span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+           <span class="k">while</span><span class="o">(</span><span class="n">barberiaAbierta</span><span class="o">){</span>
+                   <span class="kt">int</span> <span class="n">posSillaClienteSinAtender</span><span class="o">;</span>
+                   <span class="n">posSillaClienteSinAtender</span><span class="o">=</span>
+                                   <span class="k">this</span><span class="o">.</span><span class="na">gestorSillas</span><span class="o">.</span><span class="na">getSiguienteCliente</span><span class="o">();</span>
+                   <span class="k">if</span> <span class="o">(</span><span class="n">posSillaClienteSinAtender</span><span class="o">==-</span><span class="mi">1</span><span class="o">){</span>
+                           <span class="n">esperarTiempoAzar</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+                   <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                           <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Barbero atendiendo silla:&quot;</span> <span class="o">+</span>
+                                           <span class="n">posSillaClienteSinAtender</span><span class="o">);</span>
+                           <span class="n">esperarTiempoAzar</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+                           <span class="k">this</span><span class="o">.</span><span class="na">gestorSillas</span><span class="o">.</span><span class="na">liberarSilla</span><span class="o">(</span><span class="n">posSillaClienteSinAtender</span><span class="o">);</span>
+                   <span class="o">}</span>
+           <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">esperarTiempoAzar</span><span class="o">(</span><span class="kt">int</span> <span class="n">max</span><span class="o">){</span>
+                <span class="n">Random</span> <span class="n">generador</span><span class="o">=</span><span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+                <span class="cm">/* Se calculan unos milisegundos al azar*/</span>
+                <span class="kt">int</span> <span class="n">msgs</span><span class="o">=(</span><span class="mi">1</span><span class="o">+</span><span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="n">max</span><span class="o">))*</span><span class="mi">1000</span><span class="o">;</span>
+                <span class="k">try</span> <span class="o">{</span>
+                                <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">sleep</span><span class="o">(</span><span class="n">msgs</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                                <span class="c1">// TODO Auto-generated catch block</span>
+                                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span>
+        <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clase-gestorsillas">
+<h3>Clase GestorSillas<a class="headerlink" href="#clase-gestorsillas" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorSillas</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">MAX_SILLAS</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">estaSillaLibre</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">clienteEstaAtendido</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">siguienteClienteParaAtender</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+        <span class="n">GestorSillas</span><span class="o">(</span><span class="kt">int</span> <span class="n">num</span><span class="o">){</span>
+                <span class="n">MAX_SILLAS</span><span class="o">=</span><span class="n">num</span><span class="o">;</span>
+                <span class="n">estaSillaLibre</span><span class="o">=</span><span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">MAX_SILLAS</span><span class="o">];</span>
+                <span class="n">clienteEstaAtendido</span><span class="o">=</span><span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="n">MAX_SILLAS</span><span class="o">];</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">MAX_SILLAS</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                        <span class="n">estaSillaLibre</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>       <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                        <span class="n">clienteEstaAtendido</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>  <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="cm">/**</span>
+<span class="cm">         * Nos dice el numero de silla que está libre</span>
+<span class="cm">         * @return Devuelve una posición o -1 si está</span>
+<span class="cm">         * todo ocupado</span>
 <span class="cm">         */</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
-<span class="o">}</span> <span class="c1">//Fin del método</span>
+        <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">int</span> <span class="nf">getPosSillaLibre</span><span class="o">(){</span>
+                <span class="kt">int</span> <span class="n">posSilla</span><span class="o">=-</span><span class="mi">1</span><span class="o">;</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">pos</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">pos</span><span class="o">&lt;</span><span class="n">MAX_SILLAS</span><span class="o">;</span><span class="n">pos</span><span class="o">++){</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">estaSillaLibre</span><span class="o">[</span><span class="n">pos</span><span class="o">]==</span><span class="kc">true</span><span class="o">){</span>
+                                <span class="n">estaSillaLibre</span><span class="o">[</span><span class="n">pos</span><span class="o">]=</span><span class="kc">false</span><span class="o">;</span>
+                                <span class="k">return</span> <span class="n">pos</span><span class="o">;</span>
+                        <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="k">return</span> <span class="n">posSilla</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">liberarSilla</span><span class="o">(</span><span class="kt">int</span> <span class="n">pos</span><span class="o">){</span>
+                <span class="n">estaSillaLibre</span><span class="o">[</span><span class="n">pos</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
+                <span class="n">clienteEstaAtendido</span><span class="o">[</span><span class="n">pos</span><span class="o">]=</span><span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">int</span> <span class="nf">getSiguienteCliente</span><span class="o">(){</span>
+                <span class="kt">int</span> <span class="n">pos</span><span class="o">=-</span><span class="mi">1</span><span class="o">;</span>
+                <span class="kt">boolean</span> <span class="n">salir</span><span class="o">;</span>
+                <span class="kt">int</span> <span class="n">i</span><span class="o">;</span>
+                <span class="n">salir</span><span class="o">=</span><span class="kc">false</span><span class="o">;</span>
+                <span class="n">i</span><span class="o">=</span><span class="k">this</span><span class="o">.</span><span class="na">siguienteClienteParaAtender</span><span class="o">;</span>
+                <span class="k">while</span><span class="o">(!</span><span class="n">salir</span><span class="o">){</span>
+                        <span class="k">if</span> <span class="o">(</span>
+                                        <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">estaSillaLibre</span><span class="o">[</span><span class="n">i</span><span class="o">]==</span><span class="kc">false</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
+                                        <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">clienteEstaAtendido</span><span class="o">[</span><span class="n">i</span><span class="o">]==</span><span class="kc">false</span><span class="o">)</span>
+                        <span class="o">)</span>
+                        <span class="o">{</span>
+                                <span class="k">this</span><span class="o">.</span><span class="na">clienteEstaAtendido</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
+                                <span class="k">this</span><span class="o">.</span><span class="na">siguienteClienteParaAtender</span><span class="o">=</span> <span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">MAX_SILLAS</span><span class="o">;</span>
+                                <span class="k">return</span> <span class="n">i</span><span class="o">;</span>
+
+                        <span class="o">}</span>
+                        <span class="n">i</span><span class="o">++;</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">i</span><span class="o">==</span><span class="k">this</span><span class="o">.</span><span class="na">MAX_SILLAS</span><span class="o">){</span>
+                                <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+                        <span class="o">}</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">i</span><span class="o">==</span><span class="k">this</span><span class="o">.</span><span class="na">siguienteClienteParaAtender</span><span class="o">)</span> <span class="n">salir</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
+
+                <span class="o">}</span>
+
+                <span class="k">return</span> <span class="n">pos</span><span class="o">;</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>Clase Lanzador<a class="headerlink" href="#id3" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">MAX_BARBEROS</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+                <span class="kt">int</span> <span class="n">MAX_SILLAS</span>   <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+                <span class="kt">int</span> <span class="n">MAX_CLIENTES</span> <span class="o">=</span> <span class="mi">1000</span><span class="o">;</span>
+                <span class="n">Barbero</span><span class="o">[]</span> <span class="n">barberos</span><span class="o">;</span>
+                <span class="n">Thread</span><span class="o">[]</span>  <span class="n">hilos</span><span class="o">;</span>
+
+                <span class="n">barberos</span><span class="o">=</span><span class="k">new</span> <span class="n">Barbero</span><span class="o">[</span><span class="n">MAX_BARBEROS</span><span class="o">];</span>
+                <span class="n">hilos</span>   <span class="o">=</span><span class="k">new</span> <span class="n">Thread</span> <span class="o">[</span><span class="n">MAX_BARBEROS</span><span class="o">];</span>
+
+                <span class="n">GestorSillas</span> <span class="n">gestorSillas</span><span class="o">=</span><span class="k">new</span> <span class="n">GestorSillas</span><span class="o">(</span><span class="n">MAX_SILLAS</span><span class="o">);</span>
+
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">MAX_BARBEROS</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                        <span class="n">barberos</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="k">new</span> <span class="n">Barbero</span><span class="o">(</span><span class="n">gestorSillas</span><span class="o">);</span>
+                        <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>   <span class="o">=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">barberos</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+
+                        <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+                <span class="o">}</span> <span class="c1">//Fin del for</span>
+
+
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">MAX_CLIENTES</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                        <span class="n">Cliente</span> <span class="n">c</span><span class="o">=</span><span class="k">new</span> <span class="n">Cliente</span><span class="o">(</span><span class="n">gestorSillas</span><span class="o">);</span>
+                        <span class="n">c</span><span class="o">.</span><span class="na">entrarEnBarberia</span><span class="o">();</span>
+                <span class="o">}</span>
+                <span class="n">Barbero</span><span class="o">.</span><span class="na">esperarTiempoAzar</span><span class="o">(</span><span class="mi">30</span><span class="o">);</span>
+                <span class="cm">/* La jornada ha terminado, &quot;cerramos&quot; los barberos*/</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">MAX_BARBEROS</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                        <span class="n">barberos</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">cerrarBarberia</span><span class="o">();</span>
+                        <span class="n">hilos</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">join</span><span class="o">();</span>
+                <span class="o">}</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Barberia cerrada.&quot;</span><span class="o">);</span>
+        <span class="o">}</span> <span class="c1">//Fin del main</span>
+<span class="o">}</span> <span class="c1">//Fin de la clase</span>
 </pre></div>
 </div>
 </div>
@@ -1048,8 +1185,8 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </ol>
 <p>Realizar la simulación en Java de dicha situación.</p>
 <p>Una posible solución sería la siguiente:</p>
-<div class="section" id="id1">
-<h3>Clase cliente<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h3>
+<div class="section" id="id4">
+<h3>Clase cliente<a class="headerlink" href="#id4" title="Enlazar permanentemente con este título">¶</a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
