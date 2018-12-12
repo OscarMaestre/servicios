@@ -54,7 +54,7 @@
 
 
 \title{Apuntes de Servicios y Procesos}
-\date{05 de diciembre de 2018}
+\date{12 de diciembre de 2018}
 \release{1.3}
 \author{Oscar Gomez}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -2020,73 +2020,64 @@ Crear un programa que simule el comportamiento de estos procesos evitando proble
 
 \section{Solución}
 \label{\detokenize{textos/tema2:solucion}}
+En primer lugar necesitamos una cola que sea «a prueba de hilos» y que permita encolar y desencolar elementos de una manera segura.
 
-\subsection{Una cola limitada en tamaño}
-\label{\detokenize{textos/tema2:una-cola-limitada-en-tamano}}
+Sabemos que antes de encolar hay que comprobar si la cola está llena. También sabemos que antes de desencolar hay que comprobar si la cola está vacía.
+
+Sin embargo \sphinxstylestrong{¡¡CUIDADO!!} es posible programar mal aunque las operaciones de nuestra cola estén protegidas con el método «synchronized». Supongamos que un productor tiene código como este:
+
+Puede que pensemos que este código está bien pero \sphinxstylestrong{ESTÁ MAL}. Está mal porque puede que en el tiempo transcurrido entre que un productor ejecuta \sphinxcode{\sphinxupquote{estaLlena}} y \sphinxcode{\sphinxupquote{encolar}} OTRO HILO SE HAYA COLADO ENTRE MEDIAS Y HAYA ALTERADO LA EJECUCIÓN. Eso significa que \sphinxstylestrong{aunque llamemos a dos métodos synchronized uno detrás de otro es posible que la ejecución sea incorrecta}. Así, necesitaremos hacer operaciones \sphinxcode{\sphinxupquote{encolar}} y \sphinxcode{\sphinxupquote{desencolar}} que funcionen de manera atómica y nos avisen de si consiguen hacer la operación o no.
+
+
+\subsection{Una cola limitada en tamaño y thread-safe}
+\label{\detokenize{textos/tema2:una-cola-limitada-en-tamano-y-thread-safe}}
 \fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{ColaLimitada} \PYG{o}{\PYGZob{}}
-        \PYG{k+kt}{int}\PYG{o}{[}\PYG{o}{]} \PYG{n}{cola}\PYG{o}{;}
-        \PYG{k+kt}{int} \PYG{n}{posParaEncolar}\PYG{o}{;}
-        \PYG{k+kd}{public} \PYG{n+nf}{ColaLimitada}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{numElementos}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{n}{cola}\PYG{o}{=}\PYG{k}{new} \PYG{k+kt}{int}\PYG{o}{[}\PYG{n}{numElementos}\PYG{o}{]}\PYG{o}{;}
-                \PYG{n}{posParaEncolar}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Cola} \PYG{o}{\PYGZob{}}
+        \PYG{k+kd}{private} \PYG{k+kt}{int} \PYG{n}{MAX\PYGZus{}ELEMENTOS}\PYG{o}{;}
+        \PYG{n}{LinkedList}\PYG{o}{\PYGZlt{}}\PYG{n}{Integer}\PYG{o}{\PYGZgt{}} \PYG{n}{cola}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{n+nf}{Cola} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{max}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{cola}\PYG{o}{=}\PYG{k}{new} \PYG{n}{LinkedList}\PYG{o}{\PYGZlt{}}\PYG{n}{Integer}\PYG{o}{\PYGZgt{}}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{MAX\PYGZus{}ELEMENTOS}\PYG{o}{=}\PYG{n}{max}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{ponerEnCola}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{numero}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{k}{if} \PYG{o}{(}\PYG{n}{posParaEncolar}\PYG{o}{=}\PYG{o}{=}\PYG{n}{cola}\PYG{o}{.}\PYG{n+na}{length}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
-                                        \PYG{l+s}{\PYGZdq{}Cola llena, debe Vd. esperar\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{c+c1}{//Cola llena.}
-                        \PYG{k}{return} \PYG{o}{;}
+        \PYG{c+cm}{/* En realidad, si estamos seguro de que nadie}
+\PYG{c+cm}{        llamará a este método podriamos ponerla como no}
+\PYG{c+cm}{        synchronized*/}
+        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{boolean} \PYG{n+nf}{estaVacia}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k+kt}{int} \PYG{n}{numElementos}\PYG{o}{=}\PYG{n}{cola}\PYG{o}{.}\PYG{n+na}{size}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{k}{if} \PYG{o}{(}\PYG{n}{numElementos}\PYG{o}{=}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{k}{return} \PYG{k+kc}{true}\PYG{o}{;}
                 \PYG{o}{\PYGZcb{}}
-                \PYG{c+c1}{//Aún queda sitio}
-                \PYG{n}{cola}\PYG{o}{[}\PYG{n}{posParaEncolar}\PYG{o}{]}\PYG{o}{=}\PYG{n}{numero}\PYG{o}{;}
-                \PYG{n}{posParaEncolar}\PYG{o}{+}\PYG{o}{+}\PYG{o}{;}
+                \PYG{k}{return} \PYG{k+kc}{false}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{k+kt}{int} \PYG{n+nf}{sacarPrimero}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{k}{if} \PYG{o}{(}\PYG{n}{posParaEncolar}\PYG{o}{=}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
-                                        \PYG{l+s}{\PYGZdq{}Warning:cola vacía, devolviendo 0\PYGZdq{}}
-                        \PYG{o}{)}\PYG{o}{;}
-                        \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{o}{;}
+        \PYG{c+cm}{/* Igual que antes, si estamos seguro de que nadie}
+\PYG{c+cm}{        llamará a este método podriamos ponerla como no}
+\PYG{c+cm}{        synchronized*/}
+        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{boolean} \PYG{n+nf}{estaLlena}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k+kt}{int} \PYG{n}{numElementos}\PYG{o}{=}\PYG{n}{cola}\PYG{o}{.}\PYG{n+na}{size}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{k}{if} \PYG{o}{(}\PYG{n}{numElementos}\PYG{o}{=}\PYG{o}{=}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{MAX\PYGZus{}ELEMENTOS}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{k}{return} \PYG{k+kc}{true}\PYG{o}{;}
                 \PYG{o}{\PYGZcb{}}
-                \PYG{k+kt}{int} \PYG{n}{elementoInicial}\PYG{o}{=}\PYG{n}{cola}\PYG{o}{[}\PYG{l+m+mi}{0}\PYG{o}{]}\PYG{o}{;}
-                \PYG{c+cm}{/*Movemos los elementos hacia delante*/}
-                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{pos}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{o}{;} \PYG{n}{pos}\PYG{o}{\PYGZlt{}}\PYG{n}{cola}\PYG{o}{.}\PYG{n+na}{length}\PYG{o}{;} \PYG{n}{pos}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{n}{cola}\PYG{o}{[}\PYG{n}{pos}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{]}\PYG{o}{=}\PYG{n}{cola}\PYG{o}{[}\PYG{n}{pos}\PYG{o}{]}\PYG{o}{;}
-                \PYG{o}{\PYGZcb{}}
-                \PYG{c+cm}{/* Ahora la posParaEncolar ha disminuido*/}
-                \PYG{n}{posParaEncolar}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{o}{;}
-                \PYG{k}{return} \PYG{n}{elementoInicial}\PYG{o}{;}
+                \PYG{k}{return} \PYG{k+kc}{false}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{n}{String} \PYG{n+nf}{toString}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{n}{String} \PYG{n}{cadenaCola}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}\PYGZdq{}}\PYG{o}{;}
-                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{pos}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{pos}\PYG{o}{\PYGZlt{}}\PYG{n}{posParaEncolar}\PYG{o}{;} \PYG{n}{pos}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{n}{cadenaCola}\PYG{o}{+}\PYG{o}{=}\PYG{n}{cola}\PYG{o}{[}\PYG{n}{pos}\PYG{o}{]}\PYG{o}{+}\PYG{l+s}{\PYGZdq{}\PYGZhy{}\PYGZdq{}}\PYG{o}{;}
+        \PYG{c+cm}{/* Devuelve true si se pudo hacer y false si no se pudo*/}
+        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{boolean} \PYG{n+nf}{encolar}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{numero}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{if} \PYG{o}{(}\PYG{n}{estaLlena}\PYG{o}{(}\PYG{o}{)}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{k}{return} \PYG{k+kc}{false}\PYG{o}{;}
                 \PYG{o}{\PYGZcb{}}
-                \PYG{n}{cadenaCola}\PYG{o}{+}\PYG{o}{=}\PYG{l+s}{\PYGZdq{}FIN\PYGZdq{}}\PYG{o}{;}
-                \PYG{k}{return} \PYG{n}{cadenaCola}\PYG{o}{;}
+                \PYG{n}{cola}\PYG{o}{.}\PYG{n+na}{addLast}\PYG{o}{(}\PYG{n}{numero}\PYG{o}{)}\PYG{o}{;}
+                \PYG{k}{return} \PYG{k+kc}{true}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
-\PYG{o}{\PYGZcb{}}
-\end{sphinxVerbatim}
+        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{int} \PYG{n+nf}{desencolar}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{c+cm}{/* Necesitamos un número especial que actúe}
+\PYG{c+cm}{                como comprobador de errores*/}
+                \PYG{k}{if} \PYG{o}{(}\PYG{n}{estaVacia}\PYG{o}{(}\PYG{o}{)}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{;}
+                \PYG{o}{\PYGZcb{}}
+                \PYG{k+kt}{int} \PYG{n}{numero}\PYG{o}{=}\PYG{n}{cola}\PYG{o}{.}\PYG{n+na}{removeFirst}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{k}{return} \PYG{n}{numero}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
 
-
-\subsection{Un gestor de concurrencia para la cola}
-\label{\detokenize{textos/tema2:un-gestor-de-concurrencia-para-la-cola}}
-\fvset{hllines={, ,}}%
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{GestorColasConcurrentes} \PYG{o}{\PYGZob{}}
-        \PYG{k+kd}{private} \PYG{n}{ColaLimitada} \PYG{n}{colaProtegida}\PYG{o}{;}
-        \PYG{k+kd}{public} \PYG{n+nf}{GestorColasConcurrentes}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{numElementos}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{n}{colaProtegida}\PYG{o}{=}\PYG{k}{new} \PYG{n}{ColaLimitada}\PYG{o}{(}\PYG{n}{numElementos}\PYG{o}{)}\PYG{o}{;}
-        \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{k+kd}{synchronized}
-                \PYG{k+kt}{void} \PYG{n+nf}{ponerEnCola}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{elemento}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{n}{colaProtegida}\PYG{o}{.}\PYG{n+na}{ponerEnCola}\PYG{o}{(}\PYG{n}{elemento}\PYG{o}{)}\PYG{o}{;}
-        \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{k+kd}{synchronized} \PYG{k+kt}{int} \PYG{n+nf}{sacarDeCola}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{k}{return} \PYG{n}{colaProtegida}\PYG{o}{.}\PYG{n+na}{sacarPrimero}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-        \PYG{o}{\PYGZcb{}}
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
@@ -2096,28 +2087,21 @@ Crear un programa que simule el comportamiento de estos procesos evitando proble
 \fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Productor} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
-        \PYG{k+kd}{private} \PYG{n}{Random}                                                  \PYG{n}{generadorAzar}\PYG{o}{;}
-        \PYG{k+kd}{private}         \PYG{n}{GestorColasConcurrentes}         \PYG{n}{gc}\PYG{o}{;}
-        \PYG{k+kd}{public} \PYG{n+nf}{Productor}\PYG{o}{(}\PYG{n}{GestorColasConcurrentes} \PYG{n}{gc}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gc}\PYG{o}{=}\PYG{n}{gc}\PYG{o}{;}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{generadorAzar}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Random}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{n}{Cola} \PYG{n}{colaCompartida}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{n+nf}{Productor}\PYG{o}{(}\PYG{n}{Cola} \PYG{n}{cola}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{colaCompartida}\PYG{o}{=}\PYG{n}{cola}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{run}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{k}{while} \PYG{o}{(}\PYG{k+kc}{true}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{k+kt}{int} \PYG{n}{numero}\PYG{o}{=}\PYG{n}{generadorAzar}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{20}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{n}{gc}\PYG{o}{.}\PYG{n+na}{ponerEnCola}\PYG{o}{(}\PYG{n}{numero}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{k+kt}{int} \PYG{n}{milisegs}\PYG{o}{=}\PYG{n}{generadorAzar}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{2}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{k}{try} \PYG{o}{\PYGZob{}}
-                                \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{currentThread}\PYG{o}{(}\PYG{o}{)}\PYG{o}{.}\PYG{n+na}{sleep}\PYG{o}{(}\PYG{n}{milisegs}\PYG{o}{*}\PYG{l+m+mi}{1000}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{e}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-                                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
-                                                \PYG{l+s}{\PYGZdq{}Productor interrumpido\PYGZdq{}}
-                                \PYG{o}{)}\PYG{o}{;}
-                                \PYG{k}{return}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}}
-                \PYG{o}{\PYGZcb{}}
-        \PYG{o}{\PYGZcb{}}
-\PYG{o}{\PYGZcb{}}
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{run}\PYG{o}{(}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+           \PYG{k}{while} \PYG{o}{(}\PYG{k+kc}{true}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                   \PYG{k+kt}{int} \PYG{n}{num}\PYG{o}{=}\PYG{n}{Utilidades}\PYG{o}{.}\PYG{n+na}{numAzar}\PYG{o}{(}\PYG{l+m+mi}{10}\PYG{o}{)}\PYG{o}{;}
+                   \PYG{k}{while} \PYG{o}{(}\PYG{n}{colaCompartida}\PYG{o}{.}\PYG{n+na}{encolar}\PYG{o}{(}\PYG{n}{num}\PYG{o}{)}\PYG{o}{=}\PYG{o}{=}\PYG{k+kc}{false}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                           \PYG{n}{Utilidades}\PYG{o}{.}\PYG{n+na}{esperarTiempoAzar}\PYG{o}{(}\PYG{l+m+mi}{3000}\PYG{o}{)}\PYG{o}{;}
+                   \PYG{o}{\PYGZcb{}} \PYG{c+cm}{/*Fin del while*/}
+
+                   \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Productor encoló el numero:\PYGZdq{}}\PYG{o}{+}\PYG{n}{num}\PYG{o}{)}\PYG{o}{;}
+           \PYG{o}{\PYGZcb{}} \PYG{c+cm}{/*Fin del while externo*/}
+        \PYG{o}{\PYGZcb{}} \PYG{c+cm}{/*Fin de run()*/}
+\PYG{o}{\PYGZcb{}} \PYG{c+cm}{/*Fin de la clase*/}
 \end{sphinxVerbatim}
 
 
@@ -2125,29 +2109,22 @@ Crear un programa que simule el comportamiento de estos procesos evitando proble
 \label{\detokenize{textos/tema2:la-clase-consumidor}}
 \fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Consumidor} \PYG{k+kd}{implements} \PYG{n}{Runnable} \PYG{o}{\PYGZob{}}
-        \PYG{k+kd}{private} \PYG{n}{Random}                                                  \PYG{n}{generadorAzar}\PYG{o}{;}
-        \PYG{k+kd}{private} \PYG{n}{GestorColasConcurrentes}         \PYG{n}{gc}\PYG{o}{;}
-
-        \PYG{k+kd}{public} \PYG{n+nf}{Consumidor}\PYG{o}{(}\PYG{n}{GestorColasConcurrentes} \PYG{n}{gc}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{gc}\PYG{o}{=}\PYG{n}{gc}\PYG{o}{;}
-                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{generadorAzar}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Random}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Consumidor} \PYG{k+kd}{implements} \PYG{n}{Runnable}\PYG{o}{\PYGZob{}}
+        \PYG{n}{Cola} \PYG{n}{colaCompartida}\PYG{o}{;}
+        \PYG{k+kd}{public} \PYG{n+nf}{Consumidor}\PYG{o}{(}\PYG{n}{Cola} \PYG{n}{cola}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{colaCompartida}\PYG{o}{=}\PYG{n}{cola}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{run}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+        \PYG{n+nd}{@Override}
+        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{run}\PYG{o}{(}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+                \PYG{k+kt}{int} \PYG{n}{num}\PYG{o}{;}
                 \PYG{k}{while} \PYG{o}{(}\PYG{k+kc}{true}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{k+kt}{int} \PYG{n}{num}\PYG{o}{=}\PYG{n}{gc}\PYG{o}{.}\PYG{n+na}{sacarDeCola}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{k+kt}{int} \PYG{n}{milisegs}\PYG{o}{=}\PYG{n}{generadorAzar}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{2}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{k}{try} \PYG{o}{\PYGZob{}}
-                                \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{currentThread}\PYG{o}{(}\PYG{o}{)}\PYG{o}{.}\PYG{n+na}{sleep}\PYG{o}{(}\PYG{n}{milisegs}\PYG{o}{*}\PYG{l+m+mi}{1000}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{e}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-                                \PYG{c+c1}{// TODO Auto\PYGZhy{}generated catch block}
-                                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
-                                                \PYG{l+s}{\PYGZdq{}Consumidor interrumpido\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
-                                \PYG{k}{return} \PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}}
-                \PYG{o}{\PYGZcb{}}
-        \PYG{o}{\PYGZcb{}}
-\PYG{o}{\PYGZcb{}}
+                        \PYG{n}{num}\PYG{o}{=}\PYG{n}{colaCompartida}\PYG{o}{.}\PYG{n+na}{desencolar}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{k}{if} \PYG{o}{(}\PYG{n}{num}\PYG{o}{!}\PYG{o}{=}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                                \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Consumidor recuperó el numero:\PYGZdq{}}\PYG{o}{+}\PYG{n}{num}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{o}{\PYGZcb{}} \PYG{c+cm}{/* Fin del if*/}
+                \PYG{o}{\PYGZcb{}} \PYG{c+cm}{/*Fin del bucle infinito*/}
+        \PYG{o}{\PYGZcb{}} \PYG{c+cm}{/* Fin del run()*/}
+\PYG{o}{\PYGZcb{}} \PYG{c+cm}{/*Fin de la clase Consumidor*/}
 \end{sphinxVerbatim}
 
 
@@ -2156,75 +2133,44 @@ Crear un programa que simule el comportamiento de estos procesos evitando proble
 \fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Lanzador} \PYG{o}{\PYGZob{}}
-        \PYG{k+kd}{public} \PYG{k+kt}{void} \PYG{n+nf}{test}\PYG{o}{(}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{n}{ColaLimitada} \PYG{n}{c}\PYG{o}{=}\PYG{k}{new} \PYG{n}{ColaLimitada}\PYG{o}{(}\PYG{l+m+mi}{5}\PYG{o}{)}\PYG{o}{;}
-                \PYG{k}{if} \PYG{o}{(}\PYG{n}{c}\PYG{o}{.}\PYG{n+na}{sacarPrimero}\PYG{o}{(}\PYG{o}{)}\PYG{o}{!}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}
-                          \PYG{l+s}{\PYGZdq{}Error, no se comprueba el caso cola vacía\PYGZdq{}}
-                        \PYG{o}{)}\PYG{o}{;}
+
+        \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{args}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{InterruptedException} \PYG{o}{\PYGZob{}}
+                \PYG{k+kt}{int} \PYG{n}{MAX\PYGZus{}PRODUCTORES}     \PYG{o}{=} \PYG{l+m+mi}{5}\PYG{o}{;}
+                \PYG{k+kt}{int} \PYG{n}{MAX\PYGZus{}CONSUMIDORES}    \PYG{o}{=} \PYG{l+m+mi}{7}\PYG{o}{;}
+                \PYG{k+kt}{int} \PYG{n}{MAX\PYGZus{}ELEMENTOS}       \PYG{o}{=} \PYG{l+m+mi}{10}\PYG{o}{;}
+
+                \PYG{n}{Thread}\PYG{o}{[}\PYG{o}{]} \PYG{n}{hilosProductor}\PYG{o}{;}
+                \PYG{n}{Thread}\PYG{o}{[}\PYG{o}{]} \PYG{n}{hilosConsumidor}\PYG{o}{;}
+
+                \PYG{n}{hilosProductor}   \PYG{o}{=} \PYG{k}{new} \PYG{n}{Thread}\PYG{o}{[}\PYG{n}{MAX\PYGZus{}PRODUCTORES}\PYG{o}{]}\PYG{o}{;}
+                \PYG{n}{hilosConsumidor}  \PYG{o}{=} \PYG{k}{new} \PYG{n}{Thread}\PYG{o}{[}\PYG{n}{MAX\PYGZus{}CONSUMIDORES}\PYG{o}{]}\PYG{o}{;}
+
+                \PYG{n}{Cola} \PYG{n}{colaCompartida}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Cola}\PYG{o}{(}\PYG{n}{MAX\PYGZus{}ELEMENTOS}\PYG{o}{)}\PYG{o}{;}
+
+                \PYG{c+cm}{/*Construimos los productores*/}
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}PRODUCTORES}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{Productor} \PYG{n}{productor}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Productor}\PYG{o}{(}\PYG{n}{colaCompartida}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{n}{hilosProductor}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{productor}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{n}{hilosProductor}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
                 \PYG{o}{\PYGZcb{}}
-                \PYG{n}{c}\PYG{o}{.}\PYG{n+na}{ponerEnCola}\PYG{o}{(}\PYG{l+m+mi}{10}\PYG{o}{)}\PYG{o}{;}
-                \PYG{n}{c}\PYG{o}{.}\PYG{n+na}{ponerEnCola}\PYG{o}{(}\PYG{l+m+mi}{20}\PYG{o}{)}\PYG{o}{;}
-                \PYG{n}{String} \PYG{n}{cadenaCola}\PYG{o}{=}\PYG{n}{c}\PYG{o}{.}\PYG{n+na}{toString}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                \PYG{k}{if} \PYG{o}{(}\PYG{o}{!}\PYG{n}{cadenaCola}\PYG{o}{.}\PYG{n+na}{equals}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}10\PYGZhy{}20\PYGZhy{}FIN\PYGZdq{}}\PYG{o}{)}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Fallos al encolar\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
-                \PYG{o}{\PYGZcb{}}
-        \PYG{o}{\PYGZcb{}}
-        \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{argumentos}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                \PYG{n}{Lanzador} \PYG{n}{l}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Lanzador}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                \PYG{n}{GestorColasConcurrentes} \PYG{n}{gcl}\PYG{o}{=}
-                                \PYG{k}{new} \PYG{n}{GestorColasConcurrentes}\PYG{o}{(}\PYG{l+m+mi}{10}\PYG{o}{)}\PYG{o}{;}
-
-                \PYG{k+kt}{int} \PYG{n}{NUM\PYGZus{}PRODUCTORES}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{o}{;}
-                \PYG{n}{Productor}\PYG{o}{[}\PYG{o}{]}     \PYG{n}{productores}\PYG{o}{;}
-                \PYG{n}{Thread}\PYG{o}{[}\PYG{o}{]}                        \PYG{n}{hilosProductores}\PYG{o}{;}
-
-                \PYG{n}{productores}             \PYG{o}{=}
-                                \PYG{k}{new} \PYG{n}{Productor}\PYG{o}{[}\PYG{n}{NUM\PYGZus{}PRODUCTORES}\PYG{o}{]}\PYG{o}{;}
-                \PYG{n}{hilosProductores}        \PYG{o}{=}
-                                \PYG{k}{new} \PYG{n}{Thread}\PYG{o}{[}\PYG{n}{NUM\PYGZus{}PRODUCTORES}\PYG{o}{]}\PYG{o}{;}
-
-                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{NUM\PYGZus{}PRODUCTORES}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{n}{productores}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Productor}\PYG{o}{(}\PYG{n}{gcl}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{n}{hilosProductores}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}
-                                        \PYG{n}{productores}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{n}{hilosProductores}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{c+cm}{/*Construimos los consumidores*/}
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}CONSUMIDORES}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{Consumidor} \PYG{n}{consumidor}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Consumidor}\PYG{o}{(}\PYG{n}{colaCompartida}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{n}{hilosConsumidor}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{consumidor}\PYG{o}{)}\PYG{o}{;}
+                        \PYG{n}{hilosConsumidor}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
                 \PYG{o}{\PYGZcb{}}
 
-                \PYG{k+kt}{int} \PYG{n}{NUM\PYGZus{}CONSUMIDORES}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{o}{;}
-                \PYG{n}{Consumidor}\PYG{o}{[}\PYG{o}{]}    \PYG{n}{consumidores}\PYG{o}{;}
-                \PYG{n}{Thread}\PYG{o}{[}\PYG{o}{]}                        \PYG{n}{hilosConsumidores}\PYG{o}{;}
-
-                \PYG{n}{consumidores}                    \PYG{o}{=}
-                                \PYG{k}{new} \PYG{n}{Consumidor}\PYG{o}{[}\PYG{n}{NUM\PYGZus{}CONSUMIDORES}\PYG{o}{]}\PYG{o}{;}
-                \PYG{n}{hilosConsumidores}       \PYG{o}{=}
-                                \PYG{k}{new} \PYG{n}{Thread}\PYG{o}{[}\PYG{n}{NUM\PYGZus{}CONSUMIDORES}\PYG{o}{]}\PYG{o}{;}
-
-
-                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{NUM\PYGZus{}CONSUMIDORES}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{n}{consumidores}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Consumidor}\PYG{o}{(}\PYG{n}{gcl}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{n}{hilosConsumidores}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}
-                                        \PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{consumidores}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{n}{hilosConsumidores}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+                \PYG{c+cm}{/* Esperamos a que acaben todos los hilos, primero}
+\PYG{c+cm}{                productores y luego consumidores}
+\PYG{c+cm}{                */}
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}PRODUCTORES}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{hilosProductor}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{join}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
                 \PYG{o}{\PYGZcb{}}
-
-                \PYG{c+cm}{/* Se debería esperar a que todos terminen*/}
-                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{NUM\PYGZus{}PRODUCTORES}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{k}{try} \PYG{o}{\PYGZob{}}
-                                \PYG{n}{hilosProductores}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{join}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{e}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-                                \PYG{n}{e}\PYG{o}{.}\PYG{n+na}{printStackTrace}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}}
-                \PYG{o}{\PYGZcb{}}
-                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{NUM\PYGZus{}CONSUMIDORES}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
-                        \PYG{k}{try} \PYG{o}{\PYGZob{}}
-                                \PYG{n}{hilosConsumidores}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{join}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{e}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-                                \PYG{c+c1}{// TODO Auto\PYGZhy{}generated catch block}
-                                \PYG{n}{e}\PYG{o}{.}\PYG{n+na}{printStackTrace}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
-                        \PYG{o}{\PYGZcb{}}
+                \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}CONSUMIDORES}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                        \PYG{n}{hilosConsumidor}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{join}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
                 \PYG{o}{\PYGZcb{}}
         \PYG{o}{\PYGZcb{}}
+
 \PYG{o}{\PYGZcb{}}
 \end{sphinxVerbatim}
 
