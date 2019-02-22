@@ -794,37 +794,6 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <p>¿Cual es el problema?</p>
 <p>El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final <strong>nunca son atendidos</strong>. Hay que corregir esa asignación para <em>evitar que los procesos sufran de inanición</em>.</p>
 </div>
-<<<<<<< HEAD
-<div class="section" id="metodo-corregido">
-<h3>Método corregido<a class="headerlink" href="#metodo-corregido" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">int</span> <span class="nf">atenderAlgunCliente</span><span class="o">(){</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">pasos</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-                        <span class="n">pasos</span><span class="o">&lt;</span><span class="n">clienteEstaAtendido</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
-                        <span class="n">pasos</span><span class="o">++)</span>
-        <span class="o">{</span>
-                <span class="k">if</span> <span class="o">(</span>
-                                <span class="n">clienteEstaAtendido</span>
-                                <span class="o">[</span><span class="n">numUltimaSillaExaminada</span><span class="o">]</span>
-                                                <span class="o">==</span> <span class="kc">false</span>
-                                                <span class="o">)</span>
-                <span class="o">{</span>
-                        <span class="cm">/*Atendemos a ese cliente*/</span>
-                        <span class="n">clienteEstaAtendido</span>
-                                <span class="o">[</span><span class="n">numUltimaSillaExaminada</span><span class="o">]=</span><span class="kc">true</span><span class="o">;</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                                        <span class="s">&quot;Afeitando cliente en silla &quot;</span><span class="o">+</span>
-                                                        <span class="n">numUltimaSillaExaminada</span><span class="o">);</span>
-                        <span class="k">return</span> <span class="n">numUltimaSillaExaminada</span><span class="o">;</span>
-                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                        <span class="n">numUltimaSillaExaminada</span><span class="o">=</span>
-                                        <span class="o">(</span><span class="n">numUltimaSillaExaminada</span><span class="o">+</span><span class="mi">1</span><span class="o">)%</span>
-                                        <span class="n">clienteEstaAtendido</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
-                <span class="o">}</span> <span class="c1">//Fin del else</span>
-        <span class="o">}</span> <span class="c1">//Fin del for</span>
-        <span class="cm">/* Si llegamos aquí hemos dado toda</span>
-<span class="cm">         * una vuelta al vector y no había nadie sin</span>
-<span class="cm">         * atender devolver -1</span>
-=======
 <div class="section" id="id1">
 <h3>Clase cliente<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cliente</span>  <span class="o">{</span>
@@ -910,7 +879,6 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <span class="cm">         * Nos dice el numero de silla que está libre</span>
 <span class="cm">         * @return Devuelve una posición o -1 si está</span>
 <span class="cm">         * todo ocupado</span>
->>>>>>> 3cf6915e33560a043fc98b0b2122f039c1ccc0ee
 <span class="cm">         */</span>
         <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">int</span> <span class="nf">getPosSillaLibre</span><span class="o">(){</span>
                 <span class="kt">int</span> <span class="n">posSilla</span><span class="o">=-</span><span class="mi">1</span><span class="o">;</span>
@@ -1008,23 +976,6 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="solucion">
 <h2>Solución<a class="headerlink" href="#solucion" title="Enlazar permanentemente con este título">¶</a></h2>
-<<<<<<< HEAD
-<div class="section" id="una-cola-limitada-en-tamano">
-<h3>Una cola limitada en tamaño<a class="headerlink" href="#una-cola-limitada-en-tamano" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ColaLimitada</span> <span class="o">{</span>
-        <span class="kt">int</span><span class="o">[]</span> <span class="n">cola</span><span class="o">;</span>
-        <span class="kt">int</span> <span class="n">posParaEncolar</span><span class="o">;</span>
-        <span class="kd">public</span> <span class="nf">ColaLimitada</span><span class="o">(</span><span class="kt">int</span> <span class="n">numElementos</span><span class="o">){</span>
-                <span class="n">cola</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">numElementos</span><span class="o">];</span>
-                <span class="n">posParaEncolar</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-        <span class="o">}</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">ponerEnCola</span><span class="o">(</span><span class="kt">int</span> <span class="n">numero</span><span class="o">){</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">posParaEncolar</span><span class="o">==</span><span class="n">cola</span><span class="o">.</span><span class="na">length</span><span class="o">){</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                                        <span class="s">&quot;Cola llena, debe Vd. esperar&quot;</span><span class="o">);</span>
-                        <span class="c1">//Cola llena.</span>
-                        <span class="k">return</span> <span class="o">;</span>
-=======
 <p>En primer lugar necesitamos una cola que sea «a prueba de hilos» y que permita encolar y desencolar elementos de una manera segura.</p>
 <p>Sabemos que antes de encolar hay que comprobar si la cola está llena. También sabemos que antes de desencolar hay que comprobar si la cola está vacía.</p>
 <p>Sin embargo <strong>¡¡CUIDADO!!</strong> es posible programar mal aunque las operaciones de nuestra cola estén protegidas con el método «synchronized». Supongamos que un productor tiene código como este:</p>
@@ -1045,7 +996,6 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
                 <span class="kt">int</span> <span class="n">numElementos</span><span class="o">=</span><span class="n">cola</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
                 <span class="k">if</span> <span class="o">(</span><span class="n">numElementos</span><span class="o">==</span><span class="mi">0</span><span class="o">){</span>
                         <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
->>>>>>> 3cf6915e33560a043fc98b0b2122f039c1ccc0ee
                 <span class="o">}</span>
                 <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
         <span class="o">}</span>
@@ -1057,23 +1007,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
                 <span class="k">if</span> <span class="o">(</span><span class="n">numElementos</span><span class="o">==</span><span class="k">this</span><span class="o">.</span><span class="na">MAX_ELEMENTOS</span><span class="o">){</span>
                         <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
                 <span class="o">}</span>
-<<<<<<< HEAD
-                <span class="n">cadenaCola</span><span class="o">+=</span><span class="s">&quot;FIN&quot;</span><span class="o">;</span>
-                <span class="k">return</span> <span class="n">cadenaCola</span><span class="o">;</span>
-        <span class="o">}</span>
-<span class="o">}</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="un-gestor-de-concurrencia-para-la-cola">
-<h3>Un gestor de concurrencia para la cola<a class="headerlink" href="#un-gestor-de-concurrencia-para-la-cola" title="Enlazar permanentemente con este título">¶</a></h3>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GestorColasConcurrentes</span> <span class="o">{</span>
-        <span class="kd">private</span> <span class="n">ColaLimitada</span> <span class="n">colaProtegida</span><span class="o">;</span>
-        <span class="kd">public</span> <span class="nf">GestorColasConcurrentes</span><span class="o">(</span><span class="kt">int</span> <span class="n">numElementos</span><span class="o">){</span>
-                <span class="n">colaProtegida</span><span class="o">=</span><span class="k">new</span> <span class="n">ColaLimitada</span><span class="o">(</span><span class="n">numElementos</span><span class="o">);</span>
-=======
                 <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
->>>>>>> 3cf6915e33560a043fc98b0b2122f039c1ccc0ee
         <span class="o">}</span>
         <span class="cm">/* Devuelve true si se pudo hacer y false si no se pudo*/</span>
         <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">boolean</span> <span class="nf">encolar</span><span class="o">(</span><span class="kt">int</span> <span class="n">numero</span><span class="o">){</span>
@@ -1100,17 +1034,9 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <div class="section" id="la-clase-productor">
 <h3>La clase Productor<a class="headerlink" href="#la-clase-productor" title="Enlazar permanentemente con este título">¶</a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Productor</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
-<<<<<<< HEAD
-        <span class="kd">private</span> <span class="n">Random</span>                                                  <span class="n">generadorAzar</span><span class="o">;</span>
-        <span class="kd">private</span>         <span class="n">GestorColasConcurrentes</span>         <span class="n">gc</span><span class="o">;</span>
-        <span class="kd">public</span> <span class="nf">Productor</span><span class="o">(</span><span class="n">GestorColasConcurrentes</span> <span class="n">gc</span><span class="o">){</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">gc</span><span class="o">=</span><span class="n">gc</span><span class="o">;</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">generadorAzar</span><span class="o">=</span><span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
-=======
         <span class="n">Cola</span> <span class="n">colaCompartida</span><span class="o">;</span>
         <span class="kd">public</span> <span class="nf">Productor</span><span class="o">(</span><span class="n">Cola</span> <span class="n">cola</span><span class="o">){</span>
                 <span class="k">this</span><span class="o">.</span><span class="na">colaCompartida</span><span class="o">=</span><span class="n">cola</span><span class="o">;</span>
->>>>>>> 3cf6915e33560a043fc98b0b2122f039c1ccc0ee
         <span class="o">}</span>
         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
            <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">){</span>
@@ -1128,20 +1054,10 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </div>
 <div class="section" id="la-clase-consumidor">
 <h3>La clase Consumidor<a class="headerlink" href="#la-clase-consumidor" title="Enlazar permanentemente con este título">¶</a></h3>
-<<<<<<< HEAD
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Consumidor</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
-        <span class="kd">private</span> <span class="n">Random</span>                                                  <span class="n">generadorAzar</span><span class="o">;</span>
-        <span class="kd">private</span> <span class="n">GestorColasConcurrentes</span>         <span class="n">gc</span><span class="o">;</span>
-
-        <span class="kd">public</span> <span class="nf">Consumidor</span><span class="o">(</span><span class="n">GestorColasConcurrentes</span> <span class="n">gc</span><span class="o">){</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">gc</span><span class="o">=</span><span class="n">gc</span><span class="o">;</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">generadorAzar</span><span class="o">=</span><span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
-=======
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Consumidor</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
         <span class="n">Cola</span> <span class="n">colaCompartida</span><span class="o">;</span>
         <span class="kd">public</span> <span class="nf">Consumidor</span><span class="o">(</span><span class="n">Cola</span> <span class="n">cola</span><span class="o">){</span>
                 <span class="k">this</span><span class="o">.</span><span class="na">colaCompartida</span><span class="o">=</span><span class="n">cola</span><span class="o">;</span>
->>>>>>> 3cf6915e33560a043fc98b0b2122f039c1ccc0ee
         <span class="o">}</span>
         <span class="nd">@Override</span>
         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
@@ -1160,43 +1076,6 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <div class="section" id="un-lanzador">
 <h3>Un lanzador<a class="headerlink" href="#un-lanzador" title="Enlazar permanentemente con este título">¶</a></h3>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
-<<<<<<< HEAD
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">(){</span>
-                <span class="n">ColaLimitada</span> <span class="n">c</span><span class="o">=</span><span class="k">new</span> <span class="n">ColaLimitada</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">c</span><span class="o">.</span><span class="na">sacarPrimero</span><span class="o">()!=</span><span class="mi">0</span><span class="o">){</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                          <span class="s">&quot;Error, no se comprueba el caso cola vacía&quot;</span>
-                        <span class="o">);</span>
-                <span class="o">}</span>
-                <span class="n">c</span><span class="o">.</span><span class="na">ponerEnCola</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
-                <span class="n">c</span><span class="o">.</span><span class="na">ponerEnCola</span><span class="o">(</span><span class="mi">20</span><span class="o">);</span>
-                <span class="n">String</span> <span class="n">cadenaCola</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
-                <span class="k">if</span> <span class="o">(!</span><span class="n">cadenaCola</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;10-20-FIN&quot;</span><span class="o">)){</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Fallos al encolar&quot;</span><span class="o">);</span>
-                <span class="o">}</span>
-        <span class="o">}</span>
-        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">argumentos</span><span class="o">){</span>
-                <span class="n">Lanzador</span> <span class="n">l</span><span class="o">=</span><span class="k">new</span> <span class="n">Lanzador</span><span class="o">();</span>
-                <span class="n">GestorColasConcurrentes</span> <span class="n">gcl</span><span class="o">=</span>
-                                <span class="k">new</span> <span class="n">GestorColasConcurrentes</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
-
-                <span class="kt">int</span> <span class="n">NUM_PRODUCTORES</span><span class="o">=</span><span class="mi">5</span><span class="o">;</span>
-                <span class="n">Productor</span><span class="o">[]</span>     <span class="n">productores</span><span class="o">;</span>
-                <span class="n">Thread</span><span class="o">[]</span>                        <span class="n">hilosProductores</span><span class="o">;</span>
-
-                <span class="n">productores</span>             <span class="o">=</span>
-                                <span class="k">new</span> <span class="n">Productor</span><span class="o">[</span><span class="n">NUM_PRODUCTORES</span><span class="o">];</span>
-                <span class="n">hilosProductores</span>        <span class="o">=</span>
-                                <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">NUM_PRODUCTORES</span><span class="o">];</span>
-
-                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">NUM_PRODUCTORES</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
-                        <span class="n">productores</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="k">new</span> <span class="n">Productor</span><span class="o">(</span><span class="n">gcl</span><span class="o">);</span>
-                        <span class="n">hilosProductores</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span>
-                                        <span class="n">productores</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
-                        <span class="n">hilosProductores</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
-                <span class="o">}</span>
-=======
->>>>>>> 3cf6915e33560a043fc98b0b2122f039c1ccc0ee
 
         <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
                 <span class="kt">int</span> <span class="n">MAX_PRODUCTORES</span>     <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
@@ -1251,13 +1130,8 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </ol>
 <p>Realizar la simulación en Java de dicha situación.</p>
 <p>Una posible solución sería la siguiente:</p>
-<<<<<<< HEAD
-<div class="section" id="id1">
-<h3>Clase cliente<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título">¶</a></h3>
-=======
 <div class="section" id="id4">
 <h3>Clase cliente<a class="headerlink" href="#id4" title="Enlazar permanentemente con este título">¶</a></h3>
->>>>>>> 3cf6915e33560a043fc98b0b2122f039c1ccc0ee
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">grandesalmacenes</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
@@ -1634,10 +1508,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li class="toctree-l1"><a class="reference internal" href="tema3.html">Programación de comunicaciones en red</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tema4.html">Generación de servicios en red</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tema5.html">Utilización de técnicas de programación segura</a></li>
-<<<<<<< HEAD
 <li class="toctree-l1"><a class="reference internal" href="tema6.html">Servicios web</a></li>
-=======
->>>>>>> 3cf6915e33560a043fc98b0b2122f039c1ccc0ee
 <li class="toctree-l1"><a class="reference internal" href="anexos.html">Anexos</a></li>
 </ul>
 
@@ -1678,11 +1549,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
       &copy;2016, Oscar Gomez.
       
       |
-<<<<<<< HEAD
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-=======
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
->>>>>>> 3cf6915e33560a043fc98b0b2122f039c1ccc0ee
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

@@ -13,7 +13,7 @@ public class HiloConexion implements Runnable {
     public void run() {
         try {
             /* Nuestro hilo se limita a
-			 * recibir una línea y reenviarla
+			 * recibir una lÃ­nea y reenviarla
 			 * de vuelta al cliente
 			 */
             bfr = Utilidades.getFlujoLectura(this.socket);

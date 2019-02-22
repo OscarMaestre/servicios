@@ -1,0 +1,154 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Servicios web &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Anexos" href="anexos.html" />
+    <link rel="prev" title="Utilización de técnicas de programación segura" href="tema5.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="servicios-web">
+<h1>Servicios web<a class="headerlink" href="#servicios-web" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Un problema que ocurre a menudo es el siguiente: <em>¿como se puede conseguir
+que aplicaciones escritas en distintos lenguajes se intercambien datos
+entre sí?</em></p>
+<p>Supongamos que en un departamento de la empresa se dispone de una
+aplicación escrita en C# a la que se le puede suministrar un nombre de mes
+y que devuelve los mejores clientes de ese mes. Y supongamos
+por otro lado que se dispone de una aplicación Java de escritorio que
+permite a los clientes mostrar gráficos de una manera muy cómoda. ¿Como
+conseguir que la aplicación Java se integre con la aplicación en C#?</p>
+<ul class="simple">
+<li>Una posibilidad sería reescribir la funcionalidad. Tomar la tarea hecha
+en C# y reescribirla en la aplicación Java. Evidentemente, esto llevaría bastante tiempo.</li>
+<li>Otra posibilidad sería inventar algún protocolo que permitiese llevar los
+datos entre distintas aplicaciones, lo cual también puede ser farragoso y
+propenso a errores.</li>
+</ul>
+<p>Sin embargo, los servicios web nos ofrecen una mejora sobre la segunda
+posibilidad, al proporcionar <strong>un mecanismo estandarizado para intercambiar
+datos entre aplicaciones</strong> Los servicios web facilitan la tarea de
+construir programas que puedan intercambiarse datos incluso entre distintos
+lenguajes así como facilitar dicho intercambio entre aplicaciones que ya se
+hubiesen creado sin pensar en esta integración.</p>
+</div>
+<div class="section" id="prerrequisitos">
+<h2>Prerrequisitos<a class="headerlink" href="#prerrequisitos" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Necesitaremos el siguiente software:</p>
+<p><a href="#id1"><span class="problematic" id="id2">*</span></a>JDK
+<a href="#id3"><span class="problematic" id="id4">*</span></a>Apache ANT.
+<a href="#id5"><span class="problematic" id="id6">*</span></a>Apache Axis</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Apuntes de Programación de Servicios y procesos</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tema1.html">Programación multiproceso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema2.html">Programación multihilo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema3.html">Programación de comunicaciones en red</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema4.html">Generación de servicios en red</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema5.html">Utilización de técnicas de programación segura</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Servicios web</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduccion">Introducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prerrequisitos">Prerrequisitos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="anexos.html">Anexos</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="tema5.html" title="capítulo anterior">Utilización de técnicas de programación segura</a></li>
+      <li>Next: <a href="anexos.html" title="próximo capítulo">Anexos</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Oscar Gomez.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/textos/tema6.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

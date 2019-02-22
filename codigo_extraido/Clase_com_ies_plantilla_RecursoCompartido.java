@@ -1,19 +1,19 @@
 public class RecursoCompartido {
 
-    /* Todo objeto compartido tendr· uno o varios valores
-	 * de importancia. DeberÌan declarse aquÌ */
+    /* Todo objeto compartido tendr√° uno o varios valores
+	 * de importancia. Deber√≠an declarse aqu√≠ */
     int valorImportante;
 
     public RecursoCompartido() {
-    /* El constructor deberÌa inicializar todos los valores
+    /* El constructor deber√≠a inicializar todos los valores
 		 * de importancia y todos los que necesite para
 		 * funcionar
 		 */
     }
 
-    /* Cualquier modificaciÛn o consulta
+    /* Cualquier modificaci√≥n o consulta
 	 * de un valor compartido por varios hilos
-	 * deberÌa usar "synchronized" */
+	 * deber√≠a usar "synchronized" */
     public synchronized void setValor(int nuevoValor) {
         valorImportante = nuevoValor;
     }

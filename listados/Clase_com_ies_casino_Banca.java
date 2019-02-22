@@ -85,18 +85,18 @@ public class Banca {
              */
             segundosAzar = 1 + generador.nextInt(3);
             System.out.println("Hagan juego, tienen Vds " +
-            segundosAzar + " segundos");
+                               segundosAzar + " segundos");
             Thread.sleep(1000 * segundosAzar);
             System.out.println("Ya no va más, señores. ¡Girando!");
             estadoRuleta = Estado.RULETA_GIRANDO;
             Thread.sleep(3000);
             numeroGanador = generador.nextInt(37);
             System.out.println("El número ganador es el :" +
-            numeroGanador);
+                               numeroGanador);
             estadoRuleta = Estado.PAGANDO_APUESTAS;
             this.comunicarNumeroGanador(numeroGanador);
             System.out.println("El saldo de la banca es ahora:"
-            + saldo);
+                               + saldo);
         }
     }
 
@@ -110,7 +110,7 @@ public class Banca {
                 1000, this);
             hilosJugadoresPares[i] = new Thread(jugador);
             hilosJugadoresPares[i].setName("Apostador par/impar "
-            + i);
+                                           + i);
             hilosJugadoresPares[i].start();
         }
         Thread[] hilosJugadoresMartingala = new Thread[jugadoresMartingala];
@@ -119,16 +119,16 @@ public class Banca {
                 1000, this);
             hilosJugadoresMartingala[i] = new Thread(jugador);
             hilosJugadoresMartingala[i].setName("Apostador martingala "
-            + i);
+                                                + i);
             hilosJugadoresMartingala[i].start();
         }
         Thread[] hilosJugadoresClasico = new Thread[jugadoresClasicos];
         for (int i = 0; i < jugadoresClasicos; i++) {
             JugadorClasico jugador = new JugadorClasico(1000,
-            this);
+                    this);
             hilosJugadoresClasico[i] = new Thread(jugador);
             hilosJugadoresClasico[i].setName("Apostador clasico "
-            + i);
+                                             + i);
             hilosJugadoresClasico[i].start();
         }
         this.girarRuleta();

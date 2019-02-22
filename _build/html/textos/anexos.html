@@ -204,18 +204,18 @@
 <span class="cm">             */</span>
             <span class="n">segundosAzar</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hagan juego, tienen Vds &quot;</span> <span class="o">+</span>
-            <span class="n">segundosAzar</span> <span class="o">+</span> <span class="s">&quot; segundos&quot;</span><span class="o">);</span>
+                               <span class="n">segundosAzar</span> <span class="o">+</span> <span class="s">&quot; segundos&quot;</span><span class="o">);</span>
             <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="n">segundosAzar</span><span class="o">);</span>
             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Ya no va más, señores. ¡Girando!&quot;</span><span class="o">);</span>
             <span class="n">estadoRuleta</span> <span class="o">=</span> <span class="n">Estado</span><span class="o">.</span><span class="na">RULETA_GIRANDO</span><span class="o">;</span>
             <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">3000</span><span class="o">);</span>
             <span class="n">numeroGanador</span> <span class="o">=</span> <span class="n">generador</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">37</span><span class="o">);</span>
             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;El número ganador es el :&quot;</span> <span class="o">+</span>
-            <span class="n">numeroGanador</span><span class="o">);</span>
+                               <span class="n">numeroGanador</span><span class="o">);</span>
             <span class="n">estadoRuleta</span> <span class="o">=</span> <span class="n">Estado</span><span class="o">.</span><span class="na">PAGANDO_APUESTAS</span><span class="o">;</span>
             <span class="k">this</span><span class="o">.</span><span class="na">comunicarNumeroGanador</span><span class="o">(</span><span class="n">numeroGanador</span><span class="o">);</span>
             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;El saldo de la banca es ahora:&quot;</span>
-            <span class="o">+</span> <span class="n">saldo</span><span class="o">);</span>
+                               <span class="o">+</span> <span class="n">saldo</span><span class="o">);</span>
         <span class="o">}</span>
     <span class="o">}</span>
 
@@ -229,7 +229,7 @@
                 <span class="mi">1000</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
             <span class="n">hilosJugadoresPares</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">jugador</span><span class="o">);</span>
             <span class="n">hilosJugadoresPares</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">setName</span><span class="o">(</span><span class="s">&quot;Apostador par/impar &quot;</span>
-            <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+                                           <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
             <span class="n">hilosJugadoresPares</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
         <span class="o">}</span>
         <span class="n">Thread</span><span class="o">[]</span> <span class="n">hilosJugadoresMartingala</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">jugadoresMartingala</span><span class="o">];</span>
@@ -238,16 +238,16 @@
                 <span class="mi">1000</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
             <span class="n">hilosJugadoresMartingala</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">jugador</span><span class="o">);</span>
             <span class="n">hilosJugadoresMartingala</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">setName</span><span class="o">(</span><span class="s">&quot;Apostador martingala &quot;</span>
-            <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+                                                <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
             <span class="n">hilosJugadoresMartingala</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
         <span class="o">}</span>
         <span class="n">Thread</span><span class="o">[]</span> <span class="n">hilosJugadoresClasico</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">[</span><span class="n">jugadoresClasicos</span><span class="o">];</span>
         <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">jugadoresClasicos</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
             <span class="n">JugadorClasico</span> <span class="n">jugador</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JugadorClasico</span><span class="o">(</span><span class="mi">1000</span><span class="o">,</span>
-            <span class="k">this</span><span class="o">);</span>
+                    <span class="k">this</span><span class="o">);</span>
             <span class="n">hilosJugadoresClasico</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">jugador</span><span class="o">);</span>
             <span class="n">hilosJugadoresClasico</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">setName</span><span class="o">(</span><span class="s">&quot;Apostador clasico &quot;</span>
-            <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+                                             <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
             <span class="n">hilosJugadoresClasico</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
         <span class="o">}</span>
         <span class="k">this</span><span class="o">.</span><span class="na">girarRuleta</span><span class="o">();</span>
@@ -548,10 +548,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tema3.html">Programación de comunicaciones en red</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tema4.html">Generación de servicios en red</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tema5.html">Utilización de técnicas de programación segura</a></li>
-<<<<<<< HEAD
 <li class="toctree-l1"><a class="reference internal" href="tema6.html">Servicios web</a></li>
-=======
->>>>>>> 3cf6915e33560a043fc98b0b2122f039c1ccc0ee
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Anexos</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#la-clase-utilidadesficheros">La clase <code class="docutils literal notranslate"><span class="pre">UtilidadesFicheros</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#solucion-al-problema-del-simulador-de-casino">Solución al problema del simulador de Casino</a></li>
@@ -595,11 +592,7 @@
       &copy;2016, Oscar Gomez.
       
       |
-<<<<<<< HEAD
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-=======
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
->>>>>>> 3cf6915e33560a043fc98b0b2122f039c1ccc0ee
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

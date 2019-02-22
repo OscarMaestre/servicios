@@ -54,7 +54,7 @@
 
 
 \title{Apuntes de Servicios y Procesos}
-\date{12 de diciembre de 2018}
+\date{22 de febrero de 2019}
 \release{1.3}
 \author{Oscar Gomez}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -716,7 +716,8 @@ Como nuestro programa está formado por varias clases que están dispersas por d
     \PYG{k+kt}{long} \PYG{n}{total} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{o}{;}
     \PYG{k}{try} \PYG{o}{\PYGZob{}}
         \PYG{c+c1}{//Extraemos las cantidades}
-        \PYG{n}{cantidades} \PYG{o}{=} \PYG{n}{UtilidadesFicheros}\PYG{o}{.}\PYG{n+na}{getLineasFichero}\PYG{o}{(}\PYG{n}{nombreFichero}\PYG{o}{)}\PYG{o}{;}
+        \PYG{n}{cantidades} \PYG{o}{=} \PYG{n}{UtilidadesFicheros}\PYG{o}{.}\PYG{n+na}{getLineasFichero}\PYG{o}{(}
+            \PYG{n}{nombreFichero}\PYG{o}{)}\PYG{o}{;}
         \PYG{c+c1}{//Y las sumamos una por una}
         \PYG{k}{for} \PYG{o}{(}\PYG{n}{String} \PYG{n}{lineaCantidad} \PYG{o}{:} \PYG{n}{cantidades}\PYG{o}{)} \PYG{o}{\PYGZob{}}
             \PYG{k+kt}{long} \PYG{n}{cantidad} \PYG{o}{=} \PYG{n}{Long}\PYG{o}{.}\PYG{n+na}{parseLong}\PYG{o}{(}\PYG{n}{lineaCantidad}\PYG{o}{)}\PYG{o}{;}
@@ -725,13 +726,14 @@ Como nuestro programa está formado por varias clases que están dispersas por d
         \PYG{o}{\PYGZcb{}}
         \PYG{c+c1}{//Almacenamos el total en un fichero}
         \PYG{n}{PrintWriter} \PYG{n}{pw}\PYG{o}{;}
-        \PYG{n}{pw} \PYG{o}{=} \PYG{n}{UtilidadesFicheros}\PYG{o}{.}\PYG{n+na}{getPrintWriter}\PYG{o}{(}\PYG{n}{nombreFicheroResultado}\PYG{o}{)}\PYG{o}{;}
+        \PYG{n}{pw} \PYG{o}{=} \PYG{n}{UtilidadesFicheros}\PYG{o}{.}\PYG{n+na}{getPrintWriter}\PYG{o}{(}
+                 \PYG{n}{nombreFicheroResultado}\PYG{o}{)}\PYG{o}{;}
         \PYG{n}{pw}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{n}{total}\PYG{o}{)}\PYG{o}{;}
         \PYG{n}{pw}\PYG{o}{.}\PYG{n+na}{close}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
     \PYG{o}{\PYGZcb{}}\PYG{c+c1}{//Fin del try}
     \PYG{k}{catch} \PYG{o}{(}\PYG{n}{IOException} \PYG{n}{e}\PYG{o}{)} \PYG{o}{\PYGZob{}}
         \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{err}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}No se pudo procesar el fichero \PYGZdq{}}
-        \PYG{o}{+} \PYG{n}{nombreFichero}\PYG{o}{)}\PYG{o}{;}
+                           \PYG{o}{+} \PYG{n}{nombreFichero}\PYG{o}{)}\PYG{o}{;}
         \PYG{n}{e}\PYG{o}{.}\PYG{n+na}{printStackTrace}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
     \PYG{o}{\PYGZcb{}}
 \PYG{c+c1}{//Fin del main}
@@ -4942,6 +4944,50 @@ Supongamos entonces que estamos en un entorno seguro donde los programas Java se
 \section{Pruebas y depuración.}
 \label{\detokenize{textos/tema5:pruebas-y-depuracion}}
 
+\chapter{Servicios web}
+\label{\detokenize{textos/tema6:servicios-web}}\label{\detokenize{textos/tema6::doc}}
+
+\section{Introducción}
+\label{\detokenize{textos/tema6:introduccion}}
+Un problema que ocurre a menudo es el siguiente: \sphinxstyleemphasis{¿como se puede conseguir
+que aplicaciones escritas en distintos lenguajes se intercambien datos
+entre sí?}
+
+Supongamos que en un departamento de la empresa se dispone de una
+aplicación escrita en C\# a la que se le puede suministrar un nombre de mes
+y que devuelve los mejores clientes de ese mes. Y supongamos
+por otro lado que se dispone de una aplicación Java de escritorio que
+permite a los clientes mostrar gráficos de una manera muy cómoda. ¿Como
+conseguir que la aplicación Java se integre con la aplicación en C\#?
+\begin{itemize}
+\item {} 
+Una posibilidad sería reescribir la funcionalidad. Tomar la tarea hecha
+en C\# y reescribirla en la aplicación Java. Evidentemente, esto llevaría bastante tiempo.
+
+\item {} 
+Otra posibilidad sería inventar algún protocolo que permitiese llevar los
+datos entre distintas aplicaciones, lo cual también puede ser farragoso y
+propenso a errores.
+
+\end{itemize}
+
+Sin embargo, los servicios web nos ofrecen una mejora sobre la segunda
+posibilidad, al proporcionar \sphinxstylestrong{un mecanismo estandarizado para intercambiar
+datos entre aplicaciones} Los servicios web facilitan la tarea de
+construir programas que puedan intercambiarse datos incluso entre distintos
+lenguajes así como facilitar dicho intercambio entre aplicaciones que ya se
+hubiesen creado sin pensar en esta integración.
+
+
+\section{Prerrequisitos}
+\label{\detokenize{textos/tema6:prerrequisitos}}
+Necesitaremos el siguiente software:
+
+{\color{red}\bfseries{}*}JDK
+{\color{red}\bfseries{}*}Apache ANT.
+{\color{red}\bfseries{}*}Apache Axis
+
+
 \chapter{Anexos}
 \label{\detokenize{textos/anexos:anexos}}\label{\detokenize{textos/anexos::doc}}
 
@@ -5130,18 +5176,18 @@ En las secciones siguientes se ilustra el código de las distintas clases.
 \PYG{c+cm}{             */}
             \PYG{n}{segundosAzar} \PYG{o}{=} \PYG{l+m+mi}{1} \PYG{o}{+} \PYG{n}{generador}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{3}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Hagan juego, tienen Vds \PYGZdq{}} \PYG{o}{+}
-            \PYG{n}{segundosAzar} \PYG{o}{+} \PYG{l+s}{\PYGZdq{} segundos\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
+                               \PYG{n}{segundosAzar} \PYG{o}{+} \PYG{l+s}{\PYGZdq{} segundos\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{sleep}\PYG{o}{(}\PYG{l+m+mi}{1000} \PYG{o}{*} \PYG{n}{segundosAzar}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Ya no va más, señores. ¡Girando!\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{estadoRuleta} \PYG{o}{=} \PYG{n}{Estado}\PYG{o}{.}\PYG{n+na}{RULETA\PYGZus{}GIRANDO}\PYG{o}{;}
             \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{sleep}\PYG{o}{(}\PYG{l+m+mi}{3000}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{numeroGanador} \PYG{o}{=} \PYG{n}{generador}\PYG{o}{.}\PYG{n+na}{nextInt}\PYG{o}{(}\PYG{l+m+mi}{37}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}El número ganador es el :\PYGZdq{}} \PYG{o}{+}
-            \PYG{n}{numeroGanador}\PYG{o}{)}\PYG{o}{;}
+                               \PYG{n}{numeroGanador}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{estadoRuleta} \PYG{o}{=} \PYG{n}{Estado}\PYG{o}{.}\PYG{n+na}{PAGANDO\PYGZus{}APUESTAS}\PYG{o}{;}
             \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{comunicarNumeroGanador}\PYG{o}{(}\PYG{n}{numeroGanador}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}El saldo de la banca es ahora:\PYGZdq{}}
-            \PYG{o}{+} \PYG{n}{saldo}\PYG{o}{)}\PYG{o}{;}
+                               \PYG{o}{+} \PYG{n}{saldo}\PYG{o}{)}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
     \PYG{o}{\PYGZcb{}}
 
@@ -5155,7 +5201,7 @@ En las secciones siguientes se ilustra el código de las distintas clases.
                 \PYG{l+m+mi}{1000}\PYG{o}{,} \PYG{k}{this}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{hilosJugadoresPares}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]} \PYG{o}{=} \PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{jugador}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{hilosJugadoresPares}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{setName}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Apostador par/impar \PYGZdq{}}
-            \PYG{o}{+} \PYG{n}{i}\PYG{o}{)}\PYG{o}{;}
+                                           \PYG{o}{+} \PYG{n}{i}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{hilosJugadoresPares}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
         \PYG{n}{Thread}\PYG{o}{[}\PYG{o}{]} \PYG{n}{hilosJugadoresMartingala} \PYG{o}{=} \PYG{k}{new} \PYG{n}{Thread}\PYG{o}{[}\PYG{n}{jugadoresMartingala}\PYG{o}{]}\PYG{o}{;}
@@ -5164,16 +5210,16 @@ En las secciones siguientes se ilustra el código de las distintas clases.
                 \PYG{l+m+mi}{1000}\PYG{o}{,} \PYG{k}{this}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{hilosJugadoresMartingala}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]} \PYG{o}{=} \PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{jugador}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{hilosJugadoresMartingala}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{setName}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Apostador martingala \PYGZdq{}}
-            \PYG{o}{+} \PYG{n}{i}\PYG{o}{)}\PYG{o}{;}
+                                                \PYG{o}{+} \PYG{n}{i}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{hilosJugadoresMartingala}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
         \PYG{n}{Thread}\PYG{o}{[}\PYG{o}{]} \PYG{n}{hilosJugadoresClasico} \PYG{o}{=} \PYG{k}{new} \PYG{n}{Thread}\PYG{o}{[}\PYG{n}{jugadoresClasicos}\PYG{o}{]}\PYG{o}{;}
         \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{jugadoresClasicos}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)} \PYG{o}{\PYGZob{}}
             \PYG{n}{JugadorClasico} \PYG{n}{jugador} \PYG{o}{=} \PYG{k}{new} \PYG{n}{JugadorClasico}\PYG{o}{(}\PYG{l+m+mi}{1000}\PYG{o}{,}
-            \PYG{k}{this}\PYG{o}{)}\PYG{o}{;}
+                    \PYG{k}{this}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{hilosJugadoresClasico}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]} \PYG{o}{=} \PYG{k}{new} \PYG{n}{Thread}\PYG{o}{(}\PYG{n}{jugador}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{hilosJugadoresClasico}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{setName}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Apostador clasico \PYGZdq{}}
-            \PYG{o}{+} \PYG{n}{i}\PYG{o}{)}\PYG{o}{;}
+                                             \PYG{o}{+} \PYG{n}{i}\PYG{o}{)}\PYG{o}{;}
             \PYG{n}{hilosJugadoresClasico}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{.}\PYG{n+na}{start}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
         \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{girarRuleta}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
