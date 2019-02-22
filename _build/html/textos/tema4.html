@@ -9,11 +9,12 @@
     <title>Generación de servicios en red &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
     <link rel="search" title="Búsqueda" href="../search.html" />
     <link rel="next" title="Utilización de técnicas de programación segura" href="tema5.html" />
@@ -30,6 +31,8 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="generacion-de-servicios-en-red">
@@ -251,7 +254,7 @@ Content-Length: 1221
 <p class="caption"><span class="caption-text">Creación de un servicio web.</span></p>
 </div>
 <p>En el fichero de interfaz pondremos este código para definir el interfaz.</p>
-<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Linq</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Runtime.Serialization</span><span class="p">;</span>
@@ -274,11 +277,11 @@ Content-Length: 1221
 </div>
 <p>Como puede verse hemos usado diversos atributos:</p>
 <ul class="simple">
-<li>El atributo <code class="docutils literal"><span class="pre">[ServiceContract]</span></code> indica que este interfaz <em>regula el contrato por el que se rige este servicio</em>. Se llama «contrato» al conjunto de operaciones y parámetros que un servidor ofrece.</li>
-<li>El atributo <code class="docutils literal"><span class="pre">[OperationContract]</span></code> indica que el método que hay a continuación es un método que se ofrece al exterior y por lo tanto los clientes podrán invocarlo y deberán hacerlo pasando los parámetros adecuados y deberán recoger un valor del tipo devuelto.</li>
+<li>El atributo <code class="docutils literal notranslate"><span class="pre">[ServiceContract]</span></code> indica que este interfaz <em>regula el contrato por el que se rige este servicio</em>. Se llama «contrato» al conjunto de operaciones y parámetros que un servidor ofrece.</li>
+<li>El atributo <code class="docutils literal notranslate"><span class="pre">[OperationContract]</span></code> indica que el método que hay a continuación es un método que se ofrece al exterior y por lo tanto los clientes podrán invocarlo y deberán hacerlo pasando los parámetros adecuados y deberán recoger un valor del tipo devuelto.</li>
 </ul>
-<p>El siguiente paso es <em>implementar el interfaz definido</em>, es decir añadir una clase que implemente esos métodos. En concreto ahora pondremos este código en el fichero de implementación  (por brevedad se han omitido las sentencias <code class="docutils literal"><span class="pre">using</span></code>):</p>
-<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="nn">ServicioCadenas</span>
+<p>El siguiente paso es <em>implementar el interfaz definido</em>, es decir añadir una clase que implemente esos métodos. En concreto ahora pondremos este código en el fichero de implementación  (por brevedad se han omitido las sentencias <code class="docutils literal notranslate"><span class="pre">using</span></code>):</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="nn">ServicioCadenas</span>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">class</span> <span class="nc">ServicioCadenas</span> <span class="p">:</span> <span class="n">IServicioCadenas</span>
     <span class="p">{</span>
@@ -306,6 +309,7 @@ Content-Length: 1221
 <img alt="../_images/wcf2.png" src="../_images/wcf2.png" />
 <p class="caption"><span class="caption-text">Probando el servicio web.</span></p>
 </div>
+<p>Como puede verse en la figura, hemos elegido un método y hemos puesto algún valor en la cadena. Al invocar el servicio, el método se ejecuta correctamente y obtenemos el resultado esperado. Además, en la ventana podemos ver la referencia URL del servicio <strong>que podremos usar en otro ordenador por remoto que sea</strong></p>
 </div>
 <div class="section" id="implementacion-de-comunicaciones-simultaneas">
 <h3>Implementación de comunicaciones simultáneas.<a class="headerlink" href="#implementacion-de-comunicaciones-simultaneas" title="Enlazar permanentemente con este título">¶</a></h3>
@@ -324,37 +328,39 @@ Content-Length: 1221
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Tabla de Contenidos</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Generación de servicios en red</a><ul>
-<li><a class="reference internal" href="#telnet-ssh">Telnet/SSH</a></li>
-<li><a class="reference internal" href="#ftp">FTP</a></li>
-<li><a class="reference internal" href="#http">HTTP</a></li>
-<li><a class="reference internal" href="#pop3">POP3</a></li>
-<li><a class="reference internal" href="#smtp">SMTP</a><ul>
-<li><a class="reference internal" href="#librerias-de-clases-y-componentes">Librerías de clases y componentes.</a></li>
-<li><a class="reference internal" href="#utilizacion-de-objetos-predefinidos">Utilización de objetos predefinidos.</a></li>
-<li><a class="reference internal" href="#establecimiento-y-finalizacion-de-conexiones">Establecimiento y finalización de conexiones.</a></li>
-<li><a class="reference internal" href="#transmision-de-informacion">Transmisión de información.</a></li>
-<li><a class="reference internal" href="#programacion-de-aplicaciones-cliente">Programación de aplicaciones cliente.</a></li>
+<h1 class="logo"><a href="../index.html">Apuntes de Programación de Servicios y procesos</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tema1.html">Programación multiproceso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema2.html">Programación multihilo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema3.html">Programación de comunicaciones en red</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Generación de servicios en red</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#telnet-ssh">Telnet/SSH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ftp">FTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#http">HTTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pop3">POP3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#smtp">SMTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#programacion-de-servidores">Programación de servidores.</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#programacion-de-servidores">Programación de servidores.</a><ul>
-<li><a class="reference internal" href="#soap">SOAP</a></li>
-<li><a class="reference internal" href="#wcf">WCF</a></li>
-<li><a class="reference internal" href="#implementacion-de-comunicaciones-simultaneas">Implementación de comunicaciones simultáneas.</a></li>
-<li><a class="reference internal" href="#documentacion">Documentación.</a></li>
-<li><a class="reference internal" href="#depuracion">Depuración.</a></li>
-<li><a class="reference internal" href="#monitorizacion-de-tiempos-de-respuesta">Monitorización de tiempos de respuesta.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema5.html">Utilización de técnicas de programación segura</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema6.html">Servicios web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="anexos.html">Anexos</a></li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -364,13 +370,6 @@ Content-Length: 1221
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>Esta página</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/textos/tema4.rst.txt"
-            rel="nofollow">Mostrar el código</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Búsqueda rápida</h3>
     <div class="searchformwrapper">
@@ -383,6 +382,14 @@ Content-Length: 1221
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -391,12 +398,8 @@ Content-Length: 1221
       &copy;2016, Oscar Gomez.
       
       |
-<<<<<<< HEAD
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.2</a>
-=======
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
->>>>>>> 7c5f3e3cd62fe3f372f515257aa73a430d48e307
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/textos/tema4.rst.txt"

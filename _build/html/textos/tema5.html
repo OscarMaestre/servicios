@@ -9,11 +9,12 @@
     <title>Utilización de técnicas de programación segura &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
     <link rel="search" title="Búsqueda" href="../search.html" />
     <link rel="next" title="Servicios web" href="tema6.html" />
@@ -30,6 +31,8 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="utilizacion-de-tecnicas-de-programacion-segura">
@@ -489,35 +492,49 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Tabla de Contenidos</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Utilización de técnicas de programación segura</a><ul>
-<li><a class="reference internal" href="#introduccion">Introducción</a></li>
-<li><a class="reference internal" href="#practicas-de-programacion-segura">Prácticas de programación segura.</a><ul>
-<li><a class="reference internal" href="#metodo-cesar">Método César</a></li>
+<h1 class="logo"><a href="../index.html">Apuntes de Programación de Servicios y procesos</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tema1.html">Programación multiproceso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema2.html">Programación multihilo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema3.html">Programación de comunicaciones en red</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema4.html">Generación de servicios en red</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Utilización de técnicas de programación segura</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduccion">Introducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#practicas-de-programacion-segura">Prácticas de programación segura.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#criptografia-de-clave-publica-y-clave-privada">Criptografía de clave pública y clave privada.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#principales-aplicaciones-de-la-criptografia">Principales aplicaciones de la criptografía.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#protocolos-criptograficos">Protocolos criptográficos.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#encriptacion-de-informacion">Encriptación de información.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#protocolos-seguros-de-comunicaciones">Protocolos seguros de comunicaciones.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#infraestructura-de-clave-publica-pki">Infraestructura de clave pública (PKI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#programacion-de-aplicaciones-con-comunicaciones-seguras">Programación de aplicaciones con comunicaciones seguras.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#firmado-de-aplicaciones">Firmado de aplicaciones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verificado-de-aplicaciones">Verificado de aplicaciones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ejercicio">Ejercicio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#recordatorio">Recordatorio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#politica-de-seguridad">Política de seguridad.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#programacion-de-mecanismos-de-control-de-acceso">Programación de mecanismos de control de acceso.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pruebas-y-depuracion">Pruebas y depuración.</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#criptografia-de-clave-publica-y-clave-privada">Criptografía de clave pública y clave privada.</a></li>
-<li><a class="reference internal" href="#principales-aplicaciones-de-la-criptografia">Principales aplicaciones de la criptografía.</a></li>
-<li><a class="reference internal" href="#protocolos-criptograficos">Protocolos criptográficos.</a></li>
-<li><a class="reference internal" href="#encriptacion-de-informacion">Encriptación de información.</a></li>
-<li><a class="reference internal" href="#protocolos-seguros-de-comunicaciones">Protocolos seguros de comunicaciones.</a></li>
-<li><a class="reference internal" href="#infraestructura-de-clave-publica-pki">Infraestructura de clave pública (PKI)</a></li>
-<li><a class="reference internal" href="#programacion-de-aplicaciones-con-comunicaciones-seguras">Programación de aplicaciones con comunicaciones seguras.</a></li>
-<li><a class="reference internal" href="#firmado-de-aplicaciones">Firmado de aplicaciones</a></li>
-<li><a class="reference internal" href="#verificado-de-aplicaciones">Verificado de aplicaciones</a></li>
-<li><a class="reference internal" href="#ejercicio">Ejercicio</a></li>
-<li><a class="reference internal" href="#recordatorio">Recordatorio</a></li>
-<li><a class="reference internal" href="#politica-de-seguridad">Política de seguridad.</a></li>
-<li><a class="reference internal" href="#programacion-de-mecanismos-de-control-de-acceso">Programación de mecanismos de control de acceso.</a></li>
-<li><a class="reference internal" href="#pruebas-y-depuracion">Pruebas y depuración.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema6.html">Servicios web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="anexos.html">Anexos</a></li>
 </ul>
-</li>
-</ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -527,13 +544,6 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>Esta página</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/textos/tema5.rst.txt"
-            rel="nofollow">Mostrar el código</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Búsqueda rápida</h3>
     <div class="searchformwrapper">
@@ -546,6 +556,14 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -554,12 +572,8 @@ son los que debemos manejar siempre. Las conversiones a <code class="docutils li
       &copy;2016, Oscar Gomez.
       
       |
-<<<<<<< HEAD
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.2</a>
-=======
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
->>>>>>> 7c5f3e3cd62fe3f372f515257aa73a430d48e307
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/textos/tema5.rst.txt"

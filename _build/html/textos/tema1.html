@@ -9,11 +9,12 @@
     <title>Programación multiproceso &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
     <link rel="search" title="Búsqueda" href="../search.html" />
     <link rel="next" title="Programación multihilo" href="tema2.html" />
@@ -30,6 +31,8 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="programacion-multiproceso">
@@ -707,50 +710,49 @@
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Tabla de Contenidos</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Programación multiproceso</a><ul>
-<li><a class="reference internal" href="#ejecutables-procesos-servicios">Ejecutables. Procesos. Servicios.</a><ul>
-<li><a class="reference internal" href="#ejecutables">Ejecutables</a></li>
-<li><a class="reference internal" href="#procesos">Procesos</a></li>
-<li><a class="reference internal" href="#servicios">Servicios</a></li>
+<h1 class="logo"><a href="../index.html">Apuntes de Programación de Servicios y procesos</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Programación multiproceso</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ejecutables-procesos-servicios">Ejecutables. Procesos. Servicios.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hilos">Hilos.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#programacion-concurrente">Programación concurrente.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#programacion-paralela-y-distribuida">Programación paralela y distribuida.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creacion-de-procesos">Creación de procesos.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comunicacion-entre-procesos">Comunicación entre procesos.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ejercicio">Ejercicio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ejercicio-resuelto">Ejercicio resuelto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lanzamiento-de-los-procesos">Lanzamiento de los procesos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ejercicio-propuesto-i">Ejercicio propuesto (I)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gestion-de-procesos">Gestión de procesos.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comandos-para-la-gestion-de-procesos-en-sistemas-libres-y-propietarios">Comandos para la gestión de procesos en sistemas libres y propietarios.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sincronizacion-entre-procesos">Sincronización entre procesos.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentacion">Documentación</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#depuracion">Depuración.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examen">Examen</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#hilos">Hilos.</a></li>
-<li><a class="reference internal" href="#programacion-concurrente">Programación concurrente.</a></li>
-<li><a class="reference internal" href="#programacion-paralela-y-distribuida">Programación paralela y distribuida.</a></li>
-<li><a class="reference internal" href="#creacion-de-procesos">Creación de procesos.</a></li>
-<li><a class="reference internal" href="#comunicacion-entre-procesos">Comunicación entre procesos.</a></li>
-<li><a class="reference internal" href="#ejercicio">Ejercicio</a></li>
-<li><a class="reference internal" href="#ejercicio-resuelto">Ejercicio resuelto</a><ul>
-<li><a class="reference internal" href="#operaciones-con-ficheros">Operaciones con ficheros</a></li>
-<li><a class="reference internal" href="#procesado-de-ficheros">Procesado de ficheros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema2.html">Programación multihilo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema3.html">Programación de comunicaciones en red</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema4.html">Generación de servicios en red</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema5.html">Utilización de técnicas de programación segura</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema6.html">Servicios web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="anexos.html">Anexos</a></li>
 </ul>
-</li>
-<li><a class="reference internal" href="#lanzamiento-de-los-procesos">Lanzamiento de los procesos</a></li>
-<li><a class="reference internal" href="#ejercicio-propuesto-i">Ejercicio propuesto (I)</a><ul>
-<li><a class="reference internal" href="#solucion-al-ejercicio-propuesto-i">Solución al ejercicio propuesto (I)</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#gestion-de-procesos">Gestión de procesos.</a></li>
-<li><a class="reference internal" href="#comandos-para-la-gestion-de-procesos-en-sistemas-libres-y-propietarios">Comandos para la gestión de procesos en sistemas libres y propietarios.</a><ul>
-<li><a class="reference internal" href="#prioridades">Prioridades</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#sincronizacion-entre-procesos">Sincronización entre procesos.</a><ul>
-<li><a class="reference internal" href="#mecanismos-para-controlar-secciones-criticas">Mecanismos para controlar secciones críticas</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#documentacion">Documentación</a></li>
-<li><a class="reference internal" href="#depuracion">Depuración.</a></li>
-<li><a class="reference internal" href="#examen">Examen</a></li>
-</ul>
-</li>
-</ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -760,13 +762,6 @@
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>Esta página</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/textos/tema1.rst.txt"
-            rel="nofollow">Mostrar el código</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Búsqueda rápida</h3>
     <div class="searchformwrapper">
@@ -779,6 +774,14 @@
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -787,12 +790,8 @@
       &copy;2016, Oscar Gomez.
       
       |
-<<<<<<< HEAD
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.2</a>
-=======
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
->>>>>>> 7c5f3e3cd62fe3f372f515257aa73a430d48e307
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/textos/tema1.rst.txt"
