@@ -803,42 +803,191 @@ Críticas a la solución anterior
 
 El problema está en que la forma que tiene el gestor de concurrencia de decirle a un barbero qué silla tiene un cliente sin afeitar es incorrecta: como siempre se empieza a buscar por el principio del vector, los clientes sentados al final **nunca son atendidos**. Hay que corregir esa asignación para *evitar que los procesos sufran de inanición*.
 
-Método corregido
+Clase cliente
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
-	public synchronized int atenderAlgunCliente(){
-		for (int pasos=0; 
-				pasos<clienteEstaAtendido.length; 
-				pasos++)
-		{
-			if (
-					clienteEstaAtendido
-					[numUltimaSillaExaminada]
-							== false
-							)
-			{
-				/*Atendemos a ese cliente*/
-				clienteEstaAtendido
-					[numUltimaSillaExaminada]=true;
-				System.out.println(
-						"Afeitando cliente en silla "+
-								numUltimaSillaExaminada);
-				return numUltimaSillaExaminada;
-			} else {
-				numUltimaSillaExaminada=
-						(numUltimaSillaExaminada+1)%
-						clienteEstaAtendido.length;
-			} //Fin del else
-		} //Fin del for		
-		/* Si llegamos aquí hemos dado toda
-		 * una vuelta al vector y no había nadie sin
-		 * atender devolver -1
-		 */
-		return -1;
-	} //Fin del método
+	public class Cliente  {
+		GestorSillas gestorSillas;
+		public Cliente(GestorSillas g){
+			this.gestorSillas = g;
+		}
+		public void entrarEnBarberia(){
+			int posSillaLibre = this.gestorSillas.getPosSillaLibre();
+			if (posSillaLibre==-1){
+				System.out.println("No habia sillas libres, me marcho");
+				return ;
+			}
+			System.out.println("Me siento en la silla:"+posSillaLibre);
+		}
+	}
+
+Clase Barbero
+~~~~~~~~~~~~~~~~~~
+
+
+.. code-block:: java
+
+
+	public class Barbero implements Runnable{
+		GestorSillas gestorSillas;
+		boolean barberiaAbierta;
+		public Barbero (GestorSillas g){
+			gestorSillas=g;
+			barberiaAbierta=true;
+		}
 		
+		public void cerrarBarberia(){
+			this.barberiaAbierta=false;
+		}
+		@Override
+		public void run() {
+		   while(barberiaAbierta){
+			   int posSillaClienteSinAtender;
+			   posSillaClienteSinAtender=
+					   this.gestorSillas.getSiguienteCliente();
+			   if (posSillaClienteSinAtender==-1){
+				   esperarTiempoAzar(3);
+			   } else {
+				   System.out.println("Barbero atendiendo silla:" +
+						   posSillaClienteSinAtender);
+				   esperarTiempoAzar(3);
+				   this.gestorSillas.liberarSilla(posSillaClienteSinAtender);
+			   }
+		   }
+		}
+		
+		public static void esperarTiempoAzar(int max){
+			Random generador=new Random();
+			/* Se calculan unos milisegundos al azar*/
+			int msgs=(1+generador.nextInt(max))*1000;
+			try {
+					Thread.currentThread().sleep(msgs);
+			} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+			}
+		}
+		
+	}
+
+
+Clase GestorSillas
+~~~~~~~~~~~~~~~~~~
+
+
+.. code-block:: java
+
+	public class GestorSillas {
+		private int MAX_SILLAS;
+		private boolean[] estaSillaLibre;
+		private boolean[] clienteEstaAtendido;
+		private int siguienteClienteParaAtender=0;
+		GestorSillas(int num){
+			MAX_SILLAS=num;
+			estaSillaLibre=new boolean[MAX_SILLAS];
+			clienteEstaAtendido=new boolean[MAX_SILLAS];
+			for (int i=0; i<MAX_SILLAS; i++){
+				estaSillaLibre[i]       = true;
+				clienteEstaAtendido[i]  = false;
+			}
+		}
+		/**
+		 * Nos dice el numero de silla que está libre
+		 * @return Devuelve una posición o -1 si está
+		 * todo ocupado
+		 */
+		public synchronized int getPosSillaLibre(){
+			int posSilla=-1;
+			for (int pos=0; pos<MAX_SILLAS;pos++){
+				if (estaSillaLibre[pos]==true){
+					estaSillaLibre[pos]=false;
+					return pos;
+				}
+			}
+			return posSilla;
+		}
+		
+		public void liberarSilla(int pos){
+			estaSillaLibre[pos]=true;
+			clienteEstaAtendido[pos]=false;
+		}
+		public synchronized int getSiguienteCliente(){
+			int pos=-1;
+			boolean salir;
+			int i;
+			salir=false;
+			i=this.siguienteClienteParaAtender;
+			while(!salir){
+				if (
+						(this.estaSillaLibre[i]==false) &&
+						(this.clienteEstaAtendido[i]==false)
+				)
+				{
+					this.clienteEstaAtendido[i]=true;
+					this.siguienteClienteParaAtender= (i+1) % MAX_SILLAS;
+					return i;
+					
+				}
+				i++;
+				if (i==this.MAX_SILLAS){
+					i=0;
+				}
+				if (i==this.siguienteClienteParaAtender) salir=true;
+				
+			}
+					
+			return pos;
+		}
+	}
+
+
+Clase Lanzador
+~~~~~~~~~~~~~~~~~~
+
+
+.. code-block:: java
+
+
+	public class Lanzador {
+
+		public static void main(String[] args) throws InterruptedException {
+			int MAX_BARBEROS = 2;
+			int MAX_SILLAS   = 3;
+			int MAX_CLIENTES = 1000;
+			Barbero[] barberos;
+			Thread[]  hilos;
+			
+			barberos=new Barbero[MAX_BARBEROS];
+			hilos   =new Thread [MAX_BARBEROS];
+			
+			GestorSillas gestorSillas=new GestorSillas(MAX_SILLAS);
+			
+			for (int i=0; i<MAX_BARBEROS; i++){
+				barberos[i]=new Barbero(gestorSillas);
+				hilos[i]   =new Thread(barberos[i]);
+				
+				hilos[i].start();
+			} //Fin del for
+			
+			
+			for (int i=0; i< MAX_CLIENTES; i++){
+				Cliente c=new Cliente(gestorSillas);
+				c.entrarEnBarberia();
+			}
+			Barbero.esperarTiempoAzar(30);
+			/* La jornada ha terminado, "cerramos" los barberos*/
+			for (int i=0; i<MAX_BARBEROS; i++){
+				barberos[i].cerrarBarberia();
+				hilos[i].join();
+			}
+			System.out.println("Barberia cerrada.");
+		} //Fin del main
+	} //Fin de la clase
+
+
+	
 
 Problema: productores y consumidores.
 ------------------------------------------------------
@@ -853,75 +1002,72 @@ Crear un programa que simule el comportamiento de estos procesos evitando proble
 
 Solución
 ------------------------------------------------------
+En primer lugar necesitamos una cola que sea "a prueba de hilos" y que permita encolar y desencolar elementos de una manera segura.
 
+Sabemos que antes de encolar hay que comprobar si la cola está llena. También sabemos que antes de desencolar hay que comprobar si la cola está vacía.
 
-Una cola limitada en tamaño
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sin embargo **¡¡CUIDADO!!** es posible programar mal aunque las operaciones de nuestra cola estén protegidas con el método "synchronized". Supongamos que un productor tiene código como este:
 
 .. code-block:: java
-
-	public class ColaLimitada {
-		int[] cola;
-		int posParaEncolar;
-		public ColaLimitada(int numElementos){
-			cola=new int[numElementos];
-			posParaEncolar=0;
-		}
-		public void ponerEnCola(int numero){
-			if (posParaEncolar==cola.length){
-				System.out.println(
-						"Cola llena, debe Vd. esperar");
-				//Cola llena.
-				return ;
-			}
-			//Aún queda sitio
-			cola[posParaEncolar]=numero;
-			posParaEncolar++;
-		}
-		public int sacarPrimero(){
-			if (posParaEncolar==0){
-				System.out.println(
-						"Warning:cola vacía, devolviendo 0"
-				);
-				return 0;
-			}
-			int elementoInicial=cola[0];
-			/*Movemos los elementos hacia delante*/
-			for (int pos=1; pos<cola.length; pos++){
-				cola[pos-1]=cola[pos];
-			}
-			/* Ahora la posParaEncolar ha disminuido*/
-			posParaEncolar--;
-			return elementoInicial;
-		}
-		public String toString(){
-			String cadenaCola="";
-			for (int pos=0; pos<posParaEncolar; pos++){
-				cadenaCola+=cola[pos]+"-";
-			}
-			cadenaCola+="FIN";
-			return cadenaCola;
+	while (true){
+		if (!cola.estaLlena()){
+			cola.encolar(4);
 		}
 	}
 
+Puede que pensemos que este código está bien pero **ESTÁ MAL**. Está mal porque puede que en el tiempo transcurrido entre que un productor ejecuta ``estaLlena`` y ``encolar`` OTRO HILO SE HAYA COLADO ENTRE MEDIAS Y HAYA ALTERADO LA EJECUCIÓN. Eso significa que **aunque llamemos a dos métodos synchronized uno detrás de otro es posible que la ejecución sea incorrecta**. Así, necesitaremos hacer operaciones ``encolar`` y ``desencolar`` que funcionen de manera atómica y nos avisen de si consiguen hacer la operación o no.
 
-Un gestor de concurrencia para la cola
+
+Una cola limitada en tamaño y thread-safe
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
-	public class GestorColasConcurrentes {
-		private ColaLimitada colaProtegida;
-		public GestorColasConcurrentes(int numElementos){
-			colaProtegida=new ColaLimitada(numElementos);
+	public class Cola {
+		private int MAX_ELEMENTOS;
+		LinkedList<Integer> cola;
+		public Cola (int max){
+			cola=new LinkedList<Integer>();
+			this.MAX_ELEMENTOS=max;
 		}
-		public synchronized 
-			void ponerEnCola(int elemento){
-			colaProtegida.ponerEnCola(elemento);
+		/* En realidad, si estamos seguro de que nadie
+		llamará a este método podriamos ponerla como no
+		synchronized*/
+		public synchronized boolean estaVacia(){
+			int numElementos=cola.size();
+			if (numElementos==0){
+				return true;
+			}
+			return false;
 		}
-		public synchronized int sacarDeCola(){
-			return colaProtegida.sacarPrimero();
-		}		
+		/* Igual que antes, si estamos seguro de que nadie
+		llamará a este método podriamos ponerla como no
+		synchronized*/
+		public synchronized boolean estaLlena(){
+			int numElementos=cola.size();
+			if (numElementos==this.MAX_ELEMENTOS){
+				return true;
+			}
+			return false;
+		}
+		/* Devuelve true si se pudo hacer y false si no se pudo*/
+		public synchronized boolean encolar(int numero){
+			if (estaLlena()){
+				return false;
+			}
+			cola.addLast(numero);
+			return true;
+		}
+		public synchronized int desencolar(){
+			/* Necesitamos un número especial que actúe
+			como comprobador de errores*/
+			if (estaVacia()){
+				return -1;
+			}
+			int numero=cola.removeFirst();
+			return numero;
+		}
+		
 	}
 	
 La clase Productor
@@ -930,57 +1076,43 @@ La clase Productor
 .. code-block:: java
 
 	public class Productor implements Runnable{
-		private	Random 							generadorAzar;
-		private 	GestorColasConcurrentes 	gc;
-		public Productor(GestorColasConcurrentes gc){
-			this.gc=gc;
-			this.generadorAzar=new Random();
+		Cola colaCompartida;
+		public Productor(Cola cola){
+			this.colaCompartida=cola;
 		}
-		public void run(){
-			while (true){
-				int numero=generadorAzar.nextInt(20);
-				gc.ponerEnCola(numero);
-				int milisegs=generadorAzar.nextInt(2);
-				try {
-					Thread.currentThread().sleep(milisegs*1000);
-				} catch (InterruptedException e) {
-					System.out.println(
-							"Productor interrumpido"
-					);
-					return;
-				}
-			}
-		}
-	}
-		
+		public void run() {
+		   while (true){
+			   int num=Utilidades.numAzar(10);
+			   while (colaCompartida.encolar(num)==false){
+				   Utilidades.esperarTiempoAzar(3000);
+			   } /*Fin del while*/
+			   
+			   System.out.println("Productor encoló el numero:"+num);
+		   } /*Fin del while externo*/
+		} /*Fin de run()*/
+	} /*Fin de la clase*/
+	
 La clase Consumidor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: java
 
-	public class Consumidor implements Runnable {
-		private Random							generadorAzar;
-		private GestorColasConcurrentes 	gc;
-		
-		public Consumidor(GestorColasConcurrentes gc){
-			this.gc=gc;
-			this.generadorAzar=new Random();
+	public class Consumidor implements Runnable{
+		Cola colaCompartida;
+		public Consumidor(Cola cola){
+			this.colaCompartida=cola;
 		}
-		public void run(){
+		@Override
+		public void run() {
+			int num;
 			while (true){
-				int num=gc.sacarDeCola();
-				int milisegs=generadorAzar.nextInt(2);
-				try {
-					Thread.currentThread().sleep(milisegs*1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					System.out.println(
-							"Consumidor interrumpido");
-					return ;
-				}
-			}
-		}
-	}
+				num=colaCompartida.desencolar();
+				if (num!=-1){
+					System.out.println("Consumidor recuperó el numero:"+num);
+				} /* Fin del if*/
+			} /*Fin del bucle infinito*/
+		} /* Fin del run()*/
+	} /*Fin de la clase Consumidor*/
 		
 Un lanzador
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -988,75 +1120,44 @@ Un lanzador
 .. code-block:: java
 
 	public class Lanzador {
-		public void test(){
-			ColaLimitada c=new ColaLimitada(5);
-			if (c.sacarPrimero()!=0){
-				System.out.println(
-				  "Error, no se comprueba el caso cola vacía"
-				);
+
+		public static void main(String[] args) throws InterruptedException {
+			int MAX_PRODUCTORES     = 5;
+			int MAX_CONSUMIDORES    = 7;
+			int MAX_ELEMENTOS       = 10;
+			
+			Thread[] hilosProductor;
+			Thread[] hilosConsumidor;
+			
+			hilosProductor   = new Thread[MAX_PRODUCTORES]; 
+			hilosConsumidor  = new Thread[MAX_CONSUMIDORES];
+				
+			Cola colaCompartida=new Cola(MAX_ELEMENTOS);
+			
+			/*Construimos los productores*/
+			for (int i=0; i<MAX_PRODUCTORES; i++){
+				Productor productor=new Productor(colaCompartida);
+				hilosProductor[i]=new Thread(productor);
+				hilosProductor[i].start();
 			}
-			c.ponerEnCola(10);
-			c.ponerEnCola(20);
-			String cadenaCola=c.toString();
-			if (!cadenaCola.equals("10-20-FIN")){
-				System.out.println("Fallos al encolar");
+			/*Construimos los consumidores*/
+			for (int i=0; i<MAX_CONSUMIDORES; i++){
+				Consumidor consumidor=new Consumidor(colaCompartida);
+				hilosConsumidor[i]=new Thread(consumidor);
+				hilosConsumidor[i].start();
+			}
+			
+			/* Esperamos a que acaben todos los hilos, primero
+			productores y luego consumidores
+			*/
+			for (int i=0; i<MAX_PRODUCTORES; i++){
+				hilosProductor[i].join();
+			}
+			for (int i=0; i<MAX_CONSUMIDORES; i++){
+				hilosConsumidor[i].join();
 			}
 		}
-		public static void main(String[] argumentos){
-			Lanzador l=new Lanzador();
-			GestorColasConcurrentes gcl=
-					new GestorColasConcurrentes(10);
-			
-			int NUM_PRODUCTORES=5;
-			Productor[] 	productores;
-			Thread[]			hilosProductores;
-			
-			productores		= 
-					new Productor[NUM_PRODUCTORES];
-			hilosProductores	= 
-					new Thread[NUM_PRODUCTORES];
-			
-			for (int i=0; i<NUM_PRODUCTORES; i++){
-				productores[i]=new Productor(gcl);
-				hilosProductores[i]=new Thread(
-						productores[i]);
-				hilosProductores[i].start();
-			}
-			
-			int NUM_CONSUMIDORES=10;
-			Consumidor[]	consumidores;
-			Thread[]			hilosConsumidores;
-			
-			consumidores			= 
-					new Consumidor[NUM_CONSUMIDORES];
-			hilosConsumidores	= 
-					new Thread[NUM_CONSUMIDORES];
-			
-			
-			for (int i=0; i<NUM_CONSUMIDORES; i++){
-				consumidores[i]=new Consumidor(gcl);
-				hilosConsumidores[i]=
-						new Thread(consumidores[i]);
-				hilosConsumidores[i].start();
-			}
-			
-			/* Se debería esperar a que todos terminen*/
-			for (int i=0; i<NUM_PRODUCTORES; i++){
-				try {
-					hilosProductores[i].join();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			for (int i=0; i<NUM_CONSUMIDORES; i++){
-				try {
-					hilosConsumidores[i].join();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}	
+		
 	}
 	
 Ejercicio

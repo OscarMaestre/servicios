@@ -203,14 +203,116 @@ La clase ``Cliente.java`` que se adjunta a continuación presenta un interfaz co
                 File fichero=new File(ruta);
                 this.email.attach(fichero);
             }
-            /*Y se envía el mensaje ;) */
+            // Y se envía el mensaje  
             email.send();
         }
     }
 
 
+
+
 Programación de servidores.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------
+Sabemos que un servidor es simplemente un programa. En concreto un programa que ofrece sus servicios a otros programas. Este concepto permite estructurar las aplicaciones utilizando un mecanismo que se conoce como "programación cliente/servidor". En estos programas **se determina un protocolo de comunicaciones** entre cliente y servidor y despues el cliente "pide" operaciones al servidor y este le devuelve resultados. Lo más interesante de este sistema que:
+
+* El cliente y el servidor pueden estar en sitios distintos y comunicarse a través de protocolos de red.
+* El cliente y el servidor *pueden estar programados en distintos lenguajes*
+
+Supongamos un servidor que ofrece operaciones de cálculo a cualquier programa cliente. Un protocolo de comunicaciones muy simple sería:
+
+* Cuando el cliente se conecta al servidor envía una primera línea con uno de estos cuatro símbolos: + - * /
+* Despues el cliente envía dos números, cada uno en una línea separada.
+* Cuando el cliente haya enviado estas 3 líneas debe ponerse en modo de escucha y esperar que el servidor le devuelva un resultado que será un único número en una única línea.
+
+Aunque para programas pequeños esto funciona perfectamente, existen estándares ya especificados que nos ayudan a construir aplicaciones. A continuación veremos algunos.
+
+SOAP
+~~~~
+
+WCF
+~~~
+
+En el tutorial siguiente se explica como crear un servicio web muy básico que implemente algunas operaciones con cadenas. La construcción de un servicio WCF tiene dos operaciones básicas:
+
+1. Establecer las operaciones que vamos a "ofrecer al exterior". Esto se hará con un *interfaz* que etiquetaremos con algunos atributos.
+2. Crear una clase que implemente el interfaz que hayamos decidido en el paso 1.
+
+Así, por ejemplo, si consideramos que algunas operaciones muy complejas son "convertir una cadena en mayúsculas" e "invertir una cadena" definiremos un interfaz que tenga dos operaciones públicas que reciben una cadena y devuelven una cadena. Despues en el siguiente paso crearemos una clase que implemente ese interfaz.
+
+
+En primer lugar crearemos un proyecto en Visual Studio del tipo "Biblioteca de Servicios WCF" y crearemos un proyecto llamado ServicioCadenas. El editor creará dos ficheros, uno para el interfaz y otro para la implementación.
+
+.. figure:: ../imagenes/wcf1.png
+   :figwidth: 50%
+   :align: center
+   
+   Creación de un servicio web.
+
+
+En el fichero de interfaz pondremos este código para definir el interfaz.
+
+.. code-block:: csharp
+
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.Serialization;
+    using System.ServiceModel;
+    using System.Text;
+    
+    namespace ServicioCadenas
+    {
+        [ServiceContract]
+        public interface IServicioCadenas
+    
+        {
+            [OperationContract]
+            string PasarAMayusculas(string cadena);
+            [OperationContract]
+            string Invertir(string cadena);
+        }   
+    }
+
+Como puede verse hemos usado diversos atributos:
+
+* El atributo ``[ServiceContract]`` indica que este interfaz *regula el contrato por el que se rige este servicio*. Se llama "contrato" al conjunto de operaciones y parámetros que un servidor ofrece.
+* El atributo ``[OperationContract]`` indica que el método que hay a continuación es un método que se ofrece al exterior y por lo tanto los clientes podrán invocarlo y deberán hacerlo pasando los parámetros adecuados y deberán recoger un valor del tipo devuelto.
+
+El siguiente paso es *implementar el interfaz definido*, es decir añadir una clase que implemente esos métodos. En concreto ahora pondremos este código en el fichero de implementación  (por brevedad se han omitido las sentencias ``using``):
+
+.. code-block:: csharp   
+
+    namespace ServicioCadenas
+    {
+        public class ServicioCadenas : IServicioCadenas
+        {
+            public string Invertir(string cadena)
+            {
+                char[] caracteres = cadena.ToCharArray();
+                Array.Reverse(caracteres);
+                return new string(caracteres);
+            }
+    
+            public string PasarAMayusculas(string cadena)
+            {
+                return cadena.ToUpper();
+            }
+        }
+    }
+    
+.. WARNING::
+   Debe recordarse modificar el archivo App.config. Hemos cambiado el nombre de la clase y del interfaz así que deberemos asegurarnos de que los nuevos nombres aparezcan en dicho archivo.
+
+
+Con este código tan simple y el apoyo de Visual Studio (y las clases WCF) ya se dispone de un servicio. Para probarlo no hace falta implementar un cliente, sino que puede usarse el propio Visual Studio, que implementa una especie de cuadro de diálogo que permite hacer algunas pruebas. Si ejecutamos este código (usando el botón Iniciar o pulsando F5). Al hacerlo veremos esto:
+
+.. figure:: ../imagenes/wcf2.png
+   :figwidth: 50%
+   :align: center
+   
+   Probando el servicio web.
+
+Como puede verse en la figura, hemos elegido un método y hemos puesto algún valor en la cadena. Al invocar el servicio, el método se ejecuta correctamente y obtenemos el resultado esperado. Además, en la ventana podemos ver la referencia URL del servicio **que podremos usar en otro ordenador por remoto que sea**
 
 Implementación de comunicaciones simultáneas.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
