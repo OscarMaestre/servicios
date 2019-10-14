@@ -143,11 +143,16 @@
 \contentsline {chapter}{\numberline {6}Servicios web}{91}{chapter.6}
 \contentsline {section}{\numberline {6.1}Introducci\IeC {\'o}n}{91}{section.6.1}
 \contentsline {section}{\numberline {6.2}Prerrequisitos}{91}{section.6.2}
-\contentsline {chapter}{\numberline {7}Anexos}{93}{chapter.7}
-\contentsline {section}{\numberline {7.1}La clase \sphinxstyleliteralintitle {\sphinxupquote {UtilidadesFicheros}}}{93}{section.7.1}
-\contentsline {section}{\numberline {7.2}Soluci\IeC {\'o}n al problema del simulador de Casino}{94}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}La clase Banca}{95}{subsection.7.2.1}
-\contentsline {subsection}{\numberline {7.2.2}La clase Jugador}{97}{subsection.7.2.2}
-\contentsline {subsection}{\numberline {7.2.3}La clase JugadorClasico}{99}{subsection.7.2.3}
-\contentsline {subsection}{\numberline {7.2.4}La clase JugadorParImpar}{100}{subsection.7.2.4}
-\contentsline {subsection}{\numberline {7.2.5}La clase JugadorMartingala}{101}{subsection.7.2.5}
+\contentsline {chapter}{\numberline {7}Anexo: hilos con Swing}{93}{chapter.7}
+\contentsline {section}{\numberline {7.1}Introducci\IeC {\'o}n}{93}{section.7.1}
+\contentsline {section}{\numberline {7.2}Paso 1: el interfaz}{93}{section.7.2}
+\contentsline {section}{\numberline {7.3}Paso 2: el bloque del interfaz}{94}{section.7.3}
+\contentsline {section}{\numberline {7.4}Paso 3: la clase \sphinxstyleliteralintitle {\sphinxupquote {SwingWorker}}}{94}{section.7.4}
+\contentsline {chapter}{\numberline {8}Anexos diversos.}{97}{chapter.8}
+\contentsline {section}{\numberline {8.1}La clase \sphinxstyleliteralintitle {\sphinxupquote {UtilidadesFicheros}}}{97}{section.8.1}
+\contentsline {section}{\numberline {8.2}Soluci\IeC {\'o}n al problema del simulador de Casino}{98}{section.8.2}
+\contentsline {subsection}{\numberline {8.2.1}La clase Banca}{99}{subsection.8.2.1}
+\contentsline {subsection}{\numberline {8.2.2}La clase Jugador}{101}{subsection.8.2.2}
+\contentsline {subsection}{\numberline {8.2.3}La clase JugadorClasico}{103}{subsection.8.2.3}
+\contentsline {subsection}{\numberline {8.2.4}La clase JugadorParImpar}{104}{subsection.8.2.4}
+\contentsline {subsection}{\numberline {8.2.5}La clase JugadorMartingala}{105}{subsection.8.2.5}

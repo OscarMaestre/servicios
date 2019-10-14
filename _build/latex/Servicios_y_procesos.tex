@@ -54,7 +54,7 @@
 
 
 \title{Apuntes de Servicios y Procesos}
-\date{22 de febrero de 2019}
+\date{14 de octubre de 2019}
 \release{1.3}
 \author{Oscar Gomez}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -4988,8 +4988,128 @@ Necesitaremos el siguiente software:
 {\color{red}\bfseries{}*}Apache Axis
 
 
-\chapter{Anexos}
-\label{\detokenize{textos/anexos:anexos}}\label{\detokenize{textos/anexos::doc}}
+\chapter{Anexo: hilos con Swing}
+\label{\detokenize{textos/anexo_hilos_con_swing:anexo-hilos-con-swing}}\label{\detokenize{textos/anexo_hilos_con_swing::doc}}
+
+\section{Introducción}
+\label{\detokenize{textos/anexo_hilos_con_swing:introduccion}}
+Cuando creamos una aplicación de escritorio con Swing utilizaremos botones, cuadros de texto, etc… Sin embargo, \sphinxstylestrong{toda aplicación Swing utiliza hilos internamente} . Esto significa que si necesitamos resolver una tarea larga \sphinxstylestrong{podríamos dejar «bloqueada» la ventana principal mientras resolvemos la tarea} . Esto produce una sensación muy pobre en el usuario y además puede impulsarle a cerrar la aplicación creyendo que \sphinxstyleemphasis{«se ha colgado»} . Para evitarlo podemos crear aplicaciones Swing que utilicen hilos de manera que el interfaz principal se mantenga activo aunque se esté ejecutando una tarea larga en segundo plano. A modo de ejemplo, vamos a crear una aplicación que sume todos los números de un intervalo dado y que tenga un interfaz como el siguiente:
+
+\begin{figure}[htbp]
+\centering
+
+\noindent\sphinxincludegraphics[scale=0.5]{{HilosSwing01}.png}
+\end{figure}
+
+
+\section{Paso 1: el interfaz}
+\label{\detokenize{textos/anexo_hilos_con_swing:paso-1-el-interfaz}}
+Empieza por crear un proyecto nuevo y diseña una interfaz como la anterior. En este interfaz tenemos los siguientes controles:
+\begin{itemize}
+\item {} 
+El boton \sphinxcode{\sphinxupquote{btnSinHilos}}.
+
+\item {} 
+El boton \sphinxcode{\sphinxupquote{btnConHilos}}.
+
+\item {} 
+Una barra de progreso que llamaremos \sphinxcode{\sphinxupquote{pbProgreso}}.
+
+\item {} 
+Un área de texto que llamaremos \sphinxcode{\sphinxupquote{txtAreaTexto}}.
+
+\end{itemize}
+
+
+\section{Paso 2: el bloque del interfaz}
+\label{\detokenize{textos/anexo_hilos_con_swing:paso-2-el-bloque-del-interfaz}}
+Vamos a simular que al pulsar el boton \sphinxcode{\sphinxupquote{btnSinHilos}} se ejecuta una tarea larga. Para ello vamos a asociarle a dicho botón este código de gestion de eventos:
+
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{private} \PYG{k+kt}{void} \PYG{n+nf}{btnSinHilosMouseClicked}\PYG{o}{(}\PYG{n}{java}\PYG{o}{.}\PYG{n+na}{awt}\PYG{o}{.}\PYG{n+na}{event}\PYG{o}{.}\PYG{n+na}{MouseEvent} \PYG{n}{evt}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+    \PYG{k+kt}{int} \PYG{n}{suma}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
+    \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{l+m+mi}{2000}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+        \PYG{n}{suma}\PYG{o}{=}\PYG{n}{suma}\PYG{o}{+}\PYG{n}{i}\PYG{o}{;}
+        \PYG{k}{try} \PYG{o}{\PYGZob{}}
+            \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{sleep}\PYG{o}{(}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}} \PYG{k}{catch} \PYG{o}{(}\PYG{n}{InterruptedException} \PYG{n}{ex}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+            \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Error, hilo interrumpido\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}} \PYG{c+cm}{/*Fin del catch*/}
+    \PYG{o}{\PYGZcb{}} \PYG{c+cm}{/* Fin del for*/}
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+Si ejecutamos nuestra aplicación,despues pulsamos el botón \sphinxcode{\sphinxupquote{btnSinHilos}} e intentamos escribir en el cuadro de texto veremos que \sphinxstylestrong{NO OCURRE NADA} . El programa no está mostrando ningún progreso aunque en realidad si «toma nota de las teclas pulsadas» y nos las mostrará tan pronto acabe la suma. Sin embargo es evidente que este comportamiento no es muy recomendable.
+
+
+\section{Paso 3: la clase \sphinxstyleliteralintitle{\sphinxupquote{SwingWorker}}}
+\label{\detokenize{textos/anexo_hilos_con_swing:paso-3-la-clase-swingworker}}
+La clase \sphinxcode{\sphinxupquote{SwingWorker\textless{}Tipo1, Tipo2\textgreater{}}} es una clase genérica diseñada para heredar de ella y ejecutar tareas en segundo plano. En ella
+\begin{itemize}
+\item {} 
+El \sphinxcode{\sphinxupquote{Tipo1}} es el tipo del resultado que devolveremos.
+
+\item {} 
+El \sphinxcode{\sphinxupquote{Tipo2}} es el tipo que se utilizará para medir el progreso.
+
+\end{itemize}
+
+Supongamos que deseamos hacer la misma suma, ir mostrando el progreso y al terminar devolver un mensaje con el resultado en forma de cadena, podemos crear una clase como la siguiente:
+
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{TareaParalelizada} \PYG{k+kd}{extends} \PYG{n}{SwingWorker}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{,} \PYG{n}{Integer}\PYG{o}{\PYGZgt{}}\PYG{o}{\PYGZob{}}
+    \PYG{c+cm}{/* Barra de progreso que la tarea irá actualizando a medida}
+\PYG{c+cm}{    que los cálculos progresen */}
+    \PYG{n}{JProgressBar} \PYG{n}{pbBarraProgreso}\PYG{o}{;}
+
+    \PYG{c+cm}{/*Intervalo de números que se van a sumar*/}
+    \PYG{k+kt}{int} \PYG{n}{min}\PYG{o}{,} \PYG{n}{max}\PYG{o}{;}
+
+    \PYG{c+cm}{/*Constructor*/}
+    \PYG{k+kd}{public} \PYG{n+nf}{TareaParalelizada}\PYG{o}{(}\PYG{n}{JProgressBar} \PYG{n}{pbBarraProgreso}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{min}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{max}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{pbBarraProgreso} \PYG{o}{=} \PYG{n}{pbBarraProgreso}\PYG{o}{;}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{min} \PYG{o}{=} \PYG{n}{min}\PYG{o}{;}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{max} \PYG{o}{=} \PYG{n}{max}\PYG{o}{;}
+    \PYG{o}{\PYGZcb{}}
+
+    \PYG{n+nd}{@Override}
+    \PYG{k+kd}{protected} \PYG{n}{String} \PYG{n+nf}{doInBackground}\PYG{o}{(}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{Exception} \PYG{o}{\PYGZob{}}
+        \PYG{c+cm}{/*Avisamos a la barra de cuales son los valores más pequeños}
+\PYG{c+cm}{        y más grandes que se van a recorrer */}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{pbBarraProgreso}\PYG{o}{.}\PYG{n+na}{setMaximum}\PYG{o}{(}\PYG{n}{max}\PYG{o}{)}\PYG{o}{;}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{pbBarraProgreso}\PYG{o}{.}\PYG{n+na}{setMinimum}\PYG{o}{(}\PYG{n}{min}\PYG{o}{)}\PYG{o}{;}
+        \PYG{k+kt}{int} \PYG{n}{suma}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
+
+        \PYG{c+cm}{/*Recorremos los números...*/}
+        \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{l+m+mi}{2000}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+            \PYG{n}{suma}\PYG{o}{=}\PYG{n}{suma}\PYG{o}{+}\PYG{n}{i}\PYG{o}{;}
+            \PYG{n}{Thread}\PYG{o}{.}\PYG{n+na}{sleep}\PYG{o}{(}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{;}
+            \PYG{c+cm}{/*...y actualizamos la barra para que el usuario pueda}
+\PYG{c+cm}{            ir viendo el progreso*/}
+            \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{pbBarraProgreso}\PYG{o}{.}\PYG{n+na}{setValue}\PYG{o}{(}\PYG{n}{i}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+        \PYG{k}{return} \PYG{l+s}{\PYGZdq{}Sumado:\PYGZdq{}}\PYG{o}{+}\PYG{n}{suma}\PYG{o}{;}
+    \PYG{o}{\PYGZcb{}}
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+Y despues asociemos el siguiente código al gestor del evento \sphinxcode{\sphinxupquote{click}} para el \sphinxcode{\sphinxupquote{btnBotonConHilos}}.
+
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{private} \PYG{k+kt}{void} \PYG{n+nf}{btnConHilosMouseClicked}\PYG{o}{(}\PYG{n}{java}\PYG{o}{.}\PYG{n+na}{awt}\PYG{o}{.}\PYG{n+na}{event}\PYG{o}{.}\PYG{n+na}{MouseEvent} \PYG{n}{evt}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+    \PYG{n}{TareaParalelizada} \PYG{n}{t}\PYG{o}{=}\PYG{k}{new} \PYG{n}{TareaParalelizada}\PYG{o}{(}\PYG{k}{this}\PYG{o}{.}\PYG{n+na}{pbProgreso}\PYG{o}{,} \PYG{l+m+mi}{1}\PYG{o}{,} \PYG{l+m+mi}{2000}\PYG{o}{)}\PYG{o}{;}
+    \PYG{n}{t}\PYG{o}{.}\PYG{n+na}{execute}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+si ahora repetimos la ejecución de la aplicación pero ahora pulsamos el boton «Con hilos» veremos que \sphinxstylestrong{SÍ PODEMOS INTERACTUAR CON EL ÁREA DE TEXTO} . De hecho podríamos hacer cualquier otra cosa y la vez ir visualizando el progreso de la tarea, lo cual es claramente mucho más recomendable.
+
+
+\chapter{Anexos diversos.}
+\label{\detokenize{textos/anexos:anexos-diversos}}\label{\detokenize{textos/anexos::doc}}
 
 \section{La clase \sphinxstyleliteralintitle{\sphinxupquote{UtilidadesFicheros}}}
 \label{\detokenize{textos/anexos:la-clase-utilidadesficheros}}
