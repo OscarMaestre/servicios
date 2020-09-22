@@ -979,6 +979,13 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <p>En primer lugar necesitamos una cola que sea «a prueba de hilos» y que permita encolar y desencolar elementos de una manera segura.</p>
 <p>Sabemos que antes de encolar hay que comprobar si la cola está llena. También sabemos que antes de desencolar hay que comprobar si la cola está vacía.</p>
 <p>Sin embargo <strong>¡¡CUIDADO!!</strong> es posible programar mal aunque las operaciones de nuestra cola estén protegidas con el método «synchronized». Supongamos que un productor tiene código como este:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">){</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">cola</span><span class="o">.</span><span class="na">estaLlena</span><span class="o">()){</span>
+                <span class="n">cola</span><span class="o">.</span><span class="na">encolar</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 <p>Puede que pensemos que este código está bien pero <strong>ESTÁ MAL</strong>. Está mal porque puede que en el tiempo transcurrido entre que un productor ejecuta <code class="docutils literal notranslate"><span class="pre">estaLlena</span></code> y <code class="docutils literal notranslate"><span class="pre">encolar</span></code> OTRO HILO SE HAYA COLADO ENTRE MEDIAS Y HAYA ALTERADO LA EJECUCIÓN. Eso significa que <strong>aunque llamemos a dos métodos synchronized uno detrás de otro es posible que la ejecución sea incorrecta</strong>. Así, necesitaremos hacer operaciones <code class="docutils literal notranslate"><span class="pre">encolar</span></code> y <code class="docutils literal notranslate"><span class="pre">desencolar</span></code> que funcionen de manera atómica y nos avisen de si consiguen hacer la operación o no.</p>
 <div class="section" id="una-cola-limitada-en-tamano-y-thread-safe">
 <h3>Una cola limitada en tamaño y thread-safe<a class="headerlink" href="#una-cola-limitada-en-tamano-y-thread-safe" title="Enlazar permanentemente con este título">¶</a></h3>
@@ -1422,6 +1429,96 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </pre></div>
 </div>
 </div>
+<div class="section" id="clases-de-alto-nivel-la-clase-recursivetask">
+<h2>Clases de alto nivel: la clase <code class="docutils literal notranslate"><span class="pre">RecursiveTask</span></code><a class="headerlink" href="#clases-de-alto-nivel-la-clase-recursivetask" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>En Java 8 y posteriores se puede utilizar una clase llamada <code class="docutils literal notranslate"><span class="pre">RecursiveTask</span></code> que facilita un poco la tarea de crear aplicaciones con paralelismo. La idea básica es que podemos heredar de esta clase indicando qué tipo Java tendrá el resultado de la operación. Dentro de la clase deberemos implementar un método <code class="docutils literal notranslate"><span class="pre">compute</span></code> que básicamente deberá trabajar recursivamente decidiendo si la tarea es lo bastante pequeña para ejecutarla o si la dividimos más.</p>
+<p>Supongamos que queremos sumar todos los números de un vector. Por comodidad supongamos también que siempre nos pasan vectores con un tamaño que es potencia de 2. Podemos usar una clase Java como esta para hacer la operación de forma paralela.</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sumador</span> <span class="kd">extends</span> <span class="n">RecursiveTask</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;{</span>
+    <span class="kt">int</span><span class="o">[]</span> <span class="n">numeros</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">pos1</span><span class="o">,</span> <span class="n">pos2</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="kt">int</span> <span class="n">NUM_MAX_ELEMENTOS</span><span class="o">=</span><span class="mi">2</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">longitud</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">posMitad</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">limiteIzquierdo</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">limiteDerecho</span><span class="o">;</span>
+    <span class="cm">/*Por simplificar solo aceptamos vectores con un número par de elementos*/</span>
+    <span class="kd">public</span> <span class="nf">Sumador</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">numeros</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pos1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pos2</span><span class="o">)</span>  <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">numeros</span>    <span class="o">=</span> <span class="n">numeros</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">pos1</span>       <span class="o">=</span> <span class="n">pos1</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">pos2</span>       <span class="o">=</span> <span class="n">pos2</span><span class="o">;</span>
+        <span class="n">longitud</span>        <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="o">(</span><span class="n">pos2</span><span class="o">-</span> <span class="n">pos1</span><span class="o">);</span>
+        <span class="n">posMitad</span>        <span class="o">=</span> <span class="n">longitud</span><span class="o">/</span><span class="mi">2</span><span class="o">;</span>
+        <span class="n">limiteIzquierdo</span> <span class="o">=</span> <span class="n">pos1</span><span class="o">+(</span><span class="n">posMitad</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">limiteDerecho</span>   <span class="o">=</span> <span class="n">limiteIzquierdo</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">Long</span> <span class="nf">compute</span><span class="o">()</span> <span class="o">{</span>
+        <span class="cm">/* Si el vector tiene estos elementos, simplemente sumamos*/</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">longitud</span><span class="o">==</span><span class="n">NUM_MAX_ELEMENTOS</span><span class="o">){</span>
+            <span class="kt">long</span> <span class="n">suma</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">pos1</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">pos2</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+                <span class="n">suma</span><span class="o">=</span><span class="n">suma</span> <span class="o">+</span> <span class="n">numeros</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">suma</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="cm">/*Pero si tiene más elementos, dividimos el vector en dos y sumamos</span>
+<span class="cm">        las dos mitades de forma independiente y paralela*/</span>
+        <span class="n">Sumador</span> <span class="n">sumadorIzq</span><span class="o">=</span><span class="k">new</span> <span class="n">Sumador</span><span class="o">(</span><span class="n">numeros</span><span class="o">,</span> <span class="n">pos1</span><span class="o">,</span> <span class="n">limiteIzquierdo</span><span class="o">);</span>
+        <span class="n">Sumador</span> <span class="n">sumadorDer</span><span class="o">=</span><span class="k">new</span> <span class="n">Sumador</span><span class="o">(</span><span class="n">numeros</span><span class="o">,</span> <span class="n">limiteDerecho</span><span class="o">,</span> <span class="n">pos2</span><span class="o">);</span>
+
+        <span class="cm">/*Lanzamos los sumadores...*/</span>
+        <span class="n">sumadorIzq</span><span class="o">.</span><span class="na">fork</span><span class="o">();</span>
+        <span class="n">sumadorDer</span><span class="o">.</span><span class="na">fork</span><span class="o">();</span>
+
+        <span class="cm">/* Y recogemos sus resultados*/</span>
+        <span class="kt">long</span> <span class="n">sumaIzq</span><span class="o">=</span><span class="n">sumadorIzq</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+        <span class="kt">long</span> <span class="n">sumaDer</span><span class="o">=</span><span class="n">sumadorDer</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+
+        <span class="k">return</span> <span class="n">sumaIzq</span> <span class="o">+</span> <span class="n">sumaDer</span><span class="o">;</span>
+    <span class="o">}</span> <span class="cm">/*Fin del compute*/</span>
+<span class="o">}</span> <span class="cm">/*Fin de la clase*/</span>
+</pre></div>
+</div>
+<p>Con esta clase como «lanzador de hilos», nuestro trabajo se simplifica bastante. Ahora podemos tener un <code class="docutils literal notranslate"><span class="pre">main</span></code> que va a ser tan sencillo como el código siguiente:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">io.github.oscarmaestre.paralelismo</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.concurrent.ExecutionException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.ForkJoinPool</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SumadorParalelo</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span><span class="o">,</span> <span class="n">ExecutionException</span> <span class="o">{</span>
+
+        <span class="cm">/* Construimos un vector de ejemplo...*/</span>
+        <span class="kd">final</span> <span class="kt">int</span> <span class="n">MAX_NUMEROS</span><span class="o">=</span><span class="mi">1024</span><span class="o">;</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">numeros</span><span class="o">=</span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">MAX_NUMEROS</span><span class="o">];</span>
+
+        <span class="cm">/*Y lo rellenamos con números*/</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">MAX_NUMEROS</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="n">numeros</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="n">i</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="cm">/* Esta clase gestionará el paralelismo de las tareas*/</span>
+        <span class="n">ForkJoinPool</span> <span class="n">pool</span><span class="o">=</span><span class="k">new</span> <span class="n">ForkJoinPool</span><span class="o">();</span>
+
+        <span class="cm">/* Fabricamos un sumador inicial que intente sumar todo*/</span>
+        <span class="n">Sumador</span> <span class="n">sumador</span><span class="o">=</span><span class="k">new</span> <span class="n">Sumador</span><span class="o">(</span><span class="n">numeros</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">MAX_NUMEROS</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+
+        <span class="cm">/*Y la clase ForkJoinPool invocará a nuestro sumador lanzando</span>
+<span class="cm">        los hilos, recogiendo los resultados y haciendo todo lo necesario</span>
+<span class="cm">        para que al final solo tengamos que recoger el resultado*/</span>
+        <span class="n">pool</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">sumador</span><span class="o">);</span>
+
+        <span class="cm">/* Resultado que podemos ver aquí*/</span>
+        <span class="n">Long</span> <span class="n">resultado</span> <span class="o">=</span> <span class="n">sumador</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;La suma es:&quot;</span><span class="o">+</span><span class="n">resultado</span><span class="o">);</span>
+    <span class="o">}</span> <span class="cm">/*Fin del main*/</span>
+<span class="o">}</span> <span class="cm">/*Fin de la clase*/</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="documentacion">
 <h2>Documentación.<a class="headerlink" href="#documentacion" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>La estructura general de toda aplicación multihilo es algo similar a lo siguiente:</p>
@@ -1500,6 +1597,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li class="toctree-l2"><a class="reference internal" href="#solucion">Solución</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ejercicio">Ejercicio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#simulacion-bancaria">Simulación bancaria</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#clases-de-alto-nivel-la-clase-recursivetask">Clases de alto nivel: la clase <code class="docutils literal notranslate"><span class="pre">RecursiveTask</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#documentacion">Documentación.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#depuracion">Depuración.</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ejercicio-empleado-thread-safe">Ejercicio: empleado «Thread safe»</a></li>

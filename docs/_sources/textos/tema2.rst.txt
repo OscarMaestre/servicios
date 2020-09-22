@@ -1009,6 +1009,7 @@ Sabemos que antes de encolar hay que comprobar si la cola está llena. También 
 Sin embargo **¡¡CUIDADO!!** es posible programar mal aunque las operaciones de nuestra cola estén protegidas con el método "synchronized". Supongamos que un productor tiene código como este:
 
 .. code-block:: java
+
 	while (true){
 		if (!cola.estaLlena()){
 			cola.encolar(4);
@@ -1485,6 +1486,103 @@ La clase Lanzador podría ser así:
             
         }
     }
+
+Clases de alto nivel: la clase ``RecursiveTask`` 
+--------------------------------------------------------------------------------
+
+En Java 8 y posteriores se puede utilizar una clase llamada ``RecursiveTask`` que facilita un poco la tarea de crear aplicaciones con paralelismo. La idea básica es que podemos heredar de esta clase indicando qué tipo Java tendrá el resultado de la operación. Dentro de la clase deberemos implementar un método ``compute`` que básicamente deberá trabajar recursivamente decidiendo si la tarea es lo bastante pequeña para ejecutarla o si la dividimos más.
+
+Supongamos que queremos sumar todos los números de un vector. Por comodidad supongamos también que siempre nos pasan vectores con un tamaño que es potencia de 2. Podemos usar una clase Java como esta para hacer la operación de forma paralela.
+
+.. code-block:: java
+
+    public class Sumador extends RecursiveTask<Long>{
+        int[] numeros;
+        int pos1, pos2;
+        final int NUM_MAX_ELEMENTOS=2;
+        private int longitud;
+        private int posMitad;
+        private int limiteIzquierdo;
+        private int limiteDerecho;
+        /*Por simplificar solo aceptamos vectores con un número par de elementos*/
+        public Sumador(int[] numeros, int pos1, int pos2)  {
+            this.numeros    = numeros;
+            this.pos1       = pos1;
+            this.pos2       = pos2;
+            longitud        = 1 + (pos2- pos1);
+            posMitad        = longitud/2;
+            limiteIzquierdo = pos1+(posMitad-1);
+            limiteDerecho   = limiteIzquierdo+1;
+        }
+
+        @Override
+        protected Long compute() {        
+            /* Si el vector tiene estos elementos, simplemente sumamos*/
+            if (longitud==NUM_MAX_ELEMENTOS){
+                long suma=0;
+                for (int i=pos1; i<=pos2; i++){
+                    suma=suma + numeros[i];
+                }
+                return suma;
+            }
+            
+            /*Pero si tiene más elementos, dividimos el vector en dos y sumamos
+            las dos mitades de forma independiente y paralela*/
+            Sumador sumadorIzq=new Sumador(numeros, pos1, limiteIzquierdo);
+            Sumador sumadorDer=new Sumador(numeros, limiteDerecho, pos2);
+            
+            /*Lanzamos los sumadores...*/
+            sumadorIzq.fork();
+            sumadorDer.fork();
+            
+            /* Y recogemos sus resultados*/
+            long sumaIzq=sumadorIzq.join();
+            long sumaDer=sumadorDer.join();
+            
+            return sumaIzq + sumaDer;
+        } /*Fin del compute*/
+    } /*Fin de la clase*/
+
+
+Con esta clase como "lanzador de hilos", nuestro trabajo se simplifica bastante. Ahora podemos tener un ``main`` que va a ser tan sencillo como el código siguiente:
+
+.. code-block:: java
+
+    package io.github.oscarmaestre.paralelismo;
+
+    import java.util.concurrent.ExecutionException;
+    import java.util.concurrent.ForkJoinPool;
+
+    public class SumadorParalelo {
+
+        public static void main(String[] args) throws InterruptedException, ExecutionException {
+            
+            /* Construimos un vector de ejemplo...*/
+            final int MAX_NUMEROS=1024;
+            int[] numeros=new int[MAX_NUMEROS];
+            
+            /*Y lo rellenamos con números*/
+            for (int i=0; i<MAX_NUMEROS; i++){
+                numeros[i]=i;
+            }
+            
+            /* Esta clase gestionará el paralelismo de las tareas*/
+            ForkJoinPool pool=new ForkJoinPool();
+            
+            /* Fabricamos un sumador inicial que intente sumar todo*/
+            Sumador sumador=new Sumador(numeros, 0, MAX_NUMEROS-1);
+            
+            /*Y la clase ForkJoinPool invocará a nuestro sumador lanzando
+            los hilos, recogiendo los resultados y haciendo todo lo necesario
+            para que al final solo tengamos que recoger el resultado*/
+            pool.invoke(sumador);
+            
+            /* Resultado que podemos ver aquí*/
+            Long resultado = sumador.get();
+            System.out.println("La suma es:"+resultado);
+        } /*Fin del main*/
+    } /*Fin de la clase*/
+
 
 Documentación.
 --------------------------------------------------------------------------
