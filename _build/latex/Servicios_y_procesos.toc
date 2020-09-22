@@ -66,7 +66,7 @@
 \contentsline {subsection}{\numberline {2.18.4}Clase lanzadora (GrandesAlmacenes)}{41}{subsection.2.18.4}
 \contentsline {section}{\numberline {2.19}Simulaci\IeC {\'o}n bancaria}{42}{section.2.19}
 \contentsline {section}{\numberline {2.20}Clases de alto nivel: la clase \sphinxstyleliteralintitle {\sphinxupquote {RecursiveTask}}}{45}{section.2.20}
-\contentsline {section}{\numberline {2.21}Documentaci\IeC {\'o}n.}{46}{section.2.21}
+\contentsline {section}{\numberline {2.21}Documentaci\IeC {\'o}n.}{47}{section.2.21}
 \contentsline {section}{\numberline {2.22}Depuraci\IeC {\'o}n.}{47}{section.2.22}
 \contentsline {section}{\numberline {2.23}Ejercicio: empleado \IeC {\guillemotleft }Thread safe\IeC {\guillemotright }}{47}{section.2.23}
 \contentsline {chapter}{\numberline {3}Programaci\IeC {\'o}n de comunicaciones en red}{49}{chapter.3}

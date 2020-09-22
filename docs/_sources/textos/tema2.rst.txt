@@ -1496,6 +1496,10 @@ Supongamos que queremos sumar todos los números de un vector. Por comodidad sup
 
 .. code-block:: java
 
+    package io.github.oscarmaestre.paralelismo;
+
+    import java.util.concurrent.RecursiveTask;
+
     public class Sumador extends RecursiveTask<Long>{
         int[] numeros;
         int pos1, pos2;
@@ -1504,7 +1508,9 @@ Supongamos que queremos sumar todos los números de un vector. Por comodidad sup
         private int posMitad;
         private int limiteIzquierdo;
         private int limiteDerecho;
-        /*Por simplificar solo aceptamos vectores con un número par de elementos*/
+        /*Por simplificar solo aceptamos vectores 
+        con un número de elementos que sea una 
+        potencia de 2*/
         public Sumador(int[] numeros, int pos1, int pos2)  {
             this.numeros    = numeros;
             this.pos1       = pos1;
@@ -1517,7 +1523,8 @@ Supongamos que queremos sumar todos los números de un vector. Por comodidad sup
 
         @Override
         protected Long compute() {        
-            /* Si el vector tiene estos elementos, simplemente sumamos*/
+            /* Si el vector tiene estos elementos, 
+            simplemente sumamos*/
             if (longitud==NUM_MAX_ELEMENTOS){
                 long suma=0;
                 for (int i=pos1; i<=pos2; i++){
@@ -1526,10 +1533,14 @@ Supongamos que queremos sumar todos los números de un vector. Por comodidad sup
                 return suma;
             }
             
-            /*Pero si tiene más elementos, dividimos el vector en dos y sumamos
-            las dos mitades de forma independiente y paralela*/
-            Sumador sumadorIzq=new Sumador(numeros, pos1, limiteIzquierdo);
-            Sumador sumadorDer=new Sumador(numeros, limiteDerecho, pos2);
+            /*Pero si tiene más elementos, 
+            dividimos el vector en dos y sumamos
+            las dos mitades de forma independiente 
+            y paralela*/
+            Sumador sumadorIzq=
+                    new Sumador(numeros, pos1, limiteIzquierdo);
+            Sumador sumadorDer=
+                    new Sumador(numeros, limiteDerecho, pos2);
             
             /*Lanzamos los sumadores...*/
             sumadorIzq.fork();

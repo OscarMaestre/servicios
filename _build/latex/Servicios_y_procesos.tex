@@ -2542,6 +2542,10 @@ Supongamos que queremos sumar todos los números de un vector. Por comodidad sup
 
 \fvset{hllines={, ,}}%
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package} \PYG{n+nn}{io.github.oscarmaestre.paralelismo}\PYG{o}{;}
+
+\PYG{k+kn}{import} \PYG{n+nn}{java.util.concurrent.RecursiveTask}\PYG{o}{;}
+
 \PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Sumador} \PYG{k+kd}{extends} \PYG{n}{RecursiveTask}\PYG{o}{\PYGZlt{}}\PYG{n}{Long}\PYG{o}{\PYGZgt{}}\PYG{o}{\PYGZob{}}
     \PYG{k+kt}{int}\PYG{o}{[}\PYG{o}{]} \PYG{n}{numeros}\PYG{o}{;}
     \PYG{k+kt}{int} \PYG{n}{pos1}\PYG{o}{,} \PYG{n}{pos2}\PYG{o}{;}
@@ -2550,7 +2554,9 @@ Supongamos que queremos sumar todos los números de un vector. Por comodidad sup
     \PYG{k+kd}{private} \PYG{k+kt}{int} \PYG{n}{posMitad}\PYG{o}{;}
     \PYG{k+kd}{private} \PYG{k+kt}{int} \PYG{n}{limiteIzquierdo}\PYG{o}{;}
     \PYG{k+kd}{private} \PYG{k+kt}{int} \PYG{n}{limiteDerecho}\PYG{o}{;}
-    \PYG{c+cm}{/*Por simplificar solo aceptamos vectores con un número par de elementos*/}
+    \PYG{c+cm}{/*Por simplificar solo aceptamos vectores}
+\PYG{c+cm}{    con un número de elementos que sea una}
+\PYG{c+cm}{    potencia de 2*/}
     \PYG{k+kd}{public} \PYG{n+nf}{Sumador}\PYG{o}{(}\PYG{k+kt}{int}\PYG{o}{[}\PYG{o}{]} \PYG{n}{numeros}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{pos1}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{pos2}\PYG{o}{)}  \PYG{o}{\PYGZob{}}
         \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{numeros}    \PYG{o}{=} \PYG{n}{numeros}\PYG{o}{;}
         \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{pos1}       \PYG{o}{=} \PYG{n}{pos1}\PYG{o}{;}
@@ -2563,7 +2569,8 @@ Supongamos que queremos sumar todos los números de un vector. Por comodidad sup
 
     \PYG{n+nd}{@Override}
     \PYG{k+kd}{protected} \PYG{n}{Long} \PYG{n+nf}{compute}\PYG{o}{(}\PYG{o}{)} \PYG{o}{\PYGZob{}}
-        \PYG{c+cm}{/* Si el vector tiene estos elementos, simplemente sumamos*/}
+        \PYG{c+cm}{/* Si el vector tiene estos elementos,}
+\PYG{c+cm}{        simplemente sumamos*/}
         \PYG{k}{if} \PYG{o}{(}\PYG{n}{longitud}\PYG{o}{=}\PYG{o}{=}\PYG{n}{NUM\PYGZus{}MAX\PYGZus{}ELEMENTOS}\PYG{o}{)}\PYG{o}{\PYGZob{}}
             \PYG{k+kt}{long} \PYG{n}{suma}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
             \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{n}{pos1}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{o}{=}\PYG{n}{pos2}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
@@ -2572,10 +2579,14 @@ Supongamos que queremos sumar todos los números de un vector. Por comodidad sup
             \PYG{k}{return} \PYG{n}{suma}\PYG{o}{;}
         \PYG{o}{\PYGZcb{}}
 
-        \PYG{c+cm}{/*Pero si tiene más elementos, dividimos el vector en dos y sumamos}
-\PYG{c+cm}{        las dos mitades de forma independiente y paralela*/}
-        \PYG{n}{Sumador} \PYG{n}{sumadorIzq}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Sumador}\PYG{o}{(}\PYG{n}{numeros}\PYG{o}{,} \PYG{n}{pos1}\PYG{o}{,} \PYG{n}{limiteIzquierdo}\PYG{o}{)}\PYG{o}{;}
-        \PYG{n}{Sumador} \PYG{n}{sumadorDer}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Sumador}\PYG{o}{(}\PYG{n}{numeros}\PYG{o}{,} \PYG{n}{limiteDerecho}\PYG{o}{,} \PYG{n}{pos2}\PYG{o}{)}\PYG{o}{;}
+        \PYG{c+cm}{/*Pero si tiene más elementos,}
+\PYG{c+cm}{        dividimos el vector en dos y sumamos}
+\PYG{c+cm}{        las dos mitades de forma independiente}
+\PYG{c+cm}{        y paralela*/}
+        \PYG{n}{Sumador} \PYG{n}{sumadorIzq}\PYG{o}{=}
+                \PYG{k}{new} \PYG{n}{Sumador}\PYG{o}{(}\PYG{n}{numeros}\PYG{o}{,} \PYG{n}{pos1}\PYG{o}{,} \PYG{n}{limiteIzquierdo}\PYG{o}{)}\PYG{o}{;}
+        \PYG{n}{Sumador} \PYG{n}{sumadorDer}\PYG{o}{=}
+                \PYG{k}{new} \PYG{n}{Sumador}\PYG{o}{(}\PYG{n}{numeros}\PYG{o}{,} \PYG{n}{limiteDerecho}\PYG{o}{,} \PYG{n}{pos2}\PYG{o}{)}\PYG{o}{;}
 
         \PYG{c+cm}{/*Lanzamos los sumadores...*/}
         \PYG{n}{sumadorIzq}\PYG{o}{.}\PYG{n+na}{fork}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}

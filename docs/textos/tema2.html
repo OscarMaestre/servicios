@@ -1433,7 +1433,11 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <h2>Clases de alto nivel: la clase <code class="docutils literal notranslate"><span class="pre">RecursiveTask</span></code><a class="headerlink" href="#clases-de-alto-nivel-la-clase-recursivetask" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>En Java 8 y posteriores se puede utilizar una clase llamada <code class="docutils literal notranslate"><span class="pre">RecursiveTask</span></code> que facilita un poco la tarea de crear aplicaciones con paralelismo. La idea básica es que podemos heredar de esta clase indicando qué tipo Java tendrá el resultado de la operación. Dentro de la clase deberemos implementar un método <code class="docutils literal notranslate"><span class="pre">compute</span></code> que básicamente deberá trabajar recursivamente decidiendo si la tarea es lo bastante pequeña para ejecutarla o si la dividimos más.</p>
 <p>Supongamos que queremos sumar todos los números de un vector. Por comodidad supongamos también que siempre nos pasan vectores con un tamaño que es potencia de 2. Podemos usar una clase Java como esta para hacer la operación de forma paralela.</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sumador</span> <span class="kd">extends</span> <span class="n">RecursiveTask</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">io.github.oscarmaestre.paralelismo</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.concurrent.RecursiveTask</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sumador</span> <span class="kd">extends</span> <span class="n">RecursiveTask</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;{</span>
     <span class="kt">int</span><span class="o">[]</span> <span class="n">numeros</span><span class="o">;</span>
     <span class="kt">int</span> <span class="n">pos1</span><span class="o">,</span> <span class="n">pos2</span><span class="o">;</span>
     <span class="kd">final</span> <span class="kt">int</span> <span class="n">NUM_MAX_ELEMENTOS</span><span class="o">=</span><span class="mi">2</span><span class="o">;</span>
@@ -1441,7 +1445,9 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
     <span class="kd">private</span> <span class="kt">int</span> <span class="n">posMitad</span><span class="o">;</span>
     <span class="kd">private</span> <span class="kt">int</span> <span class="n">limiteIzquierdo</span><span class="o">;</span>
     <span class="kd">private</span> <span class="kt">int</span> <span class="n">limiteDerecho</span><span class="o">;</span>
-    <span class="cm">/*Por simplificar solo aceptamos vectores con un número par de elementos*/</span>
+    <span class="cm">/*Por simplificar solo aceptamos vectores</span>
+<span class="cm">    con un número de elementos que sea una</span>
+<span class="cm">    potencia de 2*/</span>
     <span class="kd">public</span> <span class="nf">Sumador</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">numeros</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pos1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pos2</span><span class="o">)</span>  <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">numeros</span>    <span class="o">=</span> <span class="n">numeros</span><span class="o">;</span>
         <span class="k">this</span><span class="o">.</span><span class="na">pos1</span>       <span class="o">=</span> <span class="n">pos1</span><span class="o">;</span>
@@ -1454,7 +1460,8 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 
     <span class="nd">@Override</span>
     <span class="kd">protected</span> <span class="n">Long</span> <span class="nf">compute</span><span class="o">()</span> <span class="o">{</span>
-        <span class="cm">/* Si el vector tiene estos elementos, simplemente sumamos*/</span>
+        <span class="cm">/* Si el vector tiene estos elementos,</span>
+<span class="cm">        simplemente sumamos*/</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">longitud</span><span class="o">==</span><span class="n">NUM_MAX_ELEMENTOS</span><span class="o">){</span>
             <span class="kt">long</span> <span class="n">suma</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
             <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">pos1</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">pos2</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
@@ -1463,10 +1470,14 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
             <span class="k">return</span> <span class="n">suma</span><span class="o">;</span>
         <span class="o">}</span>
 
-        <span class="cm">/*Pero si tiene más elementos, dividimos el vector en dos y sumamos</span>
-<span class="cm">        las dos mitades de forma independiente y paralela*/</span>
-        <span class="n">Sumador</span> <span class="n">sumadorIzq</span><span class="o">=</span><span class="k">new</span> <span class="n">Sumador</span><span class="o">(</span><span class="n">numeros</span><span class="o">,</span> <span class="n">pos1</span><span class="o">,</span> <span class="n">limiteIzquierdo</span><span class="o">);</span>
-        <span class="n">Sumador</span> <span class="n">sumadorDer</span><span class="o">=</span><span class="k">new</span> <span class="n">Sumador</span><span class="o">(</span><span class="n">numeros</span><span class="o">,</span> <span class="n">limiteDerecho</span><span class="o">,</span> <span class="n">pos2</span><span class="o">);</span>
+        <span class="cm">/*Pero si tiene más elementos,</span>
+<span class="cm">        dividimos el vector en dos y sumamos</span>
+<span class="cm">        las dos mitades de forma independiente</span>
+<span class="cm">        y paralela*/</span>
+        <span class="n">Sumador</span> <span class="n">sumadorIzq</span><span class="o">=</span>
+                <span class="k">new</span> <span class="n">Sumador</span><span class="o">(</span><span class="n">numeros</span><span class="o">,</span> <span class="n">pos1</span><span class="o">,</span> <span class="n">limiteIzquierdo</span><span class="o">);</span>
+        <span class="n">Sumador</span> <span class="n">sumadorDer</span><span class="o">=</span>
+                <span class="k">new</span> <span class="n">Sumador</span><span class="o">(</span><span class="n">numeros</span><span class="o">,</span> <span class="n">limiteDerecho</span><span class="o">,</span> <span class="n">pos2</span><span class="o">);</span>
 
         <span class="cm">/*Lanzamos los sumadores...*/</span>
         <span class="n">sumadorIzq</span><span class="o">.</span><span class="na">fork</span><span class="o">();</span>
