@@ -54,7 +54,7 @@
 
 
 \title{Apuntes de Servicios y Procesos}
-\date{14 de octubre de 2019}
+\date{22 de septiembre de 2020}
 \release{1.3}
 \author{Oscar Gomez}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -2028,6 +2028,15 @@ Sabemos que antes de encolar hay que comprobar si la cola está llena. También 
 
 Sin embargo \sphinxstylestrong{¡¡CUIDADO!!} es posible programar mal aunque las operaciones de nuestra cola estén protegidas con el método «synchronized». Supongamos que un productor tiene código como este:
 
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{while} \PYG{o}{(}\PYG{k+kc}{true}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+        \PYG{k}{if} \PYG{o}{(}\PYG{o}{!}\PYG{n}{cola}\PYG{o}{.}\PYG{n+na}{estaLlena}\PYG{o}{(}\PYG{o}{)}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{cola}\PYG{o}{.}\PYG{n+na}{encolar}\PYG{o}{(}\PYG{l+m+mi}{4}\PYG{o}{)}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+\PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
 Puede que pensemos que este código está bien pero \sphinxstylestrong{ESTÁ MAL}. Está mal porque puede que en el tiempo transcurrido entre que un productor ejecuta \sphinxcode{\sphinxupquote{estaLlena}} y \sphinxcode{\sphinxupquote{encolar}} OTRO HILO SE HAYA COLADO ENTRE MEDIAS Y HAYA ALTERADO LA EJECUCIÓN. Eso significa que \sphinxstylestrong{aunque llamemos a dos métodos synchronized uno detrás de otro es posible que la ejecución sea incorrecta}. Así, necesitaremos hacer operaciones \sphinxcode{\sphinxupquote{encolar}} y \sphinxcode{\sphinxupquote{desencolar}} que funcionen de manera atómica y nos avisen de si consiguen hacer la operación o no.
 
 
@@ -2522,6 +2531,114 @@ La clase Lanzador podría ser así:
 
     \PYG{o}{\PYGZcb{}}
 \PYG{o}{\PYGZcb{}}
+\end{sphinxVerbatim}
+
+
+\section{Clases de alto nivel: la clase \sphinxstyleliteralintitle{\sphinxupquote{RecursiveTask}}}
+\label{\detokenize{textos/tema2:clases-de-alto-nivel-la-clase-recursivetask}}
+En Java 8 y posteriores se puede utilizar una clase llamada \sphinxcode{\sphinxupquote{RecursiveTask}} que facilita un poco la tarea de crear aplicaciones con paralelismo. La idea básica es que podemos heredar de esta clase indicando qué tipo Java tendrá el resultado de la operación. Dentro de la clase deberemos implementar un método \sphinxcode{\sphinxupquote{compute}} que básicamente deberá trabajar recursivamente decidiendo si la tarea es lo bastante pequeña para ejecutarla o si la dividimos más.
+
+Supongamos que queremos sumar todos los números de un vector. Por comodidad supongamos también que siempre nos pasan vectores con un tamaño que es potencia de 2. Podemos usar una clase Java como esta para hacer la operación de forma paralela.
+
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package} \PYG{n+nn}{io.github.oscarmaestre.paralelismo}\PYG{o}{;}
+
+\PYG{k+kn}{import} \PYG{n+nn}{java.util.concurrent.RecursiveTask}\PYG{o}{;}
+
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{Sumador} \PYG{k+kd}{extends} \PYG{n}{RecursiveTask}\PYG{o}{\PYGZlt{}}\PYG{n}{Long}\PYG{o}{\PYGZgt{}}\PYG{o}{\PYGZob{}}
+    \PYG{k+kt}{int}\PYG{o}{[}\PYG{o}{]} \PYG{n}{numeros}\PYG{o}{;}
+    \PYG{k+kt}{int} \PYG{n}{pos1}\PYG{o}{,} \PYG{n}{pos2}\PYG{o}{;}
+    \PYG{k+kd}{final} \PYG{k+kt}{int} \PYG{n}{NUM\PYGZus{}MAX\PYGZus{}ELEMENTOS}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{o}{;}
+    \PYG{k+kd}{private} \PYG{k+kt}{int} \PYG{n}{longitud}\PYG{o}{;}
+    \PYG{k+kd}{private} \PYG{k+kt}{int} \PYG{n}{posMitad}\PYG{o}{;}
+    \PYG{k+kd}{private} \PYG{k+kt}{int} \PYG{n}{limiteIzquierdo}\PYG{o}{;}
+    \PYG{k+kd}{private} \PYG{k+kt}{int} \PYG{n}{limiteDerecho}\PYG{o}{;}
+    \PYG{c+cm}{/*Por simplificar solo aceptamos vectores}
+\PYG{c+cm}{    con un número de elementos que sea una}
+\PYG{c+cm}{    potencia de 2*/}
+    \PYG{k+kd}{public} \PYG{n+nf}{Sumador}\PYG{o}{(}\PYG{k+kt}{int}\PYG{o}{[}\PYG{o}{]} \PYG{n}{numeros}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{pos1}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{pos2}\PYG{o}{)}  \PYG{o}{\PYGZob{}}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{numeros}    \PYG{o}{=} \PYG{n}{numeros}\PYG{o}{;}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{pos1}       \PYG{o}{=} \PYG{n}{pos1}\PYG{o}{;}
+        \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{pos2}       \PYG{o}{=} \PYG{n}{pos2}\PYG{o}{;}
+        \PYG{n}{longitud}        \PYG{o}{=} \PYG{l+m+mi}{1} \PYG{o}{+} \PYG{o}{(}\PYG{n}{pos2}\PYG{o}{\PYGZhy{}} \PYG{n}{pos1}\PYG{o}{)}\PYG{o}{;}
+        \PYG{n}{posMitad}        \PYG{o}{=} \PYG{n}{longitud}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{o}{;}
+        \PYG{n}{limiteIzquierdo} \PYG{o}{=} \PYG{n}{pos1}\PYG{o}{+}\PYG{o}{(}\PYG{n}{posMitad}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{;}
+        \PYG{n}{limiteDerecho}   \PYG{o}{=} \PYG{n}{limiteIzquierdo}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{o}{;}
+    \PYG{o}{\PYGZcb{}}
+
+    \PYG{n+nd}{@Override}
+    \PYG{k+kd}{protected} \PYG{n}{Long} \PYG{n+nf}{compute}\PYG{o}{(}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+        \PYG{c+cm}{/* Si el vector tiene estos elementos,}
+\PYG{c+cm}{        simplemente sumamos*/}
+        \PYG{k}{if} \PYG{o}{(}\PYG{n}{longitud}\PYG{o}{=}\PYG{o}{=}\PYG{n}{NUM\PYGZus{}MAX\PYGZus{}ELEMENTOS}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+            \PYG{k+kt}{long} \PYG{n}{suma}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;}
+            \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{n}{pos1}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{o}{=}\PYG{n}{pos2}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+                \PYG{n}{suma}\PYG{o}{=}\PYG{n}{suma} \PYG{o}{+} \PYG{n}{numeros}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{;}
+            \PYG{o}{\PYGZcb{}}
+            \PYG{k}{return} \PYG{n}{suma}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+
+        \PYG{c+cm}{/*Pero si tiene más elementos,}
+\PYG{c+cm}{        dividimos el vector en dos y sumamos}
+\PYG{c+cm}{        las dos mitades de forma independiente}
+\PYG{c+cm}{        y paralela*/}
+        \PYG{n}{Sumador} \PYG{n}{sumadorIzq}\PYG{o}{=}
+                \PYG{k}{new} \PYG{n}{Sumador}\PYG{o}{(}\PYG{n}{numeros}\PYG{o}{,} \PYG{n}{pos1}\PYG{o}{,} \PYG{n}{limiteIzquierdo}\PYG{o}{)}\PYG{o}{;}
+        \PYG{n}{Sumador} \PYG{n}{sumadorDer}\PYG{o}{=}
+                \PYG{k}{new} \PYG{n}{Sumador}\PYG{o}{(}\PYG{n}{numeros}\PYG{o}{,} \PYG{n}{limiteDerecho}\PYG{o}{,} \PYG{n}{pos2}\PYG{o}{)}\PYG{o}{;}
+
+        \PYG{c+cm}{/*Lanzamos los sumadores...*/}
+        \PYG{n}{sumadorIzq}\PYG{o}{.}\PYG{n+na}{fork}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{n}{sumadorDer}\PYG{o}{.}\PYG{n+na}{fork}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+
+        \PYG{c+cm}{/* Y recogemos sus resultados*/}
+        \PYG{k+kt}{long} \PYG{n}{sumaIzq}\PYG{o}{=}\PYG{n}{sumadorIzq}\PYG{o}{.}\PYG{n+na}{join}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{k+kt}{long} \PYG{n}{sumaDer}\PYG{o}{=}\PYG{n}{sumadorDer}\PYG{o}{.}\PYG{n+na}{join}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+
+        \PYG{k}{return} \PYG{n}{sumaIzq} \PYG{o}{+} \PYG{n}{sumaDer}\PYG{o}{;}
+    \PYG{o}{\PYGZcb{}} \PYG{c+cm}{/*Fin del compute*/}
+\PYG{o}{\PYGZcb{}} \PYG{c+cm}{/*Fin de la clase*/}
+\end{sphinxVerbatim}
+
+Con esta clase como «lanzador de hilos», nuestro trabajo se simplifica bastante. Ahora podemos tener un \sphinxcode{\sphinxupquote{main}} que va a ser tan sencillo como el código siguiente:
+
+\fvset{hllines={, ,}}%
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package} \PYG{n+nn}{io.github.oscarmaestre.paralelismo}\PYG{o}{;}
+
+\PYG{k+kn}{import} \PYG{n+nn}{java.util.concurrent.ExecutionException}\PYG{o}{;}
+\PYG{k+kn}{import} \PYG{n+nn}{java.util.concurrent.ForkJoinPool}\PYG{o}{;}
+
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{SumadorParalelo} \PYG{o}{\PYGZob{}}
+
+    \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{args}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{InterruptedException}\PYG{o}{,} \PYG{n}{ExecutionException} \PYG{o}{\PYGZob{}}
+
+        \PYG{c+cm}{/* Construimos un vector de ejemplo...*/}
+        \PYG{k+kd}{final} \PYG{k+kt}{int} \PYG{n}{MAX\PYGZus{}NUMEROS}\PYG{o}{=}\PYG{l+m+mi}{1024}\PYG{o}{;}
+        \PYG{k+kt}{int}\PYG{o}{[}\PYG{o}{]} \PYG{n}{numeros}\PYG{o}{=}\PYG{k}{new} \PYG{k+kt}{int}\PYG{o}{[}\PYG{n}{MAX\PYGZus{}NUMEROS}\PYG{o}{]}\PYG{o}{;}
+
+        \PYG{c+cm}{/*Y lo rellenamos con números*/}
+        \PYG{k}{for} \PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{o}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{MAX\PYGZus{}NUMEROS}\PYG{o}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{o}{)}\PYG{o}{\PYGZob{}}
+            \PYG{n}{numeros}\PYG{o}{[}\PYG{n}{i}\PYG{o}{]}\PYG{o}{=}\PYG{n}{i}\PYG{o}{;}
+        \PYG{o}{\PYGZcb{}}
+
+        \PYG{c+cm}{/* Esta clase gestionará el paralelismo de las tareas*/}
+        \PYG{n}{ForkJoinPool} \PYG{n}{pool}\PYG{o}{=}\PYG{k}{new} \PYG{n}{ForkJoinPool}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+
+        \PYG{c+cm}{/* Fabricamos un sumador inicial que intente sumar todo*/}
+        \PYG{n}{Sumador} \PYG{n}{sumador}\PYG{o}{=}\PYG{k}{new} \PYG{n}{Sumador}\PYG{o}{(}\PYG{n}{numeros}\PYG{o}{,} \PYG{l+m+mi}{0}\PYG{o}{,} \PYG{n}{MAX\PYGZus{}NUMEROS}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{o}{)}\PYG{o}{;}
+
+        \PYG{c+cm}{/*Y la clase ForkJoinPool invocará a nuestro sumador lanzando}
+\PYG{c+cm}{        los hilos, recogiendo los resultados y haciendo todo lo necesario}
+\PYG{c+cm}{        para que al final solo tengamos que recoger el resultado*/}
+        \PYG{n}{pool}\PYG{o}{.}\PYG{n+na}{invoke}\PYG{o}{(}\PYG{n}{sumador}\PYG{o}{)}\PYG{o}{;}
+
+        \PYG{c+cm}{/* Resultado que podemos ver aquí*/}
+        \PYG{n}{Long} \PYG{n}{resultado} \PYG{o}{=} \PYG{n}{sumador}\PYG{o}{.}\PYG{n+na}{get}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}
+        \PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}La suma es:\PYGZdq{}}\PYG{o}{+}\PYG{n}{resultado}\PYG{o}{)}\PYG{o}{;}
+    \PYG{o}{\PYGZcb{}} \PYG{c+cm}{/*Fin del main*/}
+\PYG{o}{\PYGZcb{}} \PYG{c+cm}{/*Fin de la clase*/}
 \end{sphinxVerbatim}
 
 
