@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Servicios web &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -13,11 +11,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
     <link rel="search" title="Búsqueda" href="../search.html" />
-    <link rel="next" title="Anexos" href="anexos.html" />
+    <link rel="next" title="Anexos diversos." href="anexos.html" />
     <link rel="prev" title="Utilización de técnicas de programación segura" href="tema5.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -49,11 +47,11 @@ por otro lado que se dispone de una aplicación Java de escritorio que
 permite a los clientes mostrar gráficos de una manera muy cómoda. ¿Como
 conseguir que la aplicación Java se integre con la aplicación en C#?</p>
 <ul class="simple">
-<li>Una posibilidad sería reescribir la funcionalidad. Tomar la tarea hecha
-en C# y reescribirla en la aplicación Java. Evidentemente, esto llevaría bastante tiempo.</li>
-<li>Otra posibilidad sería inventar algún protocolo que permitiese llevar los
+<li><p>Una posibilidad sería reescribir la funcionalidad. Tomar la tarea hecha
+en C# y reescribirla en la aplicación Java. Evidentemente, esto llevaría bastante tiempo.</p></li>
+<li><p>Otra posibilidad sería inventar algún protocolo que permitiese llevar los
 datos entre distintas aplicaciones, lo cual también puede ser farragoso y
-propenso a errores.</li>
+propenso a errores.</p></li>
 </ul>
 <p>Sin embargo, los servicios web nos ofrecen una mejora sobre la segunda
 posibilidad, al proporcionar <strong>un mecanismo estandarizado para intercambiar
@@ -99,7 +97,7 @@ hubiesen creado sin pensar en esta integración.</p>
 <li class="toctree-l2"><a class="reference internal" href="#prerrequisitos">Prerrequisitos</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="anexos.html">Anexos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="anexos.html">Anexos diversos.</a></li>
 </ul>
 
 <div class="relations">
@@ -107,18 +105,16 @@ hubiesen creado sin pensar en esta integración.</p>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
       <li>Previous: <a href="tema5.html" title="capítulo anterior">Utilización de técnicas de programación segura</a></li>
-      <li>Next: <a href="anexos.html" title="próximo capítulo">Anexos</a></li>
+      <li>Next: <a href="anexos.html" title="próximo capítulo">Anexos diversos.</a></li>
   </ul></li>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Búsqueda rápida</h3>
+  <h3 id="searchlabel">Búsqueda rápida</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Ir a" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -139,7 +135,7 @@ hubiesen creado sin pensar en esta integración.</p>
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

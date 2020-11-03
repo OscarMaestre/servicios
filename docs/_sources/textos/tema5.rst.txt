@@ -226,6 +226,13 @@ El siguiente código muestra como crear una clase que permita cifrar y descifrar
    Los objetos que cifran y descifran en Java utilizan estrictamente objetos ``byte[]``, que
    son los que debemos manejar siempre. Las conversiones a ``String`` las hacemos nosotros para poder visualizar resultados.
 
+
+Trabajando con bloques largos
+------------------------------------------------
+En general los distintos métodos criptográficos no siempre pueden trabajar con bloques todo lo largos que queramos, así que si se necesita "cifrar una cadena larga" es muy probable que tengamos que ir "cifrando bloque a bloque".
+
+
+
 Protocolos seguros de comunicaciones.
 ------------------------------------------------------------
 

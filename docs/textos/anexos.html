@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Anexos diversos. &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -13,11 +11,11 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
     <link rel="search" title="Búsqueda" href="../search.html" />
-    <link rel="prev" title="Anexo: hilos con Swing" href="anexo_hilos_con_swing.html" />
+    <link rel="prev" title="Servicios web" href="tema6.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -36,6 +34,12 @@
             
   <div class="section" id="anexos-diversos">
 <h1>Anexos diversos.<a class="headerlink" href="#anexos-diversos" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="comparticion-de-codigo-entre-proyectos-gradle-de-netbeans">
+<h2>Compartición de código entre proyectos Gradle de Netbeans<a class="headerlink" href="#comparticion-de-codigo-entre-proyectos-gradle-de-netbeans" title="Enlazar permanentemente con este título">¶</a></h2>
+</div>
+<div class="section" id="comparticion-de-codigo-entre-proyectos-maven-en-netbeans">
+<h2>Compartición de código entre proyectos Maven en Netbeans<a class="headerlink" href="#comparticion-de-codigo-entre-proyectos-maven-en-netbeans" title="Enlazar permanentemente con este título">¶</a></h2>
+</div>
 <div class="section" id="la-clase-utilidadesficheros">
 <h2>La clase <code class="docutils literal notranslate"><span class="pre">UtilidadesFicheros</span></code><a class="headerlink" href="#la-clase-utilidadesficheros" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>A continuación se muestra el código completo de la clase <code class="docutils literal notranslate"><span class="pre">UtilidadesFicheros</span></code>:</p>
@@ -110,9 +114,9 @@
 <h2>Solución al problema del simulador de Casino<a class="headerlink" href="#solucion-al-problema-del-simulador-de-casino" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Se ha optado por un diseño muy simple y con un acoplamiento muy alto. En pocas palabras hay solo dos clases:</p>
 <ol class="arabic simple">
-<li>La clase <code class="docutils literal notranslate"><span class="pre">Banca</span></code>: ejecuta toda la simulación y acepta apuestas de jugadores. La banca crea los Jugadores (que serán hilos), y luego pasará a ejecutar la simulación, que puede pasar por diversos estados. Algunos métodos de la banca deben ser <code class="docutils literal notranslate"><span class="pre">synchronized</span></code>, ya que todos los hilos Jugador tienen una referencia a la clase <code class="docutils literal notranslate"><span class="pre">Banca</span></code> y por lo tanto <strong>puede haber varios hilos intentando entrar en un cierto método</strong>.</li>
-<li>La clase <code class="docutils literal notranslate"><span class="pre">Jugador</span></code>: no necesita métodos <code class="docutils literal notranslate"><span class="pre">synchronized</span></code>, ya que cada <code class="docutils literal notranslate"><span class="pre">Jugador</span></code> accede solo a su propia información. <em>Sin embargo, si hubiese más de una banca (quizá porque un Jugador jugase a varias ruletas a la vez) la situación sería muy distinta</em>.</li>
-<li>En realidad, la clase <code class="docutils literal notranslate"><span class="pre">Jugador</span></code> es solo una base para poder crear distintos tipos de Jugador que siguen distintas estrategias.</li>
+<li><p>La clase <code class="docutils literal notranslate"><span class="pre">Banca</span></code>: ejecuta toda la simulación y acepta apuestas de jugadores. La banca crea los Jugadores (que serán hilos), y luego pasará a ejecutar la simulación, que puede pasar por diversos estados. Algunos métodos de la banca deben ser <code class="docutils literal notranslate"><span class="pre">synchronized</span></code>, ya que todos los hilos Jugador tienen una referencia a la clase <code class="docutils literal notranslate"><span class="pre">Banca</span></code> y por lo tanto <strong>puede haber varios hilos intentando entrar en un cierto método</strong>.</p></li>
+<li><p>La clase <code class="docutils literal notranslate"><span class="pre">Jugador</span></code>: no necesita métodos <code class="docutils literal notranslate"><span class="pre">synchronized</span></code>, ya que cada <code class="docutils literal notranslate"><span class="pre">Jugador</span></code> accede solo a su propia información. <em>Sin embargo, si hubiese más de una banca (quizá porque un Jugador jugase a varias ruletas a la vez) la situación sería muy distinta</em>.</p></li>
+<li><p>En realidad, la clase <code class="docutils literal notranslate"><span class="pre">Jugador</span></code> es solo una base para poder crear distintos tipos de Jugador que siguen distintas estrategias.</p></li>
 </ol>
 <p>En las secciones siguientes se ilustra el código de las distintas clases.</p>
 <div class="section" id="la-clase-banca">
@@ -549,8 +553,9 @@
 <li class="toctree-l1"><a class="reference internal" href="tema4.html">Generación de servicios en red</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tema5.html">Utilización de técnicas de programación segura</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tema6.html">Servicios web</a></li>
-<li class="toctree-l1"><a class="reference internal" href="anexo_hilos_con_swing.html">Anexo: hilos con Swing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Anexos diversos.</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#comparticion-de-codigo-entre-proyectos-gradle-de-netbeans">Compartición de código entre proyectos Gradle de Netbeans</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comparticion-de-codigo-entre-proyectos-maven-en-netbeans">Compartición de código entre proyectos Maven en Netbeans</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#la-clase-utilidadesficheros">La clase <code class="docutils literal notranslate"><span class="pre">UtilidadesFicheros</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#solucion-al-problema-del-simulador-de-casino">Solución al problema del simulador de Casino</a></li>
 </ul>
@@ -561,18 +566,16 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="anexo_hilos_con_swing.html" title="capítulo anterior">Anexo: hilos con Swing</a></li>
+      <li>Previous: <a href="tema6.html" title="capítulo anterior">Servicios web</a></li>
   </ul></li>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Búsqueda rápida</h3>
+  <h3 id="searchlabel">Búsqueda rápida</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Ir a" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -593,7 +596,7 @@
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

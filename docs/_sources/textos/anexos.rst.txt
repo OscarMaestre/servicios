@@ -1,6 +1,14 @@
 Anexos diversos.
 ================================================================================
 
+Compartición de código entre proyectos Gradle de Netbeans
+----------------------------------------------------------
+
+
+Compartición de código entre proyectos Maven en Netbeans
+------------------------------------------------------------
+
+
 
 La clase ``UtilidadesFicheros``
 ----------------------------------
