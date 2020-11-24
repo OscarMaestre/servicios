@@ -1,9 +1,11 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Programación multihilo &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -11,8 +13,8 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
     <link rel="search" title="Búsqueda" href="../search.html" />
     <link rel="next" title="Programación de comunicaciones en red" href="tema3.html" />
@@ -54,16 +56,16 @@
 <p>Aunque no lo vemos, un hilo cambia de estado: puede pasar de la nada a la ejecución. De la ejecución al estado «en espera». De ahí puede volver a estar en ejecución. De cualquier estado se puede pasar al estado «finalizado».</p>
 <p>El programador no necesita controlar esto, lo hace el sistema operativo. Sin embargo un programa multihilo mal hecho puede dar lugar problemas como los siguientes:</p>
 <ul class="simple">
-<li><p>Interbloqueo. Se produce cuando las peticiones y las esperas se entrelazan de forma que ningún proceso puede avanzar.</p></li>
-<li><p>Inanición. Ningún proceso consigue hacer ninguna tarea útil y por lo tanto hay que esperar a que el administrador del sistema detecte el interbloqueo y mate procesos (o hasta que alguien reinicie el equipo).</p></li>
+<li>Interbloqueo. Se produce cuando las peticiones y las esperas se entrelazan de forma que ningún proceso puede avanzar.</li>
+<li>Inanición. Ningún proceso consigue hacer ninguna tarea útil y por lo tanto hay que esperar a que el administrador del sistema detecte el interbloqueo y mate procesos (o hasta que alguien reinicie el equipo).</li>
 </ul>
 </div>
 <div class="section" id="elementos-relacionados-con-la-programacion-de-hilos-librerias-y-clases">
 <h2>Elementos relacionados con la programación de hilos. Librerías y clases.<a class="headerlink" href="#elementos-relacionados-con-la-programacion-de-hilos-librerias-y-clases" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Para crear programas multihilo en Java se pueden hacer dos cosas:</p>
 <ol class="arabic simple">
-<li><p>Heredar de la clase Thread.</p></li>
-<li><p>Implementar la interfaz Runnable.</p></li>
+<li>Heredar de la clase Thread.</li>
+<li>Implementar la interfaz Runnable.</li>
 </ol>
 <p>Los documentos de Java aconsejan el segundo. Lo único que hay que hacer es algo como esto.</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">EjecutorTareaCompleja</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
@@ -107,8 +109,8 @@
 </pre></div>
 </div>
 <div class="admonition warning">
-<p class="admonition-title">Advertencia</p>
-<p>Este código tiene un problema <strong>muy grave</strong> y es que no se controla el acceso a variables compartidas, es decir <strong>HAY UNA SECCIÓN CRÍTICA QUE NO ESTÁ PROTEGIDA</strong> por lo que el resultado de la ejecución no muestra ningún sentido aunque el programa esté bien.</p>
+<p class="first admonition-title">Advertencia</p>
+<p class="last">Este código tiene un problema <strong>muy grave</strong> y es que no se controla el acceso a variables compartidas, es decir <strong>HAY UNA SECCIÓN CRÍTICA QUE NO ESTÁ PROTEGIDA</strong> por lo que el resultado de la ejecución no muestra ningún sentido aunque el programa esté bien.</p>
 </div>
 </div>
 <div class="section" id="gestion-de-hilos">
@@ -264,21 +266,21 @@
 <div class="section" id="creacion-inicio-y-finalizacion">
 <h2>Creación, inicio y finalización.<a class="headerlink" href="#creacion-inicio-y-finalizacion" title="Enlazar permanentemente con este título">¶</a></h2>
 <ul class="simple">
-<li><p>Podemos heredar de Thread o implementar <code class="docutils literal notranslate"><span class="pre">Runnable</span></code>. Usaremos el segundo recordando implementar el método <code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">void</span> <span class="pre">run()</span></code>.</p></li>
-<li><p>Para crear un hilo asociado a un objeto usaremos algo como:</p></li>
+<li>Podemos heredar de Thread o implementar <code class="docutils literal notranslate"><span class="pre">Runnable</span></code>. Usaremos el segundo recordando implementar el método <code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">void</span> <span class="pre">run()</span></code>.</li>
+<li>Para crear un hilo asociado a un objeto usaremos algo como:</li>
 </ul>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">Thread</span> <span class="n">hilo</span><span class="o">=</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">objetoDeClase</span><span class="o">)</span>
 </pre></div>
 </div>
 <p>Lo más habitual es guardar en un vector todos los hilos que hagan algo, y no en un objeto suelto.</p>
 <ul class="simple">
-<li><p>Cada objeto que tenga un hilo asociado debe iniciarse así:</p></li>
+<li>Cada objeto que tenga un hilo asociado debe iniciarse así:</li>
 </ul>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">hilo</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Todo programa multihilo tiene un «hilo principal», el cual deberá esperar a que terminen los hilos asociados ejecutando el método <code class="docutils literal notranslate"><span class="pre">join()</span></code>  .</p></li>
+<li>Todo programa multihilo tiene un «hilo principal», el cual deberá esperar a que terminen los hilos asociados ejecutando el método <code class="docutils literal notranslate"><span class="pre">join()</span></code>  .</li>
 </ul>
 </div>
 <div class="section" id="sincronizacion-de-hilos">
@@ -410,7 +412,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <p>Simular este problema en un programa Java que muestre el progreso de todos sin caer en problemas de sincronización ni de inanición.</p>
 <div class="figure align-center" id="id5" style="width: 50%">
 <img alt="../_images/Filosofos.png" src="../_images/Filosofos.png" />
-<p class="caption"><span class="caption-text">Esquema de los filósofos</span><a class="headerlink" href="#id5" title="Enlace permanente a esta imagen">¶</a></p>
+<p class="caption"><span class="caption-text">Esquema de los filósofos</span></p>
 </div>
 <div class="section" id="boceto-de-solucion">
 <h3>Boceto de solución<a class="headerlink" href="#boceto-de-solucion" title="Enlazar permanentemente con este título">¶</a></h3>
@@ -572,24 +574,24 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <h2>Problema: simulador de casino<a class="headerlink" href="#problema-simulador-de-casino" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Se desea simular los posibles beneficios de diversas estrategias de juego en un casino. La ruleta francesa es un juego en el que hay una ruleta con 37 números (del 0 al 36). Cada 3000 milisegundos el croupier saca un número al azar y los diversos hilos apuestan para ver si ganan. Todos los hilos empiezan con 1.000 euros y la banca (que controla la ruleta) con 50.000. Cuando los jugadores pierden dinero, la banca incrementa su saldo.</p>
 <ul class="simple">
-<li><p>Se puede jugar a un número concreto. Habrá 4 hilos que eligen números al azar del 1 al 36 (no el 0) y restarán 10 euros de su saldo para apostar a ese ese número. Si sale su número su saldo se incrementa en 360 euros (36 veces lo apostado).</p></li>
-<li><p>Se puede jugar a par/impar. Habrá 4 hilos que eligen al azar si apuestan a que saldrá un número par o un número impar. Siempre restan 10 euros para apostar y si ganan incrementan su saldo en 20 euros.</p></li>
-<li><p>Se puede jugar a la «martingala». Habrá 4 hilos que eligen números al azar. Elegirán un número y empezarán restando 10 euros de su saldo para apostar a ese número. Si ganan incrementan su saldo en 360 euros. Si pierden jugarán el doble de su apuesta anterior (es decir, 20, luego 40, luego 80, y así sucesivamente)</p></li>
-<li><p>La banca acepta todas las apuestas pero nunca paga más dinero del que tiene.</p></li>
-<li><p>Si sale el 0, todo el mundo pierde y la banca se queda con todo el dinero.</p></li>
+<li>Se puede jugar a un número concreto. Habrá 4 hilos que eligen números al azar del 1 al 36 (no el 0) y restarán 10 euros de su saldo para apostar a ese ese número. Si sale su número su saldo se incrementa en 360 euros (36 veces lo apostado).</li>
+<li>Se puede jugar a par/impar. Habrá 4 hilos que eligen al azar si apuestan a que saldrá un número par o un número impar. Siempre restan 10 euros para apostar y si ganan incrementan su saldo en 20 euros.</li>
+<li>Se puede jugar a la «martingala». Habrá 4 hilos que eligen números al azar. Elegirán un número y empezarán restando 10 euros de su saldo para apostar a ese número. Si ganan incrementan su saldo en 360 euros. Si pierden jugarán el doble de su apuesta anterior (es decir, 20, luego 40, luego 80, y así sucesivamente)</li>
+<li>La banca acepta todas las apuestas pero nunca paga más dinero del que tiene.</li>
+<li>Si sale el 0, todo el mundo pierde y la banca se queda con todo el dinero.</li>
 </ul>
 </div>
 <div class="section" id="problema-barberos">
 <h2>Problema: barberos<a class="headerlink" href="#problema-barberos" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>En una peluquería hay barberos y sillas para los clientes (siempre hay más sillas que clientes). Sin embargo, en esta peluquería no siempre hay trabajo por lo que los barberos duermen cuando no hay clientes a los que afeitar. Un cliente puede llegar a la barbería y encontrar alguna silla libre, en cuyo caso, el cliente se sienta y esperará que algún barbero le afeite. Puede ocurrir que el cliente llegue y no haya sillas libres, en cuyo caso se marcha. Simular el comportamiento de la barbería mediante un programa Java teniendo en cuenta que:</p>
 <ul class="simple">
-<li><p>Se generan clientes continuamente, algunos encuentran silla y otros no. Los que no consigan silla desaparecen (terminan su ejecución)</p></li>
-<li><p>Puede haber más sillas que barberos y al revés (poner constantes para poder cambiar fácilmente entre ejecuciones).</p></li>
-<li><p>Se recuerda que no debe haber inanición, es decir ningún cliente debería quedarse en una silla esperando un tiempo infinito.</p></li>
+<li>Se generan clientes continuamente, algunos encuentran silla y otros no. Los que no consigan silla desaparecen (terminan su ejecución)</li>
+<li>Puede haber más sillas que barberos y al revés (poner constantes para poder cambiar fácilmente entre ejecuciones).</li>
+<li>Se recuerda que no debe haber inanición, es decir ningún cliente debería quedarse en una silla esperando un tiempo infinito.</li>
 </ul>
 <div class="figure align-center" id="id6" style="width: 50%">
 <img alt="../_images/barberodormilon.png" src="../_images/barberodormilon.png" />
-<p class="caption"><span class="caption-text">Los  barberos dormilones</span><a class="headerlink" href="#id6" title="Enlace permanente a esta imagen">¶</a></p>
+<p class="caption"><span class="caption-text">Los  barberos dormilones</span></p>
 </div>
 </div>
 <div class="section" id="una-mala-solucion-al-problema-de-los-barberos">
@@ -1130,8 +1132,8 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <p>Por la puerta solo cabe una persona, pero la paciencia de los clientes es limitada por lo que solo se harán un máximo de 10 intentos para entrar por la puerta. Si despues de 10 intentos la puerta no se ha encontrado libre ni una sola vez, el cliente desiste y se marcha.</p>
 <p>Cuando se consigue entrar por la puerta el cliente puede encontrarse con dos situaciones:</p>
 <ol class="arabic simple">
-<li><p>Quedan productos: el cliente cogerá uno y se marchará.</p></li>
-<li><p>No quedan productos: el cliente simplemente se marchará.</p></li>
+<li>Quedan productos: el cliente cogerá uno y se marchará.</li>
+<li>No quedan productos: el cliente simplemente se marchará.</li>
 </ol>
 <p>Realizar la simulación en Java de dicha situación.</p>
 <p>Una posible solución sería la siguiente:</p>
@@ -1288,15 +1290,15 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <p>Un banco necesita controlar el acceso a cuentas bancarias y para ello desea hacer un programa de prueba en Java que permita lanzar procesos que ingresen y retiren dinero a la vez y comprobar así si el resultado final es el esperado.</p>
 <p>Se parte de una cuenta con 100 euros y se pueden tener procesos que ingresen 100 euros, 50 o 20. También se pueden tener procesos que retiran 100, 50 o 20 euros euros. Se desean tener los siguientes procesos:</p>
 <ul class="simple">
-<li><p>40 procesos que ingresan 100</p></li>
-<li><p>20 procesos que ingresan 50</p></li>
-<li><p>60 que ingresen 20.</p></li>
+<li>40 procesos que ingresan 100</li>
+<li>20 procesos que ingresan 50</li>
+<li>60 que ingresen 20.</li>
 </ul>
 <p>De la misma manera se desean lo siguientes procesos que retiran cantidades.</p>
 <ul class="simple">
-<li><p>40 procesos que retiran 100</p></li>
-<li><p>20 procesos que retiran  50</p></li>
-<li><p>60 que retiran 20.</p></li>
+<li>40 procesos que retiran 100</li>
+<li>20 procesos que retiran  50</li>
+<li>60 que retiran 20.</li>
 </ul>
 <p>Se desea comprobar que tras la ejecución la cuenta tiene exactamente 100 euros, que era la cantidad de la que se disponía al principio. Realizar el programa Java que demuestra dicho hecho.</p>
 <p>En primer lugar la clase Cuenta podría ser así:</p>
@@ -1532,18 +1534,18 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <h2>Documentación.<a class="headerlink" href="#documentacion" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>La estructura general de toda aplicación multihilo es algo similar a lo siguiente:</p>
 <ul class="simple">
-<li><p>Habrá tareas que se puedan paralelizar. Dichas tareas heredarán de <code class="docutils literal notranslate"><span class="pre">Runnable</span></code>.</p></li>
-<li><p>Habrá procesos que pueden ser accedidos por muchos hilos. Estos objetos <strong>deberán usar synchronized</strong></p></li>
-<li><p>Habrá que crear los recursos compartidos y crear los hilos. Esta operación se debe hacer en este orden.</p></li>
+<li>Habrá tareas que se puedan paralelizar. Dichas tareas heredarán de <code class="docutils literal notranslate"><span class="pre">Runnable</span></code>.</li>
+<li>Habrá procesos que pueden ser accedidos por muchos hilos. Estos objetos <strong>deberán usar synchronized</strong></li>
+<li>Habrá que crear los recursos compartidos y crear los hilos. Esta operación se debe hacer en este orden.</li>
 </ul>
 </div>
 <div class="section" id="depuracion">
 <h2>Depuración.<a class="headerlink" href="#depuracion" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>La depuración de programas multihilo debe hacerse exclusivamente trabajando con pruebas de unidad y las comprobaciones de tipos de Java.</p>
 <ul class="simple">
-<li><p>Por un lado, los depuradores solo funcionan vinculándose con el hilo principal («main») de la aplicación, por lo que si se desea depurar un hilo concreto se tendrá que averiguar el identificador de dicho hilo para poder conectar con él desde el depurador.</p></li>
-<li><p>Los depuradores «interfieren» con la ejecución de los hilos así que pueden pasar cosas tan curiosas como que un programa <em>funcione cuando usamos el depurador pero vuelva a fallar al ejecutarlo solo</em>.</p></li>
-<li><p>Los mensajes de traza pueden aparecer antes o despues de lo esperado, así que en realidad no sabemos cuando se escribió un mensaje en pantalla ni qué operaciones se efectuaron antes o despues.</p></li>
+<li>Por un lado, los depuradores solo funcionan vinculándose con el hilo principal («main») de la aplicación, por lo que si se desea depurar un hilo concreto se tendrá que averiguar el identificador de dicho hilo para poder conectar con él desde el depurador.</li>
+<li>Los depuradores «interfieren» con la ejecución de los hilos así que pueden pasar cosas tan curiosas como que un programa <em>funcione cuando usamos el depurador pero vuelva a fallar al ejecutarlo solo</em>.</li>
+<li>Los mensajes de traza pueden aparecer antes o despues de lo esperado, así que en realidad no sabemos cuando se escribió un mensaje en pantalla ni qué operaciones se efectuaron antes o despues.</li>
 </ul>
 </div>
 <div class="section" id="ejercicio-empleado-thread-safe">
@@ -1616,6 +1618,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 <li class="toctree-l1"><a class="reference internal" href="tema4.html">Generación de servicios en red</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tema5.html">Utilización de técnicas de programación segura</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tema6.html">Servicios web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="anexo_hilos_con_swing.html">Anexo: hilos con Swing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="anexos.html">Anexos diversos.</a></li>
 </ul>
 
@@ -1629,11 +1632,13 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Búsqueda rápida</h3>
+  <h3>Búsqueda rápida</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" />
       <input type="submit" value="Ir a" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -1654,7 +1659,7 @@ En realidad podemos comunicar los hilos con otro mecanismo llamado <code class="
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
