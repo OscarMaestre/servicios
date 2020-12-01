@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Generación de servicios en red &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -13,8 +11,8 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/translations.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
     <link rel="search" title="Búsqueda" href="../search.html" />
     <link rel="next" title="Utilización de técnicas de programación segura" href="tema5.html" />
@@ -89,34 +87,34 @@ Content-Length: 1221
 <h2>SMTP<a class="headerlink" href="#smtp" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Al contrario que POP3, está pensado sobre todo para <strong>enviar correo</strong>. Esto significa que quienes usan SMTP son máquinas que están en una de estas situaciones.</p>
 <ul class="simple">
-<li>Cliente de correo (que supongamos que tiene el usuario «pepe») de un servidor de correo (por ejemplo «hotmail.es») y que quiere enviar un mensaje a otro usuario «john» que tiene su cuenta en «gmail.com». Esto significa que si «pepe» escribe un mensaje en su Outlook y quiere enviarlo a «<a class="reference external" href="mailto:john&#37;&#52;&#48;gmail&#46;com">john<span>&#64;</span>gmail<span>&#46;</span>com</a>» primero tiene que enviar el mensaje desde su ordenador a «hotmail.es» y pedirle que lo entregue. La subida del correo desde el ordenador de «pepe» a «hotmail.es» <strong>se hace mediante SMTP</strong>.</li>
-<li>Servidor de correo que quiere enviar mensaje a otro servidor. En el ejemplo anterior «hotmail.es» recibe un correo que debe entregar a su destinatario, pero como dicho destinatario está en otro servidor debe entregarlo a «gmail.com» que comprobará si tiene un usuario «john» y si es así recibirá el mensaje. <strong>Todo este proceso también se hace mediante SMTP</strong></li>
+<li><p>Cliente de correo (que supongamos que tiene el usuario «pepe») de un servidor de correo (por ejemplo «hotmail.es») y que quiere enviar un mensaje a otro usuario «john» que tiene su cuenta en «gmail.com». Esto significa que si «pepe» escribe un mensaje en su Outlook y quiere enviarlo a «<a class="reference external" href="mailto:john&#37;&#52;&#48;gmail&#46;com">john<span>&#64;</span>gmail<span>&#46;</span>com</a>» primero tiene que enviar el mensaje desde su ordenador a «hotmail.es» y pedirle que lo entregue. La subida del correo desde el ordenador de «pepe» a «hotmail.es» <strong>se hace mediante SMTP</strong>.</p></li>
+<li><p>Servidor de correo que quiere enviar mensaje a otro servidor. En el ejemplo anterior «hotmail.es» recibe un correo que debe entregar a su destinatario, pero como dicho destinatario está en otro servidor debe entregarlo a «gmail.com» que comprobará si tiene un usuario «john» y si es así recibirá el mensaje. <strong>Todo este proceso también se hace mediante SMTP</strong></p></li>
 </ul>
 <p>Ejemplo de base: supongamos que deseamos crear un programa Java que al ser lanzado permita enviar un mensaje con un fichero del cual nos dan la ruta y que en el cuerpo del mensaje indique el nombre del archivo. El programa debe ser capaz de enviar el email a varios destinatarios y debe ser capaz también de enviar varios adjuntos a la vez.</p>
 <div class="admonition warning">
-<p class="first admonition-title">Advertencia</p>
-<p class="last">Si utilizamos este código con un servidor público (GMail, Yahoo, Hotmail) debemos asegurarnos de que configuramos nuestra cuenta para permitir el acceso a aplicaciones desconocidas por dichos servidores. La forma de configurarlo varía de unos servicios a otros</p>
+<p class="admonition-title">Advertencia</p>
+<p>Si utilizamos este código con un servidor público (GMail, Yahoo, Hotmail) debemos asegurarnos de que configuramos nuestra cuenta para permitir el acceso a aplicaciones desconocidas por dichos servidores. La forma de configurarlo varía de unos servicios a otros</p>
 </div>
 <div class="admonition danger">
-<p class="first admonition-title">Peligro</p>
-<p class="last">Una vez activado el acceso a aplicaciones desconocidas GMail permitirá a nuestra aplicación enviar y recibir emails con nuestra cuenta de correo, pero existe el riesgo de que nuestra cuenta se marque como «generadora de spam». Se recomienda usar cuentas de prueba con estos programas.</p>
+<p class="admonition-title">Peligro</p>
+<p>Una vez activado el acceso a aplicaciones desconocidas GMail permitirá a nuestra aplicación enviar y recibir emails con nuestra cuenta de correo, pero existe el riesgo de que nuestra cuenta se marque como «generadora de spam». Se recomienda usar cuentas de prueba con estos programas.</p>
 </div>
 <div class="section" id="librerias-de-clases-y-componentes">
 <h3>Librerías de clases y componentes.<a class="headerlink" href="#librerias-de-clases-y-componentes" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Para crear este programa vamos a usar las siguientes bibliotecas de libre distribución:</p>
 <ul class="simple">
-<li>La biblioteca JavaMail. Curiosamente, no se distribuye con el JDK, sino que debe descargarse el JAR por separado.</li>
-<li>La biblioteca Apache Commons Email. Es una biblioteca de libre distribución que facilita el desarrollo de aplicaciones que necesiten enviar o recibir email.</li>
+<li><p>La biblioteca JavaMail. Curiosamente, no se distribuye con el JDK, sino que debe descargarse el JAR por separado.</p></li>
+<li><p>La biblioteca Apache Commons Email. Es una biblioteca de libre distribución que facilita el desarrollo de aplicaciones que necesiten enviar o recibir email.</p></li>
 </ul>
 </div>
 <div class="section" id="utilizacion-de-objetos-predefinidos">
 <h3>Utilización de objetos predefinidos.<a class="headerlink" href="#utilizacion-de-objetos-predefinidos" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>El objeto fundamental es la clase <code class="docutils literal notranslate"><span class="pre">Email</span></code>, proporcionado por Apache Commons Email. Esta clase no tiene propiedades de interés y no está orientada a eventos, sin embargo tiene algunos métodos interesantes que además son bastante autoexplicativos.</p>
 <ul class="simple">
-<li>El método <code class="docutils literal notranslate"><span class="pre">setHostname</span></code> permite configurar el servidor SMTP de nuestro proveedor de correo.</li>
-<li>El método <code class="docutils literal notranslate"><span class="pre">setSmtpPort</span></code> permite indicar el número de puerto en el que el servidor de correo escucha. Para conexiones SMTPS (SMTP seguro) el puerto es el 465.</li>
-<li>El método <code class="docutils literal notranslate"><span class="pre">setAuthenticator</span></code> permite indicar el objeto que se encargará de configurar la autenticación. Suele usar un objeto básico de la clase <code class="docutils literal notranslate"><span class="pre">DefaultAuthenticator</span></code>.</li>
-<li>El método <code class="docutils literal notranslate"><span class="pre">setSslOnConect</span></code> se usa para indicar si se establece una conexión SSL (o TLS) en el momento de conectar</li>
+<li><p>El método <code class="docutils literal notranslate"><span class="pre">setHostname</span></code> permite configurar el servidor SMTP de nuestro proveedor de correo.</p></li>
+<li><p>El método <code class="docutils literal notranslate"><span class="pre">setSmtpPort</span></code> permite indicar el número de puerto en el que el servidor de correo escucha. Para conexiones SMTPS (SMTP seguro) el puerto es el 465.</p></li>
+<li><p>El método <code class="docutils literal notranslate"><span class="pre">setAuthenticator</span></code> permite indicar el objeto que se encargará de configurar la autenticación. Suele usar un objeto básico de la clase <code class="docutils literal notranslate"><span class="pre">DefaultAuthenticator</span></code>.</p></li>
+<li><p>El método <code class="docutils literal notranslate"><span class="pre">setSslOnConect</span></code> se usa para indicar si se establece una conexión SSL (o TLS) en el momento de conectar</p></li>
 </ul>
 </div>
 <div class="section" id="establecimiento-y-finalizacion-de-conexiones">
@@ -227,14 +225,14 @@ Content-Length: 1221
 <h2>Programación de servidores.<a class="headerlink" href="#programacion-de-servidores" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Sabemos que un servidor es simplemente un programa. En concreto un programa que ofrece sus servicios a otros programas. Este concepto permite estructurar las aplicaciones utilizando un mecanismo que se conoce como «programación cliente/servidor». En estos programas <strong>se determina un protocolo de comunicaciones</strong> entre cliente y servidor y despues el cliente «pide» operaciones al servidor y este le devuelve resultados. Lo más interesante de este sistema que:</p>
 <ul class="simple">
-<li>El cliente y el servidor pueden estar en sitios distintos y comunicarse a través de protocolos de red.</li>
-<li>El cliente y el servidor <em>pueden estar programados en distintos lenguajes</em></li>
+<li><p>El cliente y el servidor pueden estar en sitios distintos y comunicarse a través de protocolos de red.</p></li>
+<li><p>El cliente y el servidor <em>pueden estar programados en distintos lenguajes</em></p></li>
 </ul>
 <p>Supongamos un servidor que ofrece operaciones de cálculo a cualquier programa cliente. Un protocolo de comunicaciones muy simple sería:</p>
 <ul class="simple">
-<li>Cuando el cliente se conecta al servidor envía una primera línea con uno de estos cuatro símbolos: + - * /</li>
-<li>Despues el cliente envía dos números, cada uno en una línea separada.</li>
-<li>Cuando el cliente haya enviado estas 3 líneas debe ponerse en modo de escucha y esperar que el servidor le devuelva un resultado que será un único número en una única línea.</li>
+<li><p>Cuando el cliente se conecta al servidor envía una primera línea con uno de estos cuatro símbolos: + - * /</p></li>
+<li><p>Despues el cliente envía dos números, cada uno en una línea separada.</p></li>
+<li><p>Cuando el cliente haya enviado estas 3 líneas debe ponerse en modo de escucha y esperar que el servidor le devuelva un resultado que será un único número en una única línea.</p></li>
 </ul>
 <p>Aunque para programas pequeños esto funciona perfectamente, existen estándares ya especificados que nos ayudan a construir aplicaciones. A continuación veremos algunos.</p>
 <div class="section" id="soap">
@@ -244,14 +242,14 @@ Content-Length: 1221
 <h3>WCF<a class="headerlink" href="#wcf" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>En el tutorial siguiente se explica como crear un servicio web muy básico que implemente algunas operaciones con cadenas. La construcción de un servicio WCF tiene dos operaciones básicas:</p>
 <ol class="arabic simple">
-<li>Establecer las operaciones que vamos a «ofrecer al exterior». Esto se hará con un <em>interfaz</em> que etiquetaremos con algunos atributos.</li>
-<li>Crear una clase que implemente el interfaz que hayamos decidido en el paso 1.</li>
+<li><p>Establecer las operaciones que vamos a «ofrecer al exterior». Esto se hará con un <em>interfaz</em> que etiquetaremos con algunos atributos.</p></li>
+<li><p>Crear una clase que implemente el interfaz que hayamos decidido en el paso 1.</p></li>
 </ol>
 <p>Así, por ejemplo, si consideramos que algunas operaciones muy complejas son «convertir una cadena en mayúsculas» e «invertir una cadena» definiremos un interfaz que tenga dos operaciones públicas que reciben una cadena y devuelven una cadena. Despues en el siguiente paso crearemos una clase que implemente ese interfaz.</p>
 <p>En primer lugar crearemos un proyecto en Visual Studio del tipo «Biblioteca de Servicios WCF» y crearemos un proyecto llamado ServicioCadenas. El editor creará dos ficheros, uno para el interfaz y otro para la implementación.</p>
 <div class="figure align-center" id="id1" style="width: 50%">
 <img alt="../_images/wcf1.png" src="../_images/wcf1.png" />
-<p class="caption"><span class="caption-text">Creación de un servicio web.</span></p>
+<p class="caption"><span class="caption-text">Creación de un servicio web.</span><a class="headerlink" href="#id1" title="Enlace permanente a esta imagen">¶</a></p>
 </div>
 <p>En el fichero de interfaz pondremos este código para definir el interfaz.</p>
 <div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
@@ -277,8 +275,8 @@ Content-Length: 1221
 </div>
 <p>Como puede verse hemos usado diversos atributos:</p>
 <ul class="simple">
-<li>El atributo <code class="docutils literal notranslate"><span class="pre">[ServiceContract]</span></code> indica que este interfaz <em>regula el contrato por el que se rige este servicio</em>. Se llama «contrato» al conjunto de operaciones y parámetros que un servidor ofrece.</li>
-<li>El atributo <code class="docutils literal notranslate"><span class="pre">[OperationContract]</span></code> indica que el método que hay a continuación es un método que se ofrece al exterior y por lo tanto los clientes podrán invocarlo y deberán hacerlo pasando los parámetros adecuados y deberán recoger un valor del tipo devuelto.</li>
+<li><p>El atributo <code class="docutils literal notranslate"><span class="pre">[ServiceContract]</span></code> indica que este interfaz <em>regula el contrato por el que se rige este servicio</em>. Se llama «contrato» al conjunto de operaciones y parámetros que un servidor ofrece.</p></li>
+<li><p>El atributo <code class="docutils literal notranslate"><span class="pre">[OperationContract]</span></code> indica que el método que hay a continuación es un método que se ofrece al exterior y por lo tanto los clientes podrán invocarlo y deberán hacerlo pasando los parámetros adecuados y deberán recoger un valor del tipo devuelto.</p></li>
 </ul>
 <p>El siguiente paso es <em>implementar el interfaz definido</em>, es decir añadir una clase que implemente esos métodos. En concreto ahora pondremos este código en el fichero de implementación  (por brevedad se han omitido las sentencias <code class="docutils literal notranslate"><span class="pre">using</span></code>):</p>
 <div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="nn">ServicioCadenas</span>
@@ -301,13 +299,13 @@ Content-Length: 1221
 </pre></div>
 </div>
 <div class="admonition warning">
-<p class="first admonition-title">Advertencia</p>
-<p class="last">Debe recordarse modificar el archivo App.config. Hemos cambiado el nombre de la clase y del interfaz así que deberemos asegurarnos de que los nuevos nombres aparezcan en dicho archivo.</p>
+<p class="admonition-title">Advertencia</p>
+<p>Debe recordarse modificar el archivo App.config. Hemos cambiado el nombre de la clase y del interfaz así que deberemos asegurarnos de que los nuevos nombres aparezcan en dicho archivo.</p>
 </div>
 <p>Con este código tan simple y el apoyo de Visual Studio (y las clases WCF) ya se dispone de un servicio. Para probarlo no hace falta implementar un cliente, sino que puede usarse el propio Visual Studio, que implementa una especie de cuadro de diálogo que permite hacer algunas pruebas. Si ejecutamos este código (usando el botón Iniciar o pulsando F5). Al hacerlo veremos esto:</p>
 <div class="figure align-center" id="id2" style="width: 50%">
 <img alt="../_images/wcf2.png" src="../_images/wcf2.png" />
-<p class="caption"><span class="caption-text">Probando el servicio web.</span></p>
+<p class="caption"><span class="caption-text">Probando el servicio web.</span><a class="headerlink" href="#id2" title="Enlace permanente a esta imagen">¶</a></p>
 </div>
 <p>Como puede verse en la figura, hemos elegido un método y hemos puesto algún valor en la cadena. Al invocar el servicio, el método se ejecuta correctamente y obtenemos el resultado esperado. Además, en la ventana podemos ver la referencia URL del servicio <strong>que podremos usar en otro ordenador por remoto que sea</strong></p>
 </div>
@@ -372,13 +370,11 @@ Content-Length: 1221
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Búsqueda rápida</h3>
+  <h3 id="searchlabel">Búsqueda rápida</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Ir a" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -399,7 +395,7 @@ Content-Length: 1221
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
