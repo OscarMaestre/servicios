@@ -3,7 +3,13 @@ Anexos diversos.
 
 Compartición de código entre proyectos Gradle de Netbeans
 ----------------------------------------------------------
+El proceso es sencillo:
 
+1. Localiza el archivo JAR que contiene las clases que quieres importar y aprovechar en tu proyecto. Probablemente la ruta sea algo como "c:\users\pepe\NetbeansProject\Proyecto\builds\libs\archivo.jar".
+2. Ve a tu proyecto Gradle de Netbeans y localiza el archivo ``build.gradle``.
+3. Dentro de ``build.gradle`` encuentra la sección ``dependencies`` y añade dentro esta línea ``implementation files(c:\\users\\pepe\\NetbeansProject\\Proyecto\\builds\\libs\\archivo.jar)
+
+Observa que en el último paso hemos duplicado la barra diagonal.
 
 Compartición de código entre proyectos Maven en Netbeans
 ------------------------------------------------------------

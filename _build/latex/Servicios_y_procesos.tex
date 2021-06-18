@@ -5130,6 +5130,22 @@ si ahora repetimos la ejecución de la aplicación pero ahora pulsamos el boton 
 
 \section{Compartición de código entre proyectos Gradle de Netbeans}
 \label{\detokenize{textos/anexos:comparticion-de-codigo-entre-proyectos-gradle-de-netbeans}}
+El proceso es sencillo:
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+Localiza el archivo JAR que contiene las clases que quieres importar y aprovechar en tu proyecto. Probablemente la ruta sea algo como «c:userspepeNetbeansProjectProyectobuildslibsarchivo.jar».
+
+\item {} 
+Ve a tu proyecto Gradle de Netbeans y localiza el archivo \sphinxcode{\sphinxupquote{build.gradle}}.
+
+\item {} 
+Dentro de \sphinxcode{\sphinxupquote{build.gradle}} encuentra la sección \sphinxcode{\sphinxupquote{dependencies}} y añade dentro esta línea {\color{red}\bfseries{}\textasciigrave{}\textasciigrave{}}implementation files(c:\textbackslash{}users\textbackslash{}pepe\textbackslash{}NetbeansProject\textbackslash{}Proyecto\textbackslash{}builds\textbackslash{}libs\textbackslash{}archivo.jar)
+
+\end{enumerate}
+
+Observa que en el último paso hemos duplicado la barra diagonal.
+
 
 \section{Compartición de código entre proyectos Maven en Netbeans}
 \label{\detokenize{textos/anexos:comparticion-de-codigo-entre-proyectos-maven-en-netbeans}}

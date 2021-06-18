@@ -154,9 +154,9 @@
 \contentsline {section}{\numberline {8.1}Compartición de código entre proyectos Gradle de Netbeans}{105}{section.8.1}%
 \contentsline {section}{\numberline {8.2}Compartición de código entre proyectos Maven en Netbeans}{105}{section.8.2}%
 \contentsline {section}{\numberline {8.3}La clase \sphinxstyleliteralintitle {\sphinxupquote {UtilidadesFicheros}}}{105}{section.8.3}%
-\contentsline {section}{\numberline {8.4}Solución al problema del simulador de Casino}{106}{section.8.4}%
+\contentsline {section}{\numberline {8.4}Solución al problema del simulador de Casino}{107}{section.8.4}%
 \contentsline {subsection}{\numberline {8.4.1}La clase Banca}{107}{subsection.8.4.1}%
-\contentsline {subsection}{\numberline {8.4.2}La clase Jugador}{109}{subsection.8.4.2}%
+\contentsline {subsection}{\numberline {8.4.2}La clase Jugador}{110}{subsection.8.4.2}%
 \contentsline {subsection}{\numberline {8.4.3}La clase JugadorClasico}{111}{subsection.8.4.3}%
 \contentsline {subsection}{\numberline {8.4.4}La clase JugadorParImpar}{112}{subsection.8.4.4}%
 \contentsline {subsection}{\numberline {8.4.5}La clase JugadorMartingala}{113}{subsection.8.4.5}%

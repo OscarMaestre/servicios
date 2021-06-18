@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.11.16)  18 JUN 2021 22:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.11.16)  18 JUN 2021 22:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1134,96 +1134,101 @@ LaTeX Info: Redefining \% on input line 5128.
 
 ]
 Cap\'{\i }tulo 8.
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 5143.
+
+
+Package textcomp Warning: Symbol \textasciigrave not provided by
+(textcomp)                font family ptm in TS1 encoding.
+(textcomp)                Default family used instead on input line 5143.
+
 [105]
-LaTeX Info: Redefining \. on input line 5222.
-LaTeX Info: Redefining \% on input line 5222.
+LaTeX Info: Redefining \. on input line 5225.
+LaTeX Info: Redefining \% on input line 5225.
  [106]
-Overfull \vbox (1.48352pt too high) detected at line 5373
- []
-
-LaTeX Info: Redefining \. on input line 5373.
-LaTeX Info: Redefining \% on input line 5373.
-[107]
-Underfull \vbox (badness 10000) detected at line 5373
+LaTeX Info: Redefining \. on input line 5389.
+LaTeX Info: Redefining \% on input line 5389.
+ [107]
+Underfull \vbox (badness 10000) detected at line 5389
  []
 
 
-Overfull \vbox (2.68169pt too high) detected at line 5373
+Overfull \vbox (2.68169pt too high) detected at line 5389
  []
 
-LaTeX Info: Redefining \. on input line 5373.
-LaTeX Info: Redefining \% on input line 5373.
+LaTeX Info: Redefining \. on input line 5389.
+LaTeX Info: Redefining \% on input line 5389.
 [108]
-Overfull \vbox (2.43936pt too high) detected at line 5466
+LaTeX Info: Redefining \. on input line 5392.
+LaTeX Info: Redefining \% on input line 5392.
+ [109]
+Underfull \vbox (badness 10000) detected at line 5482
  []
 
-LaTeX Info: Redefining \. on input line 5466.
-LaTeX Info: Redefining \% on input line 5466.
-[109]
-Underfull \vbox (badness 10000) detected at line 5466
- []
-
-
-Overfull \vbox (2.68169pt too high) detected at line 5466
- []
-
-LaTeX Info: Redefining \. on input line 5466.
-LaTeX Info: Redefining \% on input line 5466.
+LaTeX Info: Redefining \. on input line 5482.
+LaTeX Info: Redefining \% on input line 5482.
 [110]
-LaTeX Info: Redefining \. on input line 5513.
-LaTeX Info: Redefining \% on input line 5513.
- [111]
-Underfull \vbox (badness 10000) detected at line 5582
+Overfull \vbox (2.43936pt too high) detected at line 5526
  []
 
-LaTeX Info: Redefining \. on input line 5582.
-LaTeX Info: Redefining \% on input line 5582.
+LaTeX Info: Redefining \. on input line 5526.
+LaTeX Info: Redefining \% on input line 5526.
+[111]
+Overfull \vbox (2.43936pt too high) detected at line 5598
+ []
+
+LaTeX Info: Redefining \. on input line 5598.
+LaTeX Info: Redefining \% on input line 5598.
 [112]
-Overfull \vbox (2.43936pt too high) detected at line 5637
+Overfull \vbox (2.43936pt too high) detected at line 5653
  []
 
-LaTeX Info: Redefining \. on input line 5637.
-LaTeX Info: Redefining \% on input line 5637.
-[113] (./Servicios_y_procesos.ind)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 5643.
-LaTeX Info: Redefining \. on input line 5643.
-LaTeX Info: Redefining \% on input line 5643.
- [114]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 5643.
+LaTeX Info: Redefining \. on input line 5653.
+LaTeX Info: Redefining \% on input line 5653.
+[113]
+No file Servicios_y_procesos.ind.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 5659.
+LaTeX Info: Redefining \. on input line 5659.
+LaTeX Info: Redefining \% on input line 5659.
+[114]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 5659.
  (./Servicios_y_procesos.aux
 LaTeX Info: Redefining \. on input line 24.
 LaTeX Info: Redefining \% on input line 24.
 )
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 5643.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 5643.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 5659.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 5659.
 
 Package rerunfilecheck Info: File `Servicios_y_procesos.out' has not changed.
 (rerunfilecheck)             Checksum: 6D4E7FDF904BCEA47465B69764BC67D4;18904.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 5643.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 5659.
  ) 
 Here is how much of TeX's memory you used:
- 14459 strings out of 483048
- 206732 string characters out of 5962771
- 729085 words of memory out of 5000000
- 28802 multiletter control sequences out of 15000+600000
- 591836 words of font info for 94 fonts, out of 8000000 for 9000
+ 14466 strings out of 483048
+ 206779 string characters out of 5962771
+ 730444 words of memory out of 5000000
+ 28805 multiletter control sequences out of 15000+600000
+ 592952 words of font info for 96 fonts, out of 8000000 for 9000
  86 hyphenation exceptions out of 8191
  38i,12n,51p,1181b,733s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/urw/courier/ucrb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
-w/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucr
-ro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/share/te
-xlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utm
-ri8a.pfb>
-Output written on Servicios_y_procesos.pdf (120 pages, 610016 bytes).
+ </home/usuario/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrb1000.6
+00pk>{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/
+ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/
+utmri8a.pfb>
+Output written on Servicios_y_procesos.pdf (120 pages, 610846 bytes).
 PDF statistics:
- 1241 PDF objects out of 1440 (max. 8388607)
- 1082 compressed objects within 11 object streams
- 335 named destinations out of 1000 (max. 500000)
+ 1250 PDF objects out of 1440 (max. 8388607)
+ 1090 compressed objects within 11 object streams
+ 338 named destinations out of 1000 (max. 500000)
  805 words of extra memory for PDF output out of 10000 (max. 10000000)
 

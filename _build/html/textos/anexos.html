@@ -37,6 +37,13 @@
 <h1>Anexos diversos.<a class="headerlink" href="#anexos-diversos" title="Enlazar permanentemente con este título">¶</a></h1>
 <div class="section" id="comparticion-de-codigo-entre-proyectos-gradle-de-netbeans">
 <h2>Compartición de código entre proyectos Gradle de Netbeans<a class="headerlink" href="#comparticion-de-codigo-entre-proyectos-gradle-de-netbeans" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>El proceso es sencillo:</p>
+<ol class="arabic simple">
+<li><p>Localiza el archivo JAR que contiene las clases que quieres importar y aprovechar en tu proyecto. Probablemente la ruta sea algo como «c:userspepeNetbeansProjectProyectobuildslibsarchivo.jar».</p></li>
+<li><p>Ve a tu proyecto Gradle de Netbeans y localiza el archivo <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code>.</p></li>
+<li><p>Dentro de <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> encuentra la sección <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> y añade dentro esta línea <a href="#id1"><span class="problematic" id="id2">``</span></a>implementation files(c:\users\pepe\NetbeansProject\Proyecto\builds\libs\archivo.jar)</p></li>
+</ol>
+<p>Observa que en el último paso hemos duplicado la barra diagonal.</p>
 </div>
 <div class="section" id="comparticion-de-codigo-entre-proyectos-maven-en-netbeans">
 <h2>Compartición de código entre proyectos Maven en Netbeans<a class="headerlink" href="#comparticion-de-codigo-entre-proyectos-maven-en-netbeans" title="Enlazar permanentemente con este título">¶</a></h2>
