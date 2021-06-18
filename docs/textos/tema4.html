@@ -1,18 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<html lang="es">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Generación de servicios en red &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
     <link rel="search" title="Búsqueda" href="../search.html" />
     <link rel="next" title="Utilización de técnicas de programación segura" href="tema5.html" />
@@ -134,89 +135,89 @@ Content-Length: 1221
 <span class="cm">para que encuentre correctamente dichas bibliotecas.</span>
 <span class="cm">Puedes encontrar el JAR en https://commons.apache.org/email/</span>
 <span class="cm">*/</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RemitenteCorreo</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="n">String</span>          <span class="n">servidorSMTP</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">String</span>          <span class="n">usuarioRemitente</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">String</span>          <span class="n">claveRemitente</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">MultiPartEmail</span>  <span class="n">email</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RemitenteCorreo</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="n">String</span>          <span class="n">servidorSMTP</span><span class="p">;</span>
+    <span class="kd">private</span> <span class="n">String</span>          <span class="n">usuarioRemitente</span><span class="p">;</span>
+    <span class="kd">private</span> <span class="n">String</span>          <span class="n">claveRemitente</span><span class="p">;</span>
+    <span class="kd">private</span> <span class="n">MultiPartEmail</span>  <span class="n">email</span><span class="p">;</span>
 
-    <span class="kd">public</span> <span class="nf">RemitenteCorreo</span><span class="o">(</span><span class="n">String</span> <span class="n">servidorSMTP</span><span class="o">,</span>
-            <span class="n">String</span> <span class="n">usuarioRemitente</span><span class="o">,</span> <span class="n">String</span> <span class="n">claveRemitente</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">servidorSMTP</span>       <span class="o">=</span>   <span class="n">servidorSMTP</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">usuarioRemitente</span>   <span class="o">=</span>   <span class="n">usuarioRemitente</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">claveRemitente</span>     <span class="o">=</span>   <span class="n">claveRemitente</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">email</span>              <span class="o">=</span>   <span class="kc">null</span><span class="o">;</span>
-    <span class="o">}</span> <span class="c1">//Fin del constructor</span>
+    <span class="kd">public</span> <span class="nf">RemitenteCorreo</span><span class="p">(</span><span class="n">String</span> <span class="n">servidorSMTP</span><span class="p">,</span>
+            <span class="n">String</span> <span class="n">usuarioRemitente</span><span class="p">,</span> <span class="n">String</span> <span class="n">claveRemitente</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">servidorSMTP</span>       <span class="o">=</span>   <span class="n">servidorSMTP</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">usuarioRemitente</span>   <span class="o">=</span>   <span class="n">usuarioRemitente</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">claveRemitente</span>     <span class="o">=</span>   <span class="n">claveRemitente</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">email</span>              <span class="o">=</span>   <span class="kc">null</span><span class="p">;</span>
+    <span class="p">}</span> <span class="c1">//Fin del constructor</span>
 
     <span class="c1">//Método usado solo en el interior de la clase</span>
-    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">iniciarConexionEmail</span><span class="o">(){</span>
-        <span class="n">email</span><span class="o">=</span><span class="k">new</span> <span class="n">MultiPartEmail</span><span class="o">();</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">iniciarConexionEmail</span><span class="p">(){</span>
+        <span class="n">email</span><span class="o">=</span><span class="k">new</span> <span class="n">MultiPartEmail</span><span class="p">();</span>
         <span class="cm">/*Se indica el servidor del remitente*/</span>
-        <span class="n">email</span><span class="o">.</span><span class="na">setHostName</span><span class="o">(</span><span class="n">servidorSMTP</span><span class="o">);</span>
+        <span class="n">email</span><span class="p">.</span><span class="na">setHostName</span><span class="p">(</span><span class="n">servidorSMTP</span><span class="p">);</span>
         <span class="cm">/*Habitualmente el puerto 465 se usa para SMTPS,</span>
 <span class="cm">        en el que la encriptación se inicia antes de enviar nada*/</span>
-        <span class="n">email</span><span class="o">.</span><span class="na">setSmtpPort</span><span class="o">(</span><span class="mi">465</span><span class="o">);</span>
+        <span class="n">email</span><span class="p">.</span><span class="na">setSmtpPort</span><span class="p">(</span><span class="mi">465</span><span class="p">);</span>
 
         <span class="cm">/*Se configura la autenticación*/</span>
-        <span class="n">DefaultAuthenticator</span> <span class="n">sistemaAutenticacion</span><span class="o">;</span>
-        <span class="n">sistemaAutenticacion</span><span class="o">=</span><span class="k">new</span> <span class="n">DefaultAuthenticator</span><span class="o">(</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">usuarioRemitente</span><span class="o">,</span>
-                <span class="k">this</span><span class="o">.</span><span class="na">claveRemitente</span> <span class="o">);</span>
-        <span class="n">email</span><span class="o">.</span><span class="na">setAuthenticator</span><span class="o">(</span><span class="n">sistemaAutenticacion</span><span class="o">);</span>
+        <span class="n">DefaultAuthenticator</span> <span class="n">sistemaAutenticacion</span><span class="p">;</span>
+        <span class="n">sistemaAutenticacion</span><span class="o">=</span><span class="k">new</span> <span class="n">DefaultAuthenticator</span><span class="p">(</span>
+                <span class="k">this</span><span class="p">.</span><span class="na">usuarioRemitente</span><span class="p">,</span>
+                <span class="k">this</span><span class="p">.</span><span class="na">claveRemitente</span> <span class="p">);</span>
+        <span class="n">email</span><span class="p">.</span><span class="na">setAuthenticator</span><span class="p">(</span><span class="n">sistemaAutenticacion</span><span class="p">);</span>
 
         <span class="cm">/*Se indica que vamos a usar el cifrado</span>
 <span class="cm">        al inicio de la conexión    */</span>
-        <span class="n">email</span><span class="o">.</span><span class="na">setSSLOnConnect</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-    <span class="o">}</span>
+        <span class="n">email</span><span class="p">.</span><span class="na">setSSLOnConnect</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+    <span class="p">}</span>
 
-    <span class="kd">private</span>  <span class="kt">void</span> <span class="nf">configurarParametrosBasicos</span> <span class="o">(</span>
-        <span class="n">String</span> <span class="n">asunto</span><span class="o">,</span> <span class="n">String</span> <span class="n">textoEmail</span><span class="o">,</span> <span class="n">String</span> <span class="n">destinatario</span><span class="o">,</span>
-            <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosCC</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosBCC</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">EmailException</span>
-    <span class="o">{</span>
+    <span class="kd">private</span>  <span class="kt">void</span> <span class="nf">configurarParametrosBasicos</span> <span class="p">(</span>
+        <span class="n">String</span> <span class="n">asunto</span><span class="p">,</span> <span class="n">String</span> <span class="n">textoEmail</span><span class="p">,</span> <span class="n">String</span> <span class="n">destinatario</span><span class="p">,</span>
+            <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosCC</span><span class="p">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosBCC</span><span class="p">)</span> <span class="kd">throws</span> <span class="n">EmailException</span>
+    <span class="p">{</span>
         <span class="cm">/*Se indica el asunto*/</span>
-        <span class="n">email</span><span class="o">.</span><span class="na">setSubject</span><span class="o">(</span><span class="n">asunto</span><span class="o">);</span>
+        <span class="n">email</span><span class="p">.</span><span class="na">setSubject</span><span class="p">(</span><span class="n">asunto</span><span class="p">);</span>
         <span class="cm">/*Se indica el remitente*/</span>
-        <span class="n">email</span><span class="o">.</span><span class="na">setFrom</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">usuarioRemitente</span><span class="o">+</span><span class="s">&quot;@&quot;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="na">servidorSMTP</span><span class="o">);</span>
+        <span class="n">email</span><span class="p">.</span><span class="na">setFrom</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="na">usuarioRemitente</span><span class="o">+</span><span class="s">&quot;@&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="na">servidorSMTP</span><span class="p">);</span>
         <span class="cm">/*Se pasa el texto*/</span>
-        <span class="n">email</span><span class="o">.</span><span class="na">setMsg</span><span class="o">(</span><span class="n">textoEmail</span><span class="o">);</span>
+        <span class="n">email</span><span class="p">.</span><span class="na">setMsg</span><span class="p">(</span><span class="n">textoEmail</span><span class="p">);</span>
         <span class="cm">/*Se configura el destinatario principal*/</span>
-        <span class="n">email</span><span class="o">.</span><span class="na">addTo</span><span class="o">(</span><span class="n">destinatario</span><span class="o">);</span>
+        <span class="n">email</span><span class="p">.</span><span class="na">addTo</span><span class="p">(</span><span class="n">destinatario</span><span class="p">);</span>
         <span class="cm">/*Y se configuran otros posibles destinatarios*/</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">destinatariosCC</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
-            <span class="n">email</span><span class="o">.</span><span class="na">addCc</span><span class="o">(</span><span class="n">destinatariosCC</span><span class="o">);</span>
-        <span class="o">}</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">destinatariosBCC</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
-            <span class="n">email</span><span class="o">.</span><span class="na">addBcc</span><span class="o">(</span><span class="n">destinatariosBCC</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">enviarMensaje</span><span class="o">(</span><span class="n">String</span> <span class="n">asunto</span><span class="o">,</span> <span class="n">String</span> <span class="n">textoEmail</span><span class="o">,</span> <span class="n">String</span> <span class="n">destinatario</span><span class="o">,</span>
-            <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosCC</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosBCC</span><span class="o">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">destinatariosCC</span><span class="o">!=</span><span class="kc">null</span><span class="p">){</span>
+            <span class="n">email</span><span class="p">.</span><span class="na">addCc</span><span class="p">(</span><span class="n">destinatariosCC</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">destinatariosBCC</span><span class="o">!=</span><span class="kc">null</span><span class="p">){</span>
+            <span class="n">email</span><span class="p">.</span><span class="na">addBcc</span><span class="p">(</span><span class="n">destinatariosBCC</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">enviarMensaje</span><span class="p">(</span><span class="n">String</span> <span class="n">asunto</span><span class="p">,</span> <span class="n">String</span> <span class="n">textoEmail</span><span class="p">,</span> <span class="n">String</span> <span class="n">destinatario</span><span class="p">,</span>
+            <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosCC</span><span class="p">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosBCC</span><span class="p">)</span>
             <span class="kd">throws</span> <span class="n">EmailException</span>
-    <span class="o">{</span>
-        <span class="n">iniciarConexionEmail</span><span class="o">();</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">configurarParametrosBasicos</span><span class="o">(</span><span class="n">asunto</span><span class="o">,</span> <span class="n">textoEmail</span><span class="o">,</span>
-                <span class="n">destinatario</span><span class="o">,</span> <span class="n">destinatariosCC</span><span class="o">,</span> <span class="n">destinatariosBCC</span><span class="o">);</span>
-        <span class="n">email</span><span class="o">.</span><span class="na">send</span><span class="o">();</span>
-    <span class="o">}</span>
+    <span class="p">{</span>
+        <span class="n">iniciarConexionEmail</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">configurarParametrosBasicos</span><span class="p">(</span><span class="n">asunto</span><span class="p">,</span> <span class="n">textoEmail</span><span class="p">,</span>
+                <span class="n">destinatario</span><span class="p">,</span> <span class="n">destinatariosCC</span><span class="p">,</span> <span class="n">destinatariosBCC</span><span class="p">);</span>
+        <span class="n">email</span><span class="p">.</span><span class="na">send</span><span class="p">();</span>
+    <span class="p">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">enviarMensajeConAdjuntos</span><span class="o">(</span><span class="n">String</span> <span class="n">asunto</span><span class="o">,</span> <span class="n">String</span> <span class="n">textoEmail</span><span class="o">,</span> <span class="n">String</span> <span class="n">destinatario</span><span class="o">,</span>
-            <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosCC</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosBCC</span><span class="o">,</span>
-            <span class="n">String</span><span class="o">[]</span> <span class="n">listaRutasArchivo</span><span class="o">)</span>
-            <span class="kd">throws</span> <span class="n">EmailException</span><span class="o">,</span> <span class="n">FileNotFoundException</span>
-    <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">enviarMensajeConAdjuntos</span><span class="p">(</span><span class="n">String</span> <span class="n">asunto</span><span class="p">,</span> <span class="n">String</span> <span class="n">textoEmail</span><span class="p">,</span> <span class="n">String</span> <span class="n">destinatario</span><span class="p">,</span>
+            <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosCC</span><span class="p">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">destinatariosBCC</span><span class="p">,</span>
+            <span class="n">String</span><span class="o">[]</span> <span class="n">listaRutasArchivo</span><span class="p">)</span>
+            <span class="kd">throws</span> <span class="n">EmailException</span><span class="p">,</span> <span class="n">FileNotFoundException</span>
+    <span class="p">{</span>
         <span class="cm">/*Se configura lo basico*/</span>
-        <span class="n">iniciarConexionEmail</span><span class="o">();</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">configurarParametrosBasicos</span><span class="o">(</span><span class="n">asunto</span><span class="o">,</span> <span class="n">textoEmail</span><span class="o">,</span>
-                <span class="n">destinatario</span><span class="o">,</span> <span class="n">destinatariosCC</span><span class="o">,</span> <span class="n">destinatariosBCC</span><span class="o">);</span>
+        <span class="n">iniciarConexionEmail</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">configurarParametrosBasicos</span><span class="p">(</span><span class="n">asunto</span><span class="p">,</span> <span class="n">textoEmail</span><span class="p">,</span>
+                <span class="n">destinatario</span><span class="p">,</span> <span class="n">destinatariosCC</span><span class="p">,</span> <span class="n">destinatariosBCC</span><span class="p">);</span>
         <span class="cm">/*Y añadimos los adjuntos*/</span>
-        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">ruta</span> <span class="o">:</span> <span class="n">listaRutasArchivo</span><span class="o">){</span>
-            <span class="n">File</span> <span class="n">fichero</span><span class="o">=</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">ruta</span><span class="o">);</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">email</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="n">fichero</span><span class="o">);</span>
-        <span class="o">}</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">String</span> <span class="n">ruta</span> <span class="p">:</span> <span class="n">listaRutasArchivo</span><span class="p">){</span>
+            <span class="n">File</span> <span class="n">fichero</span><span class="o">=</span><span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="n">ruta</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="na">email</span><span class="p">.</span><span class="na">attach</span><span class="p">(</span><span class="n">fichero</span><span class="p">);</span>
+        <span class="p">}</span>
         <span class="c1">// Y se envía el mensaje</span>
-        <span class="n">email</span><span class="o">.</span><span class="na">send</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+        <span class="n">email</span><span class="p">.</span><span class="na">send</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -356,6 +357,7 @@ Content-Length: 1221
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tema5.html">Utilización de técnicas de programación segura</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tema6.html">Servicios web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="anexo_hilos_con_swing.html">Anexo: hilos con Swing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="anexos.html">Anexos diversos.</a></li>
 </ul>
 
@@ -377,7 +379,7 @@ Content-Length: 1221
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -394,7 +396,7 @@ Content-Length: 1221
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

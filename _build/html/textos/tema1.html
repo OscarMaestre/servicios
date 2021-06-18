@@ -1,20 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<html lang="es">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Programación multiproceso &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/translations.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/translations.js"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
     <link rel="search" title="Búsqueda" href="../search.html" />
     <link rel="next" title="Programación multihilo" href="tema2.html" />
@@ -53,10 +52,10 @@
 <h3>Procesos<a class="headerlink" href="#procesos" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Es un archivo que está en ejecución y bajo el control del sistema operativo. Un proceso puede atravesar diversas etapas en su «ciclo de vida». Los estados en los que puede estar son:</p>
 <ul class="simple">
-<li>En ejecución: está dentro del microprocesador.</li>
-<li>Pausado/detenido/en espera: el proceso tiene que seguir en ejecución pero en ese momento el S.O tomó la decisión de dejar paso a otro.</li>
-<li>Interrumpido: el proceso tiene que seguir en ejecución pero <em>el usuario</em> ha decidido interrumpir la ejecución.</li>
-<li>Existen otros estados pero ya son muy dependientes del sistema operativo concreto.</li>
+<li><p>En ejecución: está dentro del microprocesador.</p></li>
+<li><p>Pausado/detenido/en espera: el proceso tiene que seguir en ejecución pero en ese momento el S.O tomó la decisión de dejar paso a otro.</p></li>
+<li><p>Interrumpido: el proceso tiene que seguir en ejecución pero <em>el usuario</em> ha decidido interrumpir la ejecución.</p></li>
+<li><p>Existen otros estados pero ya son muy dependientes del sistema operativo concreto.</p></li>
 </ul>
 </div>
 <div class="section" id="servicios">
@@ -79,39 +78,39 @@
 <h2>Programación paralela y distribuida.<a class="headerlink" href="#programacion-paralela-y-distribuida" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Dentro de la programación concurrente tenemos la paralela y la distribuida:</p>
 <ul class="simple">
-<li>En general se denomina «programación paralela» a la creación de software que se ejecuta siempre en un solo ordenador (con varios núcleos o no)</li>
-<li>Se denomina «programación distribuida» a la creación de software que se ejecuta en ordenadores distintos y que se comunican a través de una red.</li>
+<li><p>En general se denomina «programación paralela» a la creación de software que se ejecuta siempre en un solo ordenador (con varios núcleos o no)</p></li>
+<li><p>Se denomina «programación distribuida» a la creación de software que se ejecuta en ordenadores distintos y que se comunican a través de una red.</p></li>
 </ul>
 </div>
 <div class="section" id="creacion-de-procesos">
 <h2>Creación de procesos.<a class="headerlink" href="#creacion-de-procesos" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>En Java es posible crear procesos utilizando algunas clases que el entorno ofrece para esta tarea. En este tema, veremos en profundidad la clase ProcessBuilder.</p>
 <p>El ejemplo siguiente muestra como lanzar un proceso de Acrobat Reader:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LanzadorProcesos</span> <span class="o">{</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">ejecutar</span><span class="o">(</span><span class="n">String</span> <span class="n">ruta</span><span class="o">){</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LanzadorProcesos</span> <span class="p">{</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">ejecutar</span><span class="p">(</span><span class="n">String</span> <span class="n">ruta</span><span class="p">){</span>
 
-                <span class="n">ProcessBuilder</span> <span class="n">pb</span><span class="o">;</span>
-                <span class="k">try</span> <span class="o">{</span>
-                        <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">(</span><span class="n">ruta</span><span class="o">);</span>
-                        <span class="n">pb</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">ProcessBuilder</span> <span class="n">pb</span><span class="p">;</span>
+                <span class="k">try</span> <span class="p">{</span>
+                        <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="p">(</span><span class="n">ruta</span><span class="p">);</span>
+                        <span class="n">pb</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+                <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
                         <span class="c1">// TODO Auto-generated catch block</span>
-                        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-                <span class="o">}</span>
+                        <span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+                <span class="p">}</span>
 
-        <span class="o">}</span>
+        <span class="p">}</span>
         <span class="cm">/**</span>
 <span class="cm">         * @param args</span>
 <span class="cm">         */</span>
-        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
                 <span class="n">String</span> <span class="n">ruta</span><span class="o">=</span>
-                        <span class="s">&quot;C:\\Program Files (x86)\\Adobe\\Reader 11.0\\Reader\\AcroRd32.exe&quot;</span><span class="o">;</span>
-                <span class="n">LanzadorProcesos</span> <span class="n">lp</span><span class="o">=</span><span class="k">new</span> <span class="n">LanzadorProcesos</span><span class="o">();</span>
-                <span class="n">lp</span><span class="o">.</span><span class="na">ejecutar</span><span class="o">(</span><span class="n">ruta</span><span class="o">);</span>
-                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Finalizado&quot;</span><span class="o">);</span>
-        <span class="o">}</span>
+                        <span class="s">&quot;C:\\Program Files (x86)\\Adobe\\Reader 11.0\\Reader\\AcroRd32.exe&quot;</span><span class="p">;</span>
+                <span class="n">LanzadorProcesos</span> <span class="n">lp</span><span class="o">=</span><span class="k">new</span> <span class="n">LanzadorProcesos</span><span class="p">();</span>
+                <span class="n">lp</span><span class="p">.</span><span class="na">ejecutar</span><span class="p">(</span><span class="n">ruta</span><span class="p">);</span>
+                <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Finalizado&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
 
-<span class="o">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Supongamos que necesitamos crear un programa que aproveche al máximo el número de CPUs para realizar alguna tarea intensiva. Supongamos que dicha tarea consiste en sumar números.</p>
@@ -119,69 +118,69 @@
 <p>Para resolverlo crearemos una clase <code class="docutils literal notranslate"><span class="pre">Sumador</span></code> que tenga un método que acepte dos números <code class="docutils literal notranslate"><span class="pre">n1</span></code> y <code class="docutils literal notranslate"><span class="pre">n2</span></code> y que devuelva la suma de todo el intervalor.</p>
 <p>Además, incluiremos un método <code class="docutils literal notranslate"><span class="pre">main</span></code> que ejecute la operación de suma tomando los números de la línea de comandos (es decir, se pasan como argumentos al main).</p>
 <p>El código de dicha clase podría ser algo así:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.ies</span><span class="o">;</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.ies</span><span class="p">;</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sumador</span> <span class="o">{</span>
-        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">sumar</span><span class="o">(</span><span class="kt">int</span> <span class="n">n1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">n2</span><span class="o">){</span>
-                <span class="kt">int</span> <span class="n">resultado</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">n1</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n2</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
-                        <span class="n">resultado</span><span class="o">=</span><span class="n">resultado</span><span class="o">+</span><span class="n">i</span><span class="o">;</span>
-                <span class="o">}</span>
-                <span class="k">return</span> <span class="n">resultado</span><span class="o">;</span>
-        <span class="o">}</span>
-        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
-                <span class="n">Sumador</span> <span class="n">s</span><span class="o">=</span><span class="k">new</span> <span class="n">Sumador</span><span class="o">();</span>
-                <span class="kt">int</span> <span class="n">n1</span><span class="o">=</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
-                <span class="kt">int</span> <span class="n">n2</span><span class="o">=</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
-                <span class="kt">int</span> <span class="n">resultado</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="na">sumar</span><span class="o">(</span><span class="n">n1</span><span class="o">,</span> <span class="n">n2</span><span class="o">);</span>
-                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">resultado</span><span class="o">);</span>
-        <span class="o">}</span>
-<span class="o">}</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sumador</span> <span class="p">{</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">sumar</span><span class="p">(</span><span class="kt">int</span> <span class="n">n1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n2</span><span class="p">){</span>
+                <span class="kt">int</span> <span class="n">resultado</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">n1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n2</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+                        <span class="n">resultado</span><span class="o">=</span><span class="n">resultado</span><span class="o">+</span><span class="n">i</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">resultado</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">){</span>
+                <span class="n">Sumador</span> <span class="n">s</span><span class="o">=</span><span class="k">new</span> <span class="n">Sumador</span><span class="p">();</span>
+                <span class="kt">int</span> <span class="n">n1</span><span class="o">=</span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">);</span>
+                <span class="kt">int</span> <span class="n">n2</span><span class="o">=</span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">);</span>
+                <span class="kt">int</span> <span class="n">resultado</span><span class="o">=</span><span class="n">s</span><span class="p">.</span><span class="na">sumar</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">);</span>
+                <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">resultado</span><span class="p">);</span>
+        <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Para ejecutar este programa desde dentro de Eclipse es necesario indicar que deseamos enviar <em>argumentos</em> al programa. Por ejemplo, si deseamos sumar los números del 2 al 10, deberemos ir a la venta «Run configuration» y en la pestaña «Arguments» indicar los argumentos (que en este caso son los dos números a indicar).</p>
 <div class="figure align-center" id="id1" style="width: 50%">
 <img alt="../_images/configuraciones.png" src="../_images/configuraciones.png" />
-<p class="caption"><span class="caption-text">Modificando los argumentos del programa</span></p>
+<p class="caption"><span class="caption-text">Modificando los argumentos del programa</span><a class="headerlink" href="#id1" title="Enlace permanente a esta imagen">¶</a></p>
 </div>
 <p>Una vez hecha la prueba de la clase sumador, le quitamos el main, y crearemos una clase que sea capaz de lanzar varios procesos. La clase <code class="docutils literal notranslate"><span class="pre">Sumador</span></code> se quedará así:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sumador</span> <span class="o">{</span>
-        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">sumar</span><span class="o">(</span><span class="kt">int</span> <span class="n">n1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">n2</span><span class="o">){</span>
-                <span class="kt">int</span> <span class="n">resultado</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">n1</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n2</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
-                        <span class="n">resultado</span><span class="o">=</span><span class="n">resultado</span><span class="o">+</span><span class="n">i</span><span class="o">;</span>
-                <span class="o">}</span>
-                <span class="k">return</span> <span class="n">resultado</span><span class="o">;</span>
-        <span class="o">}</span>
-<span class="o">}</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sumador</span> <span class="p">{</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">sumar</span><span class="p">(</span><span class="kt">int</span> <span class="n">n1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n2</span><span class="p">){</span>
+                <span class="kt">int</span> <span class="n">resultado</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">n1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n2</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+                        <span class="n">resultado</span><span class="o">=</span><span class="n">resultado</span><span class="o">+</span><span class="n">i</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">resultado</span><span class="p">;</span>
+        <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Y ahora tendremos una clase que lanza procesos de esta forma:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.ies</span><span class="o">;</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">com.ies</span><span class="p">;</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">lanzarSumador</span><span class="o">(</span><span class="n">Integer</span> <span class="n">n1</span><span class="o">,</span>
-                        <span class="n">Integer</span> <span class="n">n2</span><span class="o">){</span>
-                <span class="n">String</span> <span class="n">clase</span><span class="o">=</span><span class="s">&quot;com.ies.Sumador&quot;</span><span class="o">;</span>
-                <span class="n">ProcessBuilder</span> <span class="n">pb</span><span class="o">;</span>
-                <span class="k">try</span> <span class="o">{</span>
-                        <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">(</span>
-                                        <span class="s">&quot;java&quot;</span><span class="o">,</span><span class="n">clase</span><span class="o">,</span>
-                                        <span class="n">n1</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span>
-                                        <span class="n">n2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
-                        <span class="n">pb</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="p">{</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">lanzarSumador</span><span class="p">(</span><span class="n">Integer</span> <span class="n">n1</span><span class="p">,</span>
+                        <span class="n">Integer</span> <span class="n">n2</span><span class="p">){</span>
+                <span class="n">String</span> <span class="n">clase</span><span class="o">=</span><span class="s">&quot;com.ies.Sumador&quot;</span><span class="p">;</span>
+                <span class="n">ProcessBuilder</span> <span class="n">pb</span><span class="p">;</span>
+                <span class="k">try</span> <span class="p">{</span>
+                        <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="p">(</span>
+                                        <span class="s">&quot;java&quot;</span><span class="p">,</span><span class="n">clase</span><span class="p">,</span>
+                                        <span class="n">n1</span><span class="p">.</span><span class="na">toString</span><span class="p">(),</span>
+                                        <span class="n">n2</span><span class="p">.</span><span class="na">toString</span><span class="p">());</span>
+                        <span class="n">pb</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+                <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
                         <span class="c1">// TODO Auto-generated catch block</span>
-                        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-                <span class="o">}</span>
-        <span class="o">}</span>
-        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
-                <span class="n">Lanzador</span> <span class="n">l</span><span class="o">=</span><span class="k">new</span> <span class="n">Lanzador</span><span class="o">();</span>
-                <span class="n">l</span><span class="o">.</span><span class="na">lanzarSumador</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">51</span><span class="o">);</span>
-                <span class="n">l</span><span class="o">.</span><span class="na">lanzarSumador</span><span class="o">(</span><span class="mi">51</span><span class="o">,</span> <span class="mi">100</span><span class="o">);</span>
-                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Ok&quot;</span><span class="o">);</span>
-        <span class="o">}</span>
-<span class="o">}</span>
+                        <span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+                <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">){</span>
+                <span class="n">Lanzador</span> <span class="n">l</span><span class="o">=</span><span class="k">new</span> <span class="n">Lanzador</span><span class="p">();</span>
+                <span class="n">l</span><span class="p">.</span><span class="na">lanzarSumador</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">51</span><span class="p">);</span>
+                <span class="n">l</span><span class="p">.</span><span class="na">lanzarSumador</span><span class="p">(</span><span class="mi">51</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+                <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Ok&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -189,32 +188,32 @@
 <h2>Comunicación entre procesos.<a class="headerlink" href="#comunicacion-entre-procesos" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Las operaciones multiproceso pueden implicar que sea necesario comunicar información entre muchos procesos, lo que obliga a la necesidad de utilizar mecanismos específicos de comunicación que ofrecerá Java o a diseñar alguno separado que evite los problemas que puedan aparecer.</p>
 <p>En el ejemplo, el segundo proceso suele sobreescribir el resultado del primero, así que modificaremos el código del lanzador para que cada proceso use su propio fichero de resultados.</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="o">{</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">lanzarSumador</span><span class="o">(</span><span class="n">Integer</span> <span class="n">n1</span><span class="o">,</span>
-                        <span class="n">Integer</span> <span class="n">n2</span><span class="o">,</span> <span class="n">String</span> <span class="n">fichResultado</span><span class="o">){</span>
-                <span class="n">String</span> <span class="n">clase</span><span class="o">=</span><span class="s">&quot;com.ies.Sumador&quot;</span><span class="o">;</span>
-                <span class="n">ProcessBuilder</span> <span class="n">pb</span><span class="o">;</span>
-                <span class="k">try</span> <span class="o">{</span>
-                        <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">(</span>
-                                        <span class="s">&quot;java&quot;</span><span class="o">,</span><span class="n">clase</span><span class="o">,</span>
-                                        <span class="n">n1</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span>
-                                        <span class="n">n2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lanzador</span> <span class="p">{</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">lanzarSumador</span><span class="p">(</span><span class="n">Integer</span> <span class="n">n1</span><span class="p">,</span>
+                        <span class="n">Integer</span> <span class="n">n2</span><span class="p">,</span> <span class="n">String</span> <span class="n">fichResultado</span><span class="p">){</span>
+                <span class="n">String</span> <span class="n">clase</span><span class="o">=</span><span class="s">&quot;com.ies.Sumador&quot;</span><span class="p">;</span>
+                <span class="n">ProcessBuilder</span> <span class="n">pb</span><span class="p">;</span>
+                <span class="k">try</span> <span class="p">{</span>
+                        <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="p">(</span>
+                                        <span class="s">&quot;java&quot;</span><span class="p">,</span><span class="n">clase</span><span class="p">,</span>
+                                        <span class="n">n1</span><span class="p">.</span><span class="na">toString</span><span class="p">(),</span>
+                                        <span class="n">n2</span><span class="p">.</span><span class="na">toString</span><span class="p">());</span>
 
-                        <span class="n">pb</span><span class="o">.</span><span class="na">redirectError</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;errores.txt&quot;</span><span class="o">));</span>
-                        <span class="n">pb</span><span class="o">.</span><span class="na">redirectOutput</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">fichResultado</span><span class="o">));</span>
-                        <span class="n">pb</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">pb</span><span class="p">.</span><span class="na">redirectError</span><span class="p">(</span><span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">&quot;errores.txt&quot;</span><span class="p">));</span>
+                        <span class="n">pb</span><span class="p">.</span><span class="na">redirectOutput</span><span class="p">(</span><span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="n">fichResultado</span><span class="p">));</span>
+                        <span class="n">pb</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+                <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
                         <span class="c1">// TODO Auto-generated catch block</span>
-                        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-                <span class="o">}</span>
-        <span class="o">}</span>
-        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
-                <span class="n">Lanzador</span> <span class="n">l</span><span class="o">=</span><span class="k">new</span> <span class="n">Lanzador</span><span class="o">();</span>
-                <span class="n">l</span><span class="o">.</span><span class="na">lanzarSumador</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="s">&quot;result1.txt&quot;</span><span class="o">);</span>
-                <span class="n">l</span><span class="o">.</span><span class="na">lanzarSumador</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span><span class="mi">10</span><span class="o">,</span> <span class="s">&quot;result2.txt&quot;</span><span class="o">);</span>
-                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Ok&quot;</span><span class="o">);</span>
-        <span class="o">}</span>
-<span class="o">}</span>
+                        <span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+                <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">){</span>
+                <span class="n">Lanzador</span> <span class="n">l</span><span class="o">=</span><span class="k">new</span> <span class="n">Lanzador</span><span class="p">();</span>
+                <span class="n">l</span><span class="p">.</span><span class="na">lanzarSumador</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s">&quot;result1.txt&quot;</span><span class="p">);</span>
+                <span class="n">l</span><span class="p">.</span><span class="na">lanzarSumador</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span> <span class="s">&quot;result2.txt&quot;</span><span class="p">);</span>
+                <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Ok&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Cuando se lanza un programa desde Eclipse no ocurre lo mismo que cuando se lanza desde Windows. Eclipse trabaja con unos directorios predefinidos y puede ser necesario indicar a nuestro programa cual es la ruta donde hay que buscar algo.</p>
@@ -224,124 +223,124 @@
 <h2>Ejercicio<a class="headerlink" href="#ejercicio" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Crear un programa que permita parametrizar el lanzamiento de sumadores, que vuelque el contenido de las sumas en ficheros y que permita al programa principal recuperar las sumas de los ficheros parciales.</p>
 <p>En el listado siguiente se muestra la clase Sumador</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">es.ies.multiproceso</span><span class="o">;</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">es.ies.multiproceso</span><span class="p">;</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sumador</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Sumador</span> <span class="p">{</span>
         <span class="cm">/** Suma todos los valores incluidos</span>
 <span class="cm">         * entre dos valores</span>
 <span class="cm">         * @param n1 Limite 1</span>
 <span class="cm">         * @param n2 Limite 2</span>
 <span class="cm">         * @return La suma de dichos valores</span>
 <span class="cm">         */</span>
-        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">sumar</span><span class="o">(</span><span class="kt">int</span> <span class="n">n1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">n2</span><span class="o">){</span>
-                <span class="kt">int</span> <span class="n">suma</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">n1</span><span class="o">&gt;</span><span class="n">n2</span><span class="o">){</span>
-                        <span class="kt">int</span> <span class="n">aux</span><span class="o">=</span><span class="n">n1</span><span class="o">;</span>
-                        <span class="n">n1</span><span class="o">=</span><span class="n">n2</span><span class="o">;</span>
-                        <span class="n">n2</span><span class="o">=</span><span class="n">aux</span><span class="o">;</span>
-                <span class="o">}</span>
-                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">n1</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n2</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
-                        <span class="n">suma</span><span class="o">=</span><span class="n">suma</span><span class="o">+</span><span class="n">i</span><span class="o">;</span>
-                <span class="o">}</span>
-                <span class="k">return</span> <span class="n">suma</span><span class="o">;</span>
-        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">sumar</span><span class="p">(</span><span class="kt">int</span> <span class="n">n1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n2</span><span class="p">){</span>
+                <span class="kt">int</span> <span class="n">suma</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">n1</span><span class="o">&gt;</span><span class="n">n2</span><span class="p">){</span>
+                        <span class="kt">int</span> <span class="n">aux</span><span class="o">=</span><span class="n">n1</span><span class="p">;</span>
+                        <span class="n">n1</span><span class="o">=</span><span class="n">n2</span><span class="p">;</span>
+                        <span class="n">n2</span><span class="o">=</span><span class="n">aux</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">n1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n2</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+                        <span class="n">suma</span><span class="o">=</span><span class="n">suma</span><span class="o">+</span><span class="n">i</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">suma</span><span class="p">;</span>
+        <span class="p">}</span>
 
-        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
-                <span class="kt">int</span> <span class="n">n1</span><span class="o">=</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
-                <span class="kt">int</span> <span class="n">n2</span><span class="o">=</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
-                <span class="kt">int</span> <span class="n">suma</span><span class="o">=</span><span class="n">sumar</span><span class="o">(</span><span class="n">n1</span><span class="o">,</span> <span class="n">n2</span><span class="o">);</span>
-                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">suma</span><span class="o">);</span>
-                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
-        <span class="o">}</span>
-<span class="o">}</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">){</span>
+                <span class="kt">int</span> <span class="n">n1</span><span class="o">=</span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">);</span>
+                <span class="kt">int</span> <span class="n">n2</span><span class="o">=</span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">);</span>
+                <span class="kt">int</span> <span class="n">suma</span><span class="o">=</span><span class="n">sumar</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">);</span>
+                <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">suma</span><span class="p">);</span>
+                <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">flush</span><span class="p">();</span>
+        <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>En el listado siguiente se muestra la clase Main</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="p">{</span>
 
-        <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">NUM_PROCESOS</span><span class="o">=</span><span class="mi">4</span><span class="o">;</span>
-        <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PREFIJO_FICHEROS</span><span class="o">=</span><span class="s">&quot;fich&quot;</span><span class="o">;</span>
+        <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">NUM_PROCESOS</span><span class="o">=</span><span class="mi">4</span><span class="p">;</span>
+        <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PREFIJO_FICHEROS</span><span class="o">=</span><span class="s">&quot;fich&quot;</span><span class="p">;</span>
 
 
-        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">lanzarSumador</span><span class="o">(</span>
-                        <span class="kt">int</span> <span class="n">n1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">n2</span><span class="o">,</span><span class="n">String</span> <span class="n">fichResultados</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">{</span>
-                <span class="n">String</span> <span class="n">comando</span><span class="o">;</span>
-                <span class="n">comando</span><span class="o">=</span><span class="s">&quot;es.ies.multiproceso.Sumador&quot;</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">lanzarSumador</span><span class="p">(</span>
+                        <span class="kt">int</span> <span class="n">n1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n2</span><span class="p">,</span><span class="n">String</span> <span class="n">fichResultados</span><span class="p">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="p">{</span>
+                <span class="n">String</span> <span class="n">comando</span><span class="p">;</span>
+                <span class="n">comando</span><span class="o">=</span><span class="s">&quot;es.ies.multiproceso.Sumador&quot;</span><span class="p">;</span>
 
-                <span class="n">File</span> <span class="n">directorioSumador</span><span class="o">;</span>
-                <span class="n">directorioSumador</span><span class="o">=</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&quot;C:\\Users\\&quot;</span><span class="o">+</span>
+                <span class="n">File</span> <span class="n">directorioSumador</span><span class="p">;</span>
+                <span class="n">directorioSumador</span><span class="o">=</span><span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">&quot;C:\\Users\\&quot;</span><span class="o">+</span>
                 <span class="s">&quot;ogomez\\workspace\\&quot;</span><span class="o">+</span>
-                <span class="s">&quot;MultiProceso1\\bin\\&quot;</span><span class="o">);</span>
-                <span class="n">File</span> <span class="n">fichResultado</span><span class="o">=</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">fichResultados</span><span class="o">);</span>
-                <span class="n">ProcessBuilder</span> <span class="n">pb</span><span class="o">;</span>
-                <span class="n">pb</span><span class="o">=</span><span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">(</span><span class="s">&quot;java&quot;</span><span class="o">,</span>
-                                <span class="n">comando</span><span class="o">,</span>
-                                <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">n1</span><span class="o">),</span>
-                                <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">n2</span><span class="o">)</span> <span class="o">);</span>
-                <span class="n">pb</span><span class="o">.</span><span class="na">directory</span><span class="o">(</span><span class="n">directorioSumador</span><span class="o">);</span>
-                <span class="n">pb</span><span class="o">.</span><span class="na">redirectOutput</span><span class="o">(</span><span class="n">fichResultado</span><span class="o">);</span>
-                <span class="n">pb</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-        <span class="o">}</span>
+                <span class="s">&quot;MultiProceso1\\bin\\&quot;</span><span class="p">);</span>
+                <span class="n">File</span> <span class="n">fichResultado</span><span class="o">=</span><span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="n">fichResultados</span><span class="p">);</span>
+                <span class="n">ProcessBuilder</span> <span class="n">pb</span><span class="p">;</span>
+                <span class="n">pb</span><span class="o">=</span><span class="k">new</span> <span class="n">ProcessBuilder</span><span class="p">(</span><span class="s">&quot;java&quot;</span><span class="p">,</span>
+                                <span class="n">comando</span><span class="p">,</span>
+                                <span class="n">String</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">n1</span><span class="p">),</span>
+                                <span class="n">String</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span> <span class="p">);</span>
+                <span class="n">pb</span><span class="p">.</span><span class="na">directory</span><span class="p">(</span><span class="n">directorioSumador</span><span class="p">);</span>
+                <span class="n">pb</span><span class="p">.</span><span class="na">redirectOutput</span><span class="p">(</span><span class="n">fichResultado</span><span class="p">);</span>
+                <span class="n">pb</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+        <span class="p">}</span>
 
-        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">getResultadoFichero</span><span class="o">(</span>
-                        <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">){</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">getResultadoFichero</span><span class="p">(</span>
+                        <span class="n">String</span> <span class="n">nombreFichero</span><span class="p">){</span>
 
-                <span class="kt">int</span> <span class="n">suma</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-                <span class="k">try</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">suma</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+                <span class="k">try</span> <span class="p">{</span>
                         <span class="n">FileInputStream</span> <span class="n">fichero</span><span class="o">=</span>
-                                        <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span>
-                                                        <span class="n">nombreFichero</span><span class="o">);</span>
+                                        <span class="k">new</span> <span class="n">FileInputStream</span><span class="p">(</span>
+                                                        <span class="n">nombreFichero</span><span class="p">);</span>
                         <span class="n">InputStreamReader</span> <span class="n">fir</span><span class="o">=</span>
-                                        <span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span>
-                                                        <span class="n">fichero</span><span class="o">);</span>
-                        <span class="n">BufferedReader</span> <span class="n">br</span><span class="o">=</span><span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="n">fir</span><span class="o">);</span>
-                        <span class="n">String</span> <span class="n">linea</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-                        <span class="n">suma</span><span class="o">=</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="n">linea</span><span class="o">);</span>
-                        <span class="k">return</span> <span class="n">suma</span><span class="o">;</span>
-                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                                <span class="s">&quot;No se pudo abrir &quot;</span><span class="o">+</span><span class="n">nombreFichero</span><span class="o">);</span>
+                                        <span class="k">new</span> <span class="n">InputStreamReader</span><span class="p">(</span>
+                                                        <span class="n">fichero</span><span class="p">);</span>
+                        <span class="n">BufferedReader</span> <span class="n">br</span><span class="o">=</span><span class="k">new</span> <span class="n">BufferedReader</span><span class="p">(</span><span class="n">fir</span><span class="p">);</span>
+                        <span class="n">String</span> <span class="n">linea</span><span class="o">=</span><span class="n">br</span><span class="p">.</span><span class="na">readLine</span><span class="p">();</span>
+                        <span class="n">suma</span><span class="o">=</span> <span class="k">new</span> <span class="n">Integer</span><span class="p">(</span><span class="n">linea</span><span class="p">);</span>
+                        <span class="k">return</span> <span class="n">suma</span><span class="p">;</span>
+                <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span>
+                                <span class="s">&quot;No se pudo abrir &quot;</span><span class="o">+</span><span class="n">nombreFichero</span><span class="p">);</span>
 
-                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
-                                        <span class="s">&quot;No hay nada en &quot;</span><span class="o">+</span><span class="n">nombreFichero</span><span class="o">);</span>
-                <span class="o">}</span>
-                <span class="k">return</span> <span class="n">suma</span><span class="o">;</span>
-        <span class="o">}</span>
+                <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span>
+                                        <span class="s">&quot;No hay nada en &quot;</span><span class="o">+</span><span class="n">nombreFichero</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">suma</span><span class="p">;</span>
+        <span class="p">}</span>
 
 
-        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">getSumaTotal</span><span class="o">(</span><span class="kt">int</span> <span class="n">numFicheros</span><span class="o">){</span>
-                <span class="kt">int</span> <span class="n">sumaTotal</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">NUM_PROCESOS</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
-                        <span class="n">sumaTotal</span><span class="o">+=</span><span class="n">getResultadoFichero</span><span class="o">(</span>
-                                <span class="n">PREFIJO_FICHEROS</span><span class="o">+</span><span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">);</span>
-                <span class="o">}</span>
-                <span class="k">return</span> <span class="n">sumaTotal</span><span class="o">;</span>
-        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">getSumaTotal</span><span class="p">(</span><span class="kt">int</span> <span class="n">numFicheros</span><span class="p">){</span>
+                <span class="kt">int</span> <span class="n">sumaTotal</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">NUM_PROCESOS</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+                        <span class="n">sumaTotal</span><span class="o">+=</span><span class="n">getResultadoFichero</span><span class="p">(</span>
+                                <span class="n">PREFIJO_FICHEROS</span><span class="o">+</span><span class="n">String</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">);</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">sumaTotal</span><span class="p">;</span>
+        <span class="p">}</span>
 
         <span class="cm">/* Recibe dos parámetros y hará</span>
 <span class="cm">         * la suma de los valores comprendidos</span>
 <span class="cm">         * entre ambos parametros</span>
 <span class="cm">         */</span>
-        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">InterruptedException</span><span class="o">{</span>
-                <span class="kt">int</span> <span class="n">n1</span><span class="o">=</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
-                <span class="kt">int</span> <span class="n">n2</span><span class="o">=</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span>
-                <span class="kt">int</span> <span class="n">salto</span><span class="o">=(</span> <span class="n">n2</span> <span class="o">/</span> <span class="n">NUM_PROCESOS</span> <span class="o">)</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
-                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">NUM_PROCESOS</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;n1:&quot;</span><span class="o">+</span><span class="n">n1</span><span class="o">);</span>
-                        <span class="kt">int</span> <span class="n">resultadoSumaConSalto</span><span class="o">=</span><span class="n">n1</span><span class="o">+</span><span class="n">salto</span><span class="o">;</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;n2:&quot;</span><span class="o">+</span><span class="n">resultadoSumaConSalto</span><span class="o">);</span>
-                        <span class="n">lanzarSumador</span><span class="o">(</span><span class="n">n1</span><span class="o">,</span> <span class="n">n1</span><span class="o">+</span><span class="n">salto</span> <span class="o">,</span>
-                                        <span class="n">PREFIJO_FICHEROS</span><span class="o">+</span><span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
-                        <span class="n">n1</span><span class="o">=</span><span class="n">n1</span> <span class="o">+</span> <span class="n">salto</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
-                        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Suma lanzada...&quot;</span><span class="o">);</span>
-                <span class="o">}</span>
-                <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">5000</span><span class="o">);</span>
-                <span class="kt">int</span> <span class="n">sumaTotal</span><span class="o">=</span><span class="n">getSumaTotal</span><span class="o">(</span><span class="n">NUM_PROCESOS</span><span class="o">);</span>
-                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;La suma total es:&quot;</span><span class="o">+</span>
-                                                <span class="n">sumaTotal</span><span class="o">);</span>
-        <span class="o">}</span>
-<span class="o">}</span>
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="p">,</span> <span class="n">InterruptedException</span><span class="p">{</span>
+                <span class="kt">int</span> <span class="n">n1</span><span class="o">=</span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">);</span>
+                <span class="kt">int</span> <span class="n">n2</span><span class="o">=</span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">);</span>
+                <span class="kt">int</span> <span class="n">salto</span><span class="o">=</span><span class="p">(</span> <span class="n">n2</span> <span class="o">/</span> <span class="n">NUM_PROCESOS</span> <span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">NUM_PROCESOS</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+                        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;n1:&quot;</span><span class="o">+</span><span class="n">n1</span><span class="p">);</span>
+                        <span class="kt">int</span> <span class="n">resultadoSumaConSalto</span><span class="o">=</span><span class="n">n1</span><span class="o">+</span><span class="n">salto</span><span class="p">;</span>
+                        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;n2:&quot;</span><span class="o">+</span><span class="n">resultadoSumaConSalto</span><span class="p">);</span>
+                        <span class="n">lanzarSumador</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n1</span><span class="o">+</span><span class="n">salto</span> <span class="p">,</span>
+                                        <span class="n">PREFIJO_FICHEROS</span><span class="o">+</span><span class="n">String</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+                        <span class="n">n1</span><span class="o">=</span><span class="n">n1</span> <span class="o">+</span> <span class="n">salto</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+                        <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Suma lanzada...&quot;</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span>
+                <span class="kt">int</span> <span class="n">sumaTotal</span><span class="o">=</span><span class="n">getSumaTotal</span><span class="p">(</span><span class="n">NUM_PROCESOS</span><span class="p">);</span>
+                <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;La suma total es:&quot;</span><span class="o">+</span>
+                                                <span class="n">sumaTotal</span><span class="p">);</span>
+        <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -352,50 +351,50 @@
 <h3>Operaciones con ficheros<a class="headerlink" href="#operaciones-con-ficheros" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Tanto en este ejercicio como en muchos otros vamos a necesitar realizar ciertas operaciones con ficheros. Para aumentar nuestra productividad utilizaremos una clase llamada <code class="docutils literal notranslate"><span class="pre">UtilidadesFicheros</span></code> que nos permita realizar ciertas tareas como las siguientes:</p>
 <ul class="simple">
-<li>Obtener un objeto <code class="docutils literal notranslate"><span class="pre">BufferedReader</span></code> a partir de un nombre de fichero de tipo <code class="docutils literal notranslate"><span class="pre">String</span></code>. Llamaremos a este método <code class="docutils literal notranslate"><span class="pre">getBufferedReader</span></code> y lo utilizaremos para poder manejar un fichero mediante una clase de muy alto nivel que nos facilita la lectura de ficheros. En el listado adjunto se puede consultar dicho método.</li>
+<li><p>Obtener un objeto <code class="docutils literal notranslate"><span class="pre">BufferedReader</span></code> a partir de un nombre de fichero de tipo <code class="docutils literal notranslate"><span class="pre">String</span></code>. Llamaremos a este método <code class="docutils literal notranslate"><span class="pre">getBufferedReader</span></code> y lo utilizaremos para poder manejar un fichero mediante una clase de muy alto nivel que nos facilita la lectura de ficheros. En el listado adjunto se puede consultar dicho método.</p></li>
 </ul>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">BufferedReader</span> <span class="nf">getBufferedReader</span><span class="o">(</span>
-    <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span>
-<span class="n">FileNotFoundException</span> <span class="o">{</span>
-    <span class="n">FileReader</span> <span class="n">lector</span><span class="o">;</span>
-    <span class="n">lector</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
-    <span class="n">BufferedReader</span> <span class="n">bufferedReader</span><span class="o">;</span>
-    <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="n">lector</span><span class="o">);</span>
-    <span class="k">return</span> <span class="n">bufferedReader</span><span class="o">;</span>
-<span class="o">}</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">BufferedReader</span> <span class="nf">getBufferedReader</span><span class="p">(</span>
+    <span class="n">String</span> <span class="n">nombreFichero</span><span class="p">)</span> <span class="kd">throws</span>
+<span class="n">FileNotFoundException</span> <span class="p">{</span>
+    <span class="n">FileReader</span> <span class="n">lector</span><span class="p">;</span>
+    <span class="n">lector</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileReader</span><span class="p">(</span><span class="n">nombreFichero</span><span class="p">);</span>
+    <span class="n">BufferedReader</span> <span class="n">bufferedReader</span><span class="p">;</span>
+    <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="p">(</span><span class="n">lector</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">bufferedReader</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li>De la misma forma crearemos un método <code class="docutils literal notranslate"><span class="pre">getPrintWriter</span></code> que nos devuelva un objeto de la clase <code class="docutils literal notranslate"><span class="pre">PrintWriter</span></code> para poder realizar fácilmente operaciones de escritura en ficheros. En el listado adjunto se muestra el código.</li>
+<li><p>De la misma forma crearemos un método <code class="docutils literal notranslate"><span class="pre">getPrintWriter</span></code> que nos devuelva un objeto de la clase <code class="docutils literal notranslate"><span class="pre">PrintWriter</span></code> para poder realizar fácilmente operaciones de escritura en ficheros. En el listado adjunto se muestra el código.</p></li>
 </ul>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">PrintWriter</span> <span class="nf">getPrintWriter</span><span class="o">(</span>
-    <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="n">PrintWriter</span> <span class="n">printWriter</span><span class="o">;</span>
-    <span class="n">FileWriter</span> <span class="n">fileWriter</span><span class="o">;</span>
-    <span class="n">fileWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
-    <span class="n">printWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span><span class="n">fileWriter</span><span class="o">);</span>
-    <span class="k">return</span> <span class="n">printWriter</span><span class="o">;</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">PrintWriter</span> <span class="nf">getPrintWriter</span><span class="p">(</span>
+    <span class="n">String</span> <span class="n">nombreFichero</span><span class="p">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="p">{</span>
+    <span class="n">PrintWriter</span> <span class="n">printWriter</span><span class="p">;</span>
+    <span class="n">FileWriter</span> <span class="n">fileWriter</span><span class="p">;</span>
+    <span class="n">fileWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileWriter</span><span class="p">(</span><span class="n">nombreFichero</span><span class="p">);</span>
+    <span class="n">printWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="p">(</span><span class="n">fileWriter</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">printWriter</span><span class="p">;</span>
 <span class="c1">//Fin de getPrintWriter</span>
-<span class="o">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li>Aunque nos estamos anticipando, puede ser útil tener un método que dado un nombre de fichero nos devuelva un <code class="docutils literal notranslate"><span class="pre">ArrayList&lt;String&gt;</span></code> con todas las líneas que hay en el fichero. <strong>En este ejercicio no lo usaremos</strong>. Este método podría implementarse así:</li>
+<li><p>Aunque nos estamos anticipando, puede ser útil tener un método que dado un nombre de fichero nos devuelva un <code class="docutils literal notranslate"><span class="pre">ArrayList&lt;String&gt;</span></code> con todas las líneas que hay en el fichero. <strong>En este ejercicio no lo usaremos</strong>. Este método podría implementarse así:</p></li>
 </ul>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getLineasFichero</span><span class="o">(</span>
-    <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
-    <span class="n">BufferedReader</span> <span class="n">bfr</span> <span class="o">=</span> <span class="n">getBufferedReader</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getLineasFichero</span><span class="p">(</span>
+    <span class="n">String</span> <span class="n">nombreFichero</span><span class="p">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="p">{</span>
+    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="n">BufferedReader</span> <span class="n">bfr</span> <span class="o">=</span> <span class="n">getBufferedReader</span><span class="p">(</span><span class="n">nombreFichero</span><span class="p">);</span>
     <span class="c1">//Leemos líneas del fichero...</span>
-    <span class="n">String</span> <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-    <span class="k">while</span> <span class="o">(</span><span class="n">linea</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="p">.</span><span class="na">readLine</span><span class="p">();</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">linea</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">//Y las añadimos al array</span>
-        <span class="n">lineas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">linea</span><span class="o">);</span>
-        <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-    <span class="o">}</span>
+        <span class="n">lineas</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">linea</span><span class="p">);</span>
+        <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="p">.</span><span class="na">readLine</span><span class="p">();</span>
+    <span class="p">}</span>
     <span class="c1">//Fin del bucle que lee líneas</span>
-    <span class="k">return</span> <span class="n">lineas</span><span class="o">;</span>
-<span class="o">}</span>
+    <span class="k">return</span> <span class="n">lineas</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -403,27 +402,27 @@
 <h3>Procesado de ficheros<a class="headerlink" href="#procesado-de-ficheros" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Necesitaremos una clase <code class="docutils literal notranslate"><span class="pre">ProcesadorFichero</span></code> que nos permita procesar los ficheros de la forma pedida. Antes de crear un programa multiproceso empezaremos por crear una clase simple que nos resuelva este problema.</p>
 <p>Dicha clase tendrá un método <code class="docutils literal notranslate"><span class="pre">hacerRecuento</span></code> que resuelva el problema de contar el número de apariciones en un fichero dejando el total de apariciones en un fichero de salida distintos. En el código adjunto podemos ver como podría implementarse dicho método.</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getLineasFichero</span><span class="o">(</span>
-    <span class="n">String</span> <span class="n">nombreFichero</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
-    <span class="n">BufferedReader</span> <span class="n">bfr</span> <span class="o">=</span> <span class="n">getBufferedReader</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getLineasFichero</span><span class="p">(</span>
+    <span class="n">String</span> <span class="n">nombreFichero</span><span class="p">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="p">{</span>
+    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="n">BufferedReader</span> <span class="n">bfr</span> <span class="o">=</span> <span class="n">getBufferedReader</span><span class="p">(</span><span class="n">nombreFichero</span><span class="p">);</span>
     <span class="c1">//Leemos líneas del fichero...</span>
-    <span class="n">String</span> <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-    <span class="k">while</span> <span class="o">(</span><span class="n">linea</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="p">.</span><span class="na">readLine</span><span class="p">();</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">linea</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">//Y las añadimos al array</span>
-        <span class="n">lineas</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">linea</span><span class="o">);</span>
-        <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
-    <span class="o">}</span>
+        <span class="n">lineas</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">linea</span><span class="p">);</span>
+        <span class="n">linea</span> <span class="o">=</span> <span class="n">bfr</span><span class="p">.</span><span class="na">readLine</span><span class="p">();</span>
+    <span class="p">}</span>
     <span class="c1">//Fin del bucle que lee líneas</span>
-    <span class="k">return</span> <span class="n">lineas</span><span class="o">;</span>
-<span class="o">}</span>
+    <span class="k">return</span> <span class="n">lineas</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">ProcesadorFichero</span></code> será lanzada desde otra clase que llamaremos <code class="docutils literal notranslate"><span class="pre">Lanzador</span></code>. Nuestra <code class="docutils literal notranslate"><span class="pre">ProcesadorFichero</span></code> recogerá en su método <code class="docutils literal notranslate"><span class="pre">main</span></code> los siguientes parámetros:</p>
 <ol class="arabic simple">
-<li>El nombre del fichero a procesar. Lo llamaremos <code class="docutils literal notranslate"><span class="pre">nombreFicheroEntrada</span></code> y estará en la posición 0 de los argumentos.</li>
-<li>La letra de la que hay que hacer el recuento de apariciones. La llamaremos <code class="docutils literal notranslate"><span class="pre">letra</span></code> y estará en la posición 1.</li>
-<li>El nombre del fichero donde se dejarán los resultados. Lo llamaremos <code class="docutils literal notranslate"><span class="pre">nombreFicheroResultado</span></code> y estará en la posición 1 de los argumentos.</li>
+<li><p>El nombre del fichero a procesar. Lo llamaremos <code class="docutils literal notranslate"><span class="pre">nombreFicheroEntrada</span></code> y estará en la posición 0 de los argumentos.</p></li>
+<li><p>La letra de la que hay que hacer el recuento de apariciones. La llamaremos <code class="docutils literal notranslate"><span class="pre">letra</span></code> y estará en la posición 1.</p></li>
+<li><p>El nombre del fichero donde se dejarán los resultados. Lo llamaremos <code class="docutils literal notranslate"><span class="pre">nombreFicheroResultado</span></code> y estará en la posición 1 de los argumentos.</p></li>
 </ol>
 <p>El código del main se muestra a continuación.</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
@@ -433,14 +432,14 @@
 <span class="cm">	 * argumento)</span>
 <span class="cm">	 * @throws IOException</span>
 <span class="cm">	 * @throws FileNotFoundException  */</span>
-<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
-<span class="n">FileNotFoundException</span><span class="o">,</span> <span class="n">IOException</span> <span class="o">{</span>
-    <span class="n">String</span> <span class="n">nombreFicheroEntrada</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
-    <span class="n">String</span> <span class="n">letra</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
-    <span class="n">String</span> <span class="n">nombreFicheroResultado</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
-    <span class="n">hacerRecuento</span><span class="o">(</span><span class="n">nombreFicheroEntrada</span><span class="o">,</span> <span class="n">letra</span><span class="o">,</span> <span class="n">nombreFicheroResultado</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="kd">throws</span>
+<span class="n">FileNotFoundException</span><span class="p">,</span> <span class="n">IOException</span> <span class="p">{</span>
+    <span class="n">String</span> <span class="n">nombreFicheroEntrada</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span>
+    <span class="n">String</span> <span class="n">letra</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">;</span>
+    <span class="n">String</span> <span class="n">nombreFicheroResultado</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="p">;</span>
+    <span class="n">hacerRecuento</span><span class="p">(</span><span class="n">nombreFicheroEntrada</span><span class="p">,</span> <span class="n">letra</span><span class="p">,</span> <span class="n">nombreFicheroResultado</span><span class="p">);</span>
 <span class="c1">//Fin del main</span>
-<span class="o">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -449,43 +448,43 @@
 <h2>Lanzamiento de los procesos<a class="headerlink" href="#lanzamiento-de-los-procesos" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>La clase <code class="docutils literal notranslate"><span class="pre">Lanzador</span></code> tendrá un método <code class="docutils literal notranslate"><span class="pre">main</span></code> que se encargará de varias cosas:</p>
 <ol class="arabic simple">
-<li>Recoger el primer parámetro (<code class="docutils literal notranslate"><span class="pre">args[0]</span></code>), que contendrá el fichero a procesar.</li>
-<li>Recoger el segundo parámetro, que contendrá el directorio de <code class="docutils literal notranslate"><span class="pre">CLASSPATH</span></code> donde habrá que buscar la clase <code class="docutils literal notranslate"><span class="pre">UtilidadesFicheros</span></code>.</li>
-<li>Recoger el tercer parámetro, que contendrá el directorio donde habrá que buscar la clase <code class="docutils literal notranslate"><span class="pre">ProcesadorFicheros</span></code>.</li>
-<li>Una vez recogidos los parámetros, se lanzarán los procesos utilizando la clase <code class="docutils literal notranslate"><span class="pre">ProcessBuilder</span></code>.</li>
-<li>Los procesos se ejecutarán y después recogeremos los resultados de los ficheros.</li>
+<li><p>Recoger el primer parámetro (<code class="docutils literal notranslate"><span class="pre">args[0]</span></code>), que contendrá el fichero a procesar.</p></li>
+<li><p>Recoger el segundo parámetro, que contendrá el directorio de <code class="docutils literal notranslate"><span class="pre">CLASSPATH</span></code> donde habrá que buscar la clase <code class="docutils literal notranslate"><span class="pre">UtilidadesFicheros</span></code>.</p></li>
+<li><p>Recoger el tercer parámetro, que contendrá el directorio donde habrá que buscar la clase <code class="docutils literal notranslate"><span class="pre">ProcesadorFicheros</span></code>.</p></li>
+<li><p>Una vez recogidos los parámetros, se lanzarán los procesos utilizando la clase <code class="docutils literal notranslate"><span class="pre">ProcessBuilder</span></code>.</p></li>
+<li><p>Los procesos se ejecutarán y después recogeremos los resultados de los ficheros.</p></li>
 </ol>
 <p>En el código siguiente puede verse el método <code class="docutils literal notranslate"><span class="pre">main</span></code> de esta clase <code class="docutils literal notranslate"><span class="pre">Lanzador</span></code>. La recogida de resultados se deja como ejercicio:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
-<span class="n">IOException</span><span class="o">,</span> <span class="n">InterruptedException</span> <span class="o">{</span>
-    <span class="n">String</span> <span class="n">ficheroEntrada</span><span class="o">;</span>
-    <span class="n">ficheroEntrada</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
-    <span class="n">String</span> <span class="n">classpathUtilidades</span><span class="o">;</span>
-    <span class="n">classpathUtilidades</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
-    <span class="n">String</span> <span class="n">classpathProcesadorFichero</span><span class="o">;</span>
-    <span class="n">classpathProcesadorFichero</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
-    <span class="n">String</span><span class="o">[]</span> <span class="n">vocales</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&quot;A&quot;</span><span class="o">,</span> <span class="s">&quot;E&quot;</span><span class="o">,</span> <span class="s">&quot;I&quot;</span><span class="o">,</span> <span class="s">&quot;O&quot;</span><span class="o">,</span> <span class="s">&quot;U&quot;</span> <span class="o">};</span>
-    <span class="n">String</span> <span class="n">classPath</span><span class="o">;</span>
-    <span class="n">classPath</span> <span class="o">=</span> <span class="n">classpathProcesadorFichero</span> <span class="o">+</span> <span class="s">&quot;:&quot;</span> <span class="o">+</span> <span class="n">classpathUtilidades</span><span class="o">;</span>
-    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Usando classpath:&quot;</span> <span class="o">+</span> <span class="n">classPath</span><span class="o">);</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="kd">throws</span>
+<span class="n">IOException</span><span class="p">,</span> <span class="n">InterruptedException</span> <span class="p">{</span>
+    <span class="n">String</span> <span class="n">ficheroEntrada</span><span class="p">;</span>
+    <span class="n">ficheroEntrada</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span>
+    <span class="n">String</span> <span class="n">classpathUtilidades</span><span class="p">;</span>
+    <span class="n">classpathUtilidades</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">;</span>
+    <span class="n">String</span> <span class="n">classpathProcesadorFichero</span><span class="p">;</span>
+    <span class="n">classpathProcesadorFichero</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span><span class="p">;</span>
+    <span class="n">String</span><span class="o">[]</span> <span class="n">vocales</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;A&quot;</span><span class="p">,</span> <span class="s">&quot;E&quot;</span><span class="p">,</span> <span class="s">&quot;I&quot;</span><span class="p">,</span> <span class="s">&quot;O&quot;</span><span class="p">,</span> <span class="s">&quot;U&quot;</span> <span class="p">};</span>
+    <span class="n">String</span> <span class="n">classPath</span><span class="p">;</span>
+    <span class="n">classPath</span> <span class="o">=</span> <span class="n">classpathProcesadorFichero</span> <span class="o">+</span> <span class="s">&quot;:&quot;</span> <span class="o">+</span> <span class="n">classpathUtilidades</span><span class="p">;</span>
+    <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Usando classpath:&quot;</span> <span class="o">+</span> <span class="n">classPath</span><span class="p">);</span>
     <span class="cm">/* Se lanzan los procesos*/</span>
-    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vocales</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vocales</span><span class="p">.</span><span class="na">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">String</span> <span class="n">fichErrores</span> <span class="o">=</span> <span class="s">&quot;Errores_&quot;</span> <span class="o">+</span> <span class="n">vocales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span>
-                             <span class="s">&quot;.txt&quot;</span><span class="o">;</span>
-        <span class="n">ProcessBuilder</span> <span class="n">pb</span><span class="o">;</span>
-        <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">(</span><span class="s">&quot;java&quot;</span><span class="o">,</span> <span class="s">&quot;-cp&quot;</span><span class="o">,</span> <span class="n">classPath</span><span class="o">,</span>
-                                <span class="s">&quot;com.ies.ProcesadorFichero&quot;</span><span class="o">,</span> <span class="n">ficheroEntrada</span><span class="o">,</span>
-                                <span class="n">vocales</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">vocales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="s">&quot;.txt&quot;</span><span class="o">);</span>
+                             <span class="s">&quot;.txt&quot;</span><span class="p">;</span>
+        <span class="n">ProcessBuilder</span> <span class="n">pb</span><span class="p">;</span>
+        <span class="n">pb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="p">(</span><span class="s">&quot;java&quot;</span><span class="p">,</span> <span class="s">&quot;-cp&quot;</span><span class="p">,</span> <span class="n">classPath</span><span class="p">,</span>
+                                <span class="s">&quot;com.ies.ProcesadorFichero&quot;</span><span class="p">,</span> <span class="n">ficheroEntrada</span><span class="p">,</span>
+                                <span class="n">vocales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span> <span class="n">vocales</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="s">&quot;.txt&quot;</span><span class="p">);</span>
         <span class="c1">//Si hay algún error, almacenarlo en un fichero</span>
-        <span class="n">pb</span><span class="o">.</span><span class="na">redirectError</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">fichErrores</span><span class="o">));</span>
-        <span class="n">pb</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">pb</span><span class="p">.</span><span class="na">redirectError</span><span class="p">(</span><span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="n">fichErrores</span><span class="p">));</span>
+        <span class="n">pb</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
         <span class="c1">//Fin del for</span>
-    <span class="o">}</span>
+    <span class="p">}</span>
     <span class="cm">/* Esperamos un poco*/</span>
-    <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">3000</span><span class="o">);</span>
+    <span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">3000</span><span class="p">);</span>
     <span class="cm">/* La recogida de resultados se deja como</span>
 <span class="cm">    		 * ejercicio al lector. ;) */</span>
-<span class="o">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -493,11 +492,11 @@
 <h2>Ejercicio propuesto (I)<a class="headerlink" href="#ejercicio-propuesto-i" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Se desea crear un programa que procese ficheros aprovechando el paralelismo de la máquina. Se tienen cinco ficheros con los siguientes nombres:</p>
 <ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">informatica.txt</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">gerencia.txt</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">contabilidad.txt</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">comercio.txt</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">rrhh.txt</span></code></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">informatica.txt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gerencia.txt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">contabilidad.txt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">comercio.txt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rrhh.txt</span></code></p></li>
 </ul>
 <p>En cada fichero hay una lista de cantidades enteras que representa las contabilidades de distintos departamentos. Hay una cantidad en cada línea. Se desea que el programa creado sume la cantidad total que suman todas las cantidades de los cinco ficheros haciendo uso del paralelismo.</p>
 <div class="section" id="solucion-al-ejercicio-propuesto-i">
@@ -506,103 +505,103 @@
 <p>Una vez generados todos los fichero <code class="docutils literal notranslate"><span class="pre">Resultado</span></code> tendremos que sumar todas las cantidades de estos ficheros. Su estructura es muy simple, todos contienen una única línea con una cantidad. Dado que esta operación de sumar cantidades almacenadas en distintos ficheros es una operación muy habitual, añadiremos un método a <code class="docutils literal notranslate"><span class="pre">UtilidadesFicheros</span></code> que se encargue de hacer esta operación. Obsérvese que usaremos tipos de datos <code class="docutils literal notranslate"><span class="pre">long</span></code> y no <code class="docutils literal notranslate"><span class="pre">int</span></code> dado que no sabemos como de grandes serán las cantidades a procesar.</p>
 <p>A continuación se muestra el código de este método.</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">//Fin de getLineasFichero</span>
-<span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getSuma</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span>
-                           <span class="n">listaNombresFichero</span><span class="o">)</span> <span class="o">{</span>
-    <span class="kt">long</span> <span class="n">suma</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span><span class="o">;</span>
-    <span class="n">String</span> <span class="n">lineaCantidad</span><span class="o">;</span>
-    <span class="kt">long</span> <span class="n">cantidad</span><span class="o">;</span>
-    <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">nombreFichero</span> <span class="o">:</span> <span class="n">listaNombresFichero</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">try</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">long</span> <span class="nf">getSuma</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span>
+                           <span class="n">listaNombresFichero</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">long</span> <span class="n">suma</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lineas</span><span class="p">;</span>
+    <span class="n">String</span> <span class="n">lineaCantidad</span><span class="p">;</span>
+    <span class="kt">long</span> <span class="n">cantidad</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">String</span> <span class="n">nombreFichero</span> <span class="p">:</span> <span class="n">listaNombresFichero</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">try</span> <span class="p">{</span>
             <span class="c1">//Recuperamos todas las lineas</span>
-            <span class="n">lineas</span> <span class="o">=</span> <span class="n">getLineasFichero</span><span class="o">(</span><span class="n">nombreFichero</span><span class="o">);</span>
+            <span class="n">lineas</span> <span class="o">=</span> <span class="n">getLineasFichero</span><span class="p">(</span><span class="n">nombreFichero</span><span class="p">);</span>
             <span class="c1">//Pero solo nos interesa la primera</span>
-            <span class="n">lineaCantidad</span> <span class="o">=</span> <span class="n">lineas</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+            <span class="n">lineaCantidad</span> <span class="o">=</span> <span class="n">lineas</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
             <span class="c1">//Convertimos la linea a número</span>
-            <span class="n">cantidad</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">lineaCantidad</span><span class="o">);</span>
+            <span class="n">cantidad</span> <span class="o">=</span> <span class="n">Long</span><span class="p">.</span><span class="na">parseLong</span><span class="p">(</span><span class="n">lineaCantidad</span><span class="p">);</span>
             <span class="c1">//Y se incrementa la suma total</span>
-            <span class="n">suma</span> <span class="o">=</span> <span class="n">suma</span> <span class="o">+</span> <span class="n">cantidad</span><span class="o">;</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Fallo al procesar el fichero &quot;</span>
-                               <span class="o">+</span> <span class="n">nombreFichero</span><span class="o">);</span>
+            <span class="n">suma</span> <span class="o">=</span> <span class="n">suma</span> <span class="o">+</span> <span class="n">cantidad</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Fallo al procesar el fichero &quot;</span>
+                               <span class="o">+</span> <span class="n">nombreFichero</span><span class="p">);</span>
             <span class="c1">//Fin del catch</span>
-        <span class="o">}</span>
+        <span class="p">}</span>
         <span class="c1">//Fin del for que recorre los nombres de fichero</span>
-    <span class="o">}</span>
-    <span class="k">return</span> <span class="n">suma</span><span class="o">;</span>
-<span class="o">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">suma</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Una vez creado este método que usaremos al final, pasemos a crear una clase <code class="docutils literal notranslate"><span class="pre">ProcesadorContabilidad</span></code> que leerá un fichero, sumará las cantidades y las dejará en el fichero de resultados. Esta clase solo tendrá un método <code class="docutils literal notranslate"><span class="pre">main</span></code> que realizará esta tarea.</p>
 <p>Como nuestro programa está formado por varias clases que están dispersas por distintos directorios, nuestro <code class="docutils literal notranslate"><span class="pre">main</span></code> tomará el <code class="docutils literal notranslate"><span class="pre">CLASSPATH</span></code> de los argumentos.</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
-<span class="n">IOException</span> <span class="o">{</span>
-    <span class="n">String</span> <span class="n">nombreFichero</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
-    <span class="n">String</span> <span class="n">nombreFicheroResultado</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
-    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">cantidades</span><span class="o">;</span>
-    <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-    <span class="k">try</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="kd">throws</span>
+<span class="n">IOException</span> <span class="p">{</span>
+    <span class="n">String</span> <span class="n">nombreFichero</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span>
+    <span class="n">String</span> <span class="n">nombreFicheroResultado</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">;</span>
+    <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">cantidades</span><span class="p">;</span>
+    <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">try</span> <span class="p">{</span>
         <span class="c1">//Extraemos las cantidades</span>
-        <span class="n">cantidades</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getLineasFichero</span><span class="o">(</span>
-            <span class="n">nombreFichero</span><span class="o">);</span>
+        <span class="n">cantidades</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="p">.</span><span class="na">getLineasFichero</span><span class="p">(</span>
+            <span class="n">nombreFichero</span><span class="p">);</span>
         <span class="c1">//Y las sumamos una por una</span>
-        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">lineaCantidad</span> <span class="o">:</span> <span class="n">cantidades</span><span class="o">)</span> <span class="o">{</span>
-            <span class="kt">long</span> <span class="n">cantidad</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">parseLong</span><span class="o">(</span><span class="n">lineaCantidad</span><span class="o">);</span>
-            <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">cantidad</span><span class="o">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">String</span> <span class="n">lineaCantidad</span> <span class="p">:</span> <span class="n">cantidades</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">long</span> <span class="n">cantidad</span> <span class="o">=</span> <span class="n">Long</span><span class="p">.</span><span class="na">parseLong</span><span class="p">(</span><span class="n">lineaCantidad</span><span class="p">);</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">cantidad</span><span class="p">;</span>
             <span class="c1">//Fin del for que recorre las cantidades</span>
-        <span class="o">}</span>
+        <span class="p">}</span>
         <span class="c1">//Almacenamos el total en un fichero</span>
-        <span class="n">PrintWriter</span> <span class="n">pw</span><span class="o">;</span>
-        <span class="n">pw</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getPrintWriter</span><span class="o">(</span>
-                 <span class="n">nombreFicheroResultado</span><span class="o">);</span>
-        <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">total</span><span class="o">);</span>
-        <span class="n">pw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-    <span class="o">}</span><span class="c1">//Fin del try</span>
-    <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;No se pudo procesar el fichero &quot;</span>
-                           <span class="o">+</span> <span class="n">nombreFichero</span><span class="o">);</span>
-        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-    <span class="o">}</span>
+        <span class="n">PrintWriter</span> <span class="n">pw</span><span class="p">;</span>
+        <span class="n">pw</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="p">.</span><span class="na">getPrintWriter</span><span class="p">(</span>
+                 <span class="n">nombreFicheroResultado</span><span class="p">);</span>
+        <span class="n">pw</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">total</span><span class="p">);</span>
+        <span class="n">pw</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+    <span class="p">}</span><span class="c1">//Fin del try</span>
+    <span class="k">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;No se pudo procesar el fichero &quot;</span>
+                           <span class="o">+</span> <span class="n">nombreFichero</span><span class="p">);</span>
+        <span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+    <span class="p">}</span>
 <span class="c1">//Fin del main</span>
-<span class="o">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Por último, solo queda crear la clase <code class="docutils literal notranslate"><span class="pre">Lanzador</span></code> que recogerá los nombres de fichero que hay que sumar y lanzará un proceso de la clase <code class="docutils literal notranslate"><span class="pre">ProcesadorContabilidad</span></code> para cada uno de ellos. Por último, sumará todos los resultados y los dejará en un fichero que llamaremos (por ejemplo) <code class="docutils literal notranslate"><span class="pre">Resultado_global.txt</span></code></p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span>
-<span class="n">IOException</span> <span class="o">{</span>
-    <span class="n">String</span> <span class="n">classpath</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
-    <span class="n">String</span><span class="o">[]</span> <span class="n">ficheros</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&quot;informatica.txt&quot;</span><span class="o">,</span> <span class="s">&quot;gerencia.txt&quot;</span><span class="o">,</span> <span class="s">&quot;contabilidad.txt&quot;</span><span class="o">,</span> <span class="s">&quot;comercio.txt&quot;</span><span class="o">,</span> <span class="s">&quot;rrhh.txt&quot;</span> <span class="o">};</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="p">)</span> <span class="kd">throws</span>
+<span class="n">IOException</span> <span class="p">{</span>
+    <span class="n">String</span> <span class="n">classpath</span> <span class="o">=</span> <span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span>
+    <span class="n">String</span><span class="o">[]</span> <span class="n">ficheros</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;informatica.txt&quot;</span><span class="p">,</span> <span class="s">&quot;gerencia.txt&quot;</span><span class="p">,</span> <span class="s">&quot;contabilidad.txt&quot;</span><span class="p">,</span> <span class="s">&quot;comercio.txt&quot;</span><span class="p">,</span> <span class="s">&quot;rrhh.txt&quot;</span> <span class="p">};</span>
     <span class="c1">//Los nombres de los ficheros de resultados</span>
     <span class="c1">//se generarán y luego se almacenarán aquí</span>
-    <span class="n">String</span><span class="o">[]</span> <span class="n">ficherosResultado</span><span class="o">;</span>
-    <span class="n">ficherosResultado</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">ficheros</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+    <span class="n">String</span><span class="o">[]</span> <span class="n">ficherosResultado</span><span class="p">;</span>
+    <span class="n">ficherosResultado</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">ficheros</span><span class="p">.</span><span class="na">length</span><span class="o">]</span><span class="p">;</span>
     <span class="cm">/* Lanzamos los procesos*/</span>
-    <span class="n">ProcessBuilder</span><span class="o">[]</span> <span class="n">constructores</span><span class="o">;</span>
-    <span class="n">constructores</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">[</span><span class="n">ficheros</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
-    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ficheros</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-        <span class="n">String</span> <span class="n">fichResultado</span><span class="o">,</span> <span class="n">fichErrores</span><span class="o">;</span>
-        <span class="n">fichResultado</span> <span class="o">=</span> <span class="n">ficheros</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">SUFIJO_RESULTADO</span><span class="o">;</span>
-        <span class="n">fichErrores</span> <span class="o">=</span> <span class="n">ficheros</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">SUFIJO_ERRORES</span><span class="o">;</span>
-        <span class="n">ficherosResultado</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">fichResultado</span><span class="o">;</span>
-        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">();</span>
-        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">command</span><span class="o">(</span><span class="s">&quot;java&quot;</span><span class="o">,</span> <span class="s">&quot;-cp&quot;</span><span class="o">,</span> <span class="n">classpath</span><span class="o">,</span>
-                                 <span class="s">&quot;com.ies.ProcesadorContabilidad&quot;</span><span class="o">,</span> <span class="n">ficheros</span><span class="o">[</span><span class="n">i</span><span class="o">],</span>
-                                 <span class="n">fichResultado</span><span class="o">);</span>
+    <span class="n">ProcessBuilder</span><span class="o">[]</span> <span class="n">constructores</span><span class="p">;</span>
+    <span class="n">constructores</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="o">[</span><span class="n">ficheros</span><span class="p">.</span><span class="na">length</span><span class="o">]</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ficheros</span><span class="p">.</span><span class="na">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">String</span> <span class="n">fichResultado</span><span class="p">,</span> <span class="n">fichErrores</span><span class="p">;</span>
+        <span class="n">fichResultado</span> <span class="o">=</span> <span class="n">ficheros</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">SUFIJO_RESULTADO</span><span class="p">;</span>
+        <span class="n">fichErrores</span> <span class="o">=</span> <span class="n">ficheros</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">SUFIJO_ERRORES</span><span class="p">;</span>
+        <span class="n">ficherosResultado</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">fichResultado</span><span class="p">;</span>
+        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProcessBuilder</span><span class="p">();</span>
+        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="na">command</span><span class="p">(</span><span class="s">&quot;java&quot;</span><span class="p">,</span> <span class="s">&quot;-cp&quot;</span><span class="p">,</span> <span class="n">classpath</span><span class="p">,</span>
+                                 <span class="s">&quot;com.ies.ProcesadorContabilidad&quot;</span><span class="p">,</span> <span class="n">ficheros</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span>
+                                 <span class="n">fichResultado</span><span class="p">);</span>
         <span class="c1">//El fichero de errores se generará, aunque</span>
         <span class="c1">//puede que vacío</span>
-        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">redirectError</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span>
-                                           <span class="n">fichErrores</span><span class="o">));</span>
-        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="na">redirectError</span><span class="p">(</span><span class="k">new</span> <span class="n">File</span><span class="p">(</span>
+                                           <span class="n">fichErrores</span><span class="p">));</span>
+        <span class="n">constructores</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
         <span class="c1">//Fin del for que recorre los ficheros</span>
-    <span class="o">}</span>
+    <span class="p">}</span>
     <span class="c1">//Calculamos las sumas de cantidades</span>
-    <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getSuma</span><span class="o">(</span><span class="n">ficherosResultado</span><span class="o">);</span>
+    <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="p">.</span><span class="na">getSuma</span><span class="p">(</span><span class="n">ficherosResultado</span><span class="p">);</span>
     <span class="c1">//Y las almacenamos</span>
-    <span class="n">PrintWriter</span> <span class="n">pw</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="o">.</span><span class="na">getPrintWriter</span><span class="o">(</span><span class="n">RESULTADOS_GLOBALES</span><span class="o">);</span>
-    <span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">total</span><span class="o">);</span>
-    <span class="n">pw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="n">PrintWriter</span> <span class="n">pw</span> <span class="o">=</span> <span class="n">UtilidadesFicheros</span><span class="p">.</span><span class="na">getPrintWriter</span><span class="p">(</span><span class="n">RESULTADOS_GLOBALES</span><span class="p">);</span>
+    <span class="n">pw</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">total</span><span class="p">);</span>
+    <span class="n">pw</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
 <span class="c1">//Fin del main</span>
-<span class="o">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -611,7 +610,7 @@
 <h2>Gestión de procesos.<a class="headerlink" href="#gestion-de-procesos" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>La gestión de procesos se realiza de dos formas <strong>muy distintas</strong> en función de los dos grandes sistemas operativos: Windows y Linux.</p>
 <ul class="simple">
-<li>En Windows toda la gestión de procesos se realiza desde el «Administrador de tareas» al cual se accede con Ctrl+Alt+Supr. Existen otros programas más sofisticados que proporcionan algo más de información sobre los procesos, como Process Explorer (antes conocido con el nombre de ProcessViewer).</li>
+<li><p>En Windows toda la gestión de procesos se realiza desde el «Administrador de tareas» al cual se accede con Ctrl+Alt+Supr. Existen otros programas más sofisticados que proporcionan algo más de información sobre los procesos, como Process Explorer (antes conocido con el nombre de ProcessViewer).</p></li>
 </ul>
 </div>
 <div class="section" id="comandos-para-la-gestion-de-procesos-en-sistemas-libres-y-propietarios">
@@ -623,17 +622,17 @@
 <p>se abrirá el visor de archivos PDF el cual cargará automáticamente el fichero <code class="docutils literal notranslate"><span class="pre">documento.pdf</span></code></p>
 <p>En GNU/Linux se puede utilizar un terminal de consola para la gestión de procesos, lo que implica que no solo se pueden arrancar procesos si no tambien detenerlos, reanudarlos, terminarlos y modificar su prioridad de ejecución.</p>
 <ul class="simple">
-<li>Para arrancar un proceso, simplemente tenemos que escribir el nombre del comando correspondiente. Desde GNU/Linux se pueden controlar los servicios que se ejecutan con un comando llamado <code class="docutils literal notranslate"><span class="pre">service</span></code>. Por ejemplo, se puede usar <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">apache2</span> <span class="pre">stop</span></code> para parar el servidor web y <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">apache2</span> <span class="pre">start</span></code> para volver a ponerlo en marcha. También se puede reiniciar un servicio (tal vez para que relea un fichero de configuración que hemos cambiado) con <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">apache2</span> <span class="pre">restart</span></code>.</li>
-<li>Se puede detener y/o terminar un proceso con el comando <code class="docutils literal notranslate"><span class="pre">kill</span></code>. Se puede usar este comando para <strong>terminar un proceso</strong> sin guardar nada usando <code class="docutils literal notranslate"><span class="pre">kill</span> <span class="pre">-SIGKILL</span> <span class="pre">&lt;numproceso&gt;</span></code> o <code class="docutils literal notranslate"><span class="pre">kill</span> <span class="pre">-9</span> <span class="pre">&lt;numproceso&gt;</span></code>. Se puede pausar un proceso con <code class="docutils literal notranslate"><span class="pre">kill</span> <span class="pre">-SIGSTOP</span> <span class="pre">&lt;numproceso&gt;</span></code> y rearrancarlo con <code class="docutils literal notranslate"><span class="pre">kill</span> <span class="pre">-SIGCONT</span></code></li>
-<li>Se puede enviar un proceso a segundo plano con comandos como <code class="docutils literal notranslate"><span class="pre">bg</span></code> o al arrancar el proceso escribir el nombre del comando terminado en <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>.</li>
-<li>Se puede devolver un proceso a primer plano con el comando <code class="docutils literal notranslate"><span class="pre">fg</span></code>.</li>
+<li><p>Para arrancar un proceso, simplemente tenemos que escribir el nombre del comando correspondiente. Desde GNU/Linux se pueden controlar los servicios que se ejecutan con un comando llamado <code class="docutils literal notranslate"><span class="pre">service</span></code>. Por ejemplo, se puede usar <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">apache2</span> <span class="pre">stop</span></code> para parar el servidor web y <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">apache2</span> <span class="pre">start</span></code> para volver a ponerlo en marcha. También se puede reiniciar un servicio (tal vez para que relea un fichero de configuración que hemos cambiado) con <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">service</span> <span class="pre">apache2</span> <span class="pre">restart</span></code>.</p></li>
+<li><p>Se puede detener y/o terminar un proceso con el comando <code class="docutils literal notranslate"><span class="pre">kill</span></code>. Se puede usar este comando para <strong>terminar un proceso</strong> sin guardar nada usando <code class="docutils literal notranslate"><span class="pre">kill</span> <span class="pre">-SIGKILL</span> <span class="pre">&lt;numproceso&gt;</span></code> o <code class="docutils literal notranslate"><span class="pre">kill</span> <span class="pre">-9</span> <span class="pre">&lt;numproceso&gt;</span></code>. Se puede pausar un proceso con <code class="docutils literal notranslate"><span class="pre">kill</span> <span class="pre">-SIGSTOP</span> <span class="pre">&lt;numproceso&gt;</span></code> y rearrancarlo con <code class="docutils literal notranslate"><span class="pre">kill</span> <span class="pre">-SIGCONT</span></code></p></li>
+<li><p>Se puede enviar un proceso a segundo plano con comandos como <code class="docutils literal notranslate"><span class="pre">bg</span></code> o al arrancar el proceso escribir el nombre del comando terminado en <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>.</p></li>
+<li><p>Se puede devolver un proceso a primer plano con el comando <code class="docutils literal notranslate"><span class="pre">fg</span></code>.</p></li>
 </ul>
 <div class="section" id="prioridades">
 <h3>Prioridades<a class="headerlink" href="#prioridades" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>En sistemas como GNU/Linux se puede modificar la prioridad con que se ejecuta un proceso. Esto implica dos posibilidades</p>
 <ul class="simple">
-<li>Si pensamos que un programa que necesitamos ejecutar es muy importante podemos darle más prioridad para que reciba «más turnos» del planificador.</li>
-<li>Y por el contrario, si pensamos que un programa no es muy necesario podemos quitarle prioridad y reservar «más turnos de planificador» para otros posibles procesos.</li>
+<li><p>Si pensamos que un programa que necesitamos ejecutar es muy importante podemos darle más prioridad para que reciba «más turnos» del planificador.</p></li>
+<li><p>Y por el contrario, si pensamos que un programa no es muy necesario podemos quitarle prioridad y reservar «más turnos de planificador» para otros posibles procesos.</p></li>
 </ul>
 <p>El comando <code class="docutils literal notranslate"><span class="pre">nice</span></code> permite indicar prioridades entre -20 y 19. El -20 implica que un proceso reciba la <strong>máxima prioridad</strong>, y el 19 supone asignar la <strong>mínima prioridad</strong></p>
 </div>
@@ -641,15 +640,15 @@
 <div class="section" id="sincronizacion-entre-procesos">
 <h2>Sincronización entre procesos.<a class="headerlink" href="#sincronizacion-entre-procesos" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Cuando se lanza más de un proceso de una misma sección de código no se sabe qué proceso ejecutará qué instrucción en un cierto momento, lo que es muy peligroso:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span><span class="n">j</span><span class="o">;</span>
-<span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">2</span><span class="o">){</span>
-        <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">;</span>
+<span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">){</span>
+        <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
         <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span>
-<span class="o">}</span>
-<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Ok&quot;</span><span class="o">);</span>
-<span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">;</span>
-<span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+<span class="p">}</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Ok&quot;</span><span class="p">);</span>
+<span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+<span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Si dos o más procesos avanzan por esta sección de código es perfectamente posible que unas veces nuestro programa multiproceso se ejecute bien y otras no.</p>
@@ -658,29 +657,29 @@
 <h3>Mecanismos para controlar secciones críticas<a class="headerlink" href="#mecanismos-para-controlar-secciones-criticas" title="Enlazar permanentemente con este título">¶</a></h3>
 <p>Los mecanismos más típicos son los ofrecidos por UNIX/Windows:</p>
 <ul class="simple">
-<li>Semáforos.</li>
-<li>Colas de mensajes.</li>
-<li>Tuberías (pipes)</li>
-<li>Bloques de memoria compartida.</li>
+<li><p>Semáforos.</p></li>
+<li><p>Colas de mensajes.</p></li>
+<li><p>Tuberías (pipes)</p></li>
+<li><p>Bloques de memoria compartida.</p></li>
 </ul>
 <p>En realidad algunos de estos mecanismos se utilizan más para intercomunicar procesos, aunque para los programadores Java la forma de resolver el problema de la «sección crítica» es más simple.</p>
 <p>En Java, si el programador piensa que un trozo de código es peligroso puede ponerle la palabra clave <code class="docutils literal notranslate"><span class="pre">synchronized</span></code> y la máquina virtual Java protege el código automáticamente.</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span>    <span class="cm">/* La máquina virtual Java evitará que más de un proceso/hilo acceda a este método*/</span>
     <span class="kd">synchronized</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">actualizarPension</span><span class="o">(</span><span class="kt">int</span> <span class="n">nuevoValor</span><span class="o">){</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">actualizarPension</span><span class="p">(</span><span class="kt">int</span> <span class="n">nuevoValor</span><span class="p">){</span>
             <span class="cm">/*..trozo de código largo omitido*/</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">pension</span><span class="o">=</span><span class="n">nuevoValor</span>
-    <span class="o">}</span>
+            <span class="k">this</span><span class="p">.</span><span class="na">pension</span><span class="o">=</span><span class="n">nuevoValor</span>
+    <span class="p">}</span>
 
 
     <span class="cm">/* Otro ejemplo, ahora no hemos protegido un método entero,</span>
 <span class="cm">sino solo un pequeño trozo de código.*/</span>
-    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
             <span class="cm">/* Código omitido*/</span>
-            <span class="kd">synchronized</span> <span class="o">{</span>
-                    <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">;</span>
-                    <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
-            <span class="o">}</span>
+            <span class="kd">synchronized</span> <span class="p">{</span>
+                    <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+                    <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -695,12 +694,12 @@
 <h2>Depuración.<a class="headerlink" href="#depuracion" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>¿Como se depura un programa multiproceso/multihilo? Por desgracia puede ser muy difícil:</p>
 <ol class="arabic simple">
-<li>No todos los depuradores son capaces.</li>
-<li>A veces cuando un depurador interviene en un proceso puede ocurrir que el resto de procesos consigan ejecutarse en el orden correcto y dar lugar a que el programa parezca que funciona bien.</li>
-<li>Un error muy típico es la <code class="docutils literal notranslate"><span class="pre">NullPointerException</span></code>, que en muchos casos se deben a la utilización de referencias Java no inicializadas o incluso a la devolución de valores NULL que luego no se comprueban en alguna parte del código.</li>
-<li>Se puede usar el método <code class="docutils literal notranslate"><span class="pre">redirectError</span></code> pasándole un objeto de tipo <code class="docutils literal notranslate"><span class="pre">File</span></code> para que los mensajes de error vayan a un fichero.</li>
-<li>Se debe recordar que la «visión» que tiene Eclipse del sistema puede ser <strong>muy diferente</strong> de la visión que tiene el proceso lanzado. Un problema muy común es que el proceso lanzado no encuentre clases, lo que obligará a indicar el <code class="docutils literal notranslate"><span class="pre">CLASSPATH</span></code>.</li>
-<li>Un buen método para determinar errores consiste en utilizar el entorno de consola para lanzar comandos para ver «como es el sistema» que ve un proceso fuera de Eclipse (o de cualquier otro entorno).</li>
+<li><p>No todos los depuradores son capaces.</p></li>
+<li><p>A veces cuando un depurador interviene en un proceso puede ocurrir que el resto de procesos consigan ejecutarse en el orden correcto y dar lugar a que el programa parezca que funciona bien.</p></li>
+<li><p>Un error muy típico es la <code class="docutils literal notranslate"><span class="pre">NullPointerException</span></code>, que en muchos casos se deben a la utilización de referencias Java no inicializadas o incluso a la devolución de valores NULL que luego no se comprueban en alguna parte del código.</p></li>
+<li><p>Se puede usar el método <code class="docutils literal notranslate"><span class="pre">redirectError</span></code> pasándole un objeto de tipo <code class="docutils literal notranslate"><span class="pre">File</span></code> para que los mensajes de error vayan a un fichero.</p></li>
+<li><p>Se debe recordar que la «visión» que tiene Eclipse del sistema puede ser <strong>muy diferente</strong> de la visión que tiene el proceso lanzado. Un problema muy común es que el proceso lanzado no encuentre clases, lo que obligará a indicar el <code class="docutils literal notranslate"><span class="pre">CLASSPATH</span></code>.</p></li>
+<li><p>Un buen método para determinar errores consiste en utilizar el entorno de consola para lanzar comandos para ver «como es el sistema» que ve un proceso fuera de Eclipse (o de cualquier otro entorno).</p></li>
 </ol>
 <p>En general todos los fallos en un programa multiproceso vienen derivado de no usar <code class="docutils literal notranslate"><span class="pre">synchronized</span></code> de la forma correcta.</p>
 </div>
@@ -766,17 +765,15 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Búsqueda rápida</h3>
+  <h3 id="searchlabel">Búsqueda rápida</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Ir a" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -793,7 +790,7 @@
       &copy;2016, Oscar Gomez.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

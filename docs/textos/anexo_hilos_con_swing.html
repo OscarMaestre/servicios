@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anexo: hilos con Swing &#8212; Apuntes de Lenguajes de Marcas v1.3</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/translations.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Anexos diversos." href="anexos.html" />
+    <link rel="prev" title="Servicios web" href="tema6.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="anexo-hilos-con-swing">
+<h1>Anexo: hilos con Swing<a class="headerlink" href="#anexo-hilos-con-swing" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Cuando creamos una aplicación de escritorio con Swing utilizaremos botones, cuadros de texto, etc… Sin embargo, <strong>toda aplicación Swing utiliza hilos internamente</strong> . Esto significa que si necesitamos resolver una tarea larga <strong>podríamos dejar «bloqueada» la ventana principal mientras resolvemos la tarea</strong> . Esto produce una sensación muy pobre en el usuario y además puede impulsarle a cerrar la aplicación creyendo que <em>«se ha colgado»</em> . Para evitarlo podemos crear aplicaciones Swing que utilicen hilos de manera que el interfaz principal se mantenga activo aunque se esté ejecutando una tarea larga en segundo plano. A modo de ejemplo, vamos a crear una aplicación que sume todos los números de un intervalo dado y que tenga un interfaz como el siguiente:</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/HilosSwing01.png"><img alt="Interfaz final" src="../_images/HilosSwing01.png" style="width: 210.5px; height: 177.0px;" /></a>
+</div>
+</div>
+<div class="section" id="paso-1-el-interfaz">
+<h2>Paso 1: el interfaz<a class="headerlink" href="#paso-1-el-interfaz" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Empieza por crear un proyecto nuevo y diseña una interfaz como la anterior. En este interfaz tenemos los siguientes controles:</p>
+<ul class="simple">
+<li><p>El boton <code class="docutils literal notranslate"><span class="pre">btnSinHilos</span></code>.</p></li>
+<li><p>El boton <code class="docutils literal notranslate"><span class="pre">btnConHilos</span></code>.</p></li>
+<li><p>Una barra de progreso que llamaremos <code class="docutils literal notranslate"><span class="pre">pbProgreso</span></code>.</p></li>
+<li><p>Un área de texto que llamaremos <code class="docutils literal notranslate"><span class="pre">txtAreaTexto</span></code>.</p></li>
+</ul>
+</div>
+<div class="section" id="paso-2-el-bloque-del-interfaz">
+<h2>Paso 2: el bloque del interfaz<a class="headerlink" href="#paso-2-el-bloque-del-interfaz" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Vamos a simular que al pulsar el boton <code class="docutils literal notranslate"><span class="pre">btnSinHilos</span></code> se ejecuta una tarea larga. Para ello vamos a asociarle a dicho botón este código de gestion de eventos:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">private</span> <span class="kt">void</span> <span class="nf">btnSinHilosMouseClicked</span><span class="p">(</span><span class="n">java</span><span class="p">.</span><span class="na">awt</span><span class="p">.</span><span class="na">event</span><span class="p">.</span><span class="na">MouseEvent</span> <span class="n">evt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">suma</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">2000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="n">suma</span><span class="o">=</span><span class="n">suma</span><span class="o">+</span><span class="n">i</span><span class="p">;</span>
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">InterruptedException</span> <span class="n">ex</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Error, hilo interrumpido&quot;</span><span class="p">);</span>
+        <span class="p">}</span> <span class="cm">/*Fin del catch*/</span>
+    <span class="p">}</span> <span class="cm">/* Fin del for*/</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Si ejecutamos nuestra aplicación,despues pulsamos el botón <code class="docutils literal notranslate"><span class="pre">btnSinHilos</span></code> e intentamos escribir en el cuadro de texto veremos que <strong>NO OCURRE NADA</strong> . El programa no está mostrando ningún progreso aunque en realidad si «toma nota de las teclas pulsadas» y nos las mostrará tan pronto acabe la suma. Sin embargo es evidente que este comportamiento no es muy recomendable.</p>
+</div>
+<div class="section" id="paso-3-la-clase-swingworker">
+<h2>Paso 3: la clase <code class="docutils literal notranslate"><span class="pre">SwingWorker</span></code><a class="headerlink" href="#paso-3-la-clase-swingworker" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>La clase <code class="docutils literal notranslate"><span class="pre">SwingWorker&lt;Tipo1,</span> <span class="pre">Tipo2&gt;</span></code> es una clase genérica diseñada para heredar de ella y ejecutar tareas en segundo plano. En ella</p>
+<ul class="simple">
+<li><p>El <code class="docutils literal notranslate"><span class="pre">Tipo1</span></code> es el tipo del resultado que devolveremos.</p></li>
+<li><p>El <code class="docutils literal notranslate"><span class="pre">Tipo2</span></code> es el tipo que se utilizará para medir el progreso.</p></li>
+</ul>
+<p>Supongamos que deseamos hacer la misma suma, ir mostrando el progreso y al terminar devolver un mensaje con el resultado en forma de cadena, podemos crear una clase como la siguiente:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TareaParalelizada</span> <span class="kd">extends</span> <span class="n">SwingWorker</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">Integer</span><span class="o">&gt;</span><span class="p">{</span>
+    <span class="cm">/* Barra de progreso que la tarea irá actualizando a medida</span>
+<span class="cm">    que los cálculos progresen */</span>
+    <span class="n">JProgressBar</span> <span class="n">pbBarraProgreso</span><span class="p">;</span>
+
+    <span class="cm">/*Intervalo de números que se van a sumar*/</span>
+    <span class="kt">int</span> <span class="n">min</span><span class="p">,</span> <span class="n">max</span><span class="p">;</span>
+
+    <span class="cm">/*Constructor*/</span>
+    <span class="kd">public</span> <span class="nf">TareaParalelizada</span><span class="p">(</span><span class="n">JProgressBar</span> <span class="n">pbBarraProgreso</span><span class="p">,</span> <span class="kt">int</span> <span class="n">min</span><span class="p">,</span> <span class="kt">int</span> <span class="n">max</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">pbBarraProgreso</span> <span class="o">=</span> <span class="n">pbBarraProgreso</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">min</span> <span class="o">=</span> <span class="n">min</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">max</span> <span class="o">=</span> <span class="n">max</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">String</span> <span class="nf">doInBackground</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+        <span class="cm">/*Avisamos a la barra de cuales son los valores más pequeños</span>
+<span class="cm">        y más grandes que se van a recorrer */</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">pbBarraProgreso</span><span class="p">.</span><span class="na">setMaximum</span><span class="p">(</span><span class="n">max</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">pbBarraProgreso</span><span class="p">.</span><span class="na">setMinimum</span><span class="p">(</span><span class="n">min</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">suma</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+        <span class="cm">/*Recorremos los números...*/</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">2000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="n">suma</span><span class="o">=</span><span class="n">suma</span><span class="o">+</span><span class="n">i</span><span class="p">;</span>
+            <span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+            <span class="cm">/*...y actualizamos la barra para que el usuario pueda</span>
+<span class="cm">            ir viendo el progreso*/</span>
+            <span class="k">this</span><span class="p">.</span><span class="na">pbBarraProgreso</span><span class="p">.</span><span class="na">setValue</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="s">&quot;Sumado:&quot;</span><span class="o">+</span><span class="n">suma</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Y despues asociemos el siguiente código al gestor del evento <code class="docutils literal notranslate"><span class="pre">click</span></code> para el <code class="docutils literal notranslate"><span class="pre">btnBotonConHilos</span></code>.</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">private</span> <span class="kt">void</span> <span class="nf">btnConHilosMouseClicked</span><span class="p">(</span><span class="n">java</span><span class="p">.</span><span class="na">awt</span><span class="p">.</span><span class="na">event</span><span class="p">.</span><span class="na">MouseEvent</span> <span class="n">evt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">TareaParalelizada</span> <span class="n">t</span><span class="o">=</span><span class="k">new</span> <span class="n">TareaParalelizada</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="na">pbProgreso</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2000</span><span class="p">);</span>
+    <span class="n">t</span><span class="p">.</span><span class="na">execute</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>si ahora repetimos la ejecución de la aplicación pero ahora pulsamos el boton «Con hilos» veremos que <strong>SÍ PODEMOS INTERACTUAR CON EL ÁREA DE TEXTO</strong> . De hecho podríamos hacer cualquier otra cosa y la vez ir visualizando el progreso de la tarea, lo cual es claramente mucho más recomendable.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Apuntes de Programación de Servicios y procesos</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tema1.html">Programación multiproceso</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema2.html">Programación multihilo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema3.html">Programación de comunicaciones en red</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema4.html">Generación de servicios en red</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema5.html">Utilización de técnicas de programación segura</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tema6.html">Servicios web</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Anexo: hilos con Swing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduccion">Introducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#paso-1-el-interfaz">Paso 1: el interfaz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#paso-2-el-bloque-del-interfaz">Paso 2: el bloque del interfaz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#paso-3-la-clase-swingworker">Paso 3: la clase <code class="docutils literal notranslate"><span class="pre">SwingWorker</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="anexos.html">Anexos diversos.</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="tema6.html" title="capítulo anterior">Servicios web</a></li>
+      <li>Next: <a href="anexos.html" title="próximo capítulo">Anexos diversos.</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Oscar Gomez.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/textos/anexo_hilos_con_swing.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

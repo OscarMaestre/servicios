@@ -1,159 +1,162 @@
 \babel@toc {spanish}{}
-\contentsline {chapter}{\numberline {1}Programaci\IeC {\'o}n multiproceso}{1}{chapter.1}
-\contentsline {section}{\numberline {1.1}Ejecutables. Procesos. Servicios.}{1}{section.1.1}
-\contentsline {subsection}{\numberline {1.1.1}Ejecutables}{1}{subsection.1.1.1}
-\contentsline {subsection}{\numberline {1.1.2}Procesos}{1}{subsection.1.1.2}
-\contentsline {subsection}{\numberline {1.1.3}Servicios}{2}{subsection.1.1.3}
-\contentsline {section}{\numberline {1.2}Hilos.}{2}{section.1.2}
-\contentsline {section}{\numberline {1.3}Programaci\IeC {\'o}n concurrente.}{2}{section.1.3}
-\contentsline {section}{\numberline {1.4}Programaci\IeC {\'o}n paralela y distribuida.}{2}{section.1.4}
-\contentsline {section}{\numberline {1.5}Creaci\IeC {\'o}n de procesos.}{2}{section.1.5}
-\contentsline {section}{\numberline {1.6}Comunicaci\IeC {\'o}n entre procesos.}{5}{section.1.6}
-\contentsline {section}{\numberline {1.7}Ejercicio}{6}{section.1.7}
-\contentsline {section}{\numberline {1.8}Ejercicio resuelto}{8}{section.1.8}
-\contentsline {subsection}{\numberline {1.8.1}Operaciones con ficheros}{8}{subsection.1.8.1}
-\contentsline {subsection}{\numberline {1.8.2}Procesado de ficheros}{9}{subsection.1.8.2}
-\contentsline {section}{\numberline {1.9}Lanzamiento de los procesos}{10}{section.1.9}
-\contentsline {section}{\numberline {1.10}Ejercicio propuesto (I)}{11}{section.1.10}
-\contentsline {subsection}{\numberline {1.10.1}Soluci\IeC {\'o}n al ejercicio propuesto (I)}{11}{subsection.1.10.1}
-\contentsline {section}{\numberline {1.11}Gesti\IeC {\'o}n de procesos.}{14}{section.1.11}
-\contentsline {section}{\numberline {1.12}Comandos para la gesti\IeC {\'o}n de procesos en sistemas libres y propietarios.}{14}{section.1.12}
-\contentsline {subsection}{\numberline {1.12.1}Prioridades}{14}{subsection.1.12.1}
-\contentsline {section}{\numberline {1.13}Sincronizaci\IeC {\'o}n entre procesos.}{15}{section.1.13}
-\contentsline {subsection}{\numberline {1.13.1}Mecanismos para controlar secciones cr\IeC {\'\i }ticas}{15}{subsection.1.13.1}
-\contentsline {section}{\numberline {1.14}Documentaci\IeC {\'o}n}{16}{section.1.14}
-\contentsline {section}{\numberline {1.15}Depuraci\IeC {\'o}n.}{16}{section.1.15}
-\contentsline {section}{\numberline {1.16}Examen}{16}{section.1.16}
-\contentsline {chapter}{\numberline {2}Programaci\IeC {\'o}n multihilo}{17}{chapter.2}
-\contentsline {section}{\numberline {2.1}Recursos compartidos por los hilos.}{17}{section.2.1}
-\contentsline {section}{\numberline {2.2}Estados de un hilo. Cambios de estado.}{17}{section.2.2}
-\contentsline {section}{\numberline {2.3}Elementos relacionados con la programaci\IeC {\'o}n de hilos. Librer\IeC {\'\i }as y clases.}{18}{section.2.3}
-\contentsline {section}{\numberline {2.4}Gesti\IeC {\'o}n de hilos.}{19}{section.2.4}
-\contentsline {section}{\numberline {2.5}Creaci\IeC {\'o}n, inicio y finalizaci\IeC {\'o}n.}{22}{section.2.5}
-\contentsline {section}{\numberline {2.6}Sincronizaci\IeC {\'o}n de hilos.}{22}{section.2.6}
-\contentsline {section}{\numberline {2.7}Informaci\IeC {\'o}n entre hilos.}{22}{section.2.7}
-\contentsline {section}{\numberline {2.8}Prioridades de los hilos.}{22}{section.2.8}
-\contentsline {section}{\numberline {2.9}Gesti\IeC {\'o}n de prioridades.}{22}{section.2.9}
-\contentsline {section}{\numberline {2.10}Programaci\IeC {\'o}n de aplicaciones multihilo.}{22}{section.2.10}
-\contentsline {section}{\numberline {2.11}Problema: fil\IeC {\'o}sofos}{24}{section.2.11}
-\contentsline {subsection}{\numberline {2.11.1}Boceto de soluci\IeC {\'o}n}{25}{subsection.2.11.1}
-\contentsline {section}{\numberline {2.12}Soluci\IeC {\'o}n completa al problema de los fil\IeC {\'o}sofos}{26}{section.2.12}
-\contentsline {subsection}{\numberline {2.12.1}Gestor de recursos compartidos (palillos)}{26}{subsection.2.12.1}
-\contentsline {subsection}{\numberline {2.12.2}Simulaci\IeC {\'o}n de un fil\IeC {\'o}sofo}{27}{subsection.2.12.2}
-\contentsline {subsection}{\numberline {2.12.3}Lanzador de hilos}{28}{subsection.2.12.3}
-\contentsline {section}{\numberline {2.13}Problema: simulador de casino}{28}{section.2.13}
-\contentsline {section}{\numberline {2.14}Problema: barberos}{28}{section.2.14}
-\contentsline {section}{\numberline {2.15}Una (mala) soluci\IeC {\'o}n al problema de los barberos}{29}{section.2.15}
-\contentsline {subsection}{\numberline {2.15.1}Clase Barbero}{29}{subsection.2.15.1}
-\contentsline {subsection}{\numberline {2.15.2}Clase Cliente}{30}{subsection.2.15.2}
-\contentsline {subsection}{\numberline {2.15.3}Clase GestorConcurrencia}{31}{subsection.2.15.3}
-\contentsline {subsection}{\numberline {2.15.4}Clase Lanzador}{32}{subsection.2.15.4}
-\contentsline {subsection}{\numberline {2.15.5}Cr\IeC {\'\i }ticas a la soluci\IeC {\'o}n anterior}{33}{subsection.2.15.5}
-\contentsline {subsection}{\numberline {2.15.6}Clase cliente}{33}{subsection.2.15.6}
-\contentsline {subsection}{\numberline {2.15.7}Clase Barbero}{33}{subsection.2.15.7}
-\contentsline {subsection}{\numberline {2.15.8}Clase GestorSillas}{34}{subsection.2.15.8}
-\contentsline {subsection}{\numberline {2.15.9}Clase Lanzador}{35}{subsection.2.15.9}
-\contentsline {section}{\numberline {2.16}Problema: productores y consumidores.}{36}{section.2.16}
-\contentsline {section}{\numberline {2.17}Soluci\IeC {\'o}n}{36}{section.2.17}
-\contentsline {subsection}{\numberline {2.17.1}Una cola limitada en tama\IeC {\~n}o y thread-safe}{37}{subsection.2.17.1}
-\contentsline {subsection}{\numberline {2.17.2}La clase Productor}{38}{subsection.2.17.2}
-\contentsline {subsection}{\numberline {2.17.3}La clase Consumidor}{38}{subsection.2.17.3}
-\contentsline {subsection}{\numberline {2.17.4}Un lanzador}{38}{subsection.2.17.4}
-\contentsline {section}{\numberline {2.18}Ejercicio}{39}{section.2.18}
-\contentsline {subsection}{\numberline {2.18.1}Clase cliente}{39}{subsection.2.18.1}
-\contentsline {subsection}{\numberline {2.18.2}Clase Almac\IeC {\'e}n}{41}{subsection.2.18.2}
-\contentsline {subsection}{\numberline {2.18.3}Clase Puerta}{41}{subsection.2.18.3}
-\contentsline {subsection}{\numberline {2.18.4}Clase lanzadora (GrandesAlmacenes)}{41}{subsection.2.18.4}
-\contentsline {section}{\numberline {2.19}Simulaci\IeC {\'o}n bancaria}{42}{section.2.19}
-\contentsline {section}{\numberline {2.20}Clases de alto nivel: la clase \sphinxstyleliteralintitle {\sphinxupquote {RecursiveTask}}}{45}{section.2.20}
-\contentsline {section}{\numberline {2.21}Documentaci\IeC {\'o}n.}{47}{section.2.21}
-\contentsline {section}{\numberline {2.22}Depuraci\IeC {\'o}n.}{47}{section.2.22}
-\contentsline {section}{\numberline {2.23}Ejercicio: empleado \IeC {\guillemotleft }Thread safe\IeC {\guillemotright }}{47}{section.2.23}
-\contentsline {chapter}{\numberline {3}Programaci\IeC {\'o}n de comunicaciones en red}{49}{chapter.3}
-\contentsline {section}{\numberline {3.1}Comunicaci\IeC {\'o}n entre aplicaciones.}{49}{section.3.1}
-\contentsline {section}{\numberline {3.2}Roles cliente y servidor.}{49}{section.3.2}
-\contentsline {section}{\numberline {3.3}Recordatorio de los flujos en Java}{50}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}InputStreams y OutputStreams}{50}{subsection.3.3.1}
-\contentsline {subsection}{\numberline {3.3.2}Readers y Writers}{50}{subsection.3.3.2}
-\contentsline {subsection}{\numberline {3.3.3}\sphinxstyleliteralintitle {\sphinxupquote {BufferedReaders}} y \sphinxstyleliteralintitle {\sphinxupquote {PrintWriters}}}{50}{subsection.3.3.3}
-\contentsline {section}{\numberline {3.4}Elementos de programaci\IeC {\'o}n de aplicaciones en red. Librer\IeC {\'\i }as.}{50}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}La clase URL}{51}{subsection.3.4.1}
-\contentsline {section}{\numberline {3.5}Repaso de redes}{52}{section.3.5}
-\contentsline {section}{\numberline {3.6}Funciones y objetos de las librer\IeC {\'\i }as.}{52}{section.3.6}
-\contentsline {section}{\numberline {3.7}Sockets.}{52}{section.3.7}
-\contentsline {section}{\numberline {3.8}Creaci\IeC {\'o}n de sockets.}{53}{section.3.8}
-\contentsline {section}{\numberline {3.9}Enlazado y establecimiento de conexiones.}{53}{section.3.9}
-\contentsline {section}{\numberline {3.10}Utilizaci\IeC {\'o}n de sockets para la transmisi\IeC {\'o}n y recepci\IeC {\'o}n de informaci\IeC {\'o}n.}{54}{section.3.10}
-\contentsline {subsection}{\numberline {3.10.1}El ejemplo completo}{54}{subsection.3.10.1}
-\contentsline {section}{\numberline {3.11}Programaci\IeC {\'o}n de aplicaciones cliente y servidor.}{55}{section.3.11}
-\contentsline {subsection}{\numberline {3.11.1}Ejemplo de servidor Java}{57}{subsection.3.11.1}
-\contentsline {section}{\numberline {3.12}Utilizaci\IeC {\'o}n de hilos en la programaci\IeC {\'o}n de aplicaciones en red.}{59}{section.3.12}
-\contentsline {subsection}{\numberline {3.12.1}Ejercicio: servicio de ordenaci\IeC {\'o}n}{61}{subsection.3.12.1}
-\contentsline {subsection}{\numberline {3.12.2}Una clase Protocolo}{61}{subsection.3.12.2}
-\contentsline {subsection}{\numberline {3.12.3}Una clase con funciones de utilidad}{61}{subsection.3.12.3}
-\contentsline {subsection}{\numberline {3.12.4}La clase Petici\IeC {\'o}n}{62}{subsection.3.12.4}
-\contentsline {subsection}{\numberline {3.12.5}La clase Servidor}{63}{subsection.3.12.5}
-\contentsline {subsection}{\numberline {3.12.6}La clase Cliente}{63}{subsection.3.12.6}
-\contentsline {subsection}{\numberline {3.12.7}Ampliaci\IeC {\'o}n}{64}{subsection.3.12.7}
-\contentsline {section}{\numberline {3.13}Ejercicios}{65}{section.3.13}
-\contentsline {subsection}{\numberline {3.13.1}Sumas de verificaci\IeC {\'o}n}{65}{subsection.3.13.1}
-\contentsline {subsection}{\numberline {3.13.2}Soluci\IeC {\'o}n a las sumas de verificaci\IeC {\'o}n}{65}{subsection.3.13.2}
-\contentsline {subsection}{\numberline {3.13.3}Servidor de bases de datos}{67}{subsection.3.13.3}
-\contentsline {subsection}{\numberline {3.13.4}Servidor de eco}{67}{subsection.3.13.4}
-\contentsline {subsection}{\numberline {3.13.5}Comentarios generales a la soluci\IeC {\'o}n}{68}{subsection.3.13.5}
-\contentsline {subsection}{\numberline {3.13.6}Soluci\IeC {\'o}n al servidor}{68}{subsection.3.13.6}
-\contentsline {subsection}{\numberline {3.13.7}Soluci\IeC {\'o}n HiloConexion}{68}{subsection.3.13.7}
-\contentsline {subsection}{\numberline {3.13.8}Soluci\IeC {\'o}n Cliente}{69}{subsection.3.13.8}
-\contentsline {subsection}{\numberline {3.13.9}Soluci\IeC {\'o}n LanzadorClientes}{71}{subsection.3.13.9}
-\contentsline {chapter}{\numberline {4}Generaci\IeC {\'o}n de servicios en red}{73}{chapter.4}
-\contentsline {section}{\numberline {4.1}Telnet/SSH}{73}{section.4.1}
-\contentsline {section}{\numberline {4.2}FTP}{73}{section.4.2}
-\contentsline {section}{\numberline {4.3}HTTP}{74}{section.4.3}
-\contentsline {section}{\numberline {4.4}POP3}{74}{section.4.4}
-\contentsline {section}{\numberline {4.5}SMTP}{75}{section.4.5}
-\contentsline {subsection}{\numberline {4.5.1}Librer\IeC {\'\i }as de clases y componentes.}{75}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}Utilizaci\IeC {\'o}n de objetos predefinidos.}{75}{subsection.4.5.2}
-\contentsline {subsection}{\numberline {4.5.3}Establecimiento y finalizaci\IeC {\'o}n de conexiones.}{76}{subsection.4.5.3}
-\contentsline {subsection}{\numberline {4.5.4}Transmisi\IeC {\'o}n de informaci\IeC {\'o}n.}{76}{subsection.4.5.4}
-\contentsline {subsection}{\numberline {4.5.5}Programaci\IeC {\'o}n de aplicaciones cliente.}{76}{subsection.4.5.5}
-\contentsline {section}{\numberline {4.6}Programaci\IeC {\'o}n de servidores.}{78}{section.4.6}
-\contentsline {subsection}{\numberline {4.6.1}SOAP}{78}{subsection.4.6.1}
-\contentsline {subsection}{\numberline {4.6.2}WCF}{78}{subsection.4.6.2}
-\contentsline {subsection}{\numberline {4.6.3}Implementaci\IeC {\'o}n de comunicaciones simult\IeC {\'a}neas.}{80}{subsection.4.6.3}
-\contentsline {subsection}{\numberline {4.6.4}Documentaci\IeC {\'o}n.}{80}{subsection.4.6.4}
-\contentsline {subsection}{\numberline {4.6.5}Depuraci\IeC {\'o}n.}{80}{subsection.4.6.5}
-\contentsline {subsection}{\numberline {4.6.6}Monitorizaci\IeC {\'o}n de tiempos de respuesta.}{80}{subsection.4.6.6}
-\contentsline {chapter}{\numberline {5}Utilizaci\IeC {\'o}n de t\IeC {\'e}cnicas de programaci\IeC {\'o}n segura}{81}{chapter.5}
-\contentsline {section}{\numberline {5.1}Introducci\IeC {\'o}n}{81}{section.5.1}
-\contentsline {section}{\numberline {5.2}Pr\IeC {\'a}cticas de programaci\IeC {\'o}n segura.}{81}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}M\IeC {\'e}todo C\IeC {\'e}sar}{81}{subsection.5.2.1}
-\contentsline {section}{\numberline {5.3}Criptograf\IeC {\'\i }a de clave p\IeC {\'u}blica y clave privada.}{82}{section.5.3}
-\contentsline {section}{\numberline {5.4}Principales aplicaciones de la criptograf\IeC {\'\i }a.}{82}{section.5.4}
-\contentsline {section}{\numberline {5.5}Protocolos criptogr\IeC {\'a}ficos.}{83}{section.5.5}
-\contentsline {section}{\numberline {5.6}Encriptaci\IeC {\'o}n de informaci\IeC {\'o}n.}{83}{section.5.6}
-\contentsline {section}{\numberline {5.7}Protocolos seguros de comunicaciones.}{85}{section.5.7}
-\contentsline {section}{\numberline {5.8}Infraestructura de clave p\IeC {\'u}blica (PKI)}{85}{section.5.8}
-\contentsline {section}{\numberline {5.9}Programaci\IeC {\'o}n de aplicaciones con comunicaciones seguras.}{85}{section.5.9}
-\contentsline {section}{\numberline {5.10}Firmado de aplicaciones}{90}{section.5.10}
-\contentsline {section}{\numberline {5.11}Verificado de aplicaciones}{90}{section.5.11}
-\contentsline {section}{\numberline {5.12}Ejercicio}{91}{section.5.12}
-\contentsline {section}{\numberline {5.13}Recordatorio}{91}{section.5.13}
-\contentsline {section}{\numberline {5.14}Pol\IeC {\'\i }tica de seguridad.}{91}{section.5.14}
-\contentsline {section}{\numberline {5.15}Programaci\IeC {\'o}n de mecanismos de control de acceso.}{91}{section.5.15}
-\contentsline {section}{\numberline {5.16}Pruebas y depuraci\IeC {\'o}n.}{91}{section.5.16}
-\contentsline {chapter}{\numberline {6}Servicios web}{93}{chapter.6}
-\contentsline {section}{\numberline {6.1}Introducci\IeC {\'o}n}{93}{section.6.1}
-\contentsline {section}{\numberline {6.2}Prerrequisitos}{93}{section.6.2}
-\contentsline {chapter}{\numberline {7}Anexo: hilos con Swing}{95}{chapter.7}
-\contentsline {section}{\numberline {7.1}Introducci\IeC {\'o}n}{95}{section.7.1}
-\contentsline {section}{\numberline {7.2}Paso 1: el interfaz}{95}{section.7.2}
-\contentsline {section}{\numberline {7.3}Paso 2: el bloque del interfaz}{96}{section.7.3}
-\contentsline {section}{\numberline {7.4}Paso 3: la clase \sphinxstyleliteralintitle {\sphinxupquote {SwingWorker}}}{96}{section.7.4}
-\contentsline {chapter}{\numberline {8}Anexos diversos.}{99}{chapter.8}
-\contentsline {section}{\numberline {8.1}La clase \sphinxstyleliteralintitle {\sphinxupquote {UtilidadesFicheros}}}{99}{section.8.1}
-\contentsline {section}{\numberline {8.2}Soluci\IeC {\'o}n al problema del simulador de Casino}{100}{section.8.2}
-\contentsline {subsection}{\numberline {8.2.1}La clase Banca}{101}{subsection.8.2.1}
-\contentsline {subsection}{\numberline {8.2.2}La clase Jugador}{103}{subsection.8.2.2}
-\contentsline {subsection}{\numberline {8.2.3}La clase JugadorClasico}{105}{subsection.8.2.3}
-\contentsline {subsection}{\numberline {8.2.4}La clase JugadorParImpar}{106}{subsection.8.2.4}
-\contentsline {subsection}{\numberline {8.2.5}La clase JugadorMartingala}{107}{subsection.8.2.5}
+\contentsline {chapter}{\numberline {1}Programación multiproceso}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Ejecutables. Procesos. Servicios.}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Ejecutables}{1}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Procesos}{2}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}Servicios}{2}{subsection.1.1.3}%
+\contentsline {section}{\numberline {1.2}Hilos.}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Programación concurrente.}{2}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Programación paralela y distribuida.}{2}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Creación de procesos.}{3}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Comunicación entre procesos.}{5}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Ejercicio}{6}{section.1.7}%
+\contentsline {section}{\numberline {1.8}Ejercicio resuelto}{8}{section.1.8}%
+\contentsline {subsection}{\numberline {1.8.1}Operaciones con ficheros}{9}{subsection.1.8.1}%
+\contentsline {subsection}{\numberline {1.8.2}Procesado de ficheros}{10}{subsection.1.8.2}%
+\contentsline {section}{\numberline {1.9}Lanzamiento de los procesos}{11}{section.1.9}%
+\contentsline {section}{\numberline {1.10}Ejercicio propuesto (I)}{12}{section.1.10}%
+\contentsline {subsection}{\numberline {1.10.1}Solución al ejercicio propuesto (I)}{12}{subsection.1.10.1}%
+\contentsline {section}{\numberline {1.11}Gestión de procesos.}{14}{section.1.11}%
+\contentsline {section}{\numberline {1.12}Comandos para la gestión de procesos en sistemas libres y propietarios.}{14}{section.1.12}%
+\contentsline {subsection}{\numberline {1.12.1}Prioridades}{15}{subsection.1.12.1}%
+\contentsline {section}{\numberline {1.13}Sincronización entre procesos.}{15}{section.1.13}%
+\contentsline {subsection}{\numberline {1.13.1}Mecanismos para controlar secciones críticas}{16}{subsection.1.13.1}%
+\contentsline {section}{\numberline {1.14}Documentación}{16}{section.1.14}%
+\contentsline {section}{\numberline {1.15}Depuración.}{17}{section.1.15}%
+\contentsline {section}{\numberline {1.16}Examen}{17}{section.1.16}%
+\contentsline {chapter}{\numberline {2}Programación multihilo}{19}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Recursos compartidos por los hilos.}{19}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Estados de un hilo. Cambios de estado.}{19}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Elementos relacionados con la programación de hilos. Librerías y clases.}{20}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Gestión de hilos.}{21}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Creación, inicio y finalización.}{24}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Sincronización de hilos.}{24}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Información entre hilos.}{24}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Prioridades de los hilos.}{24}{section.2.8}%
+\contentsline {section}{\numberline {2.9}Gestión de prioridades.}{24}{section.2.9}%
+\contentsline {section}{\numberline {2.10}Programación de aplicaciones multihilo.}{25}{section.2.10}%
+\contentsline {section}{\numberline {2.11}Problema: filósofos}{27}{section.2.11}%
+\contentsline {subsection}{\numberline {2.11.1}Boceto de solución}{27}{subsection.2.11.1}%
+\contentsline {section}{\numberline {2.12}Solución completa al problema de los filósofos}{28}{section.2.12}%
+\contentsline {subsection}{\numberline {2.12.1}Gestor de recursos compartidos (palillos)}{28}{subsection.2.12.1}%
+\contentsline {subsection}{\numberline {2.12.2}Simulación de un filósofo}{29}{subsection.2.12.2}%
+\contentsline {subsection}{\numberline {2.12.3}Lanzador de hilos}{30}{subsection.2.12.3}%
+\contentsline {section}{\numberline {2.13}Problema: simulador de casino}{30}{section.2.13}%
+\contentsline {section}{\numberline {2.14}Problema: barberos}{31}{section.2.14}%
+\contentsline {section}{\numberline {2.15}Una (mala) solución al problema de los barberos}{32}{section.2.15}%
+\contentsline {subsection}{\numberline {2.15.1}Clase Barbero}{32}{subsection.2.15.1}%
+\contentsline {subsection}{\numberline {2.15.2}Clase Cliente}{33}{subsection.2.15.2}%
+\contentsline {subsection}{\numberline {2.15.3}Clase GestorConcurrencia}{33}{subsection.2.15.3}%
+\contentsline {subsection}{\numberline {2.15.4}Clase Lanzador}{34}{subsection.2.15.4}%
+\contentsline {subsection}{\numberline {2.15.5}Críticas a la solución anterior}{35}{subsection.2.15.5}%
+\contentsline {subsection}{\numberline {2.15.6}Clase cliente}{35}{subsection.2.15.6}%
+\contentsline {subsection}{\numberline {2.15.7}Clase Barbero}{36}{subsection.2.15.7}%
+\contentsline {subsection}{\numberline {2.15.8}Clase GestorSillas}{36}{subsection.2.15.8}%
+\contentsline {subsection}{\numberline {2.15.9}Clase Lanzador}{38}{subsection.2.15.9}%
+\contentsline {section}{\numberline {2.16}Problema: productores y consumidores.}{38}{section.2.16}%
+\contentsline {section}{\numberline {2.17}Solución}{39}{section.2.17}%
+\contentsline {subsection}{\numberline {2.17.1}Una cola limitada en tamaño y thread\sphinxhyphen {}safe}{39}{subsection.2.17.1}%
+\contentsline {subsection}{\numberline {2.17.2}La clase Productor}{40}{subsection.2.17.2}%
+\contentsline {subsection}{\numberline {2.17.3}La clase Consumidor}{40}{subsection.2.17.3}%
+\contentsline {subsection}{\numberline {2.17.4}Un lanzador}{41}{subsection.2.17.4}%
+\contentsline {section}{\numberline {2.18}Ejercicio}{42}{section.2.18}%
+\contentsline {subsection}{\numberline {2.18.1}Clase cliente}{42}{subsection.2.18.1}%
+\contentsline {subsection}{\numberline {2.18.2}Clase Almacén}{43}{subsection.2.18.2}%
+\contentsline {subsection}{\numberline {2.18.3}Clase Puerta}{43}{subsection.2.18.3}%
+\contentsline {subsection}{\numberline {2.18.4}Clase lanzadora (GrandesAlmacenes)}{44}{subsection.2.18.4}%
+\contentsline {section}{\numberline {2.19}Simulación bancaria}{45}{section.2.19}%
+\contentsline {section}{\numberline {2.20}Clases de alto nivel: la clase \sphinxstyleliteralintitle {\sphinxupquote {RecursiveTask}}}{47}{section.2.20}%
+\contentsline {section}{\numberline {2.21}Documentación.}{49}{section.2.21}%
+\contentsline {section}{\numberline {2.22}Depuración.}{49}{section.2.22}%
+\contentsline {section}{\numberline {2.23}Ejercicio: empleado «Thread safe»}{50}{section.2.23}%
+\contentsline {chapter}{\numberline {3}Programación de comunicaciones en red}{51}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Comunicación entre aplicaciones.}{51}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Roles cliente y servidor.}{51}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Recordatorio de los flujos en Java}{52}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}InputStreams y OutputStreams}{52}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Readers y Writers}{52}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}\sphinxstyleliteralintitle {\sphinxupquote {BufferedReaders}} y \sphinxstyleliteralintitle {\sphinxupquote {PrintWriters}}}{52}{subsection.3.3.3}%
+\contentsline {section}{\numberline {3.4}Elementos de programación de aplicaciones en red. Librerías.}{53}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}La clase URL}{53}{subsection.3.4.1}%
+\contentsline {section}{\numberline {3.5}Repaso de redes}{54}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Funciones y objetos de las librerías.}{54}{section.3.6}%
+\contentsline {section}{\numberline {3.7}Sockets.}{55}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Creación de sockets.}{55}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Enlazado y establecimiento de conexiones.}{56}{section.3.9}%
+\contentsline {section}{\numberline {3.10}Utilización de sockets para la transmisión y recepción de información.}{56}{section.3.10}%
+\contentsline {subsection}{\numberline {3.10.1}El ejemplo completo}{56}{subsection.3.10.1}%
+\contentsline {section}{\numberline {3.11}Programación de aplicaciones cliente y servidor.}{57}{section.3.11}%
+\contentsline {subsection}{\numberline {3.11.1}Ejemplo de servidor Java}{59}{subsection.3.11.1}%
+\contentsline {section}{\numberline {3.12}Utilización de hilos en la programación de aplicaciones en red.}{61}{section.3.12}%
+\contentsline {subsection}{\numberline {3.12.1}Ejercicio: servicio de ordenación}{63}{subsection.3.12.1}%
+\contentsline {subsection}{\numberline {3.12.2}Una clase Protocolo}{63}{subsection.3.12.2}%
+\contentsline {subsection}{\numberline {3.12.3}Una clase con funciones de utilidad}{64}{subsection.3.12.3}%
+\contentsline {subsection}{\numberline {3.12.4}La clase Petición}{64}{subsection.3.12.4}%
+\contentsline {subsection}{\numberline {3.12.5}La clase Servidor}{65}{subsection.3.12.5}%
+\contentsline {subsection}{\numberline {3.12.6}La clase Cliente}{66}{subsection.3.12.6}%
+\contentsline {subsection}{\numberline {3.12.7}Ampliación}{66}{subsection.3.12.7}%
+\contentsline {section}{\numberline {3.13}Ejercicios}{67}{section.3.13}%
+\contentsline {subsection}{\numberline {3.13.1}Sumas de verificación}{67}{subsection.3.13.1}%
+\contentsline {subsection}{\numberline {3.13.2}Solución a las sumas de verificación}{68}{subsection.3.13.2}%
+\contentsline {subsection}{\numberline {3.13.3}Servidor de bases de datos}{69}{subsection.3.13.3}%
+\contentsline {subsection}{\numberline {3.13.4}Servidor de eco}{70}{subsection.3.13.4}%
+\contentsline {subsection}{\numberline {3.13.5}Comentarios generales a la solución}{70}{subsection.3.13.5}%
+\contentsline {subsection}{\numberline {3.13.6}Solución al servidor}{70}{subsection.3.13.6}%
+\contentsline {subsection}{\numberline {3.13.7}Solución HiloConexion}{71}{subsection.3.13.7}%
+\contentsline {subsection}{\numberline {3.13.8}Solución Cliente}{72}{subsection.3.13.8}%
+\contentsline {subsection}{\numberline {3.13.9}Solución LanzadorClientes}{73}{subsection.3.13.9}%
+\contentsline {chapter}{\numberline {4}Generación de servicios en red}{77}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Telnet/SSH}{77}{section.4.1}%
+\contentsline {section}{\numberline {4.2}FTP}{77}{section.4.2}%
+\contentsline {section}{\numberline {4.3}HTTP}{78}{section.4.3}%
+\contentsline {section}{\numberline {4.4}POP3}{79}{section.4.4}%
+\contentsline {section}{\numberline {4.5}SMTP}{79}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Librerías de clases y componentes.}{79}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Utilización de objetos predefinidos.}{80}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Establecimiento y finalización de conexiones.}{80}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Transmisión de información.}{80}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.5}Programación de aplicaciones cliente.}{80}{subsection.4.5.5}%
+\contentsline {section}{\numberline {4.6}Programación de servidores.}{82}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}SOAP}{82}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}WCF}{82}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.3}Implementación de comunicaciones simultáneas.}{85}{subsection.4.6.3}%
+\contentsline {subsection}{\numberline {4.6.4}Documentación.}{85}{subsection.4.6.4}%
+\contentsline {subsection}{\numberline {4.6.5}Depuración.}{85}{subsection.4.6.5}%
+\contentsline {subsection}{\numberline {4.6.6}Monitorización de tiempos de respuesta.}{85}{subsection.4.6.6}%
+\contentsline {chapter}{\numberline {5}Utilización de técnicas de programación segura}{87}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Introducción}{87}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Prácticas de programación segura.}{87}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Método César}{88}{subsection.5.2.1}%
+\contentsline {section}{\numberline {5.3}Criptografía de clave pública y clave privada.}{89}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Principales aplicaciones de la criptografía.}{89}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Protocolos criptográficos.}{89}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Encriptación de información.}{89}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Trabajando con bloques largos}{91}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Protocolos seguros de comunicaciones.}{91}{section.5.8}%
+\contentsline {section}{\numberline {5.9}Infraestructura de clave pública (PKI)}{92}{section.5.9}%
+\contentsline {section}{\numberline {5.10}Programación de aplicaciones con comunicaciones seguras.}{92}{section.5.10}%
+\contentsline {section}{\numberline {5.11}Firmado de aplicaciones}{96}{section.5.11}%
+\contentsline {section}{\numberline {5.12}Verificado de aplicaciones}{97}{section.5.12}%
+\contentsline {section}{\numberline {5.13}Ejercicio}{97}{section.5.13}%
+\contentsline {section}{\numberline {5.14}Recordatorio}{97}{section.5.14}%
+\contentsline {section}{\numberline {5.15}Política de seguridad.}{97}{section.5.15}%
+\contentsline {section}{\numberline {5.16}Programación de mecanismos de control de acceso.}{98}{section.5.16}%
+\contentsline {section}{\numberline {5.17}Pruebas y depuración.}{98}{section.5.17}%
+\contentsline {chapter}{\numberline {6}Servicios web}{99}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Introducción}{99}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Prerrequisitos}{99}{section.6.2}%
+\contentsline {chapter}{\numberline {7}Anexo: hilos con Swing}{101}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Introducción}{101}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Paso 1: el interfaz}{102}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Paso 2: el bloque del interfaz}{102}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Paso 3: la clase \sphinxstyleliteralintitle {\sphinxupquote {SwingWorker}}}{102}{section.7.4}%
+\contentsline {chapter}{\numberline {8}Anexos diversos.}{105}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Compartición de código entre proyectos Gradle de Netbeans}{105}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Compartición de código entre proyectos Maven en Netbeans}{105}{section.8.2}%
+\contentsline {section}{\numberline {8.3}La clase \sphinxstyleliteralintitle {\sphinxupquote {UtilidadesFicheros}}}{105}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Solución al problema del simulador de Casino}{106}{section.8.4}%
+\contentsline {subsection}{\numberline {8.4.1}La clase Banca}{107}{subsection.8.4.1}%
+\contentsline {subsection}{\numberline {8.4.2}La clase Jugador}{109}{subsection.8.4.2}%
+\contentsline {subsection}{\numberline {8.4.3}La clase JugadorClasico}{111}{subsection.8.4.3}%
+\contentsline {subsection}{\numberline {8.4.4}La clase JugadorParImpar}{112}{subsection.8.4.4}%
+\contentsline {subsection}{\numberline {8.4.5}La clase JugadorMartingala}{113}{subsection.8.4.5}%

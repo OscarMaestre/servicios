@@ -468,7 +468,7 @@ Utilizando la criptografía de clave pública es posible "firmar" aplicaciones. 
 Antes de efectuar el firmado se debe disponer de un par de claves generadas con la herramienta ``keytool`` mencionada anteriormente. Supongamos que el almacén de claves está creado y que en él hay uno o varios *alias* creados. El proceso de firmado es el siguiente:
 
 1. Crear la aplicación, que puede estar formada por un conjunto de clases pero que en última instancia tendrá un ``main``.
-2. Empaquetar la aplicación con ``jar cfe Aplicacion.jar com.ies.Aplicacion DirectorioPaquete``. Este comando crea un fichero (``f``) JAR en el cual el punto de entrada (``e``) es la clase ``com.ies.Aplicacion`` (que es la que tendrá el ``main``).
+2. Empaquetar la aplicación con ``jar cfe Aplicacion.jar com.ies.Aplicacion *``. Este comando crea un fichero (``f``) JAR en el cual el punto de entrada (``e``) es la clase ``com.ies.Aplicacion`` (que es la que tendrá el ``main``).
 3. Puede comprobarse que la aplicación dentro del JAR se ejecuta correctamente con ``java -jar Aplicacion.jar``.
 4. Ahora se puede ejecutar ``jarsigner -keystore <ruta-almacen> Aplicacion.jar <alias>``.
 
